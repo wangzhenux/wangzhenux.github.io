@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1383" height="253" viewBox="0 0 1383 253">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_37" data-name="Path 37" d="M14.072,13.1a1.042,1.042,0,0,1-.738-.306L10.2,9.662a1.044,1.044,0,1,1,1.476-1.476l2.394,2.394,2.394-2.394A1.039,1.039,0,0,1,17.2,7.88h7.308a1.044,1.044,0,0,0,1.044-1.044v-16.7a1.045,1.045,0,0,0-1.044-1.044H3.632A1.046,1.046,0,0,0,2.588-9.868v16.7A1.045,1.045,0,0,0,3.632,7.88H6.764a1.044,1.044,0,0,1,0,2.088H3.632A3.136,3.136,0,0,1,.5,6.836v-16.7A3.136,3.136,0,0,1,3.632-13h20.88a3.136,3.136,0,0,1,3.132,3.132v16.7a3.136,3.136,0,0,1-3.132,3.132H17.636L14.81,12.794A1.042,1.042,0,0,1,14.072,13.1ZM8.33-.472A1.568,1.568,0,0,1,6.764-2.038,1.568,1.568,0,0,1,8.33-3.6,1.568,1.568,0,0,1,9.9-2.038,1.568,1.568,0,0,1,8.33-.472Zm6.264,0a1.568,1.568,0,0,1-1.566-1.566A1.568,1.568,0,0,1,14.594-3.6,1.568,1.568,0,0,1,16.16-2.038,1.568,1.568,0,0,1,14.594-.472Zm6.264,0a1.568,1.568,0,0,1-1.566-1.566A1.568,1.568,0,0,1,20.858-3.6a1.568,1.568,0,0,1,1.566,1.566A1.568,1.568,0,0,1,20.858-.472Z" transform="translate(-0.5 13)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Group_95" data-name="Group 95" transform="translate(-286 -4705)">
+    <g id="Ellipse_23" data-name="Ellipse 23" transform="translate(852 4708)" fill="none" stroke="#2196f3" stroke-width="2">
+      <circle cx="125" cy="125" r="125" stroke="none"/>
+      <circle cx="125" cy="125" r="124" fill="none"/>
+    </g>
+    <text id="Feedback_Sessions" data-name="Feedback
+Sessions" transform="translate(977 4828)" fill="#2196f3" font-size="24" font-family="Avenir-Black, Avenir" font-weight="800"><tspan x="-54.912" y="0">Feedback</tspan><tspan x="-47.772" y="33">Sessions</tspan></text>
+    <circle id="Ellipse_24" data-name="Ellipse 24" cx="34" cy="34" r="34" transform="translate(861 4708)" fill="#2196f3"/>
+    <circle id="Ellipse_26" data-name="Ellipse 26" cx="34" cy="34" r="34" transform="translate(1025 4708)" fill="#2196f3"/>
+    <circle id="Ellipse_25" data-name="Ellipse 25" cx="34" cy="34" r="34" transform="translate(861 4890)" fill="#2196f3"/>
+    <circle id="Ellipse_27" data-name="Ellipse 27" cx="34" cy="34" r="34" transform="translate(1025 4890)" fill="#2196f3"/>
+    <g id="Group_43" data-name="Group 43" transform="translate(880.5 4742)">
+      <g id="Group_42" data-name="Group 42" transform="translate(0.5 -13)" clip-path="url(#clip-path)">
+        <path id="Path_36" data-name="Path 36" d="M-4.5-18H43.524V28.98H-4.5Z" transform="translate(-5.94 7.56)" fill="#fff"/>
+      </g>
+    </g>
+    <g id="Group_46" data-name="Group 46" transform="translate(880.5 4924)">
+      <g id="Group_42-2" data-name="Group 42" transform="translate(0.5 -13)" clip-path="url(#clip-path)">
+        <path id="Path_36-2" data-name="Path 36" d="M-4.5-18H43.524V28.98H-4.5Z" transform="translate(-5.94 7.56)" fill="#fff"/>
+      </g>
+    </g>
+    <g id="Group_44" data-name="Group 44" transform="translate(1044.5 4742)">
+      <g id="Group_42-3" data-name="Group 42" transform="translate(0.5 -13)" clip-path="url(#clip-path)">
+        <path id="Path_36-3" data-name="Path 36" d="M-4.5-18H43.524V28.98H-4.5Z" transform="translate(-5.94 7.56)" fill="#fff"/>
+      </g>
+    </g>
+    <g id="Group_45" data-name="Group 45" transform="translate(1044.5 4924)">
+      <g id="Group_42-4" data-name="Group 42" transform="translate(0.5 -13)" clip-path="url(#clip-path)">
+        <path id="Path_36-4" data-name="Path 36" d="M-4.5-18H43.524V28.98H-4.5Z" transform="translate(-5.94 7.56)" fill="#fff"/>
+      </g>
+    </g>
+    <line id="Line_2" data-name="Line 2" x1="575" transform="translate(286.5 4742.5)" fill="none" stroke="#2196f3" stroke-width="2"/>
+    <line id="Line_5" data-name="Line 5" x1="575" transform="translate(1093.5 4742.5)" fill="none" stroke="#2196f3" stroke-width="2"/>
+    <line id="Line_3" data-name="Line 3" x1="575" transform="translate(286.5 4924.5)" fill="none" stroke="#2196f3" stroke-width="2"/>
+    <line id="Line_4" data-name="Line 4" x1="575" transform="translate(1093.5 4924.5)" fill="none" stroke="#2196f3" stroke-width="2"/>
+    <text id="User_Experience_Designer" data-name="User Experience Designer" transform="translate(286 4729)" fill="#2196f3" font-size="24" font-family="Avenir-Medium, Avenir" font-weight="500"><tspan x="0" y="0">User Experience Designer</tspan></text>
+    <text id="Engineering" transform="translate(1669 4729)" fill="#2196f3" font-size="24" font-family="Avenir-Medium, Avenir" font-weight="500"><tspan x="-131.112" y="0">Engineering</tspan></text>
+    <text id="Product_Managers" data-name="Product Managers" transform="translate(286 4911)" fill="#2196f3" font-size="24" font-family="Avenir-Medium, Avenir" font-weight="500"><tspan x="0" y="0">Product Managers</tspan></text>
+    <text id="Customers_Stakeholders" data-name="Customers &amp; Stakeholders" transform="translate(1669 4911)" fill="#2196f3" font-size="24" font-family="Avenir-Medium, Avenir" font-weight="500"><tspan x="-289.416" y="0">Customers &amp; Stakeholders</tspan></text>
+    <text id="Provide_design_expertise_and_wireframes_prototypes" data-name="Provide design expertise and wireframes/prototypes" transform="translate(286 4771)" fill="#707070" font-size="20" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Provide design expertise and wireframes/prototypes</tspan></text>
+    <text id="Provide_design_feedback_and_technical_concerns" data-name="Provide design feedback and technical concerns" transform="translate(1669 4771)" fill="#707070" font-size="20" font-family="Roboto-Regular, Roboto"><tspan x="-428.789" y="0">Provide design feedback and technical concerns</tspan></text>
+    <text id="Provide_design_feedback_also_business_drive" data-name="Provide design feedback, also business drive" transform="translate(286 4953)" fill="#707070" font-size="20" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Provide design feedback, also business drive</tspan></text>
+    <text id="Provide_design_feedback_and_additional_requests" data-name="Provide design feedback and additional requests" transform="translate(1669 4953)" fill="#707070" font-size="20" font-family="Roboto-Regular, Roboto"><tspan x="-431.172" y="0">Provide design feedback and additional requests</tspan></text>
+  </g>
+</svg>

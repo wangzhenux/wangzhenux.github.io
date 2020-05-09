@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="2447px" height="1132px" viewBox="0 0 2447 1132" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#93DD4E" offset="0%"></stop>
+            <stop stop-color="#7AB642" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="url(#linearGradient-1)" transform="translate(615.771497, 387.125119) rotate(-77.000000) translate(-615.771497, -387.125119) " x="-117.728503" y="-346.374881" width="1467" height="1467" rx="696.5"></rect>
+        <rect id="Rectangle-Copy-15" fill="url(#linearGradient-1)" transform="translate(1761.500000, 455.500000) rotate(-40.000000) translate(-1761.500000, -455.500000) " x="1561" y="255" width="401" height="401" rx="200.5"></rect>
+        <rect id="Rectangle-Copy-16" fill="url(#linearGradient-1)" opacity="0.5" transform="translate(2245.447962, 742.448343) rotate(-75.000000) translate(-2245.447962, -742.448343) " x="2132.44796" y="629.448343" width="226" height="226" rx="113"></rect>
+        <rect id="Rectangle-Copy-17" fill="url(#linearGradient-1)" opacity="0.099999994" transform="translate(2348.279408, 332.908160) rotate(-25.000000) translate(-2348.279408, -332.908160) " x="2273.77941" y="258.40816" width="149" height="149" rx="74.5"></rect>
+    </g>
+</svg>
