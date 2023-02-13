@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="2447px" height="1132px" viewBox="0 0 2447 1132" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
-    <title>Artboard</title>
-    <desc>Created with Sketch.</desc>
+<svg width="2662px" height="1671px" viewBox="0 0 2662 1671" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>viz_header_bg</title>
     <defs>
         <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
-            <stop stop-color="#00CAE0" offset="0%"></stop>
-            <stop stop-color="#009ABE" offset="100%"></stop>
+            <stop stop-color="#00A3B5" offset="0%"></stop>
+            <stop stop-color="#007D9B" offset="100%"></stop>
         </linearGradient>
     </defs>
-    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="Rectangle" fill="url(#linearGradient-1)" transform="translate(621.500000, 296.500000) rotate(-77.000000) translate(-621.500000, -296.500000) " x="-75" y="-400" width="1393" height="1393" rx="50"></rect>
-        <rect id="Rectangle-Copy-15" fill="url(#linearGradient-1)" transform="translate(1761.500000, 455.500000) rotate(-40.000000) translate(-1761.500000, -455.500000) " x="1561" y="255" width="401" height="401" rx="30"></rect>
-        <rect id="Rectangle-Copy-16" fill="url(#linearGradient-1)" opacity="0.5" transform="translate(2245.447962, 742.448343) rotate(-75.000000) translate(-2245.447962, -742.448343) " x="2132.44796" y="629.448343" width="226" height="226" rx="20"></rect>
-        <rect id="Rectangle-Copy-17" fill="url(#linearGradient-1)" opacity="0.099999994" transform="translate(2348.279408, 332.908160) rotate(-25.000000) translate(-2348.279408, -332.908160) " x="2273.77941" y="258.40816" width="149" height="149" rx="26"></rect>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="viz_header_bg" fill="url(#linearGradient-1)" fill-rule="nonzero">
+            <rect id="Rectangle" transform="translate(835.500000, 835.500000) rotate(-77.000000) translate(-835.500000, -835.500000) " x="139" y="139" width="1393" height="1393" rx="50"></rect>
+            <rect id="Rectangle-Copy-15" opacity="0.849999964" transform="translate(1975.500000, 994.500000) rotate(-40.000000) translate(-1975.500000, -994.500000) " x="1775" y="794" width="401" height="401" rx="30"></rect>
+            <rect id="Rectangle-Copy-16" opacity="0.5" transform="translate(2459.447961, 1281.448345) rotate(-75.000000) translate(-2459.447961, -1281.448345) " x="2346.44796" y="1168.44834" width="226" height="226" rx="20"></rect>
+            <rect id="Rectangle-Copy-17" opacity="0.099999994" transform="translate(2562.279410, 871.908159) rotate(-25.000000) translate(-2562.279410, -871.908159) " x="2487.77941" y="797.408159" width="149" height="149" rx="26"></rect>
+        </g>
     </g>
 </svg>
