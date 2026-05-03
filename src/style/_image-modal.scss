@@ -1,0 +1,70 @@
+@use "./variables" as *;
+.image-modal {
+  $self: &;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  &__image {
+    flex-shrink: 1;
+    min-width: 100%;
+    min-height: 100%;
+    filter: grayscale(1);
+    transition: all 0.5s ease 0.1s;
+
+    &:hover {
+      transform: scale(1.5);
+      filter: grayscale(0);
+    }
+  }
+
+  &__modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__container {
+    max-width: 70%;
+    box-shadow: $shadow;
+    display: flex;
+    position: relative;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5em;
+    background: #0000006b;
+    opacity: 0.8;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  & &__title {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: #0000007c;
+    z-index: 1;
+    padding: 8px;
+    color: $c-white;
+    opacity: 0;
+    margin-left: 8px;
+    transition: $transition;
+  }
+
+  &:hover {
+    #{$self}__title {
+      opacity: 1;
+    }
+  }
+}

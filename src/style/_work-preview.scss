@@ -1,0 +1,97 @@
+@use "./variables" as *;
+.work-preview {
+  display: inline-block;
+  width: 33.33%;
+  $self: &;
+  margin: $spacing-md 0;
+  min-height: 240px;
+
+  @media (max-width: $screen-md) {
+    & {
+      width: 50%;
+    }
+  }
+
+  @media (max-width: $screen-sm) {
+    & {
+      width: 100%;
+    }
+  }
+
+  &__link {
+    position: relative;
+    display: flex;
+    border-radius: 8px;
+    align-items: center;
+    color: #3b3b3b;
+    border: none;
+    overflow: hidden;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+    margin: $spacing-md;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      transition: all 0.3s ease 0.1s;
+      background-color: rgba(255, 255, 255, 0.8);
+      opacity: 0;
+    }
+
+    &:hover {
+      opacity: 1;
+
+      #{$self}__img {
+        transform: scale(1.4, 1.4);
+        filter: blur(4px);
+        opacity: 0.4;
+      }
+
+      #{$self}__link::after {
+        opacity: 0.75;
+      }
+
+      #{$self}__title,
+      #{$self}__description {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  &__img {
+    display: block;
+    transition: $transition;
+    max-height: 160px;
+    margin: 10% auto;
+    width: 66%;
+  }
+
+  &__text {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    z-index: 2;
+    text-align: left;
+  }
+
+  &__title,
+  &__description {
+    opacity: 0;
+    transition: $transition;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    transform: translateY(60%);
+  }
+
+  &__description {
+    transform: translateY(-60%);
+  }
+}

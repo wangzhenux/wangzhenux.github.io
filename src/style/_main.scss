@@ -1,0 +1,63 @@
+@use "./variables" as *;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+a {
+  color: $c-primary;
+  text-decoration: none;
+  border-bottom: dashed 1px $c-primary;
+  transition: all 0.3s ease-in-out 0.25s;
+  opacity: 0.85;
+}
+
+a:hover {
+  opacity: 0.75;
+}
+
+.magnifying-glass {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.grid-vertical-stripes {
+  background-size: 50px 50px;
+  background-color: #f90;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 50%,
+    transparent
+  );
+}
+
+.grid-blueprint {
+  // background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-size: 60px 60px, 60px 60px, 10px 10px, 10px 10px;
+  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1) 2px,
+      transparent 2px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+}
+
+:focus {
+  outline: none;
+}
+
+.MuiGrid-spacing-xs-10 {
+  max-width: 100%;
+}

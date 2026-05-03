@@ -1,0 +1,35 @@
+@use "sass:color";
+@use "./variables" as *;
+.bottom-control {
+  background: color.adjust(#f5f5f5, $alpha: -0.3);
+  position: sticky;
+  bottom: 0;
+  //   border-top: 1px solid lighten($c-grey, 0.5);
+  z-index: 1;
+  backdrop-filter: saturate(180%) blur(20px);
+
+  & &__container {
+    padding-top: $spacing-default;
+    padding-bottom: $spacing-default;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__icon {
+    margin-right: 8px;
+  }
+
+  &__control {
+    display: flex;
+    align-items: center;
+
+    &:first-child {
+      margin-left: -12px;
+    }
+
+    &:last-child {
+      margin-right: -12px;
+    }
+  }
+}

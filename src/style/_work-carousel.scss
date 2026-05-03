@@ -1,0 +1,26 @@
+.work-carousel {
+  position: relative;
+
+  &__stepper {
+    display: flex;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    padding-top: 48px;
+  }
+
+  &__step-back {
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+  }
+
+  &__step-next {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+  }
+}
