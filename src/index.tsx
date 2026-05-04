@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { Route, Routes, HashRouter } from "react-router-dom";
+import { Route, Routes, HashRouter, useLocation } from "react-router-dom";
 import "./style/index.scss";
 import "react-multi-carousel/lib/styles.css";
 import Portfolio from "./Portfolio";
@@ -19,7 +19,16 @@ import ReactGA from "react-ga4";
 import Lock from "./Lock";
 import Twilio from "./works/Twilio";
 
-ReactGA.initialize("UA-61229289-1");
+ReactGA.initialize("G-MK7VQ4DMYC");
+
+function GAPageviews() {
+  const location = useLocation();
+  useEffect(() => {
+    const page = location.pathname + location.search + location.hash;
+    ReactGA.send({ hitType: "pageview", page, title: document.title });
+  }, [location]);
+  return null;
+}
 
 const theme = createTheme({
   palette: {
@@ -126,6 +135,7 @@ class Home extends React.Component<HomeProps, State> {
     return (
       <ThemeProvider theme={theme}>
         <HashRouter>
+          <GAPageviews />
           <Routes>
             <Route path="/" element={<Portfolio />} />
             <Route path="/techscene" element={<TechScene />} />
