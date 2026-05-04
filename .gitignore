@@ -28,3 +28,6 @@ yarn-error.log*
 
 # testing
 /coverage
+
+# brainstorming session artifacts (visual companion mockups, server state)
+.superpowers/
