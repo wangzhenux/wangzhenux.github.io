@@ -177,9 +177,49 @@ A right-side sticky **TOC** lists these 7 sections with a visual prefix (`01`, `
 
 Use `clamp()` on display sizes so type scales fluidly across breakpoints (e.g., `clamp(28px, 5vw, 56px)` for hero title) — no breakpoint jumps.
 
-### 4.3 Spacing rhythm
+### 4.3 Spacing rhythm — fully tokenized
 
-Baseline rhythm built from `8px` increments. Section vertical padding: `48-80px`. Hairline rules between sections at `1px` in `--rule` (never accent color).
+All spacing values live as CSS custom properties. **No hardcoded pixel values inside component CSS** — every margin, padding, gap, and offset reads from one of these tokens.
+
+```css
+:root {
+  /* T-shirt scale, 4-px base. Use `--space-N` for everything. */
+  --space-0:   0;
+  --space-1:  4px;    /* hairline gaps, icon padding */
+  --space-2:  8px;    /* tight inline gaps */
+  --space-3: 12px;    /* small element padding */
+  --space-4: 16px;    /* default gap, card body padding */
+  --space-5: 20px;    /* small section heading margins */
+  --space-6: 24px;    /* default section heading margin-bottom */
+  --space-7: 32px;    /* between cards in a row */
+  --space-8: 40px;    /* between sub-section blocks */
+  --space-9: 48px;    /* between adjacent .phase blocks */
+  --space-10: 56px;   /* page horizontal padding (desktop) */
+  --space-11: 64px;   /* gap between body and TOC */
+  --space-12: 80px;   /* between major sections within body */
+  --space-13: 96px;   /* before/after .outcome */
+  --space-14: 128px;  /* hero top, footer bottom */
+
+  /* Semantic spacing tokens — reference the scale above so callers don't
+     have to remember which T-shirt size goes where. */
+  --pad-page-x:        var(--space-10);   /* horizontal page padding */
+  --pad-section-y:     var(--space-12);   /* vertical between sections */
+  --pad-section-y-lg:  var(--space-13);   /* before/after .outcome */
+  --gap-card-row:      var(--space-7);    /* between .pain-card columns */
+  --gap-body-toc:      var(--space-11);
+  --gap-grid:          var(--space-4);    /* default grid gap */
+  --gap-stack:         var(--space-6);    /* stacked content gap */
+  --max-content:      1080px;             /* body+TOC unit */
+  --max-body:          880px;
+  --max-toc:           144px;
+
+  /* Responsive overrides (defined in §9 — these scale down per breakpoint) */
+}
+```
+
+**Rule:** anywhere you'd write `padding: 24px;` instead write `padding: var(--space-6);` (or the semantic alias `var(--gap-stack)`). The same applies to grid gaps, margins, and any spatial rhythm. This makes responsive overrides a single-block change at each breakpoint.
+
+Section vertical padding: `var(--pad-section-y)` (~80px desktop, ~56px tablet, ~40px mobile). Hairline rules between sections at `1px solid var(--rule)` (never accent color).
 
 ### 4.4 Per-case accent
 
@@ -238,11 +278,27 @@ Sections, top to bottom:
 6. **Earlier work archive** — quiet inline pill list, hover state shows accent + arrow → indicates clickability.
 7. **Footer** — minimal, matching current site's pattern: name + © year on left, three socials (Email · LinkedIn · Instagram) on right. Dark `--bg-inverse` background.
 
-### 6.2 Case study (canonical: Twilio v4)
+### 6.2 Case study (canonical: Twilio v4 — but **layout adapts per case**)
 
-Reference: `case-study-twilio-v4.html`.
+Reference: `case-study-twilio-v4.html`. **Important:** the 7-section Twilio structure is a *reference shape*, not a fixed template. Different case studies will have very different content — Tasktop Hub focuses on configuration portability, Tasktop Viz on dashboards, Rackspace on a ServiceNow integration, Park Engagement is research-led with a journey map. Each case authors its own section structure from the **reusable component library** (§7), pulling only the components and section-types that fit its narrative.
 
-Layout:
+**What stays consistent across every case:**
+- The chrome (nav, back link, footer)
+- The hero shape (eyebrow + title + deck + cover + meta strip) — but meta-strip *fields* vary
+- Body+TOC layout with sticky right-side TOC
+- The visual system (palette, type, spacing tokens)
+- Reusable components (the catalog in §7)
+
+**What varies per case:**
+- Number of sections (Twilio has 7; another case may have 4 or 6 — author what the work needs)
+- Section types (some cases need `.research-stats`, others don't; some have multiple `.image-showcase` blocks, others a single hero figure)
+- Meta-strip fields (Twilio: Role / Team / Span / Outcome; an academic case might use Year / Class / Role / Outcome — see §11.1)
+- Whether `.critique`, `.competitors`, `.ideas-list` appear at all (only when the work warrants)
+- Per-case accent (`--case-cover` gradient or real cover image)
+
+**Reference the existing source for content shape examples:** `src/works/TwilioOnboarding.tsx`, `src/works/Tasktop.tsx`, `src/works/TasktopHub.tsx`, `src/works/TasktopViz.tsx`, `src/works/Rackspace.tsx`, `src/works/ParkEngagement.tsx`. Each case's section count and component mix should follow the work, not be padded to match the Twilio template.
+
+**Layout:**
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -287,15 +343,26 @@ One page, six blocks:
 
 The résumé PDF is the existing `Zhen-Wang-Resume.pdf` file in the repo. The "View in browser" link can render an inline PDF viewer or link directly to the file.
 
-### 6.4 Writing index (deferred)
+### 6.4 Writing index (Medium for v1, with proper previews)
 
-For v1, the homepage Writing section links out to Medium directly (the three existing Tasktop posts). When Zhen starts writing in-house: build a `/writing` index using the same Story-led patterns (hairline-separated row list, mono dates, display-serif headlines) and individual posts as MDX files.
+For v1, the Writing section links to existing Medium posts (the three Tasktop pieces, plus future ones). **Previews must be pulled automatically** — no manual image/excerpt copy-paste each time a new post lands.
+
+**Implementation:** at build time, fetch `https://medium.com/feed/@wangzhen614` (Medium's public RSS), parse the most recent N entries, extract:
+- `title` → display-serif headline
+- `pubDate` → mono date label
+- `content:encoded` → first 160-character text excerpt for the row description
+- First `<img>` `src` from `content:encoded` → optional thumbnail (use the cream `--bg-secondary` placeholder if missing or fails to load)
+- `link` → outbound URL to the post
+
+Render the most recent 3 posts on the homepage Writing section. Astro's content fetching at build time keeps the site static — no client-side requests, no CORS proxy. Rebuild on push (existing GitHub Actions workflow). Optionally schedule a daily/weekly rebuild via a cron job in Actions if Zhen publishes frequently and wants previews to refresh without a manual push.
+
+**Future:** if Zhen starts publishing in-house, the same `/writing` route can switch to a Content Collection (`src/content/writing/<slug>.mdx`) without changing the visual treatment — same component reads either source.
 
 ---
 
 ## 7. Reusable component catalog
 
-Every component below has a CSS class name + markup contract + tokens it reads + responsive behavior. Components must be reusable across all case studies — no Twilio-specific assumptions baked in.
+Every component below has a CSS class name + markup contract + tokens it reads + responsive behavior. **Components are a kit — pick what each case needs, skip the rest.** No case has to use all of them; no component should bake in Twilio-specific assumptions. Implementation must enforce: (a) only `--space-N` and `--*-color` tokens inside component CSS, (b) markup variants exposed as modifier classes (`.meta-strip--3`, `.research-stats--2`) rather than inline styles, (c) the per-case `--case-cover` gradient is the only color a case needs to override.
 
 ### 7.1 Layout / chrome
 
@@ -404,8 +471,8 @@ All interactive elements must have:
 - Inside the dialog:
   - Image at 92vw / 88vh max
   - Caption beneath (mono small text)
-  - Visible × close button at top-right (48 × 48 px button, light-on-dark)
-  - Subtext: `click × · press esc · or click outside`
+  - **Subtle × close button at top-right** — small (~32 × 32 px), transparent background by default, 18-px × glyph in cream (`--ink-on-dark` at ~80% opacity), no shadow, no border. On hover/focus, a quiet background tint (`rgba(250, 245, 232, 0.12)`) fills behind the glyph; opacity goes to 100%. The close affordance is discoverable but never demanding attention.
+  - Subtext beneath the image: `press esc · or click outside` (small mono)
 - **Focus management:** focus moves to the close button on open; restored to the trigger on close; Tab is trapped inside the dialog
 - **Dismiss:** click × · click outside · press Esc · `<dialog>` native behavior
 
@@ -414,6 +481,18 @@ All interactive elements must have:
 - Apply `html { scroll-behavior: smooth; }` globally for anchor jumps
 - Override to `auto` under `prefers-reduced-motion: reduce`
 - Sections need `scroll-margin-top: 80px` so smooth-scroll lands cleanly past the nav
+
+### 8.6 Loading states
+
+Case studies are image-heavy. Loads must feel calm and editorial — not a spinning gif.
+
+- **Hero / cover image:** native `loading="eager"` (above the fold), with a low-quality blurhash or 32-px placeholder rendered server-side that fades into the full image as it decodes. The placeholder uses the case's `--case-cover` gradient as a fallback if blurhash isn't generated yet, so the surface is never blank.
+- **Below-fold images** (`.image-showcase`, phase mockups, critique thumbs): `loading="lazy"` + `decoding="async"`. Render placeholder = the dotted-grid `--bg-secondary` already specced for `.image-showcase`, with a subtle 1.6 s `opacity` pulse (1.0 → 0.85 → 1.0) until the image swaps in. Pulse respects `prefers-reduced-motion: reduce` (static at 1.0).
+- **Whole-page transitions** (case → case via "Next case" footer, homepage → case): use Astro's view transitions API for a quick (180-220 ms) cross-fade. Falls back to instant navigation if unsupported.
+- **PDF view of résumé:** if "View in browser" embeds the PDF inline, render a cream skeleton with a mono "Loading résumé…" label until the PDF reports first-paint.
+- **Slow connections:** images use `<picture>` with `srcset` (320w, 640w, 1280w, 1920w) and AVIF/WebP fallbacks. Astro's `<Image>` handles this automatically.
+
+The aesthetic rule: loading states **use the same color tokens and rhythm** as content, not generic spinners. The page should look "alive" while loading, not "broken."
 
 ---
 
@@ -477,29 +556,37 @@ See `responsive-views.html` and the responsive matrix in the v4 mockup annotatio
 
 ## 11. Content rules (per case study)
 
-### 11.1 Required fields (front-matter)
-
-Each case MDX file declares:
+### 11.1 Front-matter — required vs. optional, varies by case
 
 ```yaml
-title: "Onboarding Twilio's first international tier"
-deck: "How a US-only developer platform learned to feel global, in three deliberate phases."
-slug: twilio
-company: Twilio
-year: 2024
-role: Senior Product Designer
-team: ["Growth", "Console", "Phone Number"]
-span: "[duration]"            # may be empty if not yet confirmed
-outcome:
-  metric: "+179%"
-  context: "regional Buy-a-Number page impressions, 3 months after Phase 1"
-cover:
+# REQUIRED on every case
+title:    "Onboarding Twilio's first international tier"
+deck:     "How a US-only developer platform learned to feel global, in three deliberate phases."
+slug:     twilio
+year:     2024
+role:     Senior Product Designer
+cover:                          # one of `gradient` OR `image` is required
   gradient: "linear-gradient(135deg, #F22F46 0%, #B82334 50%, #6B1F2E 100%)"
-  # OR
-  image: "/cases/twilio/cover.png"
-order: 1
-featured: true
+  # image:  "/cases/twilio/cover.png"
+order:    1                     # for archive sort + curation
+featured: true                  # whether this case is in the homepage Featured slot or Selected lineup
+
+# OPTIONAL — include only the fields the case actually has
+company:  Twilio                # may be absent for academic / personal projects
+team:     "Cross-functional team across Growth, Console, and Phone Number"
+span:     "~3.5 months"         # human-readable; can be omitted
+outcome:                        # if there's a quantified outcome
+  metric:  "+179%"
+  context: "regional Buy-a-Number page impressions, 3 months after Phase 1"
+class:    "MHCI 2014"           # for academic cases (e.g., iLab, Citportal)
+collaborators: ["…"]            # for team projects
+status:   "shipped"             # shipped | in-design | planned (per-case status, not site-wide)
+liveUrl:  "https://…"           # if the work is publicly accessible
 ```
+
+The component library reads only the fields the case provides. The hero meta-strip auto-fits N children — Twilio uses 4 (Role/Team/Span/Outcome); an academic case might use 3 (Year/Class/Role) or even just 2 (Year/Role). Implementation should not assume a fixed shape.
+
+**Drift rule:** if a case has a field the front-matter shape above doesn't anticipate (e.g., a "Co-designers" credit, a "Live URL" link, or "Recognition: DOES London 2018"), extend the front-matter and the meta-strip — don't shoehorn it into an existing field.
 
 ### 11.2 Section authoring
 
@@ -535,27 +622,53 @@ The following must be addressed during implementation. They are non-negotiable f
 
 ---
 
-## 13. Tech stack
+## 13. Tech stack — **migrate to Astro + MDX (locked decision)**
 
-### 13.1 Recommendation: migrate to Astro + MDX
+Given the stated priority — "quality and delivery speed in the future when I add new case studies" — Astro + MDX is the right move. The webpack + React stack works but adds friction at exactly the moment that matters most: writing new case studies.
 
-- **Why:** Story-led portfolios benefit from MDX (MDX = Markdown + components inline). New case studies become a single `.mdx` file with imported components from the shared library. Astro's island architecture keeps the site fast and ships almost no JavaScript by default. Build pipeline produces a static `dist/` that the existing GitHub Actions workflow can deploy unchanged.
-- **What stays:** the GitHub Actions deploy workflow (already wired to publish `dist/`), the `Zhen-Wang-Resume.pdf` file, the `public/` asset folder, the `.npmrc`.
-- **What changes:** webpack config retired; `package.json` scripts switch to `astro dev` / `astro build`; React components become Astro components (mostly unchanged JSX inside `.astro` files).
+### 13.1 Why Astro + MDX
 
-### 13.2 Alternative: stay on webpack + React
+| Dimension | Astro + MDX | Webpack + React (status quo) |
+|---|---|---|
+| **Adding a new case study** | One `.mdx` file with frontmatter + Markdown + JSX components inline. ~30 minutes start to ship. | New `.tsx` file with imports, JSX-only writing, hand-rolled markup. ~1.5+ hours per case. |
+| **Image optimization** | `<Image>` component generates AVIF/WebP + responsive `srcset` + lazy loading automatically | Manual; needs separate tooling |
+| **Bundle size on read-only pages** | ~0 KB JS shipped by default (islands hydrate only what needs interactivity) | Full React runtime hydrates on every page (~140 KB) |
+| **Lighthouse scores** | 95+ achievable with default config | Possible but requires significant manual optimization |
+| **Content authoring (writing)** | Markdown — can draft a case in Notion / Obsidian and paste straight into `.mdx` | TSX — every paragraph is a JSX expression; line breaks need `<br/>` |
+| **View transitions** | Built-in API for smooth case→case fades | Hand-rolled |
+| **Migration cost** | ~1-2 days of focused work to port shared components and migrate Twilio | n/a |
+| **Long-term maintenance** | Lower (less code per case, fewer build tools) | Same as today (webpack config, React versions) |
 
-Acceptable if the migration cost is too high. In this case:
+### 13.2 What stays the same
 
-- Implement components with the same class names and tokens
-- Use React Router `<Link>` for case-study routing
-- Case studies become `.tsx` files instead of `.mdx`. Adding a new case = scaffold a new TSX, fill in front-matter object, copy paste section markup, replace content. ~30 minutes per case.
+- GitHub Actions deploy workflow (publishes `dist/`) — Astro builds to `dist/`, no infra change
+- `Zhen-Wang-Resume.pdf` and `public/` asset folder
+- `.npmrc` (`legacy-peer-deps=true` no longer needed; clean slate)
+- `wangzhenux.github.io` origin and DNS
 
-The implementation plan will pick one path based on Zhen's preference.
+### 13.3 What changes
 
-### 13.3 Hosting
+- Webpack config retired (`webpack.common.js`, `webpack.dev.js`, `webpack.prod.js` deleted)
+- `package.json` scripts → `astro dev`, `astro build`, `astro preview`
+- React-only `.tsx` case studies → `.mdx` files in `src/content/cases/<slug>.mdx`
+- Existing CSS-in-JS (Material UI, Emotion) replaced with vanilla CSS + tokens (smaller bundle, simpler theming)
+- Routing handled by Astro file-based routes (`src/pages/work/[slug].astro`)
+- A small JS bundle remains for: TOC scrollspy + click-to-scroll, lightbox dialog, IntersectionObservers, marker-highlight hover. All of this hydrates lazily as island components.
 
-Already wired: GitHub Actions → GitHub Pages with `wangzhenux.github.io` as the published origin. No infra changes needed.
+### 13.4 Migration approach (will be detailed in the implementation plan)
+
+1. Scaffold Astro project structure alongside existing webpack repo (in the `feat/portfolio-revamp` worktree)
+2. Port shared components (palette tokens, typography, spacing, layout primitives, all of §7) into `.astro` files
+3. Build the homepage and case-study template
+4. Migrate Twilio first as proof of concept (validates the spec end-to-end)
+5. Migrate Tasktop Hub, Tasktop Viz, Rackspace, Park Engagement
+6. Move the older academic projects into the archive section (lighter migration — preserve content but smaller surface)
+7. Retire webpack files; update GitHub Actions workflow only if the build command changes (it shouldn't — still `npm run build` producing `dist/`)
+8. Land via PR `feat/portfolio-revamp` → `main`
+
+### 13.5 Hosting
+
+Unchanged. GitHub Actions → GitHub Pages with `wangzhenux.github.io` as the published origin.
 
 ---
 
@@ -571,17 +684,17 @@ Already wired: GitHub Actions → GitHub Pages with `wangzhenux.github.io` as th
 
 ---
 
-## 15. Open questions
+## 15. Resolved questions (Zhen confirmed during spec review)
 
-These need confirmation from Zhen before or during implementation:
+1. ✅ **Project span on Twilio meta strip** — **~3.5 months**.
+2. ✅ **Team composition** — PMs and engineers were also cross-functional, not just Zhen's design role. Copy reads "Cross-functional team across Growth, Console, and Phone Number" — applies to the whole working group, not just the designer.
+3. ✅ **Phase status** — **Phase 1: Shipped (public)**. Phases 2 and 3: **Planned** (not public; both are in plan, not yet shipped).
+4. ⏳ **Calligraphic seal artwork** — Zhen will upload later. Implementation should expect a `public/seal.svg` (preferred) or `public/seal.png` and reference it in the About-page hero + nav favicon. Until uploaded, fall back to a styled "Z" wordmark in `var(--accent)` so the site doesn't break.
+5. ✅ **Tech stack** — **Astro + MDX**, locked. See §13.
+6. ✅ **Dark mode** — light only for v1; tokens prepared so adding dark later is a one-block edit.
+7. ✅ **Writing index** — Medium for v1 with **automatic preview pull from RSS feed at build time**. See §6.4.
 
-1. **Project span on Twilio meta strip** — currently `[Project span — to confirm]`. Provide actual start/end dates.
-2. **Team composition specifics** — currently "Cross-functional with Growth, Console, and Phone Number teams" (verbatim safe). Confirm if specific PM/engineer counts are public.
-3. **Phase ship dates** — currently "Shipped / In design / Planned" (verbatim safe). Provide quarter or month if they should be public.
-4. **Calligraphic seal artwork** — Zhen iterates the prompt in GPT-image-2 / Imagen until satisfied. Final SVG/PNG goes in `public/seal.svg` (preferred SVG for crispness at all sizes).
-5. **Astro vs. webpack+React** — Zhen's preference based on appetite for migration vs. shipping speed.
-6. **Dark mode v1 toggle** — locked as light-only for v1, but if Zhen wants a manual `prefers-color-scheme` switcher in the nav, this is a 30-min add at any time.
-7. **Writing index** — link out to Medium for v1 or build in-house? (Spec recommends Medium for v1.)
+Only #4 remains genuinely open — and it's not a blocker for implementation start.
 
 ---
 
