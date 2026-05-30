@@ -1,0 +1,13 @@
+---
+// Two-column "What I learned" grid. Children are ReflectionCards.
+---
+<div class="reflection"><slot /></div>
+<style>
+  /* ported from case-study-twilio.html .reflection, tokenized. */
+  .reflection {
+    margin: var(--space-11) 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+  }
+</style>

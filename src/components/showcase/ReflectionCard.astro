@@ -1,0 +1,33 @@
+---
+interface Props { label: string; heading: string; }
+const { label, heading } = Astro.props;
+---
+<div class="reflection-card">
+  <div class="label">{label}</div>
+  <h4>{heading}</h4>
+  <p><slot /></p>
+</div>
+<style>
+  /* ported from case-study-twilio.html .reflection-card, tokenized.
+     Mono accent label + display-serif h4 + body paragraph. */
+  .reflection-card .label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: var(--space-2);
+  }
+  .reflection-card h4 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    margin: 0 0 var(--space-2);
+    font-weight: 500;
+  }
+  .reflection-card p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+</style>
