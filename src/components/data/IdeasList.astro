@@ -1,0 +1,58 @@
+---
+interface Item { num: string; text: string; selected?: boolean; badge?: string; }
+interface Props { items: Item[]; }
+const { items } = Astro.props;
+---
+<ul class="ideas-list">
+  {items.map((item) => (
+    <li class:list={[{ selected: item.selected }]}>
+      <span class="num">{item.num}</span>
+      <span class="body">{item.text}</span>
+      <span class="badge">{item.badge}</span>
+    </li>
+  ))}
+</ul>
+<style>
+  /* ported from case-study-twilio.html .ideas-list, tokenized.
+     Considered ideas as a hairline-separated list; selected (chosen) rows
+     get an accent number and a mono badge pill. */
+  .ideas-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0 var(--space-7);
+    border-top: 1px solid var(--rule);
+  }
+  .ideas-list li {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: var(--space-5);
+    align-items: baseline;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--rule-soft);
+    font-size: 15px;
+    color: var(--ink-secondary);
+    line-height: 1.4;
+  }
+  .ideas-list .num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    letter-spacing: 0.14em;
+    text-align: right;
+  }
+  .ideas-list .body { line-height: 1.45; }
+  .ideas-list .badge { font-size: 0; }
+  .ideas-list li.selected { color: var(--ink-primary); font-weight: 500; }
+  .ideas-list li.selected .num { color: var(--accent); }
+  .ideas-list li.selected .badge {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: var(--space-1) 9px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+</style>
