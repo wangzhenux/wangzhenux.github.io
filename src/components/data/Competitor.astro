@@ -1,0 +1,76 @@
+---
+interface Props {
+  name: string;
+  strength: string;
+  gap: string;
+  logoColor?: string;
+}
+const { name, strength, gap, logoColor } = Astro.props;
+---
+<div class="competitor">
+  <div class="competitor-logo" style={logoColor ? `color: ${logoColor}` : undefined}>{name}</div>
+  <div class="competitor-good">
+    <span class="label">Strength</span>
+    {strength}
+  </div>
+  <div class="competitor-gap">
+    <span class="label">Gap</span>
+    {gap}
+  </div>
+</div>
+<style>
+  /* ported from case-study-twilio.html .competitor, tokenized.
+     Top-aligned (align-items: start); wordmark logo placeholder in a brand color
+     via the logoColor prop until real SVGs land. */
+  .competitor {
+    display: grid;
+    grid-template-columns: 110px 1fr 1fr;
+    gap: var(--space-7);
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  .competitor:last-child { border-bottom: none; }
+  .competitor-logo {
+    margin-top: 2px;
+    height: var(--space-7);
+    background: var(--bg-secondary);
+    border-radius: var(--space-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--ink-secondary);
+    font-size: 14px;
+    letter-spacing: -0.01em;
+  }
+  .competitor-good {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-primary);
+  }
+  .competitor-good .label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: var(--space-1);
+    display: block;
+  }
+  .competitor-gap {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+  }
+  .competitor-gap .label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: var(--space-1);
+    display: block;
+  }
+</style>
