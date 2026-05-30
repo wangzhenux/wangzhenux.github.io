@@ -1,0 +1,40 @@
+---
+interface Field { label: string; value: string; }
+interface Props { fields: Field[]; }
+const { fields } = Astro.props;
+---
+<dl class="meta-strip" style={`--meta-cols: ${fields.length}`}>
+  {fields.map((f) => (
+    <div>
+      <dt class="label">{f.label}</dt>
+      <dd class="value">{f.value}</dd>
+    </div>
+  ))}
+</dl>
+<style>
+  /* ported from case-study-twilio.html .meta-strip, tokenized.
+     Columns auto-fit to N fields via --meta-cols (§12.10). */
+  .meta-strip {
+    display: grid;
+    grid-template-columns: repeat(var(--meta-cols), 1fr);
+    gap: var(--space-7);
+    padding: var(--space-5) 0 var(--space-7);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    margin: 0;
+  }
+  .meta-strip div { margin: 0; }
+  .meta-strip .label {
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 10px;
+    margin: 0 0 var(--space-2);
+  }
+  .meta-strip .value {
+    color: var(--ink-primary);
+    line-height: 1.5;
+    margin: 0;
+  }
+</style>

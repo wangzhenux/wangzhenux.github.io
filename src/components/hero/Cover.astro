@@ -1,0 +1,33 @@
+---
+interface Props {
+  caseCover?: string;
+  image?: string;
+  alt: string;
+}
+const { caseCover, image, alt } = Astro.props;
+---
+{image ? (
+  // TODO: optimize in Task 4.4 (swap plain <img> for Astro <Image>)
+  <img class="cover cover-image" src={image} alt={alt} />
+) : (
+  <div class="cover" style={`--case-cover: ${caseCover}`} role="img" aria-label={alt}></div>
+)}
+<style>
+  /* ported from case-study-twilio.html .cover, tokenized.
+     Per-case gradient supplied via --case-cover. */
+  .cover {
+    aspect-ratio: 16/8;
+    background:
+      radial-gradient(at 25% 25%, rgba(255, 255, 255, 0.18), transparent 50%),
+      var(--case-cover);
+    border-radius: 6px;
+    margin-bottom: var(--space-7);
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-image {
+    width: 100%;
+    object-fit: cover;
+    background: none;
+  }
+</style>

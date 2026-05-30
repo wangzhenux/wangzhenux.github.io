@@ -1,0 +1,57 @@
+---
+import Cover from './Cover.astro';
+import MetaStrip from './MetaStrip.astro';
+
+interface MetaField { label: string; value: string; }
+interface CoverProps { caseCover?: string; image?: string; alt: string; }
+interface Props {
+  eyebrow: string;
+  title: string;
+  deck: string;
+  cover: CoverProps;
+  metaFields: MetaField[];
+}
+const { eyebrow, title, deck, cover, metaFields } = Astro.props;
+---
+<header class="hero">
+  <p class="hero-eyebrow">{eyebrow}</p>
+  <h1 class="hero-title">{title}</h1>
+  <p class="hero-deck">{deck}</p>
+  <Cover {...cover} />
+  <MetaStrip fields={metaFields} />
+</header>
+<style>
+  /* ported from case-study-twilio.html .hero*, tokenized.
+     Title uses clamp() per §4.2/§9.3 (no type-scale token yet). */
+  .hero {
+    max-width: var(--max-content);
+    margin: 0 auto;
+    padding: var(--space-8) 0 0;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin: 0 0 var(--space-4);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 6vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 0 var(--space-5);
+    font-weight: 500;
+    max-width: 18ch;
+  }
+  .hero-deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 21px;
+    line-height: 1.4;
+    color: var(--ink-secondary);
+    max-width: 50ch;
+    margin: 0 0 var(--space-8);
+  }
+</style>
