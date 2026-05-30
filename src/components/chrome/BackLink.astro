@@ -1,0 +1,20 @@
+---
+interface Props { href?: string; }
+const { href = '/' } = Astro.props;
+---
+<a class="back" href={href}>← All work</a>
+<style>
+  .back {
+    display: block;
+    max-width: var(--max-content);
+    margin: 0 auto;
+    padding: var(--space-6) var(--pad-page-x) 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+  }
+  .back:hover { color: var(--accent); }
+</style>

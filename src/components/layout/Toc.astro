@@ -1,0 +1,68 @@
+---
+interface Section { id: string; num: string; label: string; }
+interface Props { sections: Section[]; }
+const { sections } = Astro.props;
+---
+<aside class="toc" aria-label="Case study sections">
+  <ul class="toc-list">
+    {sections.map((s) => (
+      <li><button type="button" class="toc-item" data-target={s.id}><span class="num">{s.num}</span>{s.label}</button></li>
+    ))}
+  </ul>
+</aside>
+<style>
+  .toc {
+    position: sticky;
+    top: var(--space-6);
+    align-self: start;
+    padding-top: var(--space-11);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    transition: opacity 0.3s ease, visibility 0.3s;
+  }
+  .toc.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  /* Border-left lives on the list itself so it matches the height of the items only,
+     not the padding-top above. */
+  .toc-list {
+    list-style: none;
+    padding: 0 0 0 var(--space-5);
+    margin: 0;
+    border-left: 1px solid var(--rule);
+  }
+  .toc-list li { list-style: none; }
+  .toc-item {
+    display: flex; align-items: baseline; gap: var(--space-2);
+    padding: var(--space-1) var(--space-2) var(--space-1) 0;
+    margin: 0;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: var(--ink-tertiary);
+    line-height: 1.35;
+    transition: color 0.2s;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    width: 100%;
+    border-radius: 3px;
+  }
+  .toc-item:hover { color: var(--ink-primary); }
+  .toc-item .num {
+    font-size: 9px;
+    color: var(--ink-quaternary);
+    flex-shrink: 0;
+    width: 14px;
+    letter-spacing: 0.08em;
+  }
+  .toc-item[aria-current="location"],
+  .toc-item.active {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .toc-item[aria-current="location"] .num,
+  .toc-item.active .num { color: var(--accent); }
+</style>

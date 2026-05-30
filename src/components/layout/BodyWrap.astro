@@ -1,0 +1,12 @@
+---
+---
+<div class="body-wrap">
+  <div class="body"><slot /></div>
+  <div class="body-toc"><slot name="toc" /></div>
+</div>
+<style>
+  .body-wrap { display: flex; justify-content: center; gap: var(--gap-body-toc);
+               max-width: var(--max-content); margin: 0 auto; padding: 0 var(--pad-page-x) var(--space-12); }
+  .body { flex: 0 1 var(--max-body); min-width: 0; }
+  .body-toc { flex: 0 0 var(--max-toc); }
+</style>
