@@ -1,0 +1,89 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/chrome/Nav.astro';
+import BackLink from '../../components/chrome/BackLink.astro';
+import Footer from '../../components/chrome/Footer.astro';
+import Hero from '../../components/hero/Hero.astro';
+import BodyWrap from '../../components/layout/BodyWrap.astro';
+import Toc from '../../components/layout/Toc.astro';
+import NextCase from '../../components/showcase/NextCase.astro';
+import CaseInteractions from '../../components/layout/CaseInteractions.astro';
+import { getNext } from '../../lib/cases';
+
+export async function getStaticPaths() {
+  const cases = await getCollection('cases');
+  return cases.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const data = entry.data;
+const { Content } = await render(entry);
+
+// Eyebrow: "company · year · role", skipping any absent piece.
+const eyebrow = [data.company, String(data.year), data.role]
+  .filter(Boolean)
+  .join(' · ');
+
+// Meta-strip fields auto-fit to whatever the case actually provides (§11.1).
+const metaFields = [
+  data.role ? { label: 'Role', value: data.role } : null,
+  data.team ? { label: 'Team', value: data.team } : null,
+  data.span ? { label: 'Span', value: data.span } : null,
+  data.outcome
+    ? {
+        label: 'Outcome',
+        value: data.outcome.context
+          ? `${data.outcome.metric} — ${data.outcome.context}`
+          : data.outcome.metric,
+      }
+    : null,
+].filter((f): f is { label: string; value: string } => f !== null);
+
+const cover = {
+  caseCover: data.cover.gradient,
+  image: data.cover.image,
+  alt: `${data.title} cover`,
+};
+
+const next = await getNext(data.slug);
+
+const mainStyle = data.cover.gradient
+  ? `--case-cover: ${data.cover.gradient}`
+  : undefined;
+---
+<BaseLayout title={data.title} description={data.deck}>
+  <Nav currentPath={`/work/${data.slug}`} />
+  <BackLink href="/" />
+  <main id="main" style={mainStyle}>
+    <Hero
+      eyebrow={eyebrow}
+      title={data.title}
+      deck={data.deck}
+      cover={cover}
+      metaFields={metaFields}
+    />
+    <BodyWrap>
+      <Content />
+      <Toc sections={data.sections} slot="toc" />
+    </BodyWrap>
+    {next && (
+      <div class="next-case-wrap">
+        <NextCase href={`/work/${next.data.slug}`} title={next.data.title} deck={next.data.deck} />
+      </div>
+    )}
+  </main>
+  <Footer />
+  <CaseInteractions />
+</BaseLayout>
+<style>
+  /* Bound the next-case footer link to the body column width. */
+  .next-case-wrap {
+    max-width: var(--max-content);
+    margin: 0 auto;
+    padding: 0 var(--pad-page-x);
+  }
+</style>
