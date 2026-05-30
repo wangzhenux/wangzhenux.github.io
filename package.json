@@ -14,16 +14,16 @@
     "lhci": "lhci autorun"
   },
   "dependencies": {
-    "astro": "^5.0.0",
     "@astrojs/mdx": "^4.0.0",
-    "@astrojs/sitemap": "^3.0.0"
+    "@astrojs/sitemap": "^3.0.0",
+    "astro": "^5.0.0"
   },
   "devDependencies": {
-    "vitest": "^2.0.0",
-    "linkedom": "^0.18.0",
-    "@playwright/test": "^1.48.0",
     "@axe-core/playwright": "^4.10.0",
     "@lhci/cli": "^0.14.0",
-    "fast-xml-parser": "^4.5.0"
+    "@playwright/test": "^1.48.0",
+    "fast-xml-parser": "^4.5.0",
+    "linkedom": "^0.18.0",
+    "vitest": "^3.2.4"
   }
 }

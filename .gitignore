@@ -7,6 +7,9 @@ node_modules/
 /dist
 /build
 
+# astro generated types
+.astro/
+
 # misc
 .DS_Store
 *.log
@@ -28,6 +31,9 @@ yarn-error.log*
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
+.lighthouseci/
 
 # brainstorming session artifacts (visual companion mockups, server state)
 .superpowers/
