@@ -1,0 +1,41 @@
+---
+interface Props { num: string; title: string; }
+const { num, title } = Astro.props;
+---
+<div class="pain-card">
+  <div class="num">{num}</div>
+  <h4>{title}</h4>
+  <p><slot /></p>
+</div>
+<style>
+  /* ported from case-study-twilio.html .pain-card, tokenized.
+     No chrome — large display-serif accent .num + h4 title + body. */
+  .pain-card {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    border: none;
+  }
+  .pain-card .num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: var(--space-3);
+  }
+  .pain-card h4 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    margin: 0 0 var(--space-2);
+    font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .pain-card p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+</style>

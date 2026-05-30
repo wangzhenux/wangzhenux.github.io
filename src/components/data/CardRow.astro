@@ -1,0 +1,16 @@
+---
+---
+<div class="card-row"><slot /></div>
+<style>
+  /* ported from case-study-twilio.html .card-row, tokenized.
+     Three-column editorial block, no card chrome — full-row hairlines top+bottom. */
+  .card-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-card-row);
+    margin: var(--space-7) 0;
+    padding: var(--space-6) 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+</style>
