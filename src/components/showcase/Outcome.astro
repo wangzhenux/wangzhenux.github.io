@@ -1,0 +1,55 @@
+---
+interface Props { metric: string; heading?: string; }
+const { metric, heading } = Astro.props;
+---
+<div class="outcome">
+  <div class="outcome-num">{metric}</div>
+  <div class="outcome-text">
+    {heading && <h3>{heading}</h3>}
+    <p><slot /></p>
+  </div>
+  <slot name="image" />
+</div>
+<style>
+  /* ported from case-study-twilio.html .outcome, tokenized.
+     Big metric + supporting text on top; an optional full-width image (via the
+     `image` slot) spans both columns below for visual weight. */
+  .outcome {
+    margin: var(--space-12) 0 var(--space-11);
+    padding: var(--space-10) 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-9) var(--space-10);
+    align-items: center;
+  }
+  .outcome-num {
+    font-family: var(--font-display);
+    /* ~140px metric, clamped down for mobile (§9.3) */
+    font-size: clamp(72px, 16vw, 140px);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .outcome-text h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    margin: 0 0 var(--space-3);
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  .outcome-text p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+  /* full-width image spans both columns when a page slots one in */
+  .outcome :global([slot="image"]),
+  .outcome :global(.outcome-image) {
+    grid-column: 1 / -1;
+    margin-top: var(--space-6);
+  }
+</style>
