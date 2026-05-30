@@ -1,0 +1,327 @@
+---
+title: "Onboarding Twilio's first international tier"
+deck: "How a US-only developer platform learned to feel global, in three deliberate phases."
+slug: twilio
+company: Twilio
+year: 2024
+role: Senior Product Designer
+cover:
+  gradient: "linear-gradient(135deg, #F22F46 0%, #B82334 50%, #6B1F2E 100%)"
+order: 1
+featured: true
+span: "~3.5 months"
+team: "Cross-functional team across Growth, Console, and Phone Number"
+outcome:
+  metric: "+179%"
+  context: "regional Buy-a-Number page impressions, ~3 months after Phase 1"
+status: shipped
+sections:
+  - { id: s01, num: "01", label: "The problem" }
+  - { id: s02, num: "02", label: "Looking around" }
+  - { id: s03, num: "03", label: "Seven ideas, narrowed to two" }
+  - { id: s04, num: "04", label: "Validating with usability testing" }
+  - { id: s05, num: "05", label: "A phased approach" }
+  - { id: s06, num: "06", label: "The outcome" }
+  - { id: s07, num: "07", label: "What I learned" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import SectionDeck from '../../components/reading/SectionDeck.astro';
+import Figure from '../../components/reading/Figure.astro';
+import CardRow from '../../components/data/CardRow.astro';
+import PainCard from '../../components/data/PainCard.astro';
+import Competitors from '../../components/data/Competitors.astro';
+import Competitor from '../../components/data/Competitor.astro';
+import IdeasList from '../../components/data/IdeasList.astro';
+import ResearchStats from '../../components/data/ResearchStats.astro';
+import Stat from '../../components/data/Stat.astro';
+import QuoteRow from '../../components/data/QuoteRow.astro';
+import QuoteCard from '../../components/data/QuoteCard.astro';
+import Phase from '../../components/data/Phase.astro';
+import Critique from '../../components/showcase/Critique.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+import Outcome from '../../components/showcase/Outcome.astro';
+import Reflection from '../../components/showcase/Reflection.astro';
+import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
+
+<section id="s01">
+  <Lede>
+    Twilio Regions lets users deploy apps in specific geographic regions —
+    solving challenges for customers doing business outside the US, including
+    data sovereignty, performance, and disaster recovery.
+  </Lede>
+
+  <BodyText>
+    But customers often don't know about the different Twilio regions and their
+    benefits, so they build products in the default region (US1) even when it
+    isn't the best choice for data sovereignty or performance. The product was
+    capable. The onboarding wasn't.
+  </BodyText>
+
+  <SectionH>Why low adoption?</SectionH>
+  <BodyText>
+    These are the top three pain points causing low adoption, based on the past
+    research.
+  </BodyText>
+
+  <CardRow>
+    <PainCard num="01" title="Lack of visibility">
+      Twilio Regions is a relatively new feature, and many users are not aware
+      of its benefits or how to use it.
+    </PainCard>
+    <PainCard num="02" title="Limited use cases">
+      Users need to evaluate whether their use case justifies the use of Twilio
+      Regions with limited features.
+    </PainCard>
+    <PainCard num="03" title="Technical complexity">
+      Setting up Twilio Regions can be technically complex, as users need to
+      re-route traffic in their application.
+    </PainCard>
+  </CardRow>
+
+  <Figure
+    src="/cases/twilio/jtbd.png"
+    alt="Job-to-be-done statement for the Regional Onboarding project"
+    caption={'The job, in customer language: As a Twilio customer interested in developing an application for non-US customers, I want to be informed of the existence of different Twilio regions, so I can decide if building my applications in a Twilio non-US1 region makes sense for my use case.'}
+  />
+</section>
+
+<section id="s02">
+  <SectionH>Looking around</SectionH>
+  <SectionDeck>How other products handle the same onboarding moment.</SectionDeck>
+  <BodyText>
+    I took a look at other products' onboarding flows to see if there were any
+    pros and cons we could learn from.
+  </BodyText>
+
+  <Competitors>
+    <Competitor
+      name="Plivo"
+      logoColor="#43A047"
+      strength="Guided tour to onboard users to build an application; provides a redact option to anonymize data."
+      gap="No tour specific to regions."
+    />
+    <Competitor
+      name="Vonage"
+      strength="Simple steps to quickly onboard users, and only shows relevant guides. Links to the docs to explain how they collect data."
+      gap="Region is implied by the data-handling docs, not surfaced as an explicit onboarding step."
+    />
+    <Competitor
+      name="Google Cloud"
+      logoColor="#4285F4"
+      strength="Shows tutorials in the right panel to guide users on how to set up their instance."
+      gap="Region is permanent once saved."
+    />
+  </Competitors>
+</section>
+
+<section id="s03">
+  <SectionH>Seven ideas, narrowed to two</SectionH>
+  <BodyText>
+    I mapped out the current onboarding flow and brainstormed possible solutions
+    on the user flow — seven places to introduce Regions.
+  </BodyText>
+
+  <IdeasList
+    items={[
+      { num: "01", text: "Choose region when naming account" },
+      { num: "02", text: "Choose region in Ahoy questions" },
+      { num: "03", text: "One pager for region selection between Ahoy and Dashboard", selected: true, badge: "Tested" },
+      { num: "04", text: "Region selection modal first time in Console" },
+      { num: "05", text: "Appcue tour in Console" },
+      { num: "06", text: "Confirm region when buying a phone number" },
+      { num: "07", text: "Confirm region when saving phone number configuration", selected: true, badge: "Tested" },
+    ]}
+  />
+
+  <BodyText>
+    Following consultations with RAPID (Recommend, Agree, Perform, Input, Decide)
+    stakeholders — including Global, Growth, Console, and Phone Number teams — we
+    decided to proceed with **options 3 and 7** to run usability testing.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/twilio/flows.png"
+      alt="User flow with seven possible solutions mapped onto the onboarding flow"
+      width={3610}
+      height={1554}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Surviving design critique</SectionH>
+  <BodyText>
+    Prior to conducting usability testing, I sought design critiques and clinics
+    to receive feedback on my designs. These are two examples of the critical
+    feedback I received and the changes I made based on it.
+  </BodyText>
+
+  <Critique
+    rows={[
+      {
+        label: "Critique 01 · One pager for region selection between Ahoy and Dashboard",
+        heading: "Without a label, customers were confused about what they were configuring",
+        fix: "<strong>Change:</strong> Added the title “Choose default region” to the page, updated copy to make the benefits of the default region clearer, and added a popover when users pick a region to explain what's supported — with updated text: “You can continue to use our full product suite, including Messaging, in the United States (US1) Region.”",
+        image: { src: "/cases/twilio/design_critique1.png", alt: "One-pager region selection design critique" },
+      },
+      {
+        label: "Critique 02 · Regional optimization modal after saving phone number configuration",
+        heading: "The informative modal was too informative and did too many jobs",
+        fix: "<strong>Change:</strong> Removed the default-region setting from the modal (the concept itself could be confusing to customers), added a number to the modal title to make it more relevant, added an explanation of why the modal shows up and its benefits, and consolidated the two confusing buttons into one for the selected region.",
+        image: { src: "/cases/twilio/design_critique2.png", alt: "Post-configuration regional optimization modal design critique" },
+      },
+    ]}
+  />
+</section>
+
+<section id="s04">
+  <SectionH>Validating with usability testing</SectionH>
+
+  <ResearchStats cols={2}>
+    <Stat num="10" label="Participants">
+      <span class="item">4 current, international Twilio customers</span>
+      <span class="item">6 international non-customers</span>
+    </Stat>
+    <Stat num="2" label="Objectives">
+      <span class="item">Evaluate regional onboarding and configuration concepts</span>
+      <span class="item">Determine what features would make Default Region useful for customers</span>
+    </Stat>
+  </ResearchStats>
+
+  <SectionH small>Key findings</SectionH>
+  <QuoteRow>
+    <QuoteCard label="Finding 01" heading="Complex onboarding">
+      Choosing new regions might be complicated — I don't even know if someone
+      needs to choose a default location.
+    </QuoteCard>
+    <QuoteCard label="Finding 02" heading="Default Region misleading">
+      Setting the Default Region will impact the language [display] and billing
+      [i.e., what currency I'm billed in].
+    </QuoteCard>
+    <QuoteCard label="Finding 03" heading="Confusing routing concept">
+      Do I need to have the same setup in the US and Australia?
+    </QuoteCard>
+  </QuoteRow>
+
+  <SectionH small>Recommendations</SectionH>
+  <CardRow>
+    <PainCard num="01" title="Further research">
+      Partner with Growth and CX to continue research into the customer's
+      experience between the Evaluate and Acquire phases.
+    </PainCard>
+    <PainCard num="02" title="Re-evaluate Default Region">
+      Consider removing the Default Region concept from the Console and its
+      functionalities.
+    </PainCard>
+    <PainCard num="03" title="Phased approach">
+      Phase Regions into the Console and evaluate customer response at each stage
+      of maturity.
+    </PainCard>
+  </CardRow>
+</section>
+
+<section id="s05">
+  <SectionH>A phased approach</SectionH>
+  <BodyText>
+    Based on the research and the discussion with relevant stakeholders, I came
+    up with a **phased approach to strategically onboard customers with Twilio
+    Regions**.
+  </BodyText>
+
+  <Phase
+    num="01"
+    label="Phase 1 · Shipped"
+    title={"“👋 Ahoy, we have Twilio Regions for you”"}
+    meta={[
+      { k: "Audience", v: "Existing US/non-US customers creating new account, new customers" },
+      { k: "Metric", v: "# of Regional Docs page impressions; # of Regional Buy a Number page impressions" },
+    ]}
+  >
+    Increase exposure of Twilio Regions and educate on its benefits without
+    disrupting the current customer experience — a guided tour that pins the
+    region based on location, plus regional docs added to the last step of the
+    self-serve flow.
+  </Phase>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/twilio/phase_1.png"
+      alt="Phase 1 proposal — Ahoy onboarding flow"
+      width={11760}
+      height={1800}
+    />
+  </ImageShowcase>
+
+  <Phase
+    num="02"
+    label="Phase 2 · Planned"
+    title={"“🤔 You might want to use Twilio Regions”"}
+    meta={[
+      { k: "Audience", v: "Existing US/non-US customers" },
+      { k: "Metric", v: "# of PNs routing to non-US1 regions" },
+    ]}
+  >
+    Nudge customers when we know they can gain benefits from Twilio Regions —
+    surface a routing suggestion in cases where we believe it can be optimized.
+  </Phase>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/twilio/phase_2.png"
+      alt="Phase 2 proposal — routing suggestion nudge"
+      width={14720}
+      height={1804}
+    />
+  </ImageShowcase>
+
+  <Phase
+    num="03"
+    label="Phase 3 · Planned"
+    title={"“😍 You're gonna love using Twilio Regions”"}
+    meta={[
+      { k: "Audience", v: "New account customer" },
+      { k: "Metric", v: "NPS for non-US customers" },
+    ]}
+  >
+    Proactively optimize the regional experience for customers from the get-go —
+    regional configuration as a part of the initial setup flow, and a
+    regionalized Console experience.
+  </Phase>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/twilio/phase_3.png"
+      alt="Phase 3 proposal — regionalized Console experience"
+      width={8800}
+      height={1860}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s06">
+  <SectionH>The outcome</SectionH>
+  <Outcome
+    metric="+179%"
+    heading="Increase in regional Buy a Number page impressions, three months since Phase 1 launch"
+  >
+    Phase 1 shipped to increase exposure of Twilio Regions; Phases 2 and 3 are
+    planned. The Default Region concept itself is under re-evaluation based on
+    what customers said about it during testing.
+  </Outcome>
+</section>
+
+<section id="s07">
+  <SectionH>What I learned</SectionH>
+  <Reflection>
+    <ReflectionCard label="On decision making" heading="RAPID decision-making framework">
+      Use the RAPID decision-making framework to identify the key roles —
+      Recommend, Agree, Perform, Input, and Decide — and the associated
+      deliverables at the beginning of the project.
+    </ReflectionCard>
+    <ReflectionCard label="On strategy" heading="Strategic, phased thinking">
+      It's not always possible to achieve a design all at once, especially when
+      there are numerous dependencies and constraints. Consider taking a phased
+      approach that gradually works toward the north star.
+    </ReflectionCard>
+  </Reflection>
+</section>
