@@ -1,0 +1,37 @@
+---
+interface Props { heading: string; }
+const { heading } = Astro.props;
+---
+<div class="dual-col">
+  <h4>{heading}</h4>
+  <slot />
+</div>
+<style>
+  /* ported from case-study-twilio.html .dual-col + .dual-item, tokenized.
+     Underlined h4 header above hairline-separated rows. The .dual-item rows
+     are slotted markup, so styled via :global. */
+  .dual-col h4 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    margin: 0 0 var(--space-4);
+    font-weight: 500;
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--rule);
+  }
+  .dual-col :global(.dual-item) {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .dual-col :global(.dual-item:last-child) { border-bottom: none; }
+  .dual-col :global(.dual-item .head) {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: var(--space-1);
+  }
+  .dual-col :global(.dual-item .det) {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
+  }
+</style>
