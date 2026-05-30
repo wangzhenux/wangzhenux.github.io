@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+/**
+ * Optimized, lightbox-enabled showcase image (§8.6).
+ *
+ * Wraps the image in a `<div data-zoomable>` so the lightbox island can hook it,
+ * and pulses a calm placeholder (`data-loading`, neutralized under reduced-motion)
+ * until the image streams in.
+ *
+ * USAGE / src handling:
+ *  - Preferred: pass an IMPORTED asset, e.g.
+ *      import jtbd from '../../assets/cases/twilio/jtbd.png';
+ *      <ShowcaseImage src={jtbd} alt="…" />
+ *    Imported assets go through Astro's `<Image>` for real responsive
+ *    optimization (avif/webp at multiple widths) and `width`/`height` are
+ *    inferred automatically (you may still pass them to override).
+ *  - Fallback: pass a STRING path served from `public/`, e.g.
+ *      <ShowcaseImage src="/cases/twilio/jtbd.png" alt="…" width={1280} height={720} />
+ *    Astro's `<Image>` does NOT optimize `public/`-served assets (they bypass the
+ *    image pipeline), so for a string `src` we render a plain
+ *    `<img loading="lazy" decoding="async">`. `width`/`height` are required here
+ *    to reserve layout space and avoid CLS.
+ *    TODO(phase-5): once Twilio assets are imported from `src/assets/`, the string
+ *    branch can go away and everything flows through Astro `<Image>`.
+ */
+interface Props {
+  src: ImageMetadata | string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+const { src, alt, width, height } = Astro.props;
+const isImported = typeof src !== 'string';
+---
+<div class="showcase-image" data-zoomable>
+  {isImported ? (
+    <Image
+      src={src as ImageMetadata}
+      alt={alt}
+      width={width}
+      height={height}
+      widths={[320, 640, 1280, 1920]}
+      formats={['avif', 'webp']}
+      loading="lazy"
+      decoding="async"
+      data-loading
+    />
+  ) : (
+    <img
+      src={src as string}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      decoding="async"
+      data-loading
+    />
+  )}
+</div>
+<style>
+  .showcase-image {
+    cursor: zoom-in;
+  }
+  .showcase-image :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>
+<script>
+  // Clear the loading pulse once the image has decoded.
+  document.querySelectorAll<HTMLImageElement>('.showcase-image img[data-loading]').forEach((img) => {
+    const done = () => img.removeAttribute('data-loading');
+    if (img.complete) done();
+    else img.addEventListener('load', done, { once: true });
+  });
+</script>

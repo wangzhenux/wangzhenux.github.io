@@ -120,6 +120,16 @@ dialog.lightbox::backdrop {
   opacity: 0.5;
 }
 
+/* Calm image loading state (§8.6) — a never-blank placeholder + gentle pulse
+   while the image streams in. Reduced-motion neutralizes the pulse via the
+   global block below. */
+.image-showcase img { background: var(--bg-secondary); }
+@keyframes ipulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+[data-loading] { animation: ipulse 1.6s ease-in-out infinite; }
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
