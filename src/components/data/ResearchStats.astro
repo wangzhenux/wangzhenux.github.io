@@ -1,0 +1,18 @@
+---
+interface Props { cols?: number; }
+const { cols = 3 } = Astro.props;
+---
+<div class="research-stats" style={`--cols: ${cols}`}><slot /></div>
+<style>
+  /* ported from case-study-twilio.html .research-stats, tokenized.
+     Column count is variable via --cols (default 3). */
+  .research-stats {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: var(--space-7);
+    margin: var(--space-7) 0 var(--space-6);
+    padding: var(--space-6);
+    background: var(--bg-secondary);
+    border-radius: 6px;
+  }
+</style>
