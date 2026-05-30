@@ -1,0 +1,51 @@
+---
+// Reserved for actual design artifacts (user flow, phase mockups). The dotted-grid
+// background breaks out to the viewport edges; the image content stays at body width,
+// left-aligned with the rest of the article. The slotted image wrapper carries
+// data-zoomable so the lightbox island can hook it.
+---
+<div class="image-showcase">
+  <div class="showcase-inner" data-zoomable><slot /></div>
+</div>
+<style>
+  /* ported from case-study-twilio.html .image-showcase, tokenized.
+     Full-bleed band with subtle dotted grid. The grid extends to the viewport
+     edges via the -50vw margin trick; inner content is constrained to body width
+     and left-aligned. */
+  .image-showcase {
+    position: relative;
+    margin: var(--space-7) 0 var(--space-4);
+    padding: var(--space-9) 0;
+  }
+  .image-showcase::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background-color: var(--bg-secondary);
+    background-image: radial-gradient(circle, var(--rule) 1px, transparent 1.5px);
+    background-size: 28px 28px;
+    z-index: 0;
+  }
+  .image-showcase > * {
+    position: relative;
+    z-index: 1;
+  }
+  /* Inner image: constrained to body width, left-aligned, framed. */
+  .showcase-inner :global(img) {
+    width: 100%;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--bg-primary);
+    cursor: zoom-in;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .showcase-inner :global(img:hover) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+</style>
