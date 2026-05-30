@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Revamp — Mockup</title>
+<style>
+  body { margin: 0; background: #E8E2D5; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+  .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 32px 24px; box-sizing: border-box; }
+  .subtitle { text-align: center; color: #6b6256; font-size: 14px; line-height: 1.5; }
+  h2 { text-align: center; font-family: Georgia, 'Iowan Old Style', serif; }
+</style>
+<script>function toggleSelect(el){ if(el && el.classList) el.classList.toggle('selected'); }</script>
+</head>
+<body>
+<div class="container">
+<style>
+  .container { max-width: none !important; padding: 0 !important; }
+  .selection-indicator { display: none !important; }
+
+  :root {
+    --bg-primary: #FAF5E8;
+    --bg-secondary: #F1E9D5;
+    --bg-inverse: #181210;
+    --ink-primary: #1A1410;
+    --ink-secondary: #1A1410CC;
+    --ink-tertiary: #1A141088;
+    --ink-quaternary: #1A141055;
+    --accent: #C8442E;
+    --rule: #1A141018;
+    --rule-soft: #1A14100E;
+    --font-display: 'Iowan Old Style', 'Charter', 'GT Sectra', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', 'Geist Mono', monospace;
+    --case-twilio: linear-gradient(135deg, #F22F46 0%, #B82334 50%, #6B1F2E 100%);
+  }
+
+  .rb-stage {
+    padding: 28px 0;
+    margin: 0 auto 32px;
+    max-width: 1300px;
+  }
+  .rb-label-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 0 16px;
+    margin-bottom: 14px;
+  }
+  .rb-bp-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #2A1F18;
+    background: #FAF5E8;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #1A141022;
+  }
+  .rb-bp-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #2A1F1888;
+  }
+
+  /* Frame wrapper */
+  .rb-frame {
+    background: var(--bg-primary);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px -16px rgba(20, 14, 8, 0.18);
+    color: var(--ink-primary);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    margin: 0 auto;
+  }
+  .rb-desktop { width: 100%; max-width: 1280px; }
+  .rb-tablet  { width: 768px; }
+  .rb-mobile  { width: 390px; }
+
+  /* Common elements */
+  .rb-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 12px;
+  }
+  .rb-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .rb-links {
+    display: flex;
+    gap: 20px;
+    color: var(--ink-secondary);
+    font-size: 11px;
+  }
+
+  .rb-back {
+    padding: 16px 32px 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  .rb-hero {
+    padding: 18px 32px 0;
+  }
+  .rb-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+  }
+  .rb-h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.022em;
+    margin: 0 0 14px;
+    color: var(--ink-primary);
+  }
+  .rb-deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink-secondary);
+    margin: 0 0 22px;
+  }
+
+  .rb-cover {
+    aspect-ratio: 16/8;
+    background: radial-gradient(at 30% 20%, rgba(255,255,255,0.18), transparent 50%), var(--case-twilio);
+    border-radius: 4px;
+    margin-bottom: 18px;
+  }
+
+  .rb-meta {
+    display: grid;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 18px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+  .rb-meta .lab {
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 9px;
+    margin-bottom: 4px;
+  }
+  .rb-meta .val {
+    color: var(--ink-primary);
+    line-height: 1.4;
+  }
+
+  /* Body wrap behavior */
+  .rb-body-wrap { padding: 28px 32px 32px; }
+  .rb-body-wrap.has-toc {
+    display: flex;
+    gap: 36px;
+    justify-content: center;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 28px 0 32px;
+  }
+  .rb-body { flex: 0 1 720px; min-width: 0; }
+  .rb-toc {
+    flex: 0 0 130px;
+    padding-top: 36px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-tertiary);
+  }
+  .rb-toc ul {
+    list-style: none;
+    padding: 0 0 0 14px;
+    margin: 0;
+    border-left: 1px solid var(--rule);
+    line-height: 1.6;
+  }
+  .rb-toc li.active { color: var(--accent); }
+
+  .rb-toc-mini {
+    flex: 0 0 40px;
+    padding-top: 36px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-tertiary);
+  }
+  .rb-toc-mini ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid var(--rule);
+    padding-left: 12px;
+  }
+  .rb-toc-mini li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 0;
+  }
+  .rb-toc-mini .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--ink-quaternary);
+  }
+  .rb-toc-mini li.active .dot {
+    background: var(--accent);
+  }
+
+  /* Top progress bar (tablet/mobile) */
+  .rb-progress-wrap {
+    border-bottom: 1px solid var(--rule);
+    padding: 6px 32px 8px;
+  }
+  .rb-progress-bar {
+    height: 2px;
+    background: var(--rule);
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .rb-progress-bar::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 32%;
+    background: var(--accent);
+  }
+  .rb-progress-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .rb-progress-tag .accent { color: var(--accent); }
+
+  /* Section content */
+  .rb-section-h {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.018em;
+    color: var(--ink-primary);
+    margin: 18px 0 12px;
+  }
+  .rb-section-h::before {
+    content: '';
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--accent);
+    margin-bottom: 12px;
+  }
+  .rb-body-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink-secondary);
+    margin: 8px 0;
+  }
+
+  /* Phase block */
+  .rb-phase {
+    display: grid;
+    column-gap: 18px;
+    padding-top: 20px;
+    margin-top: 28px;
+    border-top: 1px solid var(--rule);
+  }
+  .rb-phase-num {
+    font-family: var(--font-display);
+    color: var(--accent);
+    font-weight: 500;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .rb-phase-content .small {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 6px;
+  }
+  .rb-phase-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 8px;
+  }
+  .rb-phase-text {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+    margin: 0 0 12px;
+  }
+  .rb-phase-meta {
+    display: grid;
+    grid-template-columns: 76px 1fr;
+    gap: 6px 12px;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .rb-phase-meta dt {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding-top: 2px;
+  }
+  .rb-phase-meta dd {
+    margin: 0;
+    color: var(--ink-secondary);
+  }
+
+  /* Phase image block (showcase) */
+  .rb-phase-img {
+    margin-top: 14px;
+    padding: 28px 32px;
+    background: var(--bg-secondary);
+    background-image: radial-gradient(circle, rgba(26, 20, 16, 0.10) 1px, transparent 1.5px);
+    background-size: 18px 18px;
+  }
+  .rb-phase-img-inner {
+    aspect-ratio: 16/9;
+    background: var(--bg-primary);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-quaternary);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  /* === Desktop styles === */
+  .rb-desktop .rb-h1 { font-size: 38px; max-width: 18ch; }
+  .rb-desktop .rb-deck { font-size: 16px; max-width: 50ch; }
+  .rb-desktop .rb-meta { grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .rb-desktop .rb-section-h { font-size: 22px; }
+  .rb-desktop .rb-phase { grid-template-columns: 64px 1fr; }
+  .rb-desktop .rb-phase-num { font-size: 38px; }
+  .rb-desktop .rb-phase-title { font-size: 17px; }
+
+  /* === Tablet styles === */
+  .rb-tablet .rb-h1 { font-size: 32px; max-width: 18ch; }
+  .rb-tablet .rb-deck { font-size: 15px; max-width: 50ch; }
+  .rb-tablet .rb-meta { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .rb-tablet .rb-section-h { font-size: 20px; }
+  .rb-tablet .rb-phase { grid-template-columns: 56px 1fr; }
+  .rb-tablet .rb-phase-num { font-size: 32px; }
+  .rb-tablet .rb-phase-title { font-size: 16px; }
+
+  /* === Mobile styles === */
+  .rb-mobile { font-size: 13px; }
+  .rb-mobile .rb-nav { padding: 14px 18px; font-size: 11px; }
+  .rb-mobile .rb-name { font-size: 14px; }
+  .rb-mobile .rb-links {
+    display: flex;
+    gap: 0;
+    width: 22px; height: 14px;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  .rb-mobile .rb-links span {
+    display: block;
+    height: 1.5px;
+    background: var(--ink-primary);
+    width: 100%;
+  }
+  .rb-mobile .rb-links span:nth-child(2) { width: 70%; align-self: flex-end; }
+  .rb-mobile .rb-back { padding: 14px 18px 0; }
+  .rb-mobile .rb-hero { padding: 14px 18px 0; }
+  .rb-mobile .rb-h1 { font-size: 24px; max-width: 100%; }
+  .rb-mobile .rb-deck { font-size: 13px; }
+  .rb-mobile .rb-meta { grid-template-columns: 1fr; gap: 10px; }
+  .rb-mobile .rb-progress-wrap { padding: 6px 18px 8px; }
+  .rb-mobile .rb-body-wrap { padding: 22px 18px 24px; }
+  .rb-mobile .rb-section-h { font-size: 18px; }
+  .rb-mobile .rb-body-text { font-size: 14px; }
+  .rb-mobile .rb-phase { grid-template-columns: 48px 1fr; }
+  .rb-mobile .rb-phase-num { font-size: 28px; }
+  .rb-mobile .rb-phase-title { font-size: 15px; }
+  .rb-mobile .rb-phase-img { padding: 20px 18px; }
+
+  .rb-callouts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 0 16px;
+  }
+  .rb-callout {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #2A1F18AA;
+    background: rgba(255,255,255,0.6);
+    padding: 5px 9px;
+    border-radius: 3px;
+    border-left: 2px solid var(--accent);
+  }
+</style>
+
+<h2 style="text-align:center; margin-bottom: 6px;">Responsive design — three breakpoints</h2>
+<p class="subtitle" style="text-align:center; margin-bottom: 24px;">Same case study, three viewport widths. Resize your browser on the live site to see this happen continuously; here, snapshots make the transitions explicit.</p>
+
+<!-- DESKTOP 1280+ -->
+<div class="rb-stage">
+  <div class="rb-label-row">
+    <span class="rb-bp-label">Desktop · 1280+ px</span>
+    <span class="rb-bp-tag">right-side TOC sticky · cover full content width · 4-col meta strip</span>
+  </div>
+
+  <div class="rb-frame rb-desktop">
+    <div class="rb-nav">
+      <span class="rb-name">Zhen Wang</span>
+      <span class="rb-links">Work · Writing · About</span>
+    </div>
+    <div class="rb-back">← All work</div>
+    <div class="rb-hero">
+      <div class="rb-eyebrow">Twilio · 2024 · Senior PD</div>
+      <h1 class="rb-h1">Onboarding Twilio's first international tier</h1>
+      <p class="rb-deck">How a US-only developer platform learned to feel global, in three deliberate phases.</p>
+      <div class="rb-cover"></div>
+      <div class="rb-meta">
+        <div><div class="lab">Role</div><div class="val">Senior Product Designer</div></div>
+        <div><div class="lab">Team</div><div class="val">3 PMs · 6 engineers</div></div>
+        <div><div class="lab">Span</div><div class="val">Jul 2023 — Sep 2024</div></div>
+        <div><div class="lab">Outcome</div><div class="val">+179% impressions</div></div>
+      </div>
+    </div>
+
+    <div class="rb-body-wrap has-toc">
+      <div class="rb-body">
+        <h2 class="rb-section-h">A phased approach to "regional by default"</h2>
+        <p class="rb-body-text">Validating with 10 customers showed they understood the regional concept once it was framed correctly. Three phases, each with a different audience and a different goal.</p>
+
+        <div class="rb-phase">
+          <div class="rb-phase-num">01</div>
+          <div class="rb-phase-content">
+            <div class="small">Phase 1 · Shipped Q1 2024</div>
+            <h3 class="rb-phase-title">"Ahoy, we have Twilio Regions for you"</h3>
+            <p class="rb-phase-text">Increase exposure and educate, without disrupting current customer experience.</p>
+            <dl class="rb-phase-meta">
+              <dt>Audience</dt><dd>New customers + existing creating new accounts</dd>
+              <dt>Metric</dt><dd>Regional doc &amp; Buy-a-Number page impressions</dd>
+            </dl>
+          </div>
+        </div>
+        <div class="rb-phase-img">
+          <div class="rb-phase-img-inner">phase_1.png · ahoy onboarding flow</div>
+        </div>
+      </div>
+      <aside class="rb-toc">
+        <ul>
+          <li>01 Problem</li>
+          <li>02 Looking around</li>
+          <li>03 Seven → two</li>
+          <li>04 Validating</li>
+          <li class="active">05 Phased</li>
+          <li>06 Outcome</li>
+          <li>07 Learned</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+  <div class="rb-callouts">
+    <span class="rb-callout">TOC sticky right · 144 px</span>
+    <span class="rb-callout">Body 880 px reading column</span>
+    <span class="rb-callout">Showcase extends to viewport edges</span>
+    <span class="rb-callout">TOC fades during showcase via IntersectionObserver</span>
+  </div>
+</div>
+
+<!-- TABLET 768-1023 -->
+<div class="rb-stage">
+  <div class="rb-label-row">
+    <span class="rb-bp-label">Tablet · 768–1023 px</span>
+    <span class="rb-bp-tag">TOC hidden · top progress bar takes over · 2-col meta strip</span>
+  </div>
+
+  <div class="rb-frame rb-tablet">
+    <div class="rb-nav">
+      <span class="rb-name">Zhen Wang</span>
+      <span class="rb-links">Work · Writing · About</span>
+    </div>
+    <div class="rb-back">← All work</div>
+    <div class="rb-hero">
+      <div class="rb-eyebrow">Twilio · 2024 · Senior PD</div>
+      <h1 class="rb-h1">Onboarding Twilio's first international tier</h1>
+      <p class="rb-deck">How a US-only developer platform learned to feel global, in three deliberate phases.</p>
+      <div class="rb-cover"></div>
+      <div class="rb-meta">
+        <div><div class="lab">Role</div><div class="val">Senior Product Designer</div></div>
+        <div><div class="lab">Team</div><div class="val">3 PMs · 6 engineers</div></div>
+        <div><div class="lab">Span</div><div class="val">Jul 2023 — Sep 2024</div></div>
+        <div><div class="lab">Outcome</div><div class="val">+179% impressions</div></div>
+      </div>
+    </div>
+
+    <div class="rb-progress-wrap">
+      <div class="rb-progress-bar"></div>
+      <div class="rb-progress-tag"><span class="accent">05 / 07</span> &nbsp;·&nbsp; A phased approach</div>
+    </div>
+
+    <div class="rb-body-wrap">
+      <h2 class="rb-section-h">A phased approach to "regional by default"</h2>
+      <p class="rb-body-text">Validating with 10 customers showed they understood the regional concept once it was framed correctly. Three phases, each with a different audience and a different goal.</p>
+
+      <div class="rb-phase">
+        <div class="rb-phase-num">01</div>
+        <div class="rb-phase-content">
+          <div class="small">Phase 1 · Shipped Q1 2024</div>
+          <h3 class="rb-phase-title">"Ahoy, we have Twilio Regions for you"</h3>
+          <p class="rb-phase-text">Increase exposure and educate, without disrupting current customer experience.</p>
+          <dl class="rb-phase-meta">
+            <dt>Audience</dt><dd>New customers + existing creating new accounts</dd>
+            <dt>Metric</dt><dd>Regional doc &amp; Buy-a-Number page impressions</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="rb-phase-img">
+        <div class="rb-phase-img-inner">phase_1.png · ahoy onboarding flow</div>
+      </div>
+    </div>
+  </div>
+  <div class="rb-callouts">
+    <span class="rb-callout">No sidebar TOC at this width</span>
+    <span class="rb-callout">Top progress bar shows current section / 07 + name</span>
+    <span class="rb-callout">Tap progress bar → drawer with full TOC</span>
+    <span class="rb-callout">Meta strip becomes 2 columns</span>
+  </div>
+</div>
+
+<!-- MOBILE 375 -->
+<div class="rb-stage">
+  <div class="rb-label-row">
+    <span class="rb-bp-label">Mobile · 375 px (iPhone)</span>
+    <span class="rb-bp-tag">single column · hamburger nav · meta strip stacks · phase number scaled down</span>
+  </div>
+
+  <div class="rb-frame rb-mobile">
+    <div class="rb-nav">
+      <span class="rb-name">Zhen Wang</span>
+      <span class="rb-links">
+        <span></span>
+        <span></span>
+      </span>
+    </div>
+    <div class="rb-back">← All work</div>
+    <div class="rb-hero">
+      <div class="rb-eyebrow">Twilio · 2024</div>
+      <h1 class="rb-h1">Onboarding Twilio's first international tier</h1>
+      <p class="rb-deck">How a US-only developer platform learned to feel global.</p>
+      <div class="rb-cover" style="aspect-ratio: 4/3"></div>
+      <div class="rb-meta">
+        <div><div class="lab">Role</div><div class="val">Senior PD</div></div>
+        <div><div class="lab">Span</div><div class="val">14 mo</div></div>
+        <div><div class="lab">Outcome</div><div class="val" style="color: var(--accent); font-weight: 500;">+179%</div></div>
+      </div>
+    </div>
+
+    <div class="rb-progress-wrap">
+      <div class="rb-progress-bar"></div>
+      <div class="rb-progress-tag"><span class="accent">05 / 07</span> · A phased approach</div>
+    </div>
+
+    <div class="rb-body-wrap">
+      <h2 class="rb-section-h">A phased approach</h2>
+      <p class="rb-body-text">Three phases, each with a different audience and a different goal.</p>
+
+      <div class="rb-phase">
+        <div class="rb-phase-num">01</div>
+        <div class="rb-phase-content">
+          <div class="small">Phase 1 · Shipped Q1 2024</div>
+          <h3 class="rb-phase-title">"Ahoy, we have Twilio Regions"</h3>
+          <p class="rb-phase-text">Increase exposure, educate, without disrupting current experience.</p>
+          <dl class="rb-phase-meta" style="grid-template-columns: 64px 1fr;">
+            <dt>Audience</dt><dd>New customers</dd>
+            <dt>Metric</dt><dd>Doc &amp; PN page impressions</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="rb-phase-img">
+        <div class="rb-phase-img-inner">phase_1.png</div>
+      </div>
+    </div>
+  </div>
+  <div class="rb-callouts">
+    <span class="rb-callout">Hamburger menu replaces nav links</span>
+    <span class="rb-callout">Meta strip stacks single column · 3 of 4 fields shown by default</span>
+    <span class="rb-callout">Cover aspect 4/3 (was 16/8) for vertical phone screens</span>
+    <span class="rb-callout">Tap progress bar → full-screen TOC drawer</span>
+  </div>
+</div>
+
+<div style="max-width: 1100px; margin: 30px auto; padding: 24px 28px; background: rgba(255,255,255,0.7); border-radius: 8px; font-size: 13px; color: #2A1F18; line-height: 1.6;">
+  <h4 style="margin: 0 0 10px; font-family: 'Iowan Old Style', Georgia, serif; font-size: 15px; font-weight: 500; color: #1A1410;">What changes per breakpoint — summary</h4>
+  <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+    <thead>
+      <tr style="border-bottom: 1px solid #1A141022;">
+        <th style="text-align: left; padding: 8px 0; font-weight: 500; color: #1A1410; width: 22%;">Component</th>
+        <th style="text-align: left; padding: 8px 8px; font-weight: 500; color: #1A1410;">Desktop ≥ 1280</th>
+        <th style="text-align: left; padding: 8px 8px; font-weight: 500; color: #1A1410;">Tablet 768–1023</th>
+        <th style="text-align: left; padding: 8px 8px; font-weight: 500; color: #1A1410;">Mobile &lt; 768</th>
+      </tr>
+    </thead>
+    <tbody style="color: #1A1410CC;">
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;"><code>.nav</code> links</td>
+        <td style="padding: 10px 8px;">Inline horizontal</td>
+        <td style="padding: 10px 8px;">Inline horizontal</td>
+        <td style="padding: 10px 8px;">Hamburger → drawer</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;"><code>.toc</code></td>
+        <td style="padding: 10px 8px;">Sticky right, 144 px</td>
+        <td style="padding: 10px 8px;">Hidden; progress bar instead</td>
+        <td style="padding: 10px 8px;">Hidden; progress bar tap → drawer</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;">Top progress bar</td>
+        <td style="padding: 10px 8px;">—</td>
+        <td style="padding: 10px 8px;">Visible · scroll fill + section tag</td>
+        <td style="padding: 10px 8px;">Visible · scroll fill + section tag</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;">Hero title size</td>
+        <td style="padding: 10px 8px;">56 px display serif</td>
+        <td style="padding: 10px 8px;">38 px (clamped)</td>
+        <td style="padding: 10px 8px;">26 px (clamped)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;">Cover aspect ratio</td>
+        <td style="padding: 10px 8px;">16/8 wide</td>
+        <td style="padding: 10px 8px;">16/9</td>
+        <td style="padding: 10px 8px;">4/3 portrait-friendly</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;"><code>.meta-strip</code></td>
+        <td style="padding: 10px 8px;">4-column grid</td>
+        <td style="padding: 10px 8px;">2-column grid</td>
+        <td style="padding: 10px 8px;">Single column · 3 of 4 fields</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;">Body column</td>
+        <td style="padding: 10px 8px;">880 px in 1080 wrap</td>
+        <td style="padding: 10px 8px;">Full container width</td>
+        <td style="padding: 10px 8px;">Full container width</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;"><code>.card-row</code></td>
+        <td style="padding: 10px 8px;">3 columns</td>
+        <td style="padding: 10px 8px;">3 columns (tighter)</td>
+        <td style="padding: 10px 8px;">Single column · stacks</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;"><code>.competitors</code></td>
+        <td style="padding: 10px 8px;">3 cols (logo / strength / gap)</td>
+        <td style="padding: 10px 8px;">2 cols (logo above + strength/gap below)</td>
+        <td style="padding: 10px 8px;">Stacks fully</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;"><code>.phase</code></td>
+        <td style="padding: 10px 8px;">80 px num + content</td>
+        <td style="padding: 10px 8px;">56 px num + content</td>
+        <td style="padding: 10px 8px;">48 px num + content</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;"><code>.image-showcase</code></td>
+        <td style="padding: 10px 8px;">Full-width breakout · dotted grid</td>
+        <td style="padding: 10px 8px;">Full-width breakout</td>
+        <td style="padding: 10px 8px;">Full-width · less padding</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;"><code>.critique</code></td>
+        <td style="padding: 10px 8px;">Text left · image right (1fr / 1.3fr)</td>
+        <td style="padding: 10px 8px;">Text on top · image below</td>
+        <td style="padding: 10px 8px;">Text on top · image below</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;"><code>.outcome</code></td>
+        <td style="padding: 10px 8px;">160 px metric + text right</td>
+        <td style="padding: 10px 8px;">120 px metric + text below</td>
+        <td style="padding: 10px 8px;">96 px metric + text below</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1A14100E;">
+        <td style="padding: 10px 0;"><code>.reflection</code></td>
+        <td style="padding: 10px 8px;">2 columns</td>
+        <td style="padding: 10px 8px;">2 columns</td>
+        <td style="padding: 10px 8px;">Stacks single column</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 0;">Page padding</td>
+        <td style="padding: 10px 8px;">56 px sides</td>
+        <td style="padding: 10px 8px;">32 px sides</td>
+        <td style="padding: 10px 8px;">18 px sides</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin: 24px 0 10px; font-family: 'Iowan Old Style', Georgia, serif; font-size: 15px; font-weight: 500; color: #1A1410;">Implementation notes</h4>
+  <ul style="margin: 0; padding-left: 18px;">
+    <li>Type scaling uses <code>clamp()</code> on hero / section headings — fluid, no breakpoint jumps for display sizes.</li>
+    <li>Layout grid changes use standard <code>@media (min-width: 1280px)</code> and <code>@media (min-width: 768px)</code> — desktop-up media queries.</li>
+    <li>The TOC's IntersectionObserver still works at every breakpoint, but on tablet/mobile the TOC is <code>display: none</code>, so the observer simply has no target and does nothing.</li>
+    <li>Cover image swaps aspect ratio via <code>aspect-ratio</code> at breakpoints — same image, different crop logic. (Real implementation may need <code>&lt;picture&gt;</code> with art direction for different image crops.)</li>
+    <li>Grid background spacing on <code>.image-showcase</code> shrinks on mobile (<code>background-size: 18px</code> instead of 28 px) so the dotted pattern still reads at small sizes.</li>
+  </ul>
+</div>
+
+</div>
+</body>
+</html>

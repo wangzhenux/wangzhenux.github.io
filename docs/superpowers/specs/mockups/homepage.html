@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Revamp — Mockup</title>
+<style>
+  body { margin: 0; background: #E8E2D5; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+  .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 32px 24px; box-sizing: border-box; }
+  .subtitle { text-align: center; color: #6b6256; font-size: 14px; line-height: 1.5; }
+  h2 { text-align: center; font-family: Georgia, 'Iowan Old Style', serif; }
+</style>
+<script>function toggleSelect(el){ if(el && el.classList) el.classList.toggle('selected'); }</script>
+</head>
+<body>
+<div class="container">
+<style>
+  .container { max-width: none !important; padding: 0 !important; }
+  .selection-indicator { display: none !important; }
+
+  /* === Design tokens (will become CSS custom properties at implementation time) === */
+  .preview {
+    --bg-primary: #FAF7F1;
+    --bg-secondary: #F4EFE5;
+    --bg-inverse: #19171A;
+
+    --ink-primary: #19171A;
+    --ink-secondary: #19171ACC;
+    --ink-tertiary: #19171A88;
+    --ink-quaternary: #19171A66;
+
+    --accent: #B33A48;
+    --accent-soft: #B33A4811;
+
+    --rule: #19171A18;
+    --rule-soft: #19171A0F;
+
+    --font-display: 'Iowan Old Style', 'Charter', 'GT Sectra', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', 'Geist Mono', monospace;
+
+    --case-twilio: linear-gradient(135deg, #F22F46 0%, #B82334 50%, #6B1F2E 100%);
+    --case-tasktop-hub: linear-gradient(135deg, #2D5A87 0%, #18324A 100%);
+    --case-tasktop-viz: linear-gradient(135deg, #B89668 0%, #5C432B 100%);
+    --case-rackspace: linear-gradient(135deg, #2A2A30 0%, #0E0E12 100%);
+    --case-park: linear-gradient(135deg, #3F6B4A 0%, #1F3A28 100%);
+  }
+
+  .stage {
+    background: #E8E2D5;
+    padding: 32px 0;
+  }
+  .stage-label {
+    text-align: center;
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #2A1F18AA;
+    margin-bottom: 24px;
+  }
+
+  .preview {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--bg-primary);
+    color: var(--ink-primary);
+    box-shadow: 0 24px 60px -20px rgba(20, 14, 8, 0.18), 0 8px 16px -8px rgba(20, 14, 8, 0.12);
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: var(--font-body);
+    line-height: 1.5;
+  }
+
+  /* Top nav */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 22px 56px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .nav-links { display: flex; gap: 28px; font-size: 13px; }
+  .nav-links a { color: var(--ink-primary); text-decoration: none; cursor: pointer; }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* Hero — softer voice */
+  .hero {
+    padding: 80px 56px 60px;
+    max-width: 880px;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-tertiary);
+    margin-bottom: 18px;
+  }
+  .hero-h1 {
+    font-family: var(--font-display);
+    font-size: 46px;
+    line-height: 1.12;
+    letter-spacing: -0.022em;
+    margin: 0 0 22px;
+    font-weight: 500;
+    color: var(--ink-primary);
+    max-width: 18ch;
+  }
+  .hero-sub {
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 580px;
+    color: var(--ink-secondary);
+  }
+  .hero-sub a { color: var(--ink-primary); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+  /* Featured */
+  .featured { padding: 16px 56px 80px; }
+  .featured-cover {
+    aspect-ratio: 16/9;
+    background:
+      radial-gradient(at 30% 20%, rgba(255,255,255,0.18), transparent 50%),
+      var(--case-twilio);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    margin-bottom: 28px;
+  }
+  .featured-cover::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(20,14,18,0.65), transparent 55%);
+  }
+  .featured-cover-content {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 36px 40px; z-index: 2;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .featured-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.85;
+    margin-bottom: 10px;
+  }
+  .featured-title {
+    font-family: var(--font-display);
+    font-size: 38px; line-height: 1.1; letter-spacing: -0.02em;
+    margin: 0; font-weight: 500; max-width: 22ch;
+  }
+  .featured-cta {
+    font-family: var(--font-mono); font-size: 13px;
+    background: rgba(250, 247, 241, 0.95); color: var(--ink-primary);
+    padding: 9px 14px; border-radius: 4px; white-space: nowrap;
+  }
+  .featured-body {
+    display: grid; grid-template-columns: 200px 1fr; gap: 56px; max-width: 1000px;
+  }
+  .featured-side {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--ink-tertiary); line-height: 2;
+  }
+  .featured-side strong { color: var(--ink-primary); font-weight: 500; }
+  .featured-lead {
+    font-size: 18px; line-height: 1.6; color: var(--ink-secondary); max-width: 60ch;
+  }
+  .featured-lead .pull {
+    font-family: var(--font-display); font-style: italic; color: var(--ink-primary);
+  }
+
+  /* Selected work */
+  .selected {
+    padding: 56px 56px 64px;
+    border-top: 1px solid var(--rule);
+    background: var(--bg-secondary);
+  }
+  .selected-header {
+    display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 36px;
+  }
+  .selected-title {
+    font-family: var(--font-display); font-size: 24px; letter-spacing: -0.01em;
+    margin: 0; font-weight: 500;
+  }
+  .selected-count {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--ink-tertiary); text-transform: uppercase; letter-spacing: 0.14em;
+  }
+  .selected-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px 24px; }
+  .case { cursor: pointer; }
+  .case-cover {
+    aspect-ratio: 16/10; border-radius: 5px; margin-bottom: 14px;
+    position: relative; overflow: hidden;
+    transition: transform 0.4s ease;
+  }
+  .case:hover .case-cover { transform: translateY(-2px); }
+  .case.span-2 .case-cover { aspect-ratio: 4/3; }
+  .case-meta {
+    font-family: var(--font-mono); font-size: 10px; color: var(--ink-tertiary);
+    text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 5px;
+  }
+  .case-title {
+    font-family: var(--font-display); font-size: 19px; line-height: 1.25;
+    letter-spacing: -0.01em; color: var(--ink-primary); margin: 0 0 5px; font-weight: 500;
+  }
+  .case-summary {
+    font-size: 13px; line-height: 1.5; color: var(--ink-tertiary); max-width: 50ch;
+  }
+
+  /* Cover variants */
+  .cover-tasktop-hub { background: radial-gradient(at 70% 30%, rgba(255,255,255,0.12), transparent 50%), var(--case-tasktop-hub); }
+  .cover-tasktop-viz { background: radial-gradient(at 30% 80%, rgba(255,255,255,0.14), transparent 55%), var(--case-tasktop-viz); }
+  .cover-rackspace { background: radial-gradient(at 60% 40%, rgba(255,255,255,0.1), transparent 50%), var(--case-rackspace); }
+  .cover-park { background: radial-gradient(at 40% 30%, rgba(255,255,255,0.16), transparent 50%), var(--case-park); }
+
+  /* Writing — real Tasktop blogs */
+  .writing { padding: 64px 56px; }
+  .writing-header {
+    display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 28px;
+  }
+  .writing-title {
+    font-family: var(--font-display); font-size: 24px; letter-spacing: -0.01em;
+    margin: 0; font-weight: 500;
+  }
+  .writing-list { border-top: 1px solid var(--rule); }
+  .writing-row {
+    display: grid; grid-template-columns: 110px 1fr 1fr; gap: 24px;
+    align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--rule-soft);
+    cursor: pointer;
+  }
+  .writing-row:hover .writing-headline { color: var(--accent); }
+  .writing-date {
+    font-family: var(--font-mono); font-size: 11px; color: var(--ink-tertiary);
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .writing-headline {
+    font-family: var(--font-display); font-size: 18px; line-height: 1.25;
+    letter-spacing: -0.01em; color: var(--ink-primary); font-weight: 500;
+    transition: color 0.2s ease;
+  }
+  .writing-excerpt {
+    font-size: 13px; color: var(--ink-tertiary); line-height: 1.5; max-width: 48ch;
+  }
+
+  /* Archive — clickable */
+  .archive {
+    padding: 48px 56px 60px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--rule);
+  }
+  .archive-title {
+    font-family: var(--font-display); font-size: 20px; letter-spacing: -0.005em;
+    margin: 0 0 6px; font-weight: 500;
+  }
+  .archive-sub {
+    font-size: 13px; color: var(--ink-tertiary); margin-bottom: 22px;
+  }
+  .archive-list {
+    display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13px;
+  }
+  .archive-item {
+    display: flex; gap: 8px; align-items: baseline; color: var(--ink-secondary);
+    cursor: pointer; padding: 4px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .archive-item:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .archive-item .y { font-family: var(--font-mono); font-size: 10px; color: var(--ink-quaternary); }
+  .archive-item .arrow {
+    font-family: var(--font-mono); font-size: 11px; color: var(--ink-quaternary);
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .archive-item:hover .arrow { opacity: 1; }
+
+  /* Footer — minimal, matching current site */
+  .footer {
+    padding: 40px 56px;
+    background: var(--bg-inverse);
+    color: #E8DDC8;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-left {
+    display: flex; align-items: baseline; gap: 16px;
+    font-family: var(--font-display); font-size: 14px;
+  }
+  .footer-name { font-weight: 500; }
+  .footer-copy { font-size: 12px; color: #E8DDC899; font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .footer-socials {
+    display: flex; gap: 16px;
+  }
+  .footer-socials a {
+    width: 32px; height: 32px; display: inline-flex;
+    align-items: center; justify-content: center;
+    color: #E8DDC8; text-decoration: none;
+    border-radius: 4px; transition: background 0.2s;
+  }
+  .footer-socials a:hover { background: rgba(232, 221, 200, 0.1); }
+  .footer-socials svg { width: 16px; height: 16px; }
+
+  .annot {
+    max-width: 1200px; margin: 30px auto 0;
+    padding: 20px 24px; background: rgba(255,255,255,0.7);
+    border-radius: 8px; font-size: 13px; color: #2A1F18; line-height: 1.55;
+  }
+  .annot strong { color: #19171A; }
+  .annot ul { margin: 8px 0 0; padding-left: 18px; }
+  .annot li { margin-bottom: 6px; }
+  .annot .change { color: #19171A; }
+  .annot .open { color: #B33A48; }
+  .annot pre {
+    background: rgba(0,0,0,0.04); padding: 8px 12px; border-radius: 4px;
+    font-size: 12px; margin: 6px 0; overflow-x: auto;
+  }
+</style>
+
+<h2 style="text-align:center; margin-bottom: 6px;">Option 3 v2 · Iterated on your feedback</h2>
+<p class="subtitle" style="text-align:center; margin-bottom: 28px;">Softer voice · real Tasktop blogs · clickable archive · minimal footer matching current site · colors tokenized as CSS custom properties</p>
+
+<div class="stage">
+  <div class="stage-label">Desktop preview · 1200 px</div>
+
+  <div class="preview">
+
+    <div class="nav">
+      <div class="nav-name">Zhen Wang</div>
+      <div class="nav-links">
+        <a class="active">Work</a>
+        <a>Writing</a>
+        <a>About</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-eyebrow">Senior Product Designer</div>
+      <h1 class="hero-h1">Hi, I'm Zhen — I design software that's simple and pleasant to use.</h1>
+      <p class="hero-sub">
+        Years on enterprise tools at <a>Twilio</a>, <a>Tasktop</a>, and <a>Rackspace</a>, mostly trying to make complex products feel less like work. Below are four pieces I'd happily walk through in detail.
+      </p>
+    </div>
+
+    <div class="featured">
+      <div class="featured-cover">
+        <div class="featured-cover-content">
+          <div>
+            <div class="featured-meta">Featured · 2024 · Twilio</div>
+            <h2 class="featured-title">Onboarding Twilio's first international tier</h2>
+          </div>
+          <div class="featured-cta">Read the story →</div>
+        </div>
+      </div>
+      <div class="featured-body">
+        <div class="featured-side">
+          <div><strong>Role</strong></div>
+          <div>Senior Product Designer</div>
+          <div style="height:8px"></div>
+          <div><strong>Team</strong></div>
+          <div>3 PMs · 6 engineers</div>
+          <div style="height:8px"></div>
+          <div><strong>Span</strong></div>
+          <div>Jul 2023 — Sep 2024</div>
+          <div style="height:8px"></div>
+          <div><strong>Outcome</strong></div>
+          <div>34% lift in trial→paid</div>
+        </div>
+        <div class="featured-lead">
+          <span class="pull">By the time Singapore launched, the onboarding flow had been redesigned three times.</span> Each version answered a different question — how to handle telecom regulation per region, how to surface hidden carrier costs, and finally, how to stop pretending the US flow was the global default.
+        </div>
+      </div>
+    </div>
+
+    <div class="selected">
+      <div class="selected-header">
+        <h2 class="selected-title">Selected work</h2>
+        <span class="selected-count">04 cases</span>
+      </div>
+
+      <div class="selected-grid">
+
+        <div class="case span-2">
+          <div class="case-cover cover-tasktop-hub"></div>
+          <div class="case-meta">Tasktop · 2022 · Lead Designer</div>
+          <h3 class="case-title">Hub: making integration configuration portable</h3>
+          <p class="case-summary">Cut a 3-week setup ritual to two clicks for the second-largest Fortune 500 customer. Required a domain-language audit and a quiet rewrite of the rule schema.</p>
+        </div>
+
+        <div class="case">
+          <div class="case-cover cover-tasktop-viz"></div>
+          <div class="case-meta">Tasktop · 2021 · Lead Designer</div>
+          <h3 class="case-title">Viz: dashboards engineering directors actually opened</h3>
+          <p class="case-summary">A flow-metrics product designed against the assumption that the people who fund engineering tools never use them.</p>
+        </div>
+
+        <div class="case">
+          <div class="case-cover cover-rackspace"></div>
+          <div class="case-meta">Rackspace · 2018 · Senior Designer</div>
+          <h3 class="case-title">ServiceNow integration for new hires</h3>
+          <p class="case-summary">Onboarding flow that survived three reorgs. The thing reviewers always remember about my Rackspace work.</p>
+        </div>
+
+        <div class="case">
+          <div class="case-cover cover-park"></div>
+          <div class="case-meta">Park Engagement · 2016 · Designer + Researcher</div>
+          <h3 class="case-title">Why park visitors stop coming back</h3>
+          <p class="case-summary">A research-led project for the National Park Service. Findings still cited; the journey map is the artifact people remember.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="writing">
+      <div class="writing-header">
+        <h2 class="writing-title">Writing</h2>
+        <span class="selected-count">on Medium →</span>
+      </div>
+      <div class="writing-list">
+        <div class="writing-row">
+          <span class="writing-date">2018 · Tasktop</span>
+          <div class="writing-headline">Optimizing UX: setting up your own usability testing program in-house</div>
+          <div class="writing-excerpt">How a small company built a sample pool, ran rounds, and turned ad-hoc testing into a habit.</div>
+        </div>
+        <div class="writing-row">
+          <span class="writing-date">2018 · Tasktop</span>
+          <div class="writing-headline">Why you should bring the UX designer closer to product development</div>
+          <div class="writing-excerpt">Notes on changing our process so design landed earlier — and the speed that came with it.</div>
+        </div>
+        <div class="writing-row">
+          <span class="writing-date">2017 · Tasktop</span>
+          <div class="writing-headline">A day in the life of a solo UX designer at a software company</div>
+          <div class="writing-excerpt">The challenges and quiet benefits of being the only designer in the room.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="archive">
+      <div class="archive-title">Earlier work</div>
+      <div class="archive-sub">Academic and exploratory projects. Click through to read; happy to dig in if any are relevant.</div>
+      <div class="archive-list">
+        <div class="archive-item">iLab <span class="y">CMU 2014</span><span class="arrow">→</span></div>
+        <div class="archive-item">Citportal <span class="y">CMU 2013</span><span class="arrow">→</span></div>
+        <div class="archive-item">Pool My Ride <span class="y">UT Austin 2014</span><span class="arrow">→</span></div>
+        <div class="archive-item">TechScene <span class="y">2013</span><span class="arrow">→</span></div>
+        <div class="archive-item">PlotGuru <span class="y">2012</span><span class="arrow">→</span></div>
+        <div class="archive-item">Sketches &amp; visual studies<span class="arrow">→</span></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-left">
+        <span class="footer-name">Zhen Wang</span>
+        <span class="footer-copy">© 2026</span>
+      </div>
+      <div class="footer-socials">
+        <a title="Email">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 4h20v16H2V4zm10 9l8-5V6l-8 5-8-5v2l8 5z"/></svg>
+        </a>
+        <a title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zM8 17H5v-7h3v7zM6.5 8.7a1.7 1.7 0 110-3.4 1.7 1.7 0 010 3.4zM18 17h-3v-3.5c0-.83-.67-1.5-1.5-1.5S12 12.67 12 13.5V17H9v-7h3v1.16c.5-.79 1.6-1.16 2.5-1.16 1.93 0 3.5 1.57 3.5 3.5V17z"/></svg>
+        </a>
+        <a title="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07c-1.28.06-2.15.26-2.91.55a5.88 5.88 0 00-2.13 1.39A5.88 5.88 0 00.62 4.14c-.3.76-.5 1.63-.55 2.91C0 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.28.26 2.15.55 2.91a5.88 5.88 0 001.39 2.13 5.88 5.88 0 002.13 1.39c.76.3 1.63.5 2.91.55C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.28-.06 2.15-.26 2.91-.55a5.88 5.88 0 002.13-1.39 5.88 5.88 0 001.39-2.13c.3-.76.5-1.63.55-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.26-2.15-.55-2.91a5.88 5.88 0 00-1.39-2.13A5.88 5.88 0 0019.86.62c-.76-.3-1.63-.5-2.91-.55C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zm0 10.16a4 4 0 110-8 4 4 0 010 8zm6.41-10.42a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="annot">
+    <strong>What changed in v2:</strong>
+    <ul class="change">
+      <li><strong>Hero.</strong> "Hi, I'm Zhen" softer opener. Voice modeled on your About page ("simple and pleasant to use" echoes your "functional and intuitive to use"). Nav links are inline-clickable.</li>
+      <li><strong>Selected work.</strong> Twilio is Featured-only, no duplication. The IA scales — Tripalink and UnitPulse can drop in as either Featured (rotating spotlight) or top-of-Selected when they land.</li>
+      <li><strong>Writing.</strong> Three real Tasktop Medium blogs you wrote. Linked out (no need to host them). Dates approximate — verify and I'll set them right.</li>
+      <li><strong>Archive.</strong> Hover state added — colored accent + underline + arrow on hover, so it's obviously clickable.</li>
+      <li><strong>Footer.</strong> Stripped to your current site's structure: name + copyright on left, three socials on right (email, LinkedIn, Instagram). No quote, no extra columns.</li>
+      <li><strong>Color tokens.</strong> All colors live as CSS custom properties at the top. Swapping themes is one block of declarations:</li>
+    </ul>
+    <pre>--bg-primary, --bg-secondary, --bg-inverse
+--ink-primary, --ink-secondary, --ink-tertiary, --ink-quaternary
+--accent, --accent-soft
+--rule, --rule-soft
+--font-display, --font-body, --font-mono
+--case-{name} (per-case cover gradients)</pre>
+    <strong class="open">Still open:</strong>
+    <ul>
+      <li><strong>Hero copy alternatives.</strong> Two more soft drafts if the current one isn't quite right:
+        <br>· "I'm Zhen, a senior product designer who likes making complex software feel a little simpler."
+        <br>· "A senior product designer interested in making complex software feel calm and useful. Years across Twilio, Tasktop, and Rackspace."
+      </li>
+      <li><strong>Color palette.</strong> Swatch comparison incoming on a separate screen — pick one and we lock the tokens.</li>
+      <li><strong>Tagline.</strong> Should the hero include a current location ("San Francisco" / "Bay Area") or stay city-less? Personal preference.</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

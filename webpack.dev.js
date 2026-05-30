@@ -8,9 +8,9 @@ module.exports = merge(common, {
     static: {
       directory: "./dist",
     },
-    port: 3000,
+    port: process.env.PORT || 3000,
     hot: true,
-    open: true,
+    open: false,
     historyApiFallback: true,
   },
   module: {

@@ -1,0 +1,1770 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Revamp — Mockup</title>
+<style>
+  body { margin: 0; background: #E8E2D5; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+  .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 32px 24px; box-sizing: border-box; }
+  .subtitle { text-align: center; color: #6b6256; font-size: 14px; line-height: 1.5; }
+  h2 { text-align: center; font-family: Georgia, 'Iowan Old Style', serif; }
+</style>
+<script>function toggleSelect(el){ if(el && el.classList) el.classList.toggle('selected'); }</script>
+</head>
+<body>
+<div class="container">
+<style>
+  .container { max-width: none !important; padding: 0 !important; }
+  .selection-indicator { display: none !important; }
+
+  .preview {
+    --bg-primary: #FAF5E8;
+    --bg-secondary: #F1E9D5;
+    --bg-inverse: #181210;
+    --ink-primary: #1A1410;
+    --ink-secondary: #1A1410CC;
+    --ink-tertiary: #1A141088;
+    --ink-quaternary: #1A141055;
+    --accent: #C8442E;
+    --accent-soft: #C8442E14;
+    --rule: #1A141018;
+    --rule-soft: #1A14100E;
+    --font-display: 'Iowan Old Style', 'Charter', 'GT Sectra', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', 'Geist Mono', monospace;
+    --case-twilio: linear-gradient(135deg, #F22F46 0%, #B82334 50%, #6B1F2E 100%);
+
+    max-width: 1280px;
+    margin: 0 auto;
+    background: var(--bg-primary);
+    color: var(--ink-primary);
+    box-shadow: 0 24px 60px -20px rgba(20, 14, 8, 0.18);
+    border-radius: 8px;
+    /* clip-path replaces overflow:hidden so sticky positioning still works on descendants
+       (the TOC); rounded corners and showcase ::before clipping are both preserved. */
+    clip-path: inset(0 round 8px);
+    font-family: var(--font-body);
+    line-height: 1.5;
+  }
+
+  .stage { background: #DDD3C2; padding: 32px 0; }
+  .stage-label {
+    text-align: center;
+    font-family: ui-monospace, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #2A1F18AA;
+    margin-bottom: 24px;
+  }
+
+  .nav {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 22px 56px; border-bottom: 1px solid var(--rule);
+  }
+  .nav-name { font-family: var(--font-display); font-size: 18px; font-weight: 500; }
+  .nav-links { display: flex; gap: 28px; font-size: 13px; }
+  .nav-links a { color: var(--ink-primary); text-decoration: none; cursor: pointer; }
+
+  /* Article inner column — back, hero, body-wrap, next-case all align to this 984 px centered width */
+  .back {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 28px 0 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+  }
+
+  .hero {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 36px 0 0;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 18px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: 56px;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 0 22px;
+    font-weight: 500;
+    max-width: 18ch;
+  }
+  .hero-deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 21px;
+    line-height: 1.4;
+    color: var(--ink-secondary);
+    max-width: 50ch;
+    margin: 0 0 36px;
+  }
+  .cover {
+    aspect-ratio: 16/8;
+    background: radial-gradient(at 25% 25%, rgba(255,255,255,0.18), transparent 50%), var(--case-twilio);
+    border-radius: 6px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::after {
+    content: 'cover image · onboarding flow composition';
+    position: absolute; inset: auto 0 0 0;
+    text-align: center;
+    color: rgba(255,255,255,0.5);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    padding-bottom: 16px;
+  }
+  .meta-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    padding: 22px 0 32px;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .meta-strip .label { color: var(--ink-tertiary); text-transform: uppercase; letter-spacing: 0.14em; font-size: 10px; margin-bottom: 6px; }
+  .meta-strip .value { color: var(--ink-primary); line-height: 1.5; }
+
+  /* Body + TOC as a centered flex unit. Source order: TOC first (a11y); visual order: body left, TOC right via `order`. Body+gap+TOC reads as one centered article block — no orphaned whitespace inside the body column. */
+  /* Body column widened from 760 → 880 for larger image space; total body-wrap goes 984 → 1080. */
+  .body-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 56px;
+    padding: 0 0 56px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .body-wrap > .body { order: 1; flex: 0 1 880px; min-width: 0; }
+  .body-wrap > .toc  { order: 2; flex: 0 0 144px; }
+
+  .toc {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    padding-top: 64px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    transition: opacity 0.3s ease, visibility 0.3s;
+  }
+  .toc.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* === Global a11y polish ===
+     Visible focus rings on every interactive element; honor prefers-reduced-motion. */
+  a:focus-visible,
+  button:focus-visible,
+  .case:focus-visible,
+  .archive-item:focus-visible,
+  .critique-thumb:focus-visible,
+  .image-showcase .figure-image:focus-visible,
+  .image-showcase .phase-image:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .body-text strong, .highlight {
+      /* Show the marker at full height by default — no hover animation needed. */
+      background-size: 100% 88%;
+    }
+  }
+  /* Border-left lives on the list itself so it matches the height of the items only,
+     not the padding-top above. Looks cleaner once "Sections" label is removed. */
+  .toc-list {
+    list-style: none;
+    padding: 0 0 0 18px;
+    margin: 0;
+    border-left: 1px solid var(--rule);
+  }
+  /* TOC items are real <button>s for keyboard a11y. Reset native button styles
+     so they look like inline navigation, but keep focus-visible ring. */
+  .toc-list li { list-style: none; }
+  .toc-item {
+    display: flex; align-items: baseline; gap: 8px;
+    padding: 5px 6px 5px 0;
+    margin: 0;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: var(--ink-tertiary);
+    line-height: 1.35;
+    transition: color 0.2s;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    width: 100%;
+    border-radius: 3px;
+  }
+  .toc-item:hover { color: var(--ink-primary); }
+  .toc-item:focus { outline: none; }
+  .toc-item:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .toc-item .num {
+    font-size: 9px;
+    color: var(--ink-quaternary);
+    flex-shrink: 0;
+    width: 14px;
+    letter-spacing: 0.08em;
+  }
+  .toc-item[aria-current="location"],
+  .toc-item.active {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .toc-item[aria-current="location"] .num,
+  .toc-item.active .num { color: var(--accent); }
+
+  .body {
+    max-width: 760px;
+    min-width: 0;
+  }
+  .body section { scroll-margin-top: 80px; }
+
+  /* Lede: fills body column, slightly larger than body-text for emphasis */
+  .lede {
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--ink-primary);
+    max-width: none;
+    margin: 56px 0 0;
+    padding: 0;
+  }
+  /* Body text: fills the body column for unified left+right edges. Column itself (~760px ≈ 65ch at this font) sets readability. */
+  .body-text {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-secondary);
+    max-width: none;
+    margin: 22px 0;
+  }
+  /* Highlighted phrases — animated marker. Default state: thin amber underline.
+     On hover: fills upward to a marker-style highlight. Mirrors the WorkHighlight
+     interaction from your existing site (background-size animation, hover trigger). */
+  .body-text strong,
+  .highlight {
+    color: var(--ink-primary);
+    font-weight: 500;
+    background-image: linear-gradient(rgba(245, 200, 100, 0.7) 0%, rgba(245, 200, 100, 0.7) 100%);
+    background-size: 100% 3px;
+    background-position: 0 calc(100% - 1px);
+    background-repeat: no-repeat;
+    padding: 0 2px;
+    transition: background-size 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .body-text strong:hover,
+  .highlight:hover {
+    background-size: 100% 88%;
+  }
+
+  .section-h {
+    font-family: var(--font-display);
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.018em;
+    color: var(--ink-primary);
+    margin: 80px 0 24px;
+    font-weight: 500;
+    max-width: 22ch;
+  }
+  .section-h::before {
+    content: '';
+    display: block;
+    width: 28px; height: 2px;
+    background: var(--accent);
+    margin-bottom: 20px;
+  }
+  .section-h + .section-deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-tertiary);
+    margin-top: -16px;
+    margin-bottom: 28px;
+    max-width: 50ch;
+  }
+
+  /* Three-card row — editorial block, no chrome */
+  .card-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin: 36px 0;
+    padding: 28px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .pain-card {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    border: none;
+  }
+  .pain-card .num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .pain-card h4 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    margin: 0 0 8px;
+    font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .pain-card p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+
+  /* Competitor row with logos */
+  .competitors {
+    margin: 36px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .competitor {
+    display: grid;
+    grid-template-columns: 110px 1fr 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  .competitor .competitor-logo { margin-top: 2px; }
+  .competitor:last-child { border-bottom: none; }
+  .competitor-logo {
+    height: 32px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--ink-secondary);
+    font-size: 14px;
+    letter-spacing: -0.01em;
+  }
+  .competitor-good {
+    font-size: 14px; line-height: 1.55; color: var(--ink-primary);
+  }
+  .competitor-good .label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .competitor-gap {
+    font-size: 14px; line-height: 1.55; color: var(--ink-secondary);
+  }
+  .competitor-gap .label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  /* Research stats */
+  .research-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin: 32px 0 24px;
+    padding: 24px 28px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+  }
+  .research-stats .num {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .research-stats .lab {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 4px;
+  }
+  .research-stats .desc {
+    font-size: 12px;
+    color: var(--ink-secondary);
+    line-height: 1.5;
+  }
+  .research-stats .desc .item {
+    display: block;
+    padding-left: 12px;
+    position: relative;
+    margin-bottom: 5px;
+  }
+  .research-stats .desc .item:last-child { margin-bottom: 0; }
+  .research-stats .desc .item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 5px;
+    height: 1px;
+    background: var(--ink-quaternary);
+  }
+
+  /* 7 ideas → 2 visual list */
+  .ideas-list {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0 36px;
+    border-top: 1px solid var(--rule);
+  }
+  .ideas-list li {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 18px;
+    align-items: baseline;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    font-size: 15px;
+    color: var(--ink-secondary);
+    line-height: 1.4;
+  }
+  .ideas-list .num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    letter-spacing: 0.14em;
+    text-align: right;
+  }
+  .ideas-list .body { line-height: 1.45; }
+  .ideas-list .badge { font-size: 0; }
+  .ideas-list li.selected { color: var(--ink-primary); font-weight: 500; }
+  .ideas-list li.selected .num { color: var(--accent); }
+  .ideas-list li.selected .badge {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 4px 9px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  /* Quote cards (research findings) */
+  .quote-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 28px 0;
+  }
+  .quote-card {
+    padding: 20px 22px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--bg-primary);
+  }
+  .quote-card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+  }
+  .quote-card h4 {
+    font-family: var(--font-display);
+    font-size: 15px;
+    margin: 0 0 12px;
+    font-weight: 500;
+    color: var(--ink-primary);
+    line-height: 1.3;
+  }
+  .quote-card .q {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+  .quote-card .q::before { content: '"'; }
+  .quote-card .q::after { content: '"'; }
+
+  /* Pull quote — left accent border (you liked this one). Pull quotes are typographic, not card chrome, so the accent rail reads as editorial pull. */
+  .pullquote {
+    margin: 64px 0;
+    max-width: 38ch;
+    padding-left: 28px;
+    border-left: 2px solid var(--accent);
+  }
+  .pullquote p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.3;
+    color: var(--ink-primary);
+    margin: 0 0 14px;
+    letter-spacing: -0.012em;
+  }
+  .pullquote cite {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  /* Figure */
+  .figure { margin: 48px 0; }
+  .figure-image {
+    background: var(--bg-secondary);
+    aspect-ratio: 16/9;
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-tertiary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 12px;
+  }
+  .figure-image.full { aspect-ratio: 21/9; }
+  .figure-caption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    line-height: 1.6;
+  }
+
+  /* Image showcase — full-bleed band with subtle dotted grid background.
+     Applied to actual design artifacts (user flow, phase mockups). The image
+     content sits at body-column width, left-aligned with all other text,
+     while the dotted-grid background extends to viewport edges. */
+  .image-showcase {
+    position: relative;
+    margin: 32px 0 16px;
+    padding: 48px 0;
+  }
+  .image-showcase::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background-color: var(--bg-secondary);
+    background-image: radial-gradient(circle, rgba(26, 20, 16, 0.10) 1px, transparent 1.5px);
+    background-size: 28px 28px;
+    z-index: 0;
+  }
+  .image-showcase > * { position: relative; z-index: 1; }
+  .image-showcase .figure-image,
+  .image-showcase .phase-image,
+  .image-showcase .showcase-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--bg-primary);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-quaternary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    cursor: zoom-in;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+  .image-showcase .figure-image:hover,
+  .image-showcase .phase-image:hover,
+  .image-showcase .showcase-image:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px -12px rgba(20, 14, 8, 0.18);
+  }
+  .image-showcase .figure-image::after,
+  .image-showcase .phase-image::after,
+  .image-showcase .showcase-image::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 30px; height: 30px;
+    background: rgba(26, 20, 16, 0.78);
+    color: #FAF5E8;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .image-showcase .figure-image:hover::after,
+  .image-showcase .phase-image:hover::after,
+  .image-showcase .showcase-image:hover::after {
+    opacity: 1;
+  }
+  .image-showcase .figure-image.full {
+    aspect-ratio: 21/9;
+  }
+
+  /* Critique block — two critiques stacked vertically. Each row: text on left, image on right. */
+  .critique-intro {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
+    margin: 24px 0 32px;
+    max-width: 50ch;
+  }
+  .critiques {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    margin: 0 0 48px;
+  }
+  .critique {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 36px;
+    align-items: start;
+  }
+  .critique > div:first-child .critique-label {
+    display: block;
+    margin-bottom: 12px;
+  }
+  .critique > div:first-child h4 {
+    margin: 0 0 16px;
+  }
+  .critique > div:first-child .critique-fix {
+    margin: 0;
+  }
+  .critique-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .critique h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    line-height: 1.25;
+    margin: 0;
+    font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .critique-fix {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+  .critique-fix strong { color: var(--ink-primary); font-weight: 500; }
+  .critique-thumb {
+    aspect-ratio: 4/3;
+    background: var(--bg-primary);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-quaternary);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    cursor: zoom-in;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .critique-thumb:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px -10px rgba(20, 14, 8, 0.16);
+  }
+  .critique-thumb::after {
+    content: '⤢';
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 28px; height: 28px;
+    background: rgba(26, 20, 16, 0.78);
+    color: #FAF5E8;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .critique-thumb:hover::after { opacity: 1; }
+
+  /* Findings + recommendations dual list */
+  .dual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 32px 0;
+  }
+  .dual-col h4 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    margin: 0 0 16px;
+    font-weight: 500;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .dual-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .dual-item:last-child { border-bottom: none; }
+  .dual-item .head {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .dual-item .det {
+    font-size: 12px; line-height: 1.5;
+    color: var(--ink-secondary);
+  }
+
+  /* Phase blocks — text only (number + content). Phase image lives in a sibling
+     .image-showcase block below, breaking out to full-width with grid background.
+     Each phase + its image read as one unit; no dividers between text and image. */
+  .phases {
+    margin: 28px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .phase {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    column-gap: 24px;
+    padding: 48px 0 0;
+    align-items: start;
+  }
+  .phase + .image-showcase {
+    margin-top: 28px;
+    margin-bottom: 0;
+  }
+  /* Visual separator between phases — comes after the image-showcase, before the next phase */
+  .image-showcase + .phase {
+    margin-top: 56px;
+  }
+  .phase-num {
+    font-family: var(--font-display);
+    font-size: 56px; font-weight: 500;
+    color: var(--accent); line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .phase-num-small {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--ink-tertiary);
+    text-transform: uppercase; letter-spacing: 0.16em;
+    margin-bottom: 6px;
+  }
+  .phase-title {
+    font-family: var(--font-display);
+    font-size: 22px; margin: 0 0 10px;
+    font-weight: 500; line-height: 1.2;
+  }
+  .phase-text {
+    font-size: 15px; line-height: 1.6;
+    color: var(--ink-secondary); margin: 0 0 14px;
+    max-width: 56ch;
+  }
+  /* Phase meta as a 2-column grid: mono labels left, body values right, vertically aligned across rows */
+  .phase-meta {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    column-gap: 16px;
+    row-gap: 8px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .phase-meta dt {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding-top: 3px;
+  }
+  .phase-meta dd {
+    margin: 0;
+    color: var(--ink-secondary);
+  }
+  /* .phase-image styling moved up into .image-showcase nested rules above. */
+
+  /* Outcome — big number + text on top, full-width image below for visual weight */
+  .outcome {
+    margin: 80px 0 64px;
+    padding: 56px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 48px 56px;
+    align-items: center;
+  }
+  .outcome-image {
+    grid-column: 1 / -1;
+    margin-top: 24px;
+    width: 100%;
+    aspect-ratio: 21/9;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-quaternary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .outcome-num {
+    font-family: var(--font-display);
+    font-size: 140px;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .outcome-text h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    margin: 0 0 12px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  .outcome-text p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+
+  /* Reflection */
+  .reflection {
+    margin: 64px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .reflection-card .label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 10px;
+  }
+  .reflection-card h4 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  .reflection-card p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+
+  .next-case {
+    margin: 64px 0 0;
+    padding: 48px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .next-case .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 14px;
+  }
+  .next-case h3 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    margin: 0 0 8px;
+    font-weight: 500;
+    line-height: 1.15;
+    cursor: pointer;
+  }
+  .next-case .arrow { color: var(--accent); margin-left: 6px; }
+  .next-case .deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-tertiary);
+    margin: 0;
+  }
+
+  .footer {
+    padding: 36px 56px;
+    background: var(--bg-inverse);
+    color: #E8DDC8;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-name { font-family: var(--font-display); font-size: 14px; font-weight: 500; }
+  .footer-copy { font-size: 12px; color: #E8DDC899; font-family: var(--font-mono); letter-spacing: 0.04em; margin-left: 12px; }
+  .footer-socials { display: flex; gap: 8px; opacity: 0.7; font-family: var(--font-mono); font-size: 11px; }
+
+  .annot {
+    max-width: 1280px; margin: 30px auto 0;
+    padding: 24px 28px; background: rgba(255,255,255,0.7);
+    border-radius: 8px; font-size: 13px; color: #2A1F18; line-height: 1.6;
+  }
+  .annot strong { color: #19171A; }
+  .annot ul { margin: 8px 0 0; padding-left: 18px; }
+  .annot li { margin-bottom: 6px; }
+  .annot h4 {
+    margin: 16px 0 6px; font-family: 'Iowan Old Style', Georgia, serif;
+    font-size: 15px; font-weight: 500; color: #1A1410;
+  }
+  .annot h4:first-child { margin-top: 0; }
+</style>
+
+<h2 style="text-align:center; margin-bottom: 6px;">Case study v4 · cleaned card chrome + right-side TOC</h2>
+<p class="subtitle" style="text-align:center; margin-bottom: 18px;">No more single-side accent borders · TOC moved to right (narrower 160 px) · top-of-page comparison shows both navigator options.</p>
+
+<style>
+  .nav-compare {
+    max-width: 1280px; margin: 0 auto 28px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    padding: 0 16px;
+  }
+  .mini {
+    background: #FAF5E8; color: #1A1410;
+    border-radius: 8px; overflow: hidden;
+    box-shadow: 0 12px 28px -10px rgba(20,14,8,0.16);
+    cursor: pointer; border: 2px solid transparent;
+    transition: transform 0.2s;
+  }
+  .mini:hover { transform: translateY(-2px); }
+  .mini.selected { border-color: #C8442E; }
+  .mini-label {
+    text-align: center;
+    font-family: ui-monospace, monospace;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.16em; color: #2A1F18AA;
+    padding: 10px 0;
+    background: #DDD3C2;
+  }
+  .mini-letter {
+    display: inline-block;
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    color: #C8442E;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    background: #C8442E11;
+    padding: 3px 7px; border-radius: 3px;
+    margin-right: 8px;
+  }
+  .mini-nav {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 12px 18px; border-bottom: 1px solid #1A141018;
+    font-size: 10px;
+  }
+  .mini-nav .name { font-family: 'Iowan Old Style', Georgia, serif; font-size: 12px; font-weight: 500; }
+  .mini-nav .links { font-family: 'Inter', sans-serif; font-size: 9px; opacity: 0.66; }
+  .mini-progress {
+    height: 2px; background: #1A141014;
+    position: relative;
+  }
+  .mini-progress::before {
+    content: ''; position: absolute; left: 0; top: 0;
+    width: 38%; height: 100%;
+    background: #C8442E;
+  }
+  .mini-section-tag {
+    padding: 6px 18px;
+    font-family: ui-monospace, monospace;
+    font-size: 10px; color: #C8442E;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    border-bottom: 1px solid #1A141014;
+    background: #1A14100A;
+  }
+  .mini-body {
+    display: grid;
+    gap: 16px; padding: 18px 20px;
+  }
+  .mini-r { grid-template-columns: 1fr 80px; }
+  .mini-r-toc {
+    border-left: 1px solid #1A141018;
+    padding-left: 12px;
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    line-height: 1.7;
+  }
+  .mini-r-toc .item { color: #1A141077; }
+  .mini-r-toc .item.active { color: #C8442E; font-weight: 500; }
+  .mini-content h3 {
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-size: 18px; line-height: 1.18;
+    margin: 0 0 8px; font-weight: 500;
+  }
+  .mini-content p {
+    font-size: 11px; line-height: 1.55;
+    color: #1A1410AA; margin: 0 0 6px;
+  }
+  .mini-meta {
+    margin-top: 22px;
+    font-size: 11px; color: #1A1410CC;
+    line-height: 1.55;
+    background: rgba(255,255,255,0.7);
+    padding: 10px 14px;
+    border-radius: 0 0 8px 8px;
+    border-top: 1px solid #1A141014;
+  }
+  .mini-meta strong { color: #1A1410; }
+</style>
+
+<div class="nav-compare">
+
+  <div class="mini selected" data-choice="side-toc" onclick="toggleSelect(this)">
+    <div class="mini-label">Option A · Right-side sticky TOC (in v4 below)</div>
+    <div class="mini-nav">
+      <span class="name">Zhen Wang</span>
+      <span class="links">Work · Writing · About</span>
+    </div>
+    <div class="mini-body mini-r">
+      <div class="mini-content">
+        <h3>Three reasons regional adoption stalled</h3>
+        <p>Before designing anything, I went back through 14 months of customer support tickets, sales conversations, and product analytics.</p>
+        <p>Three patterns kept showing up.</p>
+      </div>
+      <div class="mini-r-toc">
+        <div class="item">01 The problem</div>
+        <div class="item active">02 Looking around</div>
+        <div class="item">03 Customers</div>
+        <div class="item">04 Seven→two</div>
+        <div class="item">05 Validating</div>
+        <div class="item">06 Phased</div>
+        <div class="item">07 Outcome</div>
+        <div class="item">08 Learned</div>
+      </div>
+    </div>
+    <div class="mini-meta">
+      <span class="mini-letter">A</span><strong>Visible nav · jumpable</strong> · 160 px sidebar pinned right · scrolls with you · hides under 1024 px → "On this page" pill
+    </div>
+  </div>
+
+  <div class="mini" data-choice="progress-bar" onclick="toggleSelect(this)">
+    <div class="mini-label">Option B · Top progress bar + section tag</div>
+    <div class="mini-nav">
+      <span class="name">Zhen Wang</span>
+      <span class="links">Work · Writing · About</span>
+    </div>
+    <div class="mini-progress"></div>
+    <div class="mini-section-tag">02 / 08 — Looking around</div>
+    <div class="mini-body" style="grid-template-columns: 1fr;">
+      <div class="mini-content">
+        <h3>Three reasons regional adoption stalled</h3>
+        <p>Before designing anything, I went back through 14 months of customer support tickets, sales conversations, and product analytics.</p>
+        <p>Three patterns kept showing up. Each had a different fix, but all three had to be addressed for regional adoption to start moving.</p>
+        <p>Full content width — no sidebar to crowd the body column on smaller screens.</p>
+      </div>
+    </div>
+    <div class="mini-meta">
+      <span class="mini-letter">B</span><strong>No sidebar · full body width</strong> · 2-px accent bar fills with scroll · section tag updates as you cross sections · doesn't jump but reveals position
+    </div>
+  </div>
+
+</div>
+
+<div class="stage">
+  <div class="stage-label">Twilio Onboarding case · Desktop · 1280 px</div>
+
+  <div class="preview">
+
+    <div class="nav">
+      <div class="nav-name">Zhen Wang</div>
+      <div class="nav-links">
+        <a>Work</a><a>Writing</a><a>About</a>
+      </div>
+    </div>
+
+    <div class="back">← All work</div>
+
+    <div class="hero">
+      <div class="hero-eyebrow">Twilio · 2024 · Senior Product Designer</div>
+      <h1 class="hero-title">Onboarding Twilio's first international tier</h1>
+      <p class="hero-deck">How a US-only developer platform learned to feel global, in three deliberate phases.</p>
+      <div class="cover"></div>
+      <div class="meta-strip">
+        <div><div class="label">Role</div><div class="value">Senior Product Designer<br>Lead designer on Regional Onboarding</div></div>
+        <div><div class="label">Team</div><div class="value">Cross-functional with Growth, Console, and Phone Number teams</div></div>
+        <div><div class="label">Span</div><div class="value">~3.5 months</div></div>
+        <div><div class="label">Outcome</div><div class="value">+179% impressions on regional Buy-a-Number page, 3 months after Phase 1</div></div>
+      </div>
+    </div>
+
+    <div class="body-wrap">
+
+      <aside class="toc" aria-label="Case study sections">
+        <ul class="toc-list">
+          <li><button type="button" class="toc-item" data-target="s01"><span class="num">01</span>The problem</button></li>
+          <li><button type="button" class="toc-item" data-target="s02"><span class="num">02</span>Looking around</button></li>
+          <li><button type="button" class="toc-item" data-target="s03"><span class="num">03</span>Seven → two</button></li>
+          <li><button type="button" class="toc-item" data-target="s04"><span class="num">04</span>Validating</button></li>
+          <li><button type="button" class="toc-item" data-target="s05"><span class="num">05</span>A phased approach</button></li>
+          <li><button type="button" class="toc-item" data-target="s06"><span class="num">06</span>The outcome</button></li>
+          <li><button type="button" class="toc-item" data-target="s07"><span class="num">07</span>What I learned</button></li>
+        </ul>
+      </aside>
+
+      <div class="body">
+
+        <section id="s01">
+          <p class="lede">
+            Most US-based developer tools feel global until you launch in Singapore. Twilio Regions had been live for two years; almost nobody outside the US was using it.
+          </p>
+
+          <p class="body-text">
+            Twilio Regions lets customers deploy apps in specific geographic regions. Solves data sovereignty, performance, disaster recovery — the whole basket. But customers either didn't know it existed or built in US1 anyway, even when their users were in Sydney. The product was technically capable. The onboarding wasn't.
+          </p>
+
+          <h2 class="section-h">Three reasons regional adoption stalled</h2>
+          <p class="body-text">
+            Before designing anything, I went back through customer support tickets, sales conversations, and product analytics. Three patterns kept showing up.
+          </p>
+
+          <div class="card-row">
+            <div class="pain-card">
+              <div class="num">01</div>
+              <h4>Lack of visibility</h4>
+              <p>A new feature. Many users didn't know the regions existed or what they were good for.</p>
+            </div>
+            <div class="pain-card">
+              <div class="num">02</div>
+              <h4>Limited use cases</h4>
+              <p>Customers had to evaluate whether their use case justified Regions, but not all features were available outside US1.</p>
+            </div>
+            <div class="pain-card">
+              <div class="num">03</div>
+              <h4>Technical complexity</h4>
+              <p>Setting it up required re-routing application traffic. Most customers gave up before the first config.</p>
+            </div>
+          </div>
+
+          <div class="figure">
+            <div class="figure-image">jtbd.png · job-to-be-done framing</div>
+            <div class="figure-caption">
+              The job, in customer language: "As a Twilio customer building for non-US users, I want to know that different regions exist, so I can decide whether building in a non-US region makes sense for my application."
+            </div>
+          </div>
+        </section>
+
+        <section id="s02">
+          <h2 class="section-h">Looking around</h2>
+          <p class="section-deck">How three direct-comparison platforms handle the same onboarding moment.</p>
+          <p class="body-text">
+            Before sketching anything, I wanted to know how other developer platforms surface regional or data-residency choices in onboarding. Short version: they mostly don't. Each came close in different ways.
+          </p>
+
+          <div class="competitors">
+            <div class="competitor">
+              <div class="competitor-logo" style="color:#43A047;">Plivo</div>
+              <div class="competitor-good">
+                <span class="label">Strength</span>
+                Guided onboarding tour walks users through their first build. Calm pace, redact option to anonymize sample data.
+              </div>
+              <div class="competitor-gap">
+                <span class="label">Gap</span>
+                The tour is product-only — no region or data-residency framing anywhere in the flow.
+              </div>
+            </div>
+            <div class="competitor">
+              <div class="competitor-logo" style="color:#888;">Vonage</div>
+              <div class="competitor-good">
+                <span class="label">Strength</span>
+                Filters guides to only the products you've selected. Links into clear data-handling docs.
+              </div>
+              <div class="competitor-gap">
+                <span class="label">Gap</span>
+                Region is implied by phone number country, never directly chosen by the user.
+              </div>
+            </div>
+            <div class="competitor">
+              <div class="competitor-logo" style="color:#4285F4;">Google Cloud</div>
+              <div class="competitor-good">
+                <span class="label">Strength</span>
+                Side-panel tutorial guides region setup explicitly. Makes the choice visible and explained.
+              </div>
+              <div class="competitor-gap">
+                <span class="label">Gap</span>
+                Region selection is permanent — no easy way back. High friction for "just exploring" users.
+              </div>
+            </div>
+          </div>
+
+          <p class="body-text">
+            <strong>None of the three surfaced data-residency choices in the early onboarding moments.</strong>
+          </p>
+        </section>
+
+        <section id="s03">
+          <h2 class="section-h">7 ideas, narrowed to 2</h2>
+
+          <p class="body-text">
+            I mapped the existing onboarding flow and brainstormed 7 places to introduce Regions:
+          </p>
+
+          <ul class="ideas-list">
+            <li><span class="num">01</span><span class="body">Choose region when naming account</span><span class="badge"></span></li>
+            <li><span class="num">02</span><span class="body">Choose region in Ahoy questions</span><span class="badge"></span></li>
+            <li class="selected"><span class="num">03</span><span class="body">One-pager for region selection between Ahoy and Dashboard</span><span class="badge">Tested</span></li>
+            <li><span class="num">04</span><span class="body">Region selection modal first time in Console</span><span class="badge"></span></li>
+            <li><span class="num">05</span><span class="body">Appcue tour in Console</span><span class="badge"></span></li>
+            <li><span class="num">06</span><span class="body">Confirm region when buying a phone number</span><span class="badge"></span></li>
+            <li class="selected"><span class="num">07</span><span class="body">Confirm region when saving phone number configuration</span><span class="badge">Tested</span></li>
+          </ul>
+
+          <p class="body-text">
+            After a RAPID review with Global, Growth, Console, and Phone Number teams, we agreed to test 2 — options 03 and 07. The rest got documented and parked.
+          </p>
+
+          <div class="image-showcase">
+            <div class="figure-image full">flows.png · seven options mapped onto the onboarding flow</div>
+          </div>
+          <div class="figure-caption" style="margin-top: -8px; margin-bottom: 32px;">User flow with seven possible insertion points — we proceeded with options 3 and 7 after RAPID review.</div>
+
+          <h3 class="section-h" style="font-size: 24px; margin-top: 64px;">Surviving design critique</h3>
+          <p class="critique-intro">
+            Two critiques landed on similar themes — copy was making benefits feel optional, and modals were carrying too many things at once.
+          </p>
+
+          <div class="critiques">
+            <div class="critique">
+              <div>
+                <div class="critique-label">Critique 01 · One-pager region selection</div>
+                <h4>"Default Region" implied billing or language, not data residency</h4>
+                <p class="critique-fix">
+                  <strong>Change:</strong> Re-titled the screen "Choose default region," added a region-specific popover explaining product support, and rewrote the copy so the limited-product caveat for non-US1 read as one direct sentence.
+                </p>
+              </div>
+              <div class="critique-thumb">design_critique1.png · click to enlarge</div>
+            </div>
+            <div class="critique">
+              <div>
+                <div class="critique-label">Critique 02 · Post-config optimization modal</div>
+                <h4>Informative modal felt overwhelming, doing too many jobs</h4>
+                <p class="critique-fix">
+                  <strong>Change:</strong> Removed the default-region setting from the modal (the concept itself was confusing), added a numbered title for relevance, explained why the modal was appearing, and consolidated the two confusing buttons into one per region selection.
+                </p>
+              </div>
+              <div class="critique-thumb">design_critique2.png · click to enlarge</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="s04">
+          <h2 class="section-h">Validating with usability testing</h2>
+
+          <div class="research-stats" style="grid-template-columns: 1fr 1fr; max-width: 720px;">
+            <div>
+              <div class="num">10</div>
+              <div class="lab">Participants</div>
+              <div class="desc">
+                <span class="item">4 current international Twilio customers</span>
+                <span class="item">6 international non-customers</span>
+              </div>
+            </div>
+            <div>
+              <div class="num">2</div>
+              <div class="lab">Objectives</div>
+              <div class="desc">
+                <span class="item">Evaluate regional onboarding and configuration concepts</span>
+                <span class="item">Determine what features would make Default Region useful for customers</span>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="font-family: var(--font-display); font-size: 20px; margin: 36px 0 20px; font-weight: 500;">Key findings</h3>
+          <div class="quote-row">
+            <div class="quote-card">
+              <div class="quote-card-label">Finding 01</div>
+              <h4>Complex onboarding</h4>
+              <p class="q">Choosing new regions might be complicated — I don't even know if someone needs to choose a default location.</p>
+            </div>
+            <div class="quote-card">
+              <div class="quote-card-label">Finding 02</div>
+              <h4>"Default Region" misleading</h4>
+              <p class="q">Setting the Default Region will impact the language [display] and billing — what currency I'm billed in.</p>
+            </div>
+            <div class="quote-card">
+              <div class="quote-card-label">Finding 03</div>
+              <h4>Confusing routing concept</h4>
+              <p class="q">Do I need to have the same setup in the US and Australia?</p>
+            </div>
+          </div>
+
+          <h3 style="font-family: var(--font-display); font-size: 20px; margin: 40px 0 20px; font-weight: 500;">Recommendations</h3>
+          <div class="card-row">
+            <div class="pain-card">
+              <div class="num">01</div>
+              <h4>Further research</h4>
+              <p>Partner with Growth and CX to continue research into the customer's experience between the Evaluate and Acquire phases.</p>
+            </div>
+            <div class="pain-card">
+              <div class="num">02</div>
+              <h4>Re-evaluate Default Region</h4>
+              <p>Consider removing Default Region concept from the Console and its functionalities.</p>
+            </div>
+            <div class="pain-card">
+              <div class="num">03</div>
+              <h4>Phased approach</h4>
+              <p>Phase Regions into the Console and evaluate customer response at each stage of maturity.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="s05">
+          <h2 class="section-h">A phased approach to "regional by default"</h2>
+          <p class="body-text">
+            Validating with 10 customers showed they understood the regional concept once it was framed correctly. But the strategic question wasn't "where should this banner go" — it was "how do we get every new customer thinking regional from the start, without breaking the experience for the millions already in US1?"
+          </p>
+          <p class="body-text">Three phases, each with a different audience and a different goal.</p>
+
+          <div class="phases">
+            <div class="phase">
+              <div class="phase-num">01</div>
+              <div class="phase-content">
+                <div class="phase-num-small">Phase 1 · Shipped</div>
+                <h3 class="phase-title">"Ahoy, we have Twilio Regions for you"</h3>
+                <p class="phase-text">Increase exposure and educate, without disrupting current customer experience.</p>
+                <dl class="phase-meta">
+                  <dt>Audience</dt>
+                  <dd>New customers + existing creating new accounts</dd>
+                  <dt>Metric</dt>
+                  <dd>Regional doc &amp; Buy-a-Number page impressions</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="image-showcase">
+              <div class="phase-image">phase_1.png · Ahoy onboarding flow</div>
+            </div>
+
+            <div class="phase">
+              <div class="phase-num">02</div>
+              <div class="phase-content">
+                <div class="phase-num-small">Phase 2 · Planned</div>
+                <h3 class="phase-title">"You might want to use Twilio Regions"</h3>
+                <p class="phase-text">Nudge customers when usage suggests they'd benefit. Surface routing suggestions when patterns suggest optimization.</p>
+                <dl class="phase-meta">
+                  <dt>Audience</dt>
+                  <dd>Existing US/non-US customers</dd>
+                  <dt>Metric</dt>
+                  <dd>Phone numbers routing to non-US1 regions</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="image-showcase">
+              <div class="phase-image">phase_2.png · routing suggestion nudge</div>
+            </div>
+
+            <div class="phase">
+              <div class="phase-num">03</div>
+              <div class="phase-content">
+                <div class="phase-num-small">Phase 3 · Planned</div>
+                <h3 class="phase-title">"You're going to love using Twilio Regions"</h3>
+                <p class="phase-text">Regional configuration as part of initial setup; regionalized Console for accounts that opt in.</p>
+                <dl class="phase-meta">
+                  <dt>Audience</dt>
+                  <dd>New account customers</dd>
+                  <dt>Metric</dt>
+                  <dd>NPS for non-US customers</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="image-showcase">
+              <div class="phase-image">phase_3.png · regionalized console experience</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="s06">
+          <div class="outcome">
+            <div class="outcome-num">179%</div>
+            <div class="outcome-text">
+              <h3>Increase in regional Buy-a-Number page impressions, three months after Phase 1 shipped</h3>
+              <p>The team is now scoping Phase 2 against routing-pattern data, with Phase 3 entering roadmap planning. The default-region concept itself is under re-evaluation based on what customers said about it during testing.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="s07">
+          <h2 class="section-h">What I learned</h2>
+          <div class="reflection">
+            <div class="reflection-card">
+              <div class="label">On decision making</div>
+              <h4>RAPID, used early, keeps divergence productive</h4>
+              <p>The seven-ideas-to-two narrowing only worked because we'd already agreed on who recommends, agrees, performs, inputs, and decides. Coming back to that framework when energy fragmented made the path forward obvious.</p>
+            </div>
+            <div class="reflection-card">
+              <div class="label">On strategy</div>
+              <h4>Phased approaches let teams measure as they go</h4>
+              <p>"Get every new customer thinking regional" was never going to ship in one version. Three audiences let the team adjust Phase 2 against routing-pattern data from Phase 1, instead of guessing twelve months out.</p>
+            </div>
+          </div>
+        </section>
+
+        <div class="next-case">
+          <div class="label">Next case</div>
+          <h3>Hub: making integration configuration portable<span class="arrow">→</span></h3>
+          <p class="deck">Tasktop · 2022 · cutting a 3-week setup ritual to two clicks for a Fortune 500 customer.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <div><span class="footer-name">Zhen Wang</span><span class="footer-copy">© 2026</span></div>
+      <div class="footer-socials">Email · LinkedIn · Instagram</div>
+    </div>
+
+  </div>
+
+  <script>
+    (function() {
+      /* ============================================================
+         1. Click-to-enlarge lightbox for case study design images.
+            Matches phase mockups, flows.png, and critique thumbnails.
+            Includes a visible × close button in the top-right.
+         ============================================================ */
+      const overlay = document.createElement('div');
+      overlay.style.cssText = [
+        'position:fixed','inset:0','background:rgba(20,14,8,0.94)',
+        'display:none','align-items:center','justify-content:center',
+        'z-index:10000','padding:60px 40px','cursor:zoom-out'
+      ].join(';');
+      const stageEl = document.createElement('div');
+      stageEl.style.cssText = [
+        'max-width:min(1200px, 92vw)','max-height:88vh','aspect-ratio:16/10',
+        'background:#FAF5E8','color:#1A1410','padding:40px',
+        'border-radius:8px','display:flex','align-items:center','justify-content:center',
+        'flex-direction:column','gap:18px','box-shadow:0 30px 80px -20px rgba(0,0,0,0.5)',
+        'cursor:default','width:100%'
+      ].join(';');
+      const labelEl = document.createElement('div');
+      labelEl.style.cssText = [
+        "font-family:'Iowan Old Style',Georgia,serif",'font-size:24px','font-weight:500',
+        'text-align:center','line-height:1.3'
+      ].join(';');
+      const subEl = document.createElement('div');
+      subEl.style.cssText = [
+        "font-family:ui-monospace,'SF Mono',monospace",'font-size:11px',
+        'color:rgba(26,20,16,0.55)','text-transform:uppercase','letter-spacing:0.16em',
+        'margin-top:8px'
+      ].join(';');
+      subEl.textContent = 'press esc · or click outside';
+      stageEl.appendChild(labelEl);
+      stageEl.appendChild(subEl);
+      overlay.appendChild(stageEl);
+
+      // Subtle × close button in overlay top-right.
+      // Transparent by default, soft cream tint on hover. No shadow, no border.
+      const closeBtn = document.createElement('button');
+      closeBtn.setAttribute('aria-label', 'Close enlarged image');
+      closeBtn.innerHTML = '&times;';
+      closeBtn.style.cssText = [
+        'position:absolute','top:20px','right:20px',
+        'width:32px','height:32px',
+        'background:transparent','color:rgba(250,245,232,0.8)',
+        'border:none','border-radius:4px',
+        'font-size:22px','font-weight:300','line-height:1',
+        'cursor:pointer','z-index:10001',
+        'display:flex','align-items:center','justify-content:center',
+        'font-family:system-ui,-apple-system,sans-serif',
+        'padding:0',
+        'transition:background 0.18s ease, color 0.18s ease'
+      ].join(';');
+      closeBtn.addEventListener('mouseenter', function() {
+        this.style.background = 'rgba(250,245,232,0.12)';
+        this.style.color = '#FAF5E8';
+      });
+      closeBtn.addEventListener('mouseleave', function() {
+        this.style.background = 'transparent';
+        this.style.color = 'rgba(250,245,232,0.8)';
+      });
+      overlay.appendChild(closeBtn);
+
+      document.body.appendChild(overlay);
+
+      function openModal(text) {
+        labelEl.textContent = text || 'enlarged image';
+        overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal() {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+      closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeModal();
+      });
+      document.addEventListener('click', function(e) {
+        const target = e.target.closest(
+          '.image-showcase .figure-image, .image-showcase .phase-image, .image-showcase .showcase-image, .critique-thumb'
+        );
+        if (target) { openModal((target.textContent || '').trim()); return; }
+        if (overlay.style.display === 'flex' && !stageEl.contains(e.target) && e.target !== closeBtn) closeModal();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && overlay.style.display === 'flex') closeModal();
+      });
+
+      /* ============================================================
+         2. Hide sticky TOC when an image-showcase is in view.
+         ============================================================ */
+      const tocEl = document.querySelector('.toc');
+      const showcases = document.querySelectorAll('.image-showcase');
+      if (tocEl && showcases.length) {
+        const visible = new Set();
+        const showcaseObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) visible.add(entry.target);
+            else visible.delete(entry.target);
+          });
+          if (visible.size > 0) tocEl.classList.add('hidden');
+          else tocEl.classList.remove('hidden');
+        }, { rootMargin: '-15% 0px -15% 0px', threshold: 0 });
+        showcases.forEach(function(s) { showcaseObserver.observe(s); });
+      }
+
+      /* ============================================================
+         3. TOC scrollspy — active item follows the section in view.
+            Locks during click-driven smooth scrolls so the highlight
+            doesn't ping-pong through every section it passes.
+         ============================================================ */
+      const tocItems = document.querySelectorAll('.toc-item');
+      const sections = document.querySelectorAll('.body section[id]');
+      const tocByNum = {};
+      tocItems.forEach(function(item) {
+        // Prefer data-target (set on the new <button> markup); fall back to .num text.
+        const target = item.getAttribute('data-target') ||
+                       (item.querySelector('.num') && item.querySelector('.num').textContent.trim());
+        if (target) tocByNum[target] = item;
+      });
+
+      function setActive(id) {
+        tocItems.forEach(function(it) {
+          it.classList.remove('active');
+          it.removeAttribute('aria-current');
+        });
+        if (tocByNum[id]) {
+          tocByNum[id].classList.add('active');
+          tocByNum[id].setAttribute('aria-current', 'location');
+        }
+      }
+
+      // Scroll lock — when true, observer updates are suppressed.
+      let spyLock = false;
+      let spyUnlockTimer = null;
+      const supportsScrollEnd = 'onscrollend' in window;
+
+      function lockSpyForClickScroll(distancePx) {
+        spyLock = true;
+        clearTimeout(spyUnlockTimer);
+        if (supportsScrollEnd) {
+          // Modern path: release as soon as the browser reports scrollend.
+          // Safety timer in case scrollend somehow doesn't fire (e.g., user interrupts).
+          const release = function() {
+            spyLock = false;
+            window.removeEventListener('scrollend', release);
+            clearTimeout(spyUnlockTimer);
+          };
+          window.addEventListener('scrollend', release, { once: true });
+          spyUnlockTimer = setTimeout(release, 2000);
+        } else {
+          // Fallback: estimate duration from scroll distance (browsers' smooth ~ 0.5–1.5s)
+          const dur = Math.min(1500, Math.max(450, Math.abs(distancePx) * 0.7));
+          spyUnlockTimer = setTimeout(function() { spyLock = false; }, dur);
+        }
+      }
+
+      if (sections.length && tocItems.length) {
+        const sectionState = new Map();
+        sections.forEach(function(s) { sectionState.set(s.id, 0); });
+
+        const sectionObserver = new IntersectionObserver(function(entries) {
+          // Always keep the ratio map up to date — but only mutate the DOM
+          // (active class) if no click-driven scroll is in flight.
+          entries.forEach(function(entry) {
+            sectionState.set(entry.target.id, entry.intersectionRatio);
+          });
+          if (spyLock) return;
+          let bestId = null;
+          let bestRatio = 0;
+          sectionState.forEach(function(ratio, id) {
+            if (ratio > bestRatio) { bestRatio = ratio; bestId = id; }
+          });
+          if (bestId) setActive(bestId);
+        }, {
+          rootMargin: '-25% 0px -50% 0px',
+          threshold: [0, 0.25, 0.5, 0.75, 1]
+        });
+        sections.forEach(function(s) { sectionObserver.observe(s); });
+      }
+
+      /* ============================================================
+         4. Click-to-scroll — smooth-scrolls to the section, locks
+            the scrollspy until the scroll has settled.
+         ============================================================ */
+      tocItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+          const id = item.getAttribute('data-target') ||
+                     (item.querySelector('.num') && item.querySelector('.num').textContent.trim());
+          if (!id) return;
+          const target = document.getElementById(id);
+          if (!target) return;
+          const distance = target.getBoundingClientRect().top;
+          setActive(id);
+          lockSpyForClickScroll(distance);
+          // Honor reduced-motion: skip the smooth animation if the user prefers it.
+          const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          target.scrollIntoView({
+            behavior: prefersReduce ? 'auto' : 'smooth',
+            block: 'start'
+          });
+        });
+      });
+    })();
+  </script>
+
+  <div class="annot">
+    <h4>Reusable component catalog (applies to every case study, not just Twilio)</h4>
+    <p>Every component below has a CSS class that drops into any case (Tasktop Hub, Tasktop Viz, Rackspace, future Tripalink/UnitPulse). Same tokens, same markup contracts.</p>
+    <ul>
+      <li><strong><code>.nav</code> + <code>.back</code></strong> — top nav (logo, Work, Writing, About) and the "← All work" back link. Identical on every case page.</li>
+      <li><strong><code>.hero</code></strong> — eyebrow + display-serif title + italic deck + cover image + <code>.meta-strip</code> (Role / Team / Span / Outcome). Cover is a per-case gradient (token: <code>--case-{name}</code>) or real image.</li>
+      <li><strong><code>.lede</code></strong> — large display-serif paragraph that opens the case. One per case.</li>
+      <li><strong><code>.body-text</code></strong> — sans body paragraph, fills column. <code>&lt;strong&gt;</code> inside gets the marker-pen highlight automatically.</li>
+      <li><strong><code>.section-h</code></strong> — section heading with a 28-px accent rule above. Optional <code>.section-deck</code> italic sub-line beneath.</li>
+      <li><strong><code>.card-row</code> + <code>.pain-card</code></strong> — three-column editorial block. No card chrome; large display-serif numbers + heading + body. For pain points, principles, themes.</li>
+      <li><strong><code>.competitors</code> + <code>.competitor</code></strong> — competitor row: logo / Strength / Gap. Top-aligned. Drop in 3-4 per case as needed.</li>
+      <li><strong><code>.research-stats</code></strong> — three-up stat block (Participants / Objectives / Threads) for the research section.</li>
+      <li><strong><code>.quote-row</code> + <code>.quote-card</code></strong> — three customer-quote cards with monospace label + display-serif heading + italic quote.</li>
+      <li><strong><code>.pullquote</code></strong> — italic display-serif quote with left accent rail. Use sparingly (1-2 per case).</li>
+      <li><strong><code>.figure</code> + <code>.figure-caption</code></strong> — image with monospace caption, body-column width. For non-showcase images.</li>
+      <li><strong><code>.image-showcase</code></strong> — full-bleed band with subtle dotted-grid background, image at body width. <strong>Reserved for design artifacts</strong> (user flows, mockups, before/afters) — not text. Click any image to open the lightbox.</li>
+      <li><strong><code>.dual</code></strong> — two-column findings + recommendations side-by-side, hairline-separated rows.</li>
+      <li><strong><code>.phase</code> + sibling <code>.image-showcase</code></strong> — numbered phase block (text only) with a full-width design mockup beneath. Repeat per phase.</li>
+      <li><strong><code>.outcome</code></strong> — big metric (160 px display-serif accent number) + supporting text. One per case.</li>
+      <li><strong><code>.reflection</code> + <code>.reflection-card</code></strong> — two-column "What I learned" with monospace label + display-serif heading + body. Standard close to every case.</li>
+      <li><strong><code>.critique</code></strong> — text-left + image-right vertical stack. Use 0-3 per case as the design-iteration story warrants.</li>
+      <li><strong><code>.next-case</code></strong> — footer that links to the next case in the curated order.</li>
+      <li><strong><code>.toc</code></strong> — sticky right-side navigator. Auto-hides when image-showcase is in view (<code>IntersectionObserver</code>, fades on a 300 ms transition).</li>
+    </ul>
+
+    <h4>Design tokens (single source of truth)</h4>
+    <p>All color, type, and rule values live as CSS custom properties on <code>.preview</code> (<code>--bg-primary</code>, <code>--ink-primary</code>, <code>--accent</code>, <code>--rule</code>, <code>--font-display</code>, <code>--font-body</code>, <code>--font-mono</code>, <code>--case-{name}</code>). Swap palettes (light → dark, accent change, per-case cover gradient) by editing the token block once. No values are hardcoded inside component CSS.</p>
+
+    <h4>Where we are now (v4 — most recent changes on top)</h4>
+    <ul>
+      <li><strong>Image showcase pattern</strong> applied to design artifacts (user flow + phase mockups), not text. Full-bleed band with subtle dotted grid backdrop (<code>radial-gradient</code>, 28 px spacing, 10 % opacity). Image content sits at body-column width, left-aligned with text above and below — consistent padding throughout.</li>
+      <li><strong>Phase images split out</strong> — each <code>.phase</code> now contains text only (number + title + description + meta). The phase mockup is a sibling <code>.image-showcase</code> block beneath, breaking out to full width with the dotted-grid bg.</li>
+      <li><strong>Critique restructured to vertical</strong> — Critique 01 stacked above Critique 02. Each row has text on the left (label, title, fix paragraph) and image on the right at 4/3 aspect. No grid background; sits in body column for reading rhythm.</li>
+      <li><strong>Click-to-enlarge wired up</strong> — phase images, flows.png, and critique thumbnails now open a centered modal on click. Cursor flips to <code>zoom-in</code>, ⤢ icon fades in on hover, modal closes on overlay click or Esc.</li>
+      <li><strong>Highlight hover height</strong> bumped 50 % → 88 % so the marker fills near the full text height on hover (matches "same height as the text" intent).</li>
+      <li><strong>Outcome image removed</strong> — back to clean 179 % + supporting text only.</li>
+      <li><strong>Phase audience/metric alignment</strong> — switched to <code>&lt;dl&gt;</code> with a 96 px label column and 1fr value column. Labels and values now line up across both rows.</li>
+    </ul>
+
+    <h4>Earlier in v4</h4>
+    <ul>
+      <li>TOC moved to right side, shrunk 220 → 160 px. Source order keeps TOC first for screen readers; CSS grid places it visually right.</li>
+      <li>Body column widened 760 → 880 px in a 1080 px body-wrap centered for image-friendly reading.</li>
+      <li>Hero / back / body-wrap aligned to the same 1080 px max-width so cover image, meta strip, and body content all share the same horizontal rhythm.</li>
+      <li>Pain cards: removed top accent border, now editorial column block with large display-serif numbers and full-row hairlines.</li>
+      <li>Competitor rows: top-aligned (Plivo, Vonage, Google Cloud logos sit at the top, level with STRENGTH/GAP labels).</li>
+      <li>Marker highlight: animated underline by default → fills upward on hover. Warm amber, your <code>WorkHighlight</code> formula.</li>
+    </ul>
+
+    <h4>Showcase pattern — what it's for, what it isn't</h4>
+    <p>The full-bleed dotted-grid section is reserved for <strong>design artifacts that benefit from breathing room</strong> (user flows, phase mockups, future Figma exports). Text content (descriptions, labels, headings) stays in the body column — the showcase is not a "section background," it's specifically a frame for the work itself.</p>
+
+    <h4>Click-to-enlarge — interaction model</h4>
+    <ul>
+      <li>Hover state: cursor → <code>zoom-in</code>, image lifts 2 px with a soft drop shadow, ⤢ icon fades in at top-right corner.</li>
+      <li>Click: full-screen overlay with the image centered, dim background.</li>
+      <li>Dismiss: click outside the image, or press Esc.</li>
+      <li>Real implementation: swap the placeholder text for the actual asset; consider <code>&lt;dialog&gt;</code> element + <code>showModal()</code> for a11y, or a small library (PhotoSwipe / Yet Another React Lightbox) if a fuller UX is wanted (next/prev, zoom, captions).</li>
+    </ul>
+
+    <h4>Responsive plan</h4>
+    <ul>
+      <li><strong>≥ 1280 px</strong>: right-side sticky TOC visible.</li>
+      <li><strong>1024–1279 px</strong>: TOC collapses to thin floating column on right — dots + numbers, names on hover.</li>
+      <li><strong>768–1023 px (tablet)</strong>: TOC hidden, top progress bar + section tag takes over.</li>
+      <li><strong>&lt; 768 px (mobile)</strong>: top progress bar only; tap → drawer with TOC list.</li>
+    </ul>
+    <p>Same navigator system at different breakpoints — sidebar where it fits, progress bar where it doesn't.</p>
+
+    <h4>Things to react to</h4>
+    <ul>
+      <li><strong>Image showcase application</strong> — flows.png + 3 phase mockups. Right amount, or want it on additional images (e.g., the JTBD figure earlier in section 01)?</li>
+      <li><strong>Critique row layout</strong> (text left, image right, vertical stack) — works, or want image-first / different ratio?</li>
+      <li><strong>Click-to-enlarge modal</strong> — try clicking any showcase image or critique thumbnail. The mockup overlay is text-only; in production it'll show the actual asset.</li>
+      <li><strong>Dotted grid intensity</strong> (28 px spacing, 10 % opacity) — subtle enough, or want even quieter / a touch more present?</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

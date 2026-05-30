@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Revamp — Mockup</title>
+<style>
+  body { margin: 0; background: #E8E2D5; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+  .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 32px 24px; box-sizing: border-box; }
+  .subtitle { text-align: center; color: #6b6256; font-size: 14px; line-height: 1.5; }
+  h2 { text-align: center; font-family: Georgia, 'Iowan Old Style', serif; }
+</style>
+<script>function toggleSelect(el){ if(el && el.classList) el.classList.toggle('selected'); }</script>
+</head>
+<body>
+<div class="container">
+<style>
+  .container { max-width: 1100px !important; }
+
+  .portrait-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 18px;
+  }
+
+  .portrait-card {
+    background: #FAF5E8;
+    color: #1A1410;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .portrait-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px -10px rgba(20,14,8,0.18);
+  }
+  .portrait-card.recommended {
+    border-color: #C8442E;
+    box-shadow: 0 0 0 2px #C8442E22, 0 16px 36px -10px rgba(20,14,8,0.18);
+  }
+
+  .portrait-stage {
+    aspect-ratio: 5/4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F1E9D5;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Direction A — Calligraphic Z mark */
+  .stage-a {
+    background:
+      repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(26,20,16,0.012) 4px, rgba(26,20,16,0.012) 5px),
+      #F1E9D5;
+  }
+  .mark-a {
+    width: 180px; height: 180px;
+    border: 1.5px solid #1A141022;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FAF5E8;
+    position: relative;
+    box-shadow: 0 8px 24px -8px rgba(20,14,8,0.1);
+  }
+  .mark-a svg { width: 70%; height: 70%; }
+  .mark-a::after {
+    content: '印';
+    position: absolute;
+    bottom: 8px; right: 10px;
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-size: 14px;
+    color: #C8442E;
+    opacity: 0.6;
+  }
+
+  /* Direction B — Ink-wash portrait */
+  .stage-b {
+    background: linear-gradient(180deg, #F4ECDB 0%, #E8DCC1 100%);
+  }
+  .mark-b {
+    width: 200px; height: 220px; position: relative;
+  }
+  .mark-b svg { width: 100%; height: 100%; }
+
+  /* Direction C — Editorial line drawing */
+  .stage-c {
+    background: #FAF5E8;
+  }
+  .mark-c {
+    width: 220px; height: 220px;
+  }
+  .mark-c svg { width: 100%; height: 100%; }
+
+  /* Direction D — Real photo placeholder */
+  .stage-d {
+    background:
+      radial-gradient(circle at 50% 35%, #EBDFC4 0%, #D9C898 100%);
+  }
+  .photo-d {
+    width: 200px; height: 220px;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #C8B488 0%, #8F7C58 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .photo-d::before {
+    content: 'photo placeholder';
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.65);
+    font-family: ui-monospace, monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  .portrait-meta {
+    padding: 22px 26px 26px;
+  }
+  .portrait-letter {
+    display: inline-block;
+    font-family: ui-monospace, monospace;
+    font-size: 10px;
+    color: #C8442E;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    background: #C8442E11;
+    padding: 4px 8px;
+    border-radius: 3px;
+    margin-bottom: 12px;
+  }
+  .portrait-name {
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-size: 22px;
+    margin: 0 0 8px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .portrait-desc {
+    font-size: 13px;
+    color: #1A1410CC;
+    line-height: 1.6;
+    margin: 0 0 14px;
+  }
+  .portrait-prompt {
+    background: #1A1410;
+    color: #E8DDC8;
+    padding: 12px 14px;
+    border-radius: 5px;
+    font-family: ui-monospace, monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+  .portrait-prompt .label {
+    font-size: 9px;
+    color: #C8442E;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .portrait-prompt code {
+    color: #E8DDC8;
+    word-break: break-word;
+    font-family: ui-monospace, monospace;
+  }
+  .copy-hint {
+    font-size: 10px;
+    color: #1A141077;
+    margin-top: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+  }
+
+  .recommend-banner {
+    margin-top: 28px;
+    padding: 22px 28px;
+    background: #1A1410;
+    color: #F0E6D2;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .recommend-banner h3 {
+    font-family: 'Iowan Old Style', Georgia, serif;
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #C8442E;
+  }
+  .recommend-banner p { margin: 0 0 8px; color: #F0E6D2DD; }
+</style>
+
+<h2>Portrait / mark — four directions</h2>
+<p class="subtitle">Concept-fidelity sketches in CSS/SVG. The real artifact you'd generate in GPT-image-2 / Midjourney / Imagen using the prompts below. Click to indicate preference.</p>
+
+<div class="portrait-grid">
+
+  <div class="portrait-card recommended" data-choice="symbolic" onclick="toggleSelect(this)">
+    <div class="portrait-stage stage-a">
+      <div class="mark-a">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M 18 22 Q 24 18 32 19 L 76 21 Q 81 22 80 27 Q 78 32 70 36 Q 50 50 30 68 Q 26 72 28 75 Q 31 78 38 78 L 78 80 Q 84 81 82 86"
+            stroke="#C8442E"
+            stroke-width="9"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            opacity="0.9" />
+          <path
+            d="M 18 22 Q 24 18 32 19 L 76 21 Q 81 22 80 27 Q 78 32 70 36 Q 50 50 30 68 Q 26 72 28 75 Q 31 78 38 78 L 78 80 Q 84 81 82 86"
+            stroke="#1A1410"
+            stroke-width="0.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+            opacity="0.18" />
+        </svg>
+      </div>
+    </div>
+    <div class="portrait-meta">
+      <span class="portrait-letter">A · My recommendation</span>
+      <h3 class="portrait-name">Calligraphic seal — "Z" as a brushstroke</h3>
+      <p class="portrait-desc">A traditional Chinese chop / yìnzhāng (印章) reimagined: the letter Z rendered as a single decisive sumi-e brushstroke, in clay-terracotta on cream. Authentic to your hobby, dodges the AI-portrait uncanny valley entirely, and reads as a confident designer's mark — the way Pasquale D'Silva or Frank Chimero use a glyph instead of a face.</p>
+      <div class="portrait-prompt">
+        <span class="label">Sample prompt</span>
+        <code>Calligraphic Chinese seal mark featuring a stylized letter "Z" rendered as a single decisive sumi-e ink brushstroke with natural width variation, rich terracotta clay color (#C8442E) on warm cream paper background (#FAF5E8). Square 1:1 composition, traditional Chinese chop / yìnzhāng aesthetic, minimal, hand-painted feel, no digital artifacts. Subtle paper texture. Editorial illustration.</code>
+      </div>
+      <div class="copy-hint">Generate 3–4 variants in GPT-image-2; pick the one with the most natural brush variation.</div>
+    </div>
+  </div>
+
+  <div class="portrait-card" data-choice="ink-wash" onclick="toggleSelect(this)">
+    <div class="portrait-stage stage-b">
+      <div class="mark-b">
+        <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="wash" cx="50%" cy="40%" r="55%">
+              <stop offset="0%" stop-color="#1A1410" stop-opacity="0.2"/>
+              <stop offset="60%" stop-color="#1A1410" stop-opacity="0.65"/>
+              <stop offset="100%" stop-color="#1A1410" stop-opacity="0.92"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="92" rx="48" ry="58" fill="url(#wash)" opacity="0.78"/>
+          <path d="M 60 70 Q 70 55 90 56" stroke="#1A1410" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.85"/>
+          <path d="M 110 56 Q 130 55 140 70" stroke="#1A1410" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.85"/>
+          <ellipse cx="78" cy="85" rx="3" ry="4" fill="#1A1410" opacity="0.9"/>
+          <ellipse cx="122" cy="85" rx="3" ry="4" fill="#1A1410" opacity="0.9"/>
+          <path d="M 86 115 Q 100 122 114 115" stroke="#1A1410" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.7"/>
+          <path d="M 60 145 Q 75 165 100 168 Q 125 165 140 145 L 145 200 L 55 200 Z" fill="url(#wash)" opacity="0.55"/>
+          <path d="M 25 175 Q 40 110 60 92" stroke="#C8442E" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+    <div class="portrait-meta">
+      <span class="portrait-letter">B · Strong runner-up</span>
+      <h3 class="portrait-name">Sumi-e ink-wash portrait</h3>
+      <p class="portrait-desc">Traditional Chinese ink-wash (水墨画 / sumi-e) style: a few decisive brushstrokes suggest a contemplative figure rather than render one literally. Direct nod to your calligraphy and painting practice. Risk: AI image tools love over-detail — prompts must explicitly fight for sparseness.</p>
+      <div class="portrait-prompt">
+        <span class="label">Sample prompt</span>
+        <code>Portrait of a man in traditional Chinese sumi-e ink wash painting style, only six or seven minimal brushstrokes total, contemplative quiet expression, looking slightly off-camera, warm cream paper background (#FAF5E8), ink in brown-black with ONE small clay-terracotta accent stroke (#C8442E), square 1:1 composition. Hand-brushed feel — wet edges, ink bleed, paper texture visible. Restrained, scholar-painter aesthetic. NOT photorealistic, NOT detailed, minimal.</code>
+      </div>
+      <div class="copy-hint">Generate 8–10 variants; AI tends to over-render — pick the sparsest.</div>
+    </div>
+  </div>
+
+  <div class="portrait-card" data-choice="line-drawing" onclick="toggleSelect(this)">
+    <div class="portrait-stage stage-c">
+      <div class="mark-c">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M 56 70 Q 56 50 75 45 Q 100 40 124 47 Q 142 54 142 75 Q 142 95 138 110 Q 134 125 120 132 Q 100 138 84 132 Q 64 124 60 105 Q 58 92 60 80 Q 62 70 70 70 Q 80 73 78 84 M 122 84 Q 124 73 132 73 M 90 100 Q 100 105 110 100 M 96 116 Q 100 120 104 116 M 84 140 L 80 175 M 116 140 L 122 175"
+            stroke="#1A1410"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none" />
+          <circle cx="80" cy="84" r="2.5" fill="#1A1410"/>
+          <circle cx="124" cy="84" r="2.5" fill="#1A1410"/>
+          <path
+            d="M 178 130 Q 168 140 158 138"
+            stroke="#C8442E"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            fill="none"
+            opacity="0.85" />
+        </svg>
+      </div>
+    </div>
+    <div class="portrait-meta">
+      <span class="portrait-letter">C · Editorial alternative</span>
+      <h3 class="portrait-name">Single-line editorial drawing</h3>
+      <p class="portrait-desc">Tom Gauld / Jean Jullien / New Yorker zone: a continuous-line caricature of you, witty and modern. Less culturally specific than B, more universally "editorial illustrator." Pairs naturally with the warm-paper aesthetic.</p>
+      <div class="portrait-prompt">
+        <span class="label">Sample prompt</span>
+        <code>Editorial portrait illustration in the style of Tom Gauld or Jean Jullien — single continuous line drawing of a contemplative man, minimal contour, 2-pixel ink line on warm cream paper background (#FAF5E8), one small accent of clay-terracotta (#C8442E) — perhaps a brushstroke or hat or detail. Square 1:1, slightly humorous, slightly thoughtful, hand-drawn feel.</code>
+      </div>
+      <div class="copy-hint">Single-line constraint forces AI to simplify; works on 1st or 2nd try usually.</div>
+    </div>
+  </div>
+
+  <div class="portrait-card" data-choice="real-photo" onclick="toggleSelect(this)">
+    <div class="portrait-stage stage-d">
+      <div class="photo-d"></div>
+    </div>
+    <div class="portrait-meta">
+      <span class="portrait-letter">D · I'd skip this</span>
+      <h3 class="portrait-name">AI-generated realistic portrait</h3>
+      <p class="portrait-desc">A photorealistic likeness rendered by AI. The honest take: most senior PD reviewers in 2026 can clock AI-generated faces. If you want a portrait that says "this is what I look like," even a real phone snap or candid beats a polished AI render. If you really want this direction, use Midjourney v7+ with reference photos — but the bar is high to avoid the uncanny valley.</p>
+      <div class="portrait-prompt">
+        <span class="label">If you want it anyway</span>
+        <code>Use Midjourney v7 / Flux with --cref [reference photo URL]. Style: editorial photography, natural light, warm tones, soft focus on background. NOT studio lit, NOT plastic-skin, NOT cinematic. Slight grain. Square 1:1.</code>
+      </div>
+      <div class="copy-hint">Strong recommendation: use a real photo or skip the portrait entirely.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="recommend-banner">
+  <h3>My recommendation: A · Calligraphic seal</h3>
+  <p>Authentic (you actually do calligraphy), confident (a chop/seal carries weight without taking itself too seriously), distinctive (no other PD portfolio I found uses this), and crucially — <strong>free of the AI-portrait awkwardness</strong>. The mark can scale: same seal in the About hero, smaller in the nav, micro version as a favicon.</p>
+  <p>If you want a figure rather than a glyph, <strong>B · sumi-e ink-wash</strong> is the strong runner-up — same craft authenticity, more human warmth.</p>
+</div>
+
+</div>
+</body>
+</html>

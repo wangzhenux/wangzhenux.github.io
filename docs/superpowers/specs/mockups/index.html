@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio Revamp — Design Mockups</title>
+  <style>
+    :root {
+      --bg-primary: #FAF5E8;
+      --bg-secondary: #F1E9D5;
+      --ink-primary: #1A1410;
+      --ink-secondary: #1A1410CC;
+      --ink-tertiary: #1A141088;
+      --accent: #C8442E;
+      --rule: #1A141018;
+      --font-display: 'Iowan Old Style', 'Charter', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: ui-monospace, 'SF Mono', monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg-primary);
+      color: var(--ink-primary);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 96px 32px 120px; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.16em; color: var(--ink-tertiary);
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: 42px; line-height: 1.12; letter-spacing: -0.022em;
+      font-weight: 500; margin: 0 0 16px; max-width: 16ch;
+    }
+    .lede {
+      font-size: 17px; color: var(--ink-secondary);
+      margin: 0 0 48px; max-width: 54ch;
+    }
+    .list { border-top: 1px solid var(--rule); }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px 24px;
+      align-items: baseline;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+      transition: padding-left 0.18s ease;
+    }
+    .row:hover { padding-left: 8px; }
+    .row:hover .row-title { color: var(--accent); }
+    .row-title {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 500; letter-spacing: -0.01em;
+      transition: color 0.18s ease;
+    }
+    .row-desc {
+      font-size: 14px; color: var(--ink-tertiary);
+      margin-top: 4px; max-width: 52ch;
+    }
+    .row-tag {
+      font-family: var(--font-mono);
+      font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--ink-tertiary);
+      white-space: nowrap;
+    }
+    .row-arrow { color: var(--accent); font-family: var(--font-mono); }
+    .note {
+      margin-top: 48px; padding: 20px 24px;
+      background: var(--bg-secondary); border-radius: 8px;
+      font-size: 13px; color: var(--ink-secondary); line-height: 1.6;
+    }
+    .note strong { color: var(--ink-primary); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Portfolio Revamp · Design Mockups · 2026</div>
+    <h1>The revamp, screen by screen.</h1>
+    <p class="lede">Concept-fidelity mockups from the brainstorming phase. These are the canonical visual reference for the design spec — implementation builds against these.</p>
+
+    <div class="list">
+      <a class="row" href="homepage.html">
+        <div>
+          <div class="row-title">Homepage <span class="row-arrow">→</span></div>
+          <div class="row-desc">Hero, featured case, selected work, writing, archive, footer. Story-led layout.</div>
+        </div>
+        <div class="row-tag">Home</div>
+      </a>
+      <a class="row" href="case-study-twilio.html">
+        <div>
+          <div class="row-title">Case study — Twilio <span class="row-arrow">→</span></div>
+          <div class="row-desc">7-section case study layout with sticky TOC, image showcase, click-to-enlarge. The reference template.</div>
+        </div>
+        <div class="row-tag">Case</div>
+      </a>
+      <a class="row" href="about-resume.html">
+        <div>
+          <div class="row-title">About / Résumé <span class="row-arrow">→</span></div>
+          <div class="row-desc">Bio, curriculum vitae callout, work history, education, contact. Plus a mobile responsive strip.</div>
+        </div>
+        <div class="row-tag">About</div>
+      </a>
+      <a class="row" href="responsive-views.html">
+        <div>
+          <div class="row-title">Responsive views <span class="row-arrow">→</span></div>
+          <div class="row-desc">Desktop / tablet / mobile breakpoints side by side, plus the per-component behavior matrix.</div>
+        </div>
+        <div class="row-tag">Responsive</div>
+      </a>
+      <a class="row" href="portrait-options.html">
+        <div>
+          <div class="row-title">Portrait directions <span class="row-arrow">→</span></div>
+          <div class="row-desc">Four portrait/mark options — calligraphic seal, sumi-e ink-wash, line drawing, AI photo.</div>
+        </div>
+        <div class="row-tag">Portrait</div>
+      </a>
+    </div>
+
+    <div class="note">
+      <strong>Note:</strong> these are static design mockups, not the live site. The actual implementation (Astro + MDX) is described in the design spec at <code>docs/superpowers/specs/2026-05-04-portfolio-revamp-design.md</code>. Each mockup has an annotation block at the bottom explaining design decisions.
+    </div>
+  </div>
+</body>
+</html>
