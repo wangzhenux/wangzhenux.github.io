@@ -1,0 +1,33 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption: string;
+}
+const { src, alt, caption } = Astro.props;
+---
+<figure class="figure">
+  <img class="figure-image" src={src} alt={alt} />
+  <figcaption class="figure-caption">{caption}</figcaption>
+</figure>
+<style>
+  /* ported from case-study-twilio.html .figure, tokenized.
+     Body-column width (not full-bleed); monospace caption. */
+  .figure {
+    margin: var(--space-9) 0;
+  }
+  .figure-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    background: var(--bg-secondary);
+    border-radius: 5px;
+    margin-bottom: var(--space-3);
+  }
+  .figure-caption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    line-height: 1.6;
+  }
+</style>

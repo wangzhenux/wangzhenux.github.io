@@ -1,0 +1,17 @@
+---
+---
+<p class="section-deck"><slot /></p>
+<style>
+  /* ported from case-study-twilio.html `.section-h + .section-deck`, tokenized.
+     Italic display serif sub-line; pulls up under a SectionH. */
+  .section-deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-tertiary);
+    margin-top: calc(-1 * var(--space-4));
+    margin-bottom: var(--space-7);
+    max-width: 50ch;
+  }
+</style>

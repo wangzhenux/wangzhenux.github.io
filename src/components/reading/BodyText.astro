@@ -1,0 +1,33 @@
+---
+---
+<p class="body-text"><slot /></p>
+<style>
+  /* ported from case-study-twilio.html .body-text, tokenized.
+     Fills the body column for unified left+right edges. */
+  .body-text {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-secondary);
+    max-width: none;
+    margin: var(--space-5) 0;
+  }
+  /* Marker-pen highlight on <strong> (§8.1). Default: thin amber underline.
+     On hover: fills upward to a marker-style highlight. Reduced-motion is
+     handled globally (kills the transition + shows the full marker). */
+  .body-text :global(strong) {
+    color: var(--ink-primary);
+    font-weight: 500;
+    background-image: linear-gradient(var(--highlight) 0%, var(--highlight) 100%);
+    background-size: 100% 3px;
+    background-position: 0 calc(100% - 1px);
+    background-repeat: no-repeat;
+    padding: 0 2px;
+    transition: background-size 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .body-text :global(strong:hover) {
+    background-size: 100% 88%;
+  }
+</style>
