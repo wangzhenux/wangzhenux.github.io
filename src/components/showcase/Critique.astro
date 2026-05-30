@@ -1,0 +1,94 @@
+---
+interface CritiqueRow {
+  label: string;
+  heading: string;
+  fix: string;
+  image: { src: string; alt: string };
+}
+interface Props { rows: CritiqueRow[]; }
+const { rows } = Astro.props;
+---
+<div class="critiques">
+  {rows.map((row) => (
+    <div class="critique">
+      <div>
+        <div class="critique-label">{row.label}</div>
+        <h4>{row.heading}</h4>
+        <p class="critique-fix" set:html={row.fix} />
+      </div>
+      <div class="critique-thumb" data-zoomable>
+        <img src={row.image.src} alt={row.image.alt} />
+      </div>
+    </div>
+  ))}
+</div>
+<style>
+  /* ported from case-study-twilio.html .critiques / .critique / .critique-thumb,
+     tokenized (post-review version: vertical stack, text-left/image-right). */
+  .critiques {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-9);
+    margin: 0 0 var(--space-9);
+  }
+  .critique {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+  .critique > div:first-child .critique-label {
+    display: block;
+    margin-bottom: var(--space-3);
+  }
+  .critique > div:first-child h4 {
+    margin: 0 0 var(--space-4);
+  }
+  .critique > div:first-child .critique-fix {
+    margin: 0;
+  }
+  .critique-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .critique h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    line-height: 1.25;
+    margin: 0;
+    font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .critique-fix {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+  .critique-fix :global(strong) {
+    color: var(--ink-primary);
+    font-weight: 500;
+  }
+  /* image-right thumb — carries data-zoomable for the lightbox */
+  .critique-thumb {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .critique-thumb:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+  }
+  .critique-thumb img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    background: var(--bg-primary);
+    display: block;
+  }
+</style>
