@@ -1,0 +1,13 @@
+---
+---
+<div class="quote-row"><slot /></div>
+<style>
+  /* ported from case-study-twilio.html .quote-row, tokenized.
+     Three quote cards side by side. */
+  .quote-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin: var(--space-6) 0;
+  }
+</style>
