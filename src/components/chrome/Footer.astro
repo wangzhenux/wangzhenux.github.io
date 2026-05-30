@@ -1,0 +1,33 @@
+---
+const year = new Date().getFullYear();
+const socials = [
+  { label: 'Email', href: 'mailto:wangzhen614@gmail.com' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/zhenwang614' },
+  { label: 'Instagram', href: 'https://www.instagram.com/zhen.wang/' },
+];
+---
+<footer class="footer">
+  <div class="footer-left"><span class="footer-name">Zhen Wang</span> <span class="footer-year">© {year}</span></div>
+  <ul class="footer-socials">
+    {socials.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
+  </ul>
+</footer>
+<style>
+  .footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: var(--space-10) var(--pad-page-x);
+    background: var(--bg-inverse); color: var(--ink-on-dark);
+  }
+  .footer-left {
+    display: flex; align-items: baseline; gap: var(--space-4);
+    font-family: var(--font-display); font-size: 14px;
+  }
+  .footer-name { font-weight: 500; }
+  .footer-year { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-on-dark); opacity: 0.6; }
+  .footer-socials {
+    display: flex; gap: var(--space-6); list-style: none; margin: 0; padding: 0;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+  }
+  .footer-socials a { color: var(--ink-on-dark); text-decoration: none; }
+  .footer-socials a:hover { color: var(--accent); }
+</style>
