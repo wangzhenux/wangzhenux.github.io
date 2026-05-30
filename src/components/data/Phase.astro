@@ -1,0 +1,92 @@
+---
+interface MetaItem { k: string; v: string; }
+interface Props { num: string; label: string; title: string; meta: MetaItem[]; }
+const { num, label, title, meta } = Astro.props;
+---
+<div class="phase">
+  <div class="phase-num">{num}</div>
+  <div class="phase-content">
+    <div class="phase-num-small">{label}</div>
+    <h3 class="phase-title">{title}</h3>
+    <div class="phase-text"><slot /></div>
+    <dl class="phase-meta">
+      {meta.map((m) => (
+        <>
+          <dt>{m.k}</dt>
+          <dd>{m.v}</dd>
+        </>
+      ))}
+    </dl>
+  </div>
+</div>
+<style>
+  /* ported from case-study-twilio.html .phase + .phase-meta, tokenized.
+     Text-only (number + content + meta dl). The showcase image is placed by the
+     page as a sibling .image-showcase block. Description prose comes via slot. */
+  .phase {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    column-gap: var(--space-6);
+    padding: var(--space-9) 0 0;
+    align-items: start;
+  }
+  .phase-num {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .phase-num-small {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: var(--space-1);
+  }
+  .phase-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    margin: 0 0 var(--space-2);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .phase-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-secondary);
+    margin: 0 0 var(--space-4);
+    max-width: 56ch;
+  }
+  /* slotted description may arrive as a bare <p> from MDX */
+  .phase-text :global(p) {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+  }
+  /* Phase meta as a 2-column grid: mono labels left, body values right. */
+  .phase-meta {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    column-gap: var(--space-4);
+    row-gap: var(--space-2);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .phase-meta dt {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding-top: var(--space-1);
+  }
+  .phase-meta dd {
+    margin: 0;
+    color: var(--ink-secondary);
+  }
+</style>
