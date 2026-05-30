@@ -1,23 +1,5 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext", "es6"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "noImplicitAny": false,
-    "isolatedModules": true,
-    "noEmit": false,
-    "emitDeclarationOnly": false,
-    "jsx": "react-jsx"
-  },
-  "typeRoots": ["./node_modules/@types", "/@types"],
-  "include": ["./src"],
-  "exclude": ["node_modules", "build"]
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "node_modules"]
 }
