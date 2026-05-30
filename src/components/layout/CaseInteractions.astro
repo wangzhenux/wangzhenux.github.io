@@ -1,0 +1,18 @@
+---
+// Mounts the client-side interaction islands (TOC scrollspy + lightbox) on a
+// case study page. The <script> is processed/bundled by Astro and runs in the
+// browser. It re-runs on `astro:page-load` so the islands re-initialize after a
+// view-transition navigation (§8.6).
+---
+<script>
+  import { init as initToc } from '../../islands/toc-scrollspy';
+  import { init as initLightbox } from '../../islands/lightbox';
+
+  const run = () => {
+    initToc();
+    initLightbox();
+  };
+
+  run();
+  document.addEventListener('astro:page-load', run); // re-init after view transitions
+</script>
