@@ -1,0 +1,79 @@
+:root {
+  /* === Surface === */
+  --bg-primary: #FAF5E8;
+  --bg-secondary: #F1E9D5;
+  --bg-inverse: #181210;
+  --stage-bg: #DDD3C2;
+
+  /* === Ink === */
+  --ink-primary: #1A1410;
+  --ink-secondary: #1A1410E5;
+  --ink-tertiary: #1A1410B8;   /* AA-corrected (was 88) */
+  --ink-quaternary: #1A1410B0; /* decorative only */
+  --ink-on-dark: #FAF5E8;
+
+  /* === Accent === */
+  --accent: #C8442E;
+  --accent-soft: #C8442E14;
+  --accent-medium: #C8442E55;
+  --highlight: rgba(245, 200, 100, 0.7);
+
+  /* === Rules === */
+  --rule: #1A141018;
+  --rule-soft: #1A14100E;
+
+  /* === Shadows === */
+  --shadow-card: 0 12px 30px -10px rgba(20, 14, 8, 0.16);
+  --shadow-hover: 0 16px 36px -12px rgba(20, 14, 8, 0.18);
+  --shadow-frame: 0 24px 60px -20px rgba(20, 14, 8, 0.18);
+
+  /* === Spacing scale (4px base) === */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 56px;
+  --space-11: 64px;
+  --space-12: 80px;
+  --space-13: 96px;
+  --space-14: 128px;
+
+  /* === Semantic spacing === */
+  --pad-page-x: var(--space-10);
+  --pad-section-y: var(--space-12);
+  --pad-section-y-lg: var(--space-13);
+  --gap-card-row: var(--space-7);
+  --gap-body-toc: var(--space-11);
+  --gap-grid: var(--space-4);
+  --gap-stack: var(--space-6);
+  --max-content: 1080px;
+  --max-body: 880px;
+  --max-toc: 144px;
+
+  /* === Type families === */
+  --font-display: 'Iowan Old Style', 'Charter', 'GT Sectra', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Geist Mono', monospace;
+}
+
+/* === Dark variant — PREPARED, not enabled in v1 ===
+   When ready, remove the `:root[data-theme="light"]` guard so this
+   activates on prefers-color-scheme: dark. */
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="dark"] {
+    --bg-primary: #181210;
+    --bg-secondary: #221C18;
+    --bg-inverse: #0E0B08;
+    --ink-primary: #F0E6D2;
+    --ink-secondary: #F0E6D2E5;
+    --ink-tertiary: #F0E6D2B8;
+    --ink-quaternary: #F0E6D2B0;
+    --accent: #E0573E;
+  }
+}
