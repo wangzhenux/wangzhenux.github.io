@@ -1,0 +1,50 @@
+---
+interface Props { href: string; title: string; deck: string; }
+const { href, title, deck } = Astro.props;
+---
+<a class="next-case" href={href}>
+  <div class="label">Next case</div>
+  <h3>{title}<span class="arrow">→</span></h3>
+  <p class="deck">{deck}</p>
+</a>
+<style>
+  /* ported from case-study-twilio.html .next-case, tokenized.
+     Whole block is a single link for a generous click target. */
+  .next-case {
+    display: block;
+    margin: var(--space-11) 0 0;
+    padding: var(--space-9) 0;
+    border-top: 1px solid var(--rule);
+    text-decoration: none;
+    color: inherit;
+  }
+  .next-case .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: var(--space-3);
+  }
+  .next-case h3 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    margin: 0 0 var(--space-2);
+    font-weight: 500;
+    line-height: 1.15;
+  }
+  .next-case:hover h3 {
+    color: var(--accent);
+  }
+  .next-case .arrow {
+    color: var(--accent);
+    margin-left: var(--space-2);
+  }
+  .next-case .deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-tertiary);
+    margin: 0;
+  }
+</style>
