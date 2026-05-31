@@ -56,7 +56,7 @@ const mainStyle = data.cover.gradient
   ? `--case-cover: ${data.cover.gradient}`
   : undefined;
 ---
-<BaseLayout title={data.title} description={data.deck}>
+<BaseLayout title={`${data.title} — Zhen Wang`} description={data.deck} ogType="article">
   <Nav currentPath={`/work/${data.slug}`} />
   <main id="main" tabindex="-1" style={mainStyle}>
     <ProgressBar sections={data.sections} />

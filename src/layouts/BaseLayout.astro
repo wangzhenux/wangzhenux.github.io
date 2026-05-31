@@ -1,8 +1,27 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-interface Props { title: string; description?: string; }
-const { title, description = "Zhen Wang — Senior Product Designer" } = Astro.props;
+interface Props {
+  title: string;
+  description?: string;
+  /** OG/Twitter card image. Site-root-relative or absolute URL. Optional. */
+  ogImage?: string;
+  /** OpenGraph type — 'website' for index/listing pages, 'article' for cases. */
+  ogType?: 'website' | 'article';
+}
+const {
+  title,
+  description = 'Zhen Wang — Senior Product Designer',
+  ogImage,
+  ogType = 'website',
+} = Astro.props;
+
+// Canonical URL for this page (falls back gracefully if `site` is unset).
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+// Resolve an absolute OG image URL when one is supplied.
+const ogImageUrl = ogImage
+  ? new URL(ogImage, Astro.site ?? Astro.url).href
+  : undefined;
 ---
 <!doctype html>
 <html lang="en">
@@ -11,6 +30,27 @@ const { title, description = "Zhen Wang — Senior Product Designer" } = Astro.p
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    {/* Favicon: prefer the calligraphic seal once it lands, fall back to .ico. */}
+    <link rel="icon" href="/seal.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="manifest" href="/manifest.json" />
+
+    {/* OpenGraph */}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Zhen Wang" />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+
+    {/* Twitter card */}
+    <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
+
     <ClientRouter />
   </head>
   <body>
