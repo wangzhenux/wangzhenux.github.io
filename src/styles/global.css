@@ -1,7 +1,10 @@
 @import './tokens.css';
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+/* clip (not hidden) so full-bleed showcase bands can extend to the viewport
+   edges without creating a horizontal scrollbar, while keeping position:sticky
+   working (overflow:hidden would break the sticky TOC). */
+html { scroll-behavior: smooth; overflow-x: clip; }
 body {
   margin: 0;
   background: var(--bg-primary);
