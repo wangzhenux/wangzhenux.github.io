@@ -58,7 +58,7 @@ const mainStyle = data.cover.gradient
 ---
 <BaseLayout title={data.title} description={data.deck}>
   <Nav currentPath={`/work/${data.slug}`} />
-  <main id="main" style={mainStyle}>
+  <main id="main" tabindex="-1" style={mainStyle}>
     <ProgressBar sections={data.sections} />
     <BackLink href="/" />
     <Hero
