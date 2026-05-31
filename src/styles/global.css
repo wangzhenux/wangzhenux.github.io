@@ -16,6 +16,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; line-height
 a { color: inherit; }
 img { max-width: 100%; display: block; }
 
+/* Anchor jumps + scrollspy click-scroll land cleanly past the nav / sticky
+   progress bar (§8.5). Larger offset below 1024px where the progress bar sticks. */
+.body section[id] { scroll-margin-top: var(--space-11); }
+@media (max-width: 1023px) { .body section[id] { scroll-margin-top: var(--space-13); } }
+
 /* Visible focus ring on every interactive element */
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible, dialog:focus-visible {
   outline: 2px solid var(--accent);

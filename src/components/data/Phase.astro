@@ -89,4 +89,11 @@ const { num, label, title, meta } = Astro.props;
     margin: 0;
     color: var(--ink-secondary);
   }
+
+  /* Phase number scales down on mobile (§9.1): 56px → 48px, tighter first col. */
+  @media (max-width: 767px) {
+    .phase { grid-template-columns: var(--space-11) 1fr; column-gap: var(--space-4); }
+    .phase-num { font-size: 48px; }
+    .phase-meta { grid-template-columns: var(--space-12) 1fr; }
+  }
 </style>

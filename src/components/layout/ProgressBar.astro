@@ -1,0 +1,153 @@
+---
+// Top progress bar + current-section tag + mobile TOC drawer (§9.1).
+// Visible only below 1024px (the sidebar TOC takes over at >=1024). The thin
+// accent bar reflects scroll % of the article; the section tag ("05 / 07 ·
+// A phased approach") and the drawer list are driven by the SAME active-section
+// logic in the scrollspy island (toc-scrollspy.ts). The drawer is a disclosure:
+// the button carries aria-expanded and the panel lists the same .toc-item
+// buttons (same data-target) as the sidebar TOC, so click-to-scroll is reused.
+interface Section { id: string; num: string; label: string; }
+interface Props { sections: Section[]; }
+const { sections } = Astro.props;
+const total = String(sections.length).padStart(2, '0');
+---
+<div class="progress-bar" data-total={total}>
+  <div class="progress-track" aria-hidden="true">
+    <div class="progress-fill"></div>
+  </div>
+  <button
+    type="button"
+    class="progress-tag"
+    aria-expanded="false"
+    aria-controls="toc-drawer"
+    aria-label="Show case study sections"
+  >
+    <span class="progress-count"><span class="progress-current">01</span> / {total}</span>
+    <span class="progress-sep" aria-hidden="true">·</span>
+    <span class="progress-label">{sections[0]?.label ?? ''}</span>
+    <span class="progress-chevron" aria-hidden="true">▾</span>
+  </button>
+  <div id="toc-drawer" class="progress-drawer" hidden>
+    <ul class="progress-drawer-list">
+      {sections.map((s) => (
+        <li>
+          <button type="button" class="toc-item toc-item--drawer" data-target={s.id}>
+            <span class="num">{s.num}</span>{s.label}
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+<style>
+  /* Hidden by default; the sidebar TOC owns navigation >=1024px. Shown below. */
+  .progress-bar { display: none; }
+
+  @media (max-width: 1023px) {
+    .progress-bar {
+      display: block;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--rule);
+      padding: var(--space-2) var(--pad-page-x) var(--space-3);
+    }
+    .progress-track {
+      height: 2px;
+      background: var(--rule);
+      position: relative;
+      margin-bottom: var(--space-2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      background: var(--accent);
+      transition: width 0.15s linear;
+    }
+    .progress-tag {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      width: 100%;
+      background: none;
+      border: none;
+      padding: var(--space-1) 0;
+      margin: 0;
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ink-tertiary);
+      border-radius: 3px;
+    }
+    .progress-count { color: var(--accent); flex-shrink: 0; }
+    .progress-sep { color: var(--ink-quaternary); flex-shrink: 0; }
+    .progress-label {
+      color: var(--ink-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+    .progress-chevron {
+      margin-left: auto;
+      flex-shrink: 0;
+      color: var(--ink-tertiary);
+      font-size: 9px;
+      transition: transform 0.2s ease;
+    }
+    .progress-tag[aria-expanded="true"] .progress-chevron { transform: rotate(180deg); }
+
+    .progress-drawer {
+      margin-top: var(--space-3);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--rule);
+    }
+    .progress-drawer[hidden] { display: none; }
+    .progress-drawer-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    .toc-item--drawer {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+      width: 100%;
+      background: none;
+      border: none;
+      padding: var(--space-2) 0;
+      margin: 0;
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--ink-secondary);
+      border-radius: 3px;
+    }
+    .toc-item--drawer:hover { color: var(--ink-primary); }
+    .toc-item--drawer .num {
+      font-size: 10px;
+      color: var(--ink-quaternary);
+      flex-shrink: 0;
+      width: 16px;
+      letter-spacing: 0.08em;
+    }
+    .toc-item--drawer[aria-current="location"],
+    .toc-item--drawer.active { color: var(--accent); font-weight: 500; }
+    .toc-item--drawer[aria-current="location"] .num,
+    .toc-item--drawer.active .num { color: var(--accent); }
+  }
+</style>

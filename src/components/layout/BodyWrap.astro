@@ -9,4 +9,16 @@
                max-width: var(--max-content); margin: 0 auto; padding: 0 var(--pad-page-x) var(--space-12); }
   .body { flex: 0 1 var(--max-body); min-width: 0; }
   .body-toc { flex: 0 0 var(--max-toc); }
+
+  /* 1024–1279: TOC collapses to a thin column (~40px); names appear on hover/focus. */
+  @media (max-width: 1279px) {
+    .body-toc { flex: 0 0 var(--space-8); } /* 40px */
+  }
+
+  /* <1024: sidebar TOC hidden entirely; the top progress bar takes over.
+     The body column then owns the full content width. */
+  @media (max-width: 1023px) {
+    .body-toc { display: none; }
+    .body { flex: 1 1 auto; }
+  }
 </style>

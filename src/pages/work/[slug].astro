@@ -7,6 +7,7 @@ import Footer from '../../components/chrome/Footer.astro';
 import Hero from '../../components/hero/Hero.astro';
 import BodyWrap from '../../components/layout/BodyWrap.astro';
 import Toc from '../../components/layout/Toc.astro';
+import ProgressBar from '../../components/layout/ProgressBar.astro';
 import NextCase from '../../components/showcase/NextCase.astro';
 import CaseInteractions from '../../components/layout/CaseInteractions.astro';
 import { getNext } from '../../lib/cases';
@@ -58,6 +59,7 @@ const mainStyle = data.cover.gradient
 <BaseLayout title={data.title} description={data.deck}>
   <Nav currentPath={`/work/${data.slug}`} />
   <main id="main" style={mainStyle}>
+    <ProgressBar sections={data.sections} />
     <BackLink href="/" />
     <Hero
       eyebrow={eyebrow}

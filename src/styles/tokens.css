@@ -66,6 +66,30 @@
   --font-mono: ui-monospace, 'SF Mono', 'Geist Mono', monospace;
 }
 
+/* === Responsive token overrides (§9) ===
+   Global rhythm scales down per breakpoint by shrinking the semantic spacing
+   tokens at :root, so component CSS does not need per-component breakpoints for
+   page padding / section rhythm. */
+@media (max-width: 1279px) {
+  :root {
+    --pad-page-x: var(--space-9);   /* 56 → 48 */
+    --pad-section-y: var(--space-11); /* 80 → 64 */
+    --gap-body-toc: var(--space-9);  /* 64 → 48 */
+  }
+}
+@media (max-width: 1023px) {
+  :root {
+    --pad-page-x: var(--space-8);   /* → 40 */
+    --pad-section-y: var(--space-10); /* → 56 */
+  }
+}
+@media (max-width: 767px) {
+  :root {
+    --pad-page-x: var(--space-5);   /* → 20 */
+    --pad-section-y: var(--space-9); /* → 48 */
+  }
+}
+
 /* === Dark variant — PREPARED, not enabled in v1 ===
    When ready, remove the `:root[data-theme="light"]` guard so this
    activates on prefers-color-scheme: dark. */

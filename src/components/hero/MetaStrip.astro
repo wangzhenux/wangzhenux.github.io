@@ -37,4 +37,22 @@ const { fields } = Astro.props;
     line-height: 1.5;
     margin: 0;
   }
+
+  /* Responsive column collapse (§9.1). min() caps the columns at the breakpoint
+     ceiling while never exceeding the actual field count (--meta-cols). */
+  @media (max-width: 1279px) {
+    .meta-strip { grid-template-columns: repeat(min(var(--meta-cols), 3), 1fr); }
+  }
+  @media (max-width: 1023px) {
+    .meta-strip {
+      grid-template-columns: repeat(min(var(--meta-cols), 2), 1fr);
+      gap: var(--space-6);
+    }
+  }
+  @media (max-width: 767px) {
+    .meta-strip {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  }
 </style>

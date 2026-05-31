@@ -6,7 +6,9 @@ test('TOC active follows scroll and click jumps', async ({ page, viewport }) => 
   test.skip((viewport?.width ?? 0) < 1280, 'TOC sidebar is desktop-only');
 
   await page.goto('/work/twilio');
-  const items = page.locator('.toc-item');
+  // Scope to the sidebar TOC: the mobile drawer also renders `.toc-item` buttons
+  // (hidden at desktop), so an unscoped `.toc-item` locator is ambiguous.
+  const items = page.locator('.toc .toc-item');
   await items.nth(4).click();
   await expect(items.nth(4)).toHaveAttribute('aria-current', 'location');
 });

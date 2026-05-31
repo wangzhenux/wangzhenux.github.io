@@ -13,4 +13,8 @@
     border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
   }
+  /* Cards stack on mobile (§9.1). */
+  @media (max-width: 767px) {
+    .card-row { grid-template-columns: 1fr; gap: var(--space-6); }
+  }
 </style>
