@@ -1,0 +1,80 @@
+---
+title: "Park Engagement user research"
+deck: "User research to encourage civic engagement between Austin residents and the city's Parks and Recreation Department — mapped end to end as a single journey."
+slug: park-engagement
+company: City of Austin Parks and Recreation Department (PARD)
+year: 2016
+role: User Researcher • Note Taker
+cover:
+  gradient: "linear-gradient(135deg, #3F6B4A 0%, #1F3A28 100%)"
+order: 5
+featured: true
+archive: false
+sections:
+  - { id: s01, num: "01", label: "The project" }
+  - { id: s02, num: "02", label: "The whole journey" }
+  - { id: s03, num: "03", label: "Behind the scenes" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import CardRow from '../../components/data/CardRow.astro';
+import PainCard from '../../components/data/PainCard.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+
+<section id="s01">
+  <Lede>
+    A research project to encourage civic engagement between Austin residents and
+    the city's Parks and Recreation Department (PARD).
+  </Lede>
+
+  <BodyText>
+    I worked as a user researcher and note taker on the project, using a mix of
+    methods to understand how residents currently engage with the city's parks
+    and where that engagement breaks down.
+  </BodyText>
+
+  <SectionH>Research methods</SectionH>
+  <CardRow>
+    <PainCard num="01" title="Survey &amp; interception">
+      Surveys and intercept research to reach residents where they already were.
+    </PainCard>
+    <PainCard num="02" title="Interview">
+      Interviews to go deeper on residents' motivations and frustrations.
+    </PainCard>
+    <PainCard num="03" title="Ideation &amp; journey map">
+      Ideation sessions, synthesized into an end-to-end journey map.
+    </PainCard>
+  </CardRow>
+</section>
+
+<section id="s02">
+  <SectionH>The whole journey</SectionH>
+  <BodyText>
+    We mapped the entire engagement process end to end as a single journey — the
+    memorable artifact of the project.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/park-engagement/park_engagement_journey_map.png"
+      alt="End-to-end journey map of resident engagement with Austin's parks"
+      width={2667}
+      height={4935}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s03">
+  <SectionH>Behind the scenes</SectionH>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/park-engagement/park_engagement_photo.png"
+      alt="Behind-the-scenes photos from the Park Engagement research"
+      width={2423}
+      height={1786}
+    />
+  </ImageShowcase>
+</section>
