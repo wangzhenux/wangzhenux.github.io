@@ -2,7 +2,11 @@ module.exports = {
   ci: {
     collect: {
       staticDistDir: './dist',
-      url: ['http://localhost/index.html'],
+      url: [
+        'http://localhost/index.html',
+        'http://localhost/work/twilio/index.html',
+        'http://localhost/about/index.html',
+      ],
     },
     assert: {
       assertions: {
