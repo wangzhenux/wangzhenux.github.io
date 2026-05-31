@@ -1,5 +1,6 @@
 ---
 import MetaStrip from '../hero/MetaStrip.astro';
+import Container from '../layout/Container.astro';
 
 interface MetaField { label: string; value: string; }
 interface Props {
@@ -17,28 +18,28 @@ const eyebrow = ['Featured', year, company].filter(Boolean).join(' · ');
 const href = `/work/${slug}`;
 ---
 <section class="featured" aria-labelledby="featured-heading">
-  <a class="featured-cover" href={href}
-     style={!image ? `--case-cover: ${cover}` : undefined}>
-    {image && <img class="featured-cover-image" src={image} alt="" />}
-    <span class="featured-cover-content">
-      <span class="featured-cover-text">
-        <span class="featured-meta">{eyebrow}</span>
-        <span class="featured-title" id="featured-heading">{title}</span>
+  <Container>
+    <a class="featured-cover" href={href}
+       style={!image ? `--case-cover: ${cover}` : undefined}>
+      {image && <img class="featured-cover-image" src={image} alt="" />}
+      <span class="featured-cover-content">
+        <span class="featured-cover-text">
+          <span class="featured-meta">{eyebrow}</span>
+          <span class="featured-title" id="featured-heading">{title}</span>
+        </span>
+        <span class="featured-cta">Read the story →</span>
       </span>
-      <span class="featured-cta">Read the story →</span>
-    </span>
-  </a>
-  {summary && <p class="featured-lead">{summary}</p>}
-  {metaFields.length > 0 && <MetaStrip fields={metaFields} />}
+    </a>
+    {summary && <p class="featured-lead">{summary}</p>}
+    {metaFields.length > 0 && <MetaStrip fields={metaFields} />}
+  </Container>
 </section>
 <style>
   /* ported from homepage.html .featured / .featured-cover / .featured-meta /
      .featured-title / .featured-cta / .featured-lead, tokenized.
      The cover is the link; meta strip reuses the hero MetaStrip below it. */
   .featured {
-    padding: var(--space-4) var(--pad-page-x) var(--space-11);
-    max-width: var(--max-content);
-    margin-inline: auto;
+    padding-block: var(--space-4) var(--space-11);
   }
   .featured-cover {
     display: block;

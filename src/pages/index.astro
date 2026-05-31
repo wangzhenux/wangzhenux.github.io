@@ -6,6 +6,7 @@ import Featured from '../components/home/Featured.astro';
 import SelectedGrid from '../components/home/SelectedGrid.astro';
 import WritingList from '../components/home/WritingList.astro';
 import Archive from '../components/home/Archive.astro';
+import Container from '../components/layout/Container.astro';
 import { getFeatured, getSelected, getArchive } from '../lib/cases';
 import type { CaseEntry } from '../lib/cases';
 
@@ -50,14 +51,16 @@ const archiveItems = archive.map((c) => ({
   <Nav currentPath="/" />
   <main id="main" tabindex="-1">
     <header class="home-hero">
-      <p class="home-hero-eyebrow">Senior Product Designer</p>
-      <h1 class="home-hero-h1">
-        Hi, I'm Zhen, a senior product designer who likes quiet, useful software.
-      </h1>
-      <p class="home-hero-sub">
-        Ten years at Twilio, Tasktop, and Rackspace. Outside work: badminton,
-        ping-pong, calligraphy, and painting.
-      </p>
+      <Container>
+        <p class="home-hero-eyebrow">Senior Product Designer</p>
+        <h1 class="home-hero-h1">
+          Hi, I'm Zhen, a senior product designer who likes quiet, useful software.
+        </h1>
+        <p class="home-hero-sub">
+          Ten years at Twilio, Tasktop, and Rackspace. Outside work: badminton,
+          ping-pong, calligraphy, and painting.
+        </p>
+      </Container>
     </header>
 
     {featured && (
@@ -82,10 +85,12 @@ const archiveItems = archive.map((c) => ({
   <Footer />
 </BaseLayout>
 <style>
-  /* Homepage hero (§6.1 item 2): eyebrow + F2 copy, reading column ~720px. */
+  /* Homepage hero (§6.1 item 2): eyebrow + F2 copy. Content sits in the shared
+     Container (max-content, centered, page gutter) so its left edge aligns with
+     the nav and every section below; the section itself carries only vertical
+     rhythm. The text keeps a tighter reading column via the inner max-widths. */
   .home-hero {
-    max-width: 720px;
-    padding: var(--space-12) var(--pad-page-x) var(--space-11);
+    padding-block: var(--space-12) var(--space-11);
   }
   .home-hero-eyebrow {
     font-family: var(--font-mono);

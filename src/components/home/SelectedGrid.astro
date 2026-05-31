@@ -1,5 +1,6 @@
 ---
 import CaseCard from './CaseCard.astro';
+import Container from '../layout/Container.astro';
 
 interface CaseInput {
   slug: string;
@@ -21,15 +22,17 @@ const countLabel = String(count).padStart(2, '0');
 ---
 {count > 0 && (
   <section class="selected" aria-labelledby="selected-heading">
-    <div class="selected-header">
-      <h2 class="selected-title" id="selected-heading">{title}</h2>
-      <span class="selected-count">{countLabel} {count === 1 ? 'case' : 'cases'}</span>
-    </div>
-    <div class="selected-grid">
-      {cases.map((c, i) => (
-        <CaseCard {...c} large={i === 0} />
-      ))}
-    </div>
+    <Container>
+      <div class="selected-header">
+        <h2 class="selected-title" id="selected-heading">{title}</h2>
+        <span class="selected-count">{countLabel} {count === 1 ? 'case' : 'cases'}</span>
+      </div>
+      <div class="selected-grid">
+        {cases.map((c, i) => (
+          <CaseCard {...c} large={i === 0} />
+        ))}
+      </div>
+    </Container>
   </section>
 )}
 <style>
@@ -37,7 +40,7 @@ const countLabel = String(count).padStart(2, '0');
      Asymmetric grid: 1.5fr lead slot + 1fr followers. The lead card
      (first entry) is rendered with `large` so its cover gets the 4/3 ratio. */
   .selected {
-    padding: var(--space-10) var(--pad-page-x) var(--space-11);
+    padding-block: var(--space-10) var(--space-11);
     border-top: 1px solid var(--rule);
     background: var(--bg-secondary);
   }
@@ -46,8 +49,6 @@ const countLabel = String(count).padStart(2, '0');
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: var(--space-8);
-    max-width: var(--max-content);
-    margin-inline: auto;
   }
   .selected-title {
     font-family: var(--font-display);
@@ -67,8 +68,6 @@ const countLabel = String(count).padStart(2, '0');
     display: grid;
     grid-template-columns: 1.5fr 1fr;
     gap: var(--space-8) var(--space-6);
-    max-width: var(--max-content);
-    margin-inline: auto;
   }
   @media (max-width: 767px) {
     .selected-grid {

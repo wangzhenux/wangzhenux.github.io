@@ -1,0 +1,26 @@
+---
+/**
+ * Shared content-frame primitive.
+ *
+ * One convention for the horizontal content edge across the whole site: a
+ * max-content column, centered, with the page gutter applied as inner padding.
+ * Every homepage section (and the nav/footer/hero) wraps its content in this so
+ * the leftmost text shares ONE left edge = frame_left + var(--pad-page-x).
+ *
+ * The OUTER section carries only vertical padding + any full-bleed background;
+ * this Container owns the horizontal frame.
+ */
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+}
+const { as: Tag = 'div', class: cls = '' } = Astro.props;
+---
+<Tag class={`container ${cls}`.trim()}><slot /></Tag>
+<style>
+  .container {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--pad-page-x);
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import { fetchMedium } from '../../lib/medium';
+import Container from '../layout/Container.astro';
 
 interface Props {
   handle?: string;
@@ -18,42 +19,42 @@ function formatDate(pubDate: string): string {
 }
 ---
 <section class="writing" aria-labelledby="writing-heading">
-  <div class="writing-header">
-    <h2 class="writing-title" id="writing-heading">{title}</h2>
-    <a class="writing-more" href={profileUrl} target="_blank" rel="noopener">on Medium →</a>
-  </div>
+  <Container>
+    <div class="writing-header">
+      <h2 class="writing-title" id="writing-heading">{title}</h2>
+      <a class="writing-more" href={profileUrl} target="_blank" rel="noopener">on Medium →</a>
+    </div>
 
-  {posts.length > 0 ? (
-    <ul class="writing-list">
-      {posts.map((post) => (
-        <li>
-          <a class="writing-row" href={post.link} target="_blank" rel="noopener">
-            {post.image ? (
-              <img class="writing-thumb" src={post.image} alt="" loading="lazy" />
-            ) : (
-              <span class="writing-thumb writing-thumb--placeholder" aria-hidden="true"></span>
-            )}
-            <span class="writing-date">{formatDate(post.pubDate)}</span>
-            <span class="writing-headline">{post.title}</span>
-            <span class="writing-excerpt">{post.excerpt}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p class="writing-empty">
-      <a href={profileUrl} target="_blank" rel="noopener">Find my writing on Medium →</a>
-    </p>
-  )}
+    {posts.length > 0 ? (
+      <ul class="writing-list">
+        {posts.map((post) => (
+          <li>
+            <a class="writing-row" href={post.link} target="_blank" rel="noopener">
+              {post.image ? (
+                <img class="writing-thumb" src={post.image} alt="" loading="lazy" />
+              ) : (
+                <span class="writing-thumb writing-thumb--placeholder" aria-hidden="true"></span>
+              )}
+              <span class="writing-date">{formatDate(post.pubDate)}</span>
+              <span class="writing-headline">{post.title}</span>
+              <span class="writing-excerpt">{post.excerpt}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="writing-empty">
+        <a href={profileUrl} target="_blank" rel="noopener">Find my writing on Medium →</a>
+      </p>
+    )}
+  </Container>
 </section>
 <style>
   /* ported from homepage.html .writing / .writing-row / .writing-date /
      .writing-headline / .writing-excerpt, tokenized. A thumbnail column is
      added: real image when present, cream --bg-secondary placeholder when not. */
   .writing {
-    padding: var(--space-11) var(--pad-page-x);
-    max-width: var(--max-content);
-    margin-inline: auto;
+    padding-block: var(--space-11);
   }
   .writing-header {
     display: flex;
