@@ -1,0 +1,68 @@
+---
+title: "iLab Team Assignment Site"
+deck: "A platform for the innovation lab to assign students to projects more conveniently and support team cooperation."
+slug: ilab
+company: University of Texas at Austin
+class: "Graduate academic project · MS in Information Studies"
+year: 2016
+role: RoR Developer • DB Designer • Web Designer • Information Architect
+cover:
+  gradient: "linear-gradient(135deg, #D21D00 0%, #C8351D 100%)"
+order: 90
+featured: false
+archive: true
+sections:
+  - { id: s01, num: "01", label: "The project" }
+  - { id: s02, num: "02", label: "Concept of operations" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+
+<section id="s01">
+  <Lede>
+    A platform for the innovation lab to better assign students to projects and
+    support project team cooperation.
+  </Lede>
+
+  <BodyText>
+    Sponsors upload proposals for their projects. Students review those proposals
+    and submit resumes and cover letters to apply. Instructors then go through all
+    the documents and decide who should work on which project — weighing equity
+    along the way — which is very time-consuming. The site set out to make that
+    matching process easier to run.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/ilab/problems.png"
+      alt="Problems the iLab Team Assignment Site set out to address"
+      width={1210}
+      height={772}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s02">
+  <SectionH>Concept of operations</SectionH>
+  <BodyText>
+    I worked across the stack — Ruby on Rails development, database design, web
+    design, and information architecture — to turn the matching process into a
+    workable tool: optimizing team formation around students' schedules and
+    preferences alongside skills and project needs, project review and
+    application, group resource management, sponsorship approval, professor
+    oversight, and an iLab resource library.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/ilab/concept_of_operations.png"
+      alt="Concept of operations diagram for the iLab Team Assignment Site"
+      width={2298}
+      height={1062}
+    />
+  </ImageShowcase>
+</section>

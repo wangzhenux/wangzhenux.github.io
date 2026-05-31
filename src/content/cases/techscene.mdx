@@ -1,0 +1,92 @@
+---
+title: "TechScene"
+deck: "An online event site dedicated to tech-industry listings for Austin, Texas — a central place to find events, meetups, and learning opportunities."
+slug: techscene
+company: University of Texas at Austin
+class: "Graduate academic project · MS in Information Studies"
+year: 2015
+role: Team Co-leader • Interaction Designer • User Researcher
+cover:
+  gradient: "linear-gradient(135deg, #1D2B40 0%, #0B2C5D 100%)"
+order: 93
+featured: false
+archive: true
+sections:
+  - { id: s01, num: "01", label: "The concept" }
+  - { id: s02, num: "02", label: "User research" }
+  - { id: s03, num: "03", label: "Iterative design" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+
+<section id="s01">
+  <Lede>
+    TechScene is an online event site dedicated to providing event listings
+    specific to technology and the tech industry of Austin, Texas.
+  </Lede>
+
+  <BodyText>
+    Other Austin event sites were broadly focused. The creators of TechScene grew
+    tired of wading through multiple meetup and event sites to find centrally
+    focused listings of events, classes, and networking get-togethers they wanted
+    to attend. The idea: a single manageable place listing happenings and
+    opportunities to connect, network, learn, collaborate, play, and socialize —
+    without the extraneous listings that did not serve students, enthusiasts, and
+    professionals.
+  </BodyText>
+</section>
+
+<section id="s02">
+  <SectionH>User research</SectionH>
+  <BodyText>
+    We interviewed six people aged 22 to 35 in a first phase, then ran a
+    competitive analysis of six sites identified by interviewees — including
+    Meetup, Eventbrite, Do512, SXSW, and Technical.ly — assessing their design,
+    search, and event categorization. A second interview phase with four
+    participants balanced the gender mix, and a 13-question Qualtrics survey
+    (shared through the iSchool's Insider and the team's tech-industry contacts)
+    gathered demographics, event experience, and desired content.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/competitive_analysis.png"
+      alt="TechScene competitive analysis of existing event sites"
+      width={1994}
+      height={656}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s03">
+  <SectionH>Iterative design</SectionH>
+  <BodyText>
+    From an affinity diagram we identified the site's areas, then moved through
+    personas, storyboards, and wireframes in Balsamiq and Axure. We iterated five
+    rounds from paper to high fidelity, running usability testing on each — 15
+    participants across 25 sessions in total — and refined the pages that most
+    affected the user's experience.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/usability_testing.png"
+      alt="TechScene usability testing"
+      width={2050}
+      height={836}
+    />
+  </ImageShowcase>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/hi_fidelity_mockup.png"
+      alt="TechScene high-fidelity mockup"
+      width={994}
+      height={561}
+    />
+  </ImageShowcase>
+</section>

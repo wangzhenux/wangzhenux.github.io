@@ -1,0 +1,91 @@
+---
+title: "T.E.A.M. Carpool"
+deck: "An iOS carpool app helping University of Texas at Austin students find a carpooler — and take advantage of UT's shared parking-permit policy."
+slug: pool-my-ride
+company: University of Texas at Austin
+class: "Graduate academic project · MS in Information Studies"
+year: 2015
+role: User Researcher • Interaction Designer
+cover:
+  gradient: "linear-gradient(135deg, #F46C41 0%, #E1F366 100%)"
+order: 92
+featured: false
+archive: true
+sections:
+  - { id: s01, num: "01", label: "The opportunity" }
+  - { id: s02, num: "02", label: "User research" }
+  - { id: s03, num: "03", label: "Iterative design" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+
+<section id="s01">
+  <Lede>
+    T.E.A.M. (Together Everyone Achieves More) Carpool is an iOS app built to help
+    University of Texas at Austin students find a carpooler.
+  </Lede>
+
+  <BodyText>
+    Based on UT's 2014 Parking Strategies Committee Report, the campus had about
+    52,000 students, 17,279 faculty and staff, and 5,000 visitors against only
+    15,800 parking spaces — a potential user-to-space ratio of 4.8:1. To ease the
+    crunch, UT lets up to four members share a parking permit and carpool to
+    campus. But few students knew the policy existed, and the hard part was simply
+    finding a carpooler. T.E.A.M. set out to make that fast and easy while
+    surfacing the permit policy.
+  </BodyText>
+</section>
+
+<section id="s02">
+  <SectionH>User research</SectionH>
+  <BodyText>
+    We ran a survey and two rounds of interviews, plus a competitive analysis of
+    Uber, Zimride, and Pool My Ride to learn from their strengths and weaknesses.
+    The survey drew 43 responses across five topics — demographics, ways to find a
+    carpooler, carpooler type, reward, and difficulty finding a carpooler. After
+    the initial round we narrowed scope to UT students and folded UT's carpool
+    policy benefits into the system: reserved carpool parking, reduced permit
+    fees, and an extra UT shuttle pass.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/pool-my-ride/personas.png"
+      alt="Personas synthesized from the carpool user research"
+      width={2378}
+      height={652}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s03">
+  <SectionH>Iterative design</SectionH>
+  <BodyText>
+    We started from paper prototypes of the chosen design and iterated four rounds
+    — from early sketches to high-fidelity mockups — refining each round on
+    feedback from usability testing, while settling the content mapping and
+    controlled vocabulary alongside the design.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/pool-my-ride/sketch_design.png"
+      alt="Paper sketches of the T.E.A.M. carpool app"
+      width={2014}
+      height={2286}
+    />
+  </ImageShowcase>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/pool-my-ride/hi_fi.png"
+      alt="High-fidelity mockups of the T.E.A.M. carpool app"
+      width={1878}
+      height={1728}
+    />
+  </ImageShowcase>
+</section>

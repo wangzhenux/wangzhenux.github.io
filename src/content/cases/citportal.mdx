@@ -1,0 +1,67 @@
+---
+title: "Citportal — CIT Web Portal"
+deck: "A web portal serving as a resource for combinatorial interaction testing (CIT) across many domains."
+slug: citportal
+company: University of Nebraska–Lincoln
+class: "Undergraduate research project · Computer Engineering"
+year: 2014
+role: PHP Developer • Web Designer • DB Designer & Developer
+cover:
+  gradient: "linear-gradient(135deg, #54575A 0%, #4A647E 100%)"
+order: 91
+featured: false
+archive: true
+sections:
+  - { id: s01, num: "01", label: "Database implementation" }
+  - { id: s02, num: "02", label: "Building the site" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+
+<section id="s01">
+  <Lede>
+    The Combinatorial Interaction Testing (CIT) web portal serves as a resource
+    for combinatorial interaction testing across many domains.
+  </Lede>
+
+  <BodyText>
+    The original version was a static page with no database behind it. To make
+    the content easy to maintain and update, I re-implemented it as a dynamic
+    site. I worked closely with my sponsor to settle the requirements and
+    determine the entities the site needed, drew the ER diagram, and built the
+    database in MySQL and PhpMyAdmin.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/citportal/db.png"
+      alt="Citportal database design and entity-relationship diagram"
+      width={1790}
+      height={1892}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s02">
+  <SectionH>Building the site</SectionH>
+  <BodyText>
+    I developed the site in PHP with CodeIgniter, using the Gumby framework to set
+    up the grid and arrange content. As an informative site, I organized the
+    content as pieces of information boards and used light but high-contrast
+    colors — mostly black, white, and gray with a few highlight colors — to keep
+    the content clear and well arranged.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/citportal/citportal_homepage.png"
+      alt="Citportal homepage layout"
+      width={870}
+      height={572}
+    />
+  </ImageShowcase>
+</section>
