@@ -26,6 +26,19 @@
   --rule: #1A141018;
   --rule-soft: #1A14100E;
 
+  /* === Cover overlays (design literals) ===
+     Sheen = warm-white highlight wash over the per-case gradient cover;
+     scrim = dark gradient behind cover text for legibility. Extracted from
+     the Cover/Featured/CaseCard overlay rules so component CSS stays
+     token-only (§12.3). Soft variant is the lighter wash used on grid cards. */
+  --cover-sheen: rgba(255, 255, 255, 0.18);
+  --cover-sheen-soft: rgba(255, 255, 255, 0.12);
+  --cover-scrim: rgba(20, 14, 18, 0.65);
+
+  /* === Border radius === */
+  --radius-sm: 4px;
+  --radius: 6px;
+
   /* === Shadows === */
   --shadow-card: 0 12px 30px -10px rgba(20, 14, 8, 0.16);
   --shadow-hover: 0 16px 36px -12px rgba(20, 14, 8, 0.18);

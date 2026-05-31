@@ -18,9 +18,9 @@ const { caseCover, image, alt } = Astro.props;
   .cover {
     aspect-ratio: 16/8;
     background:
-      radial-gradient(at 25% 25%, rgba(255, 255, 255, 0.18), transparent 50%),
+      radial-gradient(at 25% 25%, var(--cover-sheen), transparent 50%),
       var(--case-cover);
-    border-radius: 6px;
+    border-radius: var(--radius);
     margin-bottom: var(--space-7);
     position: relative;
     overflow: hidden;

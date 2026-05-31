@@ -8,6 +8,8 @@ test.each([
   '--ink-primary', '--ink-secondary', '--ink-tertiary', '--ink-quaternary',
   '--accent', '--accent-soft', '--accent-medium', '--highlight',
   '--rule', '--rule-soft', '--shadow-card', '--shadow-hover', '--shadow-frame',
+  '--cover-sheen', '--cover-sheen-soft', '--cover-scrim',
+  '--radius-sm', '--radius',
   '--space-0', '--space-7', '--space-14',
   '--pad-page-x', '--pad-section-y', '--gap-body-toc', '--max-body', '--max-toc',
   '--font-display', '--font-body', '--font-mono',
