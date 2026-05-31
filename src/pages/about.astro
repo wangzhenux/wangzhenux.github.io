@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/chrome/Nav.astro';
+import Footer from '../components/chrome/Footer.astro';
+import Seal from '../components/about/Seal.astro';
+import CvCallout from '../components/about/CvCallout.astro';
+import WorkHistory from '../components/about/WorkHistory.astro';
+import EducationPractice from '../components/about/EducationPractice.astro';
+import ReachMe from '../components/about/ReachMe.astro';
+
+// Seal SVG is uploaded later; gate the real <img> on its presence and fall back
+// to a styled "Z" wordmark otherwise (§15.4 / Task 7.2).
+const hasSeal = Object.keys(import.meta.glob('/public/seal.svg')).length > 0;
+
+// Real work history: companies + roles are sourced from the case studies and
+// src/about.tsx. Years/locations are intentionally omitted — they are not
+// stated in the available sources, and the NO-FABRICATION rule forbids
+// inventing them. The WorkHistory component drops those columns cleanly.
+const roles = [
+  { role: 'Senior Product Designer', company: 'Twilio' },
+  { role: 'Design Lead', company: 'Tasktop' },
+  { role: 'Lead / Senior UX Designer', company: 'Tasktop' },
+  { role: 'Senior Designer', company: 'Rackspace' },
+];
+
+// Education: src/about.tsx states only a computer-engineering background with a
+// front-end development focus. No degree names, institutions, or dates are
+// given in the sources, so none are invented here.
+const education = [
+  { primary: 'Background in computer engineering', detail: 'focus on front-end development' },
+];
+---
+<BaseLayout title="About — Zhen Wang">
+  <Nav currentPath="/about" />
+  <main id="main">
+    <header class="hero">
+      <div class="hero-text">
+        <p class="hero-eyebrow">About · Curriculum vitae</p>
+        <h1 class="hero-h1">Hi, I'm Zhen.</h1>
+        <p class="hero-bio">
+          I'm a user experience designer and developer with a passion for making
+          things functional and intuitive to use. A background in computer
+          engineering with a focus on front-end development lets me hold both
+          sides of a problem at once — the visual and the technical — which has
+          been useful across the kind of dense, expert software I've spent most
+          of my career on.
+        </p>
+        <p class="hero-bio">
+          Outside work I like to travel and play sports, especially table tennis
+          and badminton. I also love traditional Chinese calligraphy and
+          painting — the slow stuff balances out the screens.
+        </p>
+      </div>
+      <div class="hero-seal">
+        <Seal hasSeal={hasSeal} />
+      </div>
+    </header>
+
+    <CvCallout lastUpdated="April 2026" />
+    <WorkHistory roles={roles} />
+    <EducationPractice education={education} />
+    <ReachMe />
+  </main>
+  <Footer />
+</BaseLayout>
+<style>
+  /* ported from about-resume.html .hero, tokenized */
+  .hero {
+    padding: var(--space-13) var(--pad-page-x) var(--space-12);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-10);
+    align-items: start;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-tertiary);
+    margin: 0 0 var(--space-4);
+  }
+  .hero-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -0.022em;
+    margin: 0 0 var(--space-5);
+    font-weight: 500;
+    max-width: 14ch;
+  }
+  .hero-bio {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-secondary);
+    margin: 0 0 var(--space-4);
+    max-width: 56ch;
+  }
+  .hero-bio:last-of-type {
+    margin-bottom: 0;
+  }
+  .hero-seal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(135deg, var(--accent-soft), transparent), var(--bg-secondary);
+    border-radius: 6px;
+  }
+  @media (max-width: 767px) {
+    .hero {
+      grid-template-columns: 1fr;
+      padding: var(--space-11) var(--pad-page-x) var(--space-10);
+      gap: var(--space-7);
+    }
+    .hero-seal {
+      aspect-ratio: auto;
+      padding: var(--space-9) 0;
+      order: -1;
+    }
+  }
+</style>
