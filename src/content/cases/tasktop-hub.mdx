@@ -1,0 +1,416 @@
+---
+title: "Making integration configurations portable in Tasktop Hub"
+deck: "Two feature efforts on an enterprise integration platform — giving customers an at-a-glance view of their delivery value stream, and a way to move configuration changes between instances without manual rework."
+slug: tasktop-hub
+company: Tasktop
+year: 2022
+role: Senior UX Designer • Design Lead
+cover:
+  gradient: "linear-gradient(135deg, #2D5A87 0%, #18324A 100%)"
+order: 2
+featured: true
+sections:
+  - { id: s01, num: "01", label: "The product" }
+  - { id: s02, num: "02", label: "How features get designed" }
+  - { id: s03, num: "03", label: "Integration Landscape" }
+  - { id: s04, num: "04", label: "Portability of Configurations" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import SectionDeck from '../../components/reading/SectionDeck.astro';
+import Figure from '../../components/reading/Figure.astro';
+import CardRow from '../../components/data/CardRow.astro';
+import PainCard from '../../components/data/PainCard.astro';
+import ResearchStats from '../../components/data/ResearchStats.astro';
+import Stat from '../../components/data/Stat.astro';
+import Dual from '../../components/data/Dual.astro';
+import DualCol from '../../components/data/DualCol.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+import Reflection from '../../components/showcase/Reflection.astro';
+import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
+
+<section id="s01">
+  <Lede>
+    With Tasktop Integration Hub, teams can remove the duplicate data entry and
+    manual handovers that slow them down, and improve efficiency, speed, and
+    visibility across teams by flowing work automatically and seamlessly from
+    tool to tool.
+  </Lede>
+
+  <BodyText>
+    Delivery roles have multiplied, and so have the specialized tools throughout
+    the delivery chain. Having tools that aren't connected means team members
+    share even the simplest updates through multiple emails, status sheets, and
+    endless meetings. All of this increases the risk that requirements and
+    features get lost, and deadlines are missed. This is where integration comes
+    in.
+  </BodyText>
+
+  <SectionH>What Hub gives teams</SectionH>
+  <CardRow>
+    <PainCard num="01" title="True bi-directional integration">
+      Artifacts flow both ways between tools, so each side stays in sync.
+    </PainCard>
+    <PainCard num="02" title="Bulk project mapping through models">
+      Map many projects at once using models rather than configuring each by
+      hand.
+    </PainCard>
+    <PainCard num="03" title="Visual point-and-click configuration">
+      Intuitive, visual configuration instead of code.
+    </PainCard>
+  </CardRow>
+  <BodyText>
+    Hub also provides proactive support for APIs, so customers can extend their
+    integrations as their tool stack grows.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/hub_integration_landscape.png"
+      alt="Tasktop Integration Hub showing an integration landscape of connected tools"
+      width={692}
+      height={479}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s02">
+  <SectionH>How features get designed</SectionH>
+  <SectionDeck>The general feature design process I followed at Tasktop.</SectionDeck>
+  <BodyText>
+    As lead feature designer on Hub, I worked through a repeatable process — from
+    gathering requirements and running design workshops, to wireframing, design
+    critiques, and high-fidelity prototypes — to take features from a problem to
+    a shipped design.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/feature_design_process.svg"
+      alt="General feature design process at Tasktop"
+      width={1335}
+      height={318}
+    />
+  </ImageShowcase>
+
+  <BodyText>
+    Two of the features I led on Hub are detailed below: the
+    **Integration Landscape**, a visual overview of an enterprise's entire
+    software delivery value stream, and **Portability of Configurations**, which
+    lets customers move configuration changes between instances without manual
+    rework.
+  </BodyText>
+</section>
+
+<section id="s03">
+  <SectionH>Integration Landscape</SectionH>
+  <BodyText>
+    The Integration Landscape is the overall view of all the integrations a
+    customer has set up. It aims to help users better understand their artifact
+    flow in a big picture, and — eventually — provide an intuitive way to build
+    their integrations. Landscape view provides a simple but dramatic visual
+    overview of an enterprise's entire software delivery value stream. This kind
+    of at-a-glance value-stream overview was the first of its kind: it lets users
+    quickly see which systems are integrated, what models are being used, whether
+    flows are one-way or two-way, and which artifacts are flowing between tools
+    (e.g. Stories, Defects, Requirements).
+  </BodyText>
+
+  <SectionH small>Background</SectionH>
+  <BodyText>
+    Tasktop Integration Hub is enterprise software built to power some of the
+    world's largest Agile and DevOps transformations. From the feedback we got,
+    customers were very happy with the tool's efficiency and effortlessness.
+    However, when prospects and customers start thinking about their integration,
+    they start at the very highest level rather than the low-level details, and
+    work their way down. Given the stage of the product, we only had the lower
+    levels there — integrations were created by starting with the available
+    elements and working up. **This made it difficult for users to get
+    higher-level visibility into their entire landscape in a single place.**
+  </BodyText>
+
+  <Figure
+    src="/cases/tasktop-hub/il_sla.png"
+    alt="Software lifecycle architecture diagram inspired by the field teams"
+    caption="Inspired by software lifecycle architecture from the field teams."
+  />
+
+  <SectionH small>Requirements and design workshops</SectionH>
+  <BodyText>
+    I gathered the fundamental requirements and the nice-to-have user needs, then
+    ran cross-disciplinary design workshops where team members could rapidly
+    generate and discuss a wide set of ideas from different perspectives.
+  </BodyText>
+
+  <Dual>
+    <DualCol heading="Fundamental requirements">
+      <div class="dual-item"><div class="head">Visualize the workflow</div><div class="det">It must be easy for users to visualize the entire workflow.</div></div>
+      <div class="dual-item"><div class="head">Locate an integration</div><div class="det">Users must be able to quickly locate an integration.</div></div>
+      <div class="dual-item"><div class="head">Match users' mental model</div><div class="det">The Landscape must match how users think about the flow of information between different systems or departments.</div></div>
+      <div class="dual-item"><div class="head">Construct without full detail</div><div class="det">It must let users dynamically construct integration components without having all of the details upfront.</div></div>
+    </DualCol>
+    <DualCol heading="Who joined the workshops">
+      <div class="dual-item"><div class="head">Product Manager</div><div class="det">Insights from the perspective of business value and product vision.</div></div>
+      <div class="dual-item"><div class="head">Engineering</div><div class="det">Opinions from the perspective of technical feasibility.</div></div>
+      <div class="dual-item"><div class="head">Customer-facing team members</div><div class="det">Customer use cases and scenario details.</div></div>
+      <div class="dual-item"><div class="head">UX designer</div><div class="det">Sketching ideas and digging deep to refine concepts and tackle design challenges.</div></div>
+    </DualCol>
+  </Dual>
+
+  <SectionH small>Wireframing, critiques, and scoping down</SectionH>
+  <BodyText>
+    After the workshops, we determined the basic workflow for how users could
+    build the landscape from scratch and run integrations from it. However, after
+    discussing with stakeholders — especially engineering —
+    **with the concern of time and effort, we decided to narrow the scope and
+    focus on the display-only view first**, then build up from there.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/il_workflow.png"
+      alt="Initial workflow showing the landscape building capability"
+      width={6306}
+      height={874}
+    />
+  </ImageShowcase>
+
+  <BodyText>
+    We explored three versions of the concept. Version 1 had clear procedures to
+    build the landscape but was difficult to develop and not very scalable.
+    Version 2 (scoped to display only) was less complicated to develop and
+    scalable, but the flow was harder to read as a whole. Version 3 (also
+    display-only) had a clean structure that was intuitive for viewing the
+    overall flow between repositories, made it easy to filter the artifact flow,
+    and gave a good foundation for integration construction in the future.
+  </BodyText>
+
+  <SectionH small>Final design</SectionH>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/il_visual_elements.svg"
+      alt="Visual elements used in the Integration Landscape"
+      width={809}
+      height={147}
+    />
+  </ImageShowcase>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/il_final_design.png"
+      alt="Final Integration Landscape design"
+      width={1586}
+      height={833}
+    />
+  </ImageShowcase>
+
+  <SectionH small>What I took away</SectionH>
+  <BodyText>
+    Enterprise software platforms are typically complicated, heavyweight, and
+    difficult to use, and user experience is often overlooked. But UX plays a
+    huge role in the success of a software company: good UX improves not only the
+    user's happiness but their effectiveness in meeting company needs. In this
+    project I learned how to **scope down a problem and extract its key values.**
+    Hiding the non-essential details and providing a high-level landscape
+    presents a much clearer view of customers' overall integrations and reduces
+    noise; they can then use toggles and filters to locate and browse details as
+    needed. Instead of solving the whole challenge at once, I got my ideas into
+    shape by breaking it down, then put them together at the end.
+  </BodyText>
+</section>
+
+<section id="s04">
+  <SectionH>Portability of Configurations</SectionH>
+  <BodyText>
+    This feature lets customers track the changes they make in one instance of
+    the product and transfer those changes to another instance without too much
+    manual work. A new History screen catalogs changes Tasktop Hub users make to
+    general settings or specific configuration elements — including the date of
+    the change, the name of the user who made it, and a description — and lets
+    users export selected changes and import them into a different instance.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_process.png"
+      alt="Overall process for the Portability of Configurations project"
+      width={6228}
+      height={1748}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Background</SectionH>
+  <BodyText>
+    To ensure the integrity and functionality of their systems, customers
+    typically make changes in a controlled environment such as a test or
+    development environment, where they can validate and fine-tune the changes
+    before deploying to production. But even after successfully testing and
+    verifying the changes, customers still need to manually replicate them in the
+    production environment. **This manual replication process is crucial to
+    maintain consistency between environments and minimize potential errors or
+    discrepancies** — and it was a deal-breaking feature for the business.
+  </BodyText>
+
+  <SectionH small>Five user studies</SectionH>
+  <BodyText>
+    I worked with the PM to conduct five user studies, asking customers to walk
+    through their journey.
+  </BodyText>
+
+  <ResearchStats cols={5}>
+    <Stat num="🚗" label="Automotive">
+      <span class="item">6+ instances</span>
+      <span class="item">45+ integrations</span>
+    </Stat>
+    <Stat num="💵" label="Finance">
+      <span class="item">2 instances</span>
+      <span class="item">10+ integrations</span>
+    </Stat>
+    <Stat num="💼" label="Insurance">
+      <span class="item">2 instances</span>
+      <span class="item">15 integrations</span>
+    </Stat>
+    <Stat num="🎧" label="Consulting">
+      <span class="item">6+ instances</span>
+      <span class="item">10–15 integrations</span>
+    </Stat>
+    <Stat num="🚙" label="Automotive">
+      <span class="item">10+ instances</span>
+      <span class="item">8+ integrations</span>
+    </Stat>
+  </ResearchStats>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_customer_journey.png"
+      alt="Customer journey map from the Portability of Configurations user studies"
+      width={3714}
+      height={2228}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Top pain points</SectionH>
+  <CardRow>
+    <PainCard num="01" title="Overhead manually tracking changes">
+      Manually tracking and documenting changes is time-consuming and
+      labor-intensive — keeping track of changes to code, configuration files, or
+      other system components using spreadsheets, version control tools, or even
+      paper-based logs.
+    </PainCard>
+    <PainCard num="02" title="Error-prone manual replication">
+      Replicating changes made in a test instance manually to a production
+      instance is time-consuming, tedious, and prone to errors, which can lead to
+      inconsistencies due to human error, lack of documentation, miscommunication,
+      and differences in system configurations.
+    </PainCard>
+  </CardRow>
+
+  <SectionH small>Proposed solutions and user flow</SectionH>
+  <BodyText>
+    To tackle the pain points, I worked with PMs and engineers to come up with
+    solutions and potential user flows.
+  </BodyText>
+  <CardRow>
+    <PainCard num="01" title="Audit configuration changes">
+      Automatically audit all user-made changes and present a transparent record
+      of the change history, eliminating the need for manual documentation.
+    </PainCard>
+    <PainCard num="02" title="Transfer changes">
+      Enable users to transfer changes from one instance to another, with
+      assistance in validating the changes for a seamless migration.
+    </PainCard>
+  </CardRow>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_user_flow.png"
+      alt="Proposed user flow for auditing and transferring configuration changes"
+      width={3112}
+      height={944}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Design iterations and usability testing</SectionH>
+  <BodyText>
+    I conducted five usability tests with three internal users and two customers,
+    iterating on the designs along the way. A few of the changes:
+  </BodyText>
+
+  <BodyText>
+    On the **History screen**, the expand-and-collapse was over-complicated and
+    the summary could be clearer, so I reduced the number of collapses and
+    reorganized the information.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_history_summary.png"
+      alt="History summary iteration"
+      width={3660}
+      height={536}
+    />
+  </ImageShowcase>
+  <BodyText>
+    It also wasn't clear that users could select and export changes, so I added
+    an action button to trigger the selection for export.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_history_export_changes.png"
+      alt="History export-changes iteration"
+      width={3652}
+      height={1238}
+    />
+  </ImageShowcase>
+  <BodyText>
+    In the **Import Wizard**, more metadata needed to be included in the exported
+    file, so I added details like instance name, last updated date, and number of
+    changes.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_import_metadata.png"
+      alt="Import metadata iteration"
+      width={3656}
+      height={412}
+    />
+  </ImageShowcase>
+  <BodyText>
+    Rather than a confirm dialog with limited information, testing suggested an
+    extra summary step, so I added a confirmation step at the end of the wizard to
+    summarize what had been imported successfully.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_import_success.png"
+      alt="Import success step iteration"
+      width={3656}
+      height={892}
+    />
+  </ImageShowcase>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_all_screens.png"
+      alt="All screens of the Portability of Configurations feature"
+      width={3840}
+      height={2140}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Key learning</SectionH>
+  <BodyText>
+    While working with engineering, we faced technical difficulties aligning the
+    History screen summary with the design. To ensure a quick release, I proposed
+    temporarily hiding some unnecessary information from the log while keeping it
+    readable. Engineering and the PM agreed, with plans to fine-tune the history
+    to match the design later.
+  </BodyText>
+  <Reflection>
+    <ReflectionCard label="On shipping" heading="“Don't let perfect be the enemy of good”">
+      Instead of spending a lot of time tackling the technical difficulties, use
+      an alternative solution to solve it for customers — even if it isn't
+      perfect.
+    </ReflectionCard>
+  </Reflection>
+</section>
