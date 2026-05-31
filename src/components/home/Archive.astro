@@ -1,0 +1,102 @@
+---
+interface ArchiveItem {
+  slug: string;
+  title: string;
+  year?: number | string;
+  context?: string;
+}
+interface Props {
+  items: ArchiveItem[];
+  title?: string;
+  sub?: string;
+}
+const {
+  items,
+  title = 'Earlier work',
+  sub = 'Academic and exploratory projects. Click through to read; happy to dig in if any are relevant.',
+} = Astro.props;
+---
+{items.length > 0 && (
+  <section class="archive" aria-labelledby="archive-heading">
+    <h2 class="archive-title" id="archive-heading">{title}</h2>
+    <p class="archive-sub">{sub}</p>
+    <ul class="archive-list">
+      {items.map((item) => (
+        <li>
+          <a class="archive-item" href={`/work/${item.slug}`}>
+            <span class="t">{item.title}</span>
+            {(item.context || item.year) && (
+              <span class="y">{item.context ?? item.year}</span>
+            )}
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+<style>
+  /* ported from homepage.html .archive / .archive-item, tokenized.
+     Quiet inline pills; hover (and keyboard focus) reveals accent + arrow. */
+  .archive {
+    padding: var(--space-9) var(--pad-page-x) var(--space-11);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--rule);
+  }
+  .archive-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    letter-spacing: -0.005em;
+    margin: 0 0 var(--space-1);
+    font-weight: 500;
+    max-width: var(--max-content);
+    margin-inline: auto;
+  }
+  .archive-sub {
+    font-size: 13px;
+    color: var(--ink-tertiary);
+    margin: 0 auto var(--space-6);
+    max-width: var(--max-content);
+  }
+  .archive-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: var(--max-content);
+  }
+  .archive-item {
+    display: flex;
+    gap: var(--space-2);
+    align-items: baseline;
+    color: var(--ink-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .archive-item:hover,
+  .archive-item:focus-visible {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .archive-item .y {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-quaternary);
+  }
+  .archive-item .arrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-quaternary);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .archive-item:hover .arrow,
+  .archive-item:focus-visible .arrow {
+    opacity: 1;
+  }
+</style>

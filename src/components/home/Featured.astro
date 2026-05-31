@@ -1,0 +1,125 @@
+---
+import MetaStrip from '../hero/MetaStrip.astro';
+
+interface MetaField { label: string; value: string; }
+interface Props {
+  slug: string;
+  title: string;
+  company?: string;
+  year?: number | string;
+  cover?: string;
+  image?: string;
+  summary?: string;
+  metaFields?: MetaField[];
+}
+const { slug, title, company, year, cover, image, summary, metaFields = [] } = Astro.props;
+const eyebrow = ['Featured', year, company].filter(Boolean).join(' · ');
+const href = `/work/${slug}`;
+---
+<section class="featured" aria-labelledby="featured-heading">
+  <a class="featured-cover" href={href}
+     style={!image ? `--case-cover: ${cover}` : undefined}>
+    {image && <img class="featured-cover-image" src={image} alt="" />}
+    <span class="featured-cover-content">
+      <span class="featured-cover-text">
+        <span class="featured-meta">{eyebrow}</span>
+        <span class="featured-title" id="featured-heading">{title}</span>
+      </span>
+      <span class="featured-cta">Read the story →</span>
+    </span>
+  </a>
+  {summary && <p class="featured-lead">{summary}</p>}
+  {metaFields.length > 0 && <MetaStrip fields={metaFields} />}
+</section>
+<style>
+  /* ported from homepage.html .featured / .featured-cover / .featured-meta /
+     .featured-title / .featured-cta / .featured-lead, tokenized.
+     The cover is the link; meta strip reuses the hero MetaStrip below it. */
+  .featured {
+    padding: var(--space-4) var(--pad-page-x) var(--space-11);
+    max-width: var(--max-content);
+    margin-inline: auto;
+  }
+  .featured-cover {
+    display: block;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 6px;
+    overflow: hidden;
+    color: var(--ink-on-dark);
+    margin-bottom: var(--space-7);
+    background:
+      radial-gradient(at 30% 20%, rgba(255, 255, 255, 0.18), transparent 50%),
+      var(--case-cover);
+    text-decoration: none;
+  }
+  .featured-cover-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .featured-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(20, 14, 18, 0.65), transparent 55%);
+  }
+  .featured-cover-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-8) var(--space-8);
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-6);
+  }
+  .featured-cover-text {
+    display: block;
+  }
+  .featured-meta {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.85;
+    margin-bottom: var(--space-2);
+  }
+  .featured-title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(26px, 4vw, 38px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    max-width: 22ch;
+  }
+  .featured-cta {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--bg-primary);
+    color: var(--ink-primary);
+    padding: 9px var(--space-3);
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .featured-lead {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-secondary);
+    max-width: 60ch;
+    margin: 0 0 var(--space-6);
+  }
+  @media (max-width: 767px) {
+    .featured-cover-content {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: var(--space-6) var(--space-5);
+    }
+  }
+</style>

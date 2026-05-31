@@ -1,0 +1,78 @@
+---
+import CaseCard from './CaseCard.astro';
+
+interface CaseInput {
+  slug: string;
+  title: string;
+  company?: string;
+  year?: number | string;
+  role?: string;
+  cover?: string;
+  image?: string;
+  summary?: string;
+}
+interface Props {
+  cases: CaseInput[];
+  title?: string;
+}
+const { cases, title = 'Selected work' } = Astro.props;
+const count = cases.length;
+const countLabel = String(count).padStart(2, '0');
+---
+{count > 0 && (
+  <section class="selected" aria-labelledby="selected-heading">
+    <div class="selected-header">
+      <h2 class="selected-title" id="selected-heading">{title}</h2>
+      <span class="selected-count">{countLabel} {count === 1 ? 'case' : 'cases'}</span>
+    </div>
+    <div class="selected-grid">
+      {cases.map((c, i) => (
+        <CaseCard {...c} large={i === 0} />
+      ))}
+    </div>
+  </section>
+)}
+<style>
+  /* ported from homepage.html .selected / .selected-grid, tokenized.
+     Asymmetric grid: 1.5fr lead slot + 1fr followers. The lead card
+     (first entry) is rendered with `large` so its cover gets the 4/3 ratio. */
+  .selected {
+    padding: var(--space-10) var(--pad-page-x) var(--space-11);
+    border-top: 1px solid var(--rule);
+    background: var(--bg-secondary);
+  }
+  .selected-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-8);
+    max-width: var(--max-content);
+    margin-inline: auto;
+  }
+  .selected-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    margin: 0;
+    font-weight: 500;
+  }
+  .selected-count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .selected-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-8) var(--space-6);
+    max-width: var(--max-content);
+    margin-inline: auto;
+  }
+  @media (max-width: 767px) {
+    .selected-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
