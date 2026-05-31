@@ -1,19 +1,21 @@
 import { test, expect } from '@playwright/test';
 
-// FIX 1 — deterministic guard for the shared content frame.
+// Deterministic guard for the shared content frame.
 //
-// Every homepage region routes its content through the shared Container
-// primitive (max-content + margin-inline auto + padding-inline pad-page-x),
-// so the leftmost text in each region must share ONE left content edge.
+// Every homepage BODY region (hero + the case sections) routes its content
+// through the shared Container primitive (max-content + margin-inline auto +
+// padding-inline pad-page-x), so the leftmost text in each must share ONE
+// left content edge.
 //
-// Reference edge: the nav name. We assert (within a 2px tolerance) that the
-// hero eyebrow + h1, the Selected-work heading, the Writing heading, the
-// Archive title, and the footer name all line up with it.
+// The top nav and footer are INTENTIONALLY full-width (content near the
+// gutters, not constrained to the centered frame), so they are deliberately
+// EXCLUDED from this alignment assertion.
 //
-// The Featured *overlay* title is intentionally inset further (it lives inside
-// the cover-image composition with its own padding), so we exclude that text —
-// but we DO assert the Featured section's own cover left edge aligns with nav,
-// since the cover sits in the same outer frame as every other section.
+// Reference edge: the hero eyebrow. We assert (within a 2px tolerance) that the
+// hero h1, the Selected-work heading, the Writing heading, the Archive title,
+// and the Featured cover edge all line up with it. The Featured *overlay* title
+// is intentionally inset further (it lives inside the cover composition with
+// its own padding), so we exclude that text but DO assert the cover edge.
 
 const DESKTOP = { width: 1440, height: 900 };
 
@@ -26,20 +28,19 @@ async function leftEdge(locatorFirst: import('@playwright/test').Locator): Promi
 test.describe('homepage horizontal alignment', () => {
   test.use({ viewport: DESKTOP });
 
-  test('homepage sections share one left content edge', async ({ page }) => {
+  test('homepage body sections share one left content edge', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');
 
     const leftOf = (sel: string) => leftEdge(page.locator(sel).first());
 
-    const nav = await leftOf('.nav-name');
+    // Reference: the hero eyebrow (first body content in the shared frame).
+    const ref = await leftOf('.home-hero-eyebrow');
 
     const edges: Record<string, number> = {
-      heroEyebrow: await leftOf('.home-hero-eyebrow'),
       heroH1: await leftOf('.home-hero-h1'),
       writing: await leftOf('.writing-header h2, .writing-title, .writing h2'),
       archive: await leftOf('.archive-title'),
-      footer: await leftOf('.footer-name'),
       // Featured: the cover frame edge (NOT the inset overlay title).
       featuredCover: await leftOf('.featured-cover'),
     };
@@ -52,8 +53,8 @@ test.describe('homepage horizontal alignment', () => {
 
     for (const [name, value] of Object.entries(edges)) {
       expect(
-        Math.abs(value - nav),
-        `${name} (${value}px) should align with nav (${nav}px)`,
+        Math.abs(value - ref),
+        `${name} (${value}px) should align with the hero content edge (${ref}px)`,
       ).toBeLessThanOrEqual(2);
     }
   });

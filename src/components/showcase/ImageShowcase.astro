@@ -35,12 +35,11 @@
     position: relative;
     z-index: 1;
   }
-  /* Inner image: constrained to body width, left-aligned, framed. */
+  /* Inner image: constrained to body width, left-aligned. No container
+     background — the image sits directly on the dotted grid. */
   .showcase-inner :global(img) {
     width: 100%;
-    border: 1px solid var(--rule);
     border-radius: var(--radius);
-    background: var(--bg-primary);
     cursor: zoom-in;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }

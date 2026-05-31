@@ -1,5 +1,4 @@
 ---
-import Container from '../layout/Container.astro';
 const year = new Date().getFullYear();
 const socials = [
   { label: 'Email', href: 'mailto:wangzhen614@gmail.com' },
@@ -8,22 +7,18 @@ const socials = [
 ];
 ---
 <footer class="footer">
-  <Container>
-    <div class="footer-inner">
-      <div class="footer-left"><span class="footer-name">Zhen Wang</span> <span class="footer-year">© {year}</span></div>
-      <ul class="footer-socials">
-        {socials.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
-      </ul>
-    </div>
-  </Container>
+  <div class="footer-left"><span class="footer-name">Zhen Wang</span> <span class="footer-year">© {year}</span></div>
+  <ul class="footer-socials">
+    {socials.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
+  </ul>
 </footer>
 <style>
-  /* Full-bleed dark background; content centered to the shared content frame
-     (Container) so the footer aligns with the nav + every page section. */
-  .footer { background: var(--bg-inverse); color: var(--ink-on-dark); }
-  .footer-inner {
+  /* Full-width bar: content near the gutters. Intentionally NOT constrained
+     to the centered content frame (matches the nav). */
+  .footer {
     display: flex; justify-content: space-between; align-items: center;
-    padding-block: var(--space-10);
+    padding: var(--space-10) var(--pad-page-x);
+    background: var(--bg-inverse); color: var(--ink-on-dark);
   }
   .footer-left {
     display: flex; align-items: baseline; gap: var(--space-4);
