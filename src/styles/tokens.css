@@ -12,10 +12,14 @@
   --ink-quaternary: #1A1410B0; /* decorative only */
   --ink-on-dark: #FAF5E8;
 
-  /* === Accent === */
-  --accent: #C8442E;
-  --accent-soft: #C8442E14;
-  --accent-medium: #C8442E55;
+  /* === Accent ===
+     #B93A23 clears WCAG AA (4.5:1) for small text on --bg-primary (#FAF5E8,
+     ~5.2:1) and on the --accent-soft badge tint (~4.7:1). The previous #C8442E
+     measured 4.46:1 — just under AA — and failed axe on every small accent
+     label/number. */
+  --accent: #B93A23;
+  --accent-soft: #B93A2314;
+  --accent-medium: #B93A2355;
   --highlight: rgba(245, 200, 100, 0.7);
 
   /* === Rules === */

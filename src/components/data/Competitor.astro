@@ -8,7 +8,7 @@ interface Props {
 const { name, strength, gap, logoColor } = Astro.props;
 ---
 <div class="competitor">
-  <div class="competitor-logo" style={logoColor ? `color: ${logoColor}` : undefined}>{name}</div>
+  <div class="competitor-logo" style={logoColor ? `border-left-color: ${logoColor}` : undefined}>{name}</div>
   <div class="competitor-good">
     <span class="label">Strength</span>
     {strength}
@@ -20,8 +20,10 @@ const { name, strength, gap, logoColor } = Astro.props;
 </div>
 <style>
   /* ported from case-study-twilio.html .competitor, tokenized.
-     Top-aligned (align-items: start); wordmark logo placeholder in a brand color
-     via the logoColor prop until real SVGs land. */
+     Top-aligned (align-items: start); wordmark logo placeholder. The brand
+     `logoColor` is applied as a decorative left accent bar (not as text color)
+     so the wordmark itself stays at a readable ink contrast — saturated brand
+     hexes like #43A047 / #4285F4 fall well below AA as text on the tinted chip. */
   .competitor {
     display: grid;
     grid-template-columns: 110px 1fr 1fr;
@@ -36,12 +38,13 @@ const { name, strength, gap, logoColor } = Astro.props;
     height: var(--space-7);
     background: var(--bg-secondary);
     border-radius: var(--space-1);
+    border-left: 3px solid transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font-display);
     font-weight: 600;
-    color: var(--ink-secondary);
+    color: var(--ink-primary);
     font-size: 14px;
     letter-spacing: -0.01em;
   }

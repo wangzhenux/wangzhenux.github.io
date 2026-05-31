@@ -29,6 +29,13 @@ export function init(): void {
   const sections = Array.from(document.querySelectorAll<HTMLElement>('.body section[id]'));
   if (!toc || !items.length || !sections.length) return;
 
+  // Guard against double-mount. CaseInteractions calls run() synchronously AND on
+  // `astro:page-load` (which also fires on the initial load), so init() would
+  // otherwise wire two sets of listeners + observers to the same DOM — and the
+  // second init()'s re-seed could clobber the active item just set by a click.
+  if (toc.dataset.spy === 'on') return;
+  toc.dataset.spy = 'on';
+
   // aria-live region announcing the active section label (§12.8).
   const live = document.createElement('div');
   live.setAttribute('aria-live', 'polite');
@@ -37,8 +44,12 @@ export function init(): void {
 
   const byId = new Map(items.map((b) => [b.dataset.target!, b]));
   const ratios = new Map(sections.map((s) => [s.id, 0]));
-  let locked = false;
   let tocHidden = false;
+  // When the user clicks a TOC item we pin that section as active and ignore the
+  // spy until they scroll manually again. Without this the smooth click-scroll
+  // sweeps the spy through intervening sections (and a full-bleed showcase can
+  // freeze the TOC mid-sweep), clobbering the section the user actually chose.
+  let pinnedId: string | null = null;
 
   const setActive = (id: string | null) => {
     if (!id) return;
@@ -55,7 +66,7 @@ export function init(): void {
   };
 
   const refresh = () => {
-    if (locked || tocHidden) return;
+    if (pinnedId || tocHidden) return;
     setActive(pickActive(Array.from(ratios, ([id, ratio]) => ({ id, ratio }))));
   };
 
@@ -89,24 +100,28 @@ export function init(): void {
     showcases.forEach((s) => showcaseObserver.observe(s));
   }
 
-  // Click-to-scroll with a lock that suppresses the spy until the scroll settles.
+  // Click-to-scroll: pin the chosen section active, then smooth-scroll to it. The
+  // pin holds the active state through the entire programmatic scroll and is only
+  // released by a genuine user-initiated scroll (wheel / touch / keyboard), so the
+  // spy can never override the section the user just navigated to.
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const unpin = () => {
+    if (!pinnedId) return;
+    pinnedId = null;
+    refresh();
+  };
+  // Real user scroll intent → drop the pin. Programmatic scrollIntoView does not
+  // fire these, so the pin survives the click-scroll.
+  ['wheel', 'touchstart', 'keydown'].forEach((evt) =>
+    window.addEventListener(evt, unpin, { passive: true })
+  );
   items.forEach((btn) =>
     btn.addEventListener('click', () => {
       const id = btn.dataset.target!;
       const target = document.getElementById(id);
       if (!target) return;
+      pinnedId = id;
       setActive(id);
-      locked = true;
-      const release = () => {
-        locked = false;
-      };
-      if ('onscrollend' in window) {
-        window.addEventListener('scrollend', release, { once: true });
-        setTimeout(release, 2000);
-      } else {
-        setTimeout(release, 800);
-      }
       target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
     })
   );

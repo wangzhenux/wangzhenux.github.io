@@ -57,8 +57,8 @@ const mainStyle = data.cover.gradient
 ---
 <BaseLayout title={data.title} description={data.deck}>
   <Nav currentPath={`/work/${data.slug}`} />
-  <BackLink href="/" />
   <main id="main" style={mainStyle}>
+    <BackLink href="/" />
     <Hero
       eyebrow={eyebrow}
       title={data.title}

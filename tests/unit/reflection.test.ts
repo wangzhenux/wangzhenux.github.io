@@ -10,7 +10,7 @@ test('Reflection wraps cards in a two-column grid', async () => {
   expect(html).toContain('card');
 });
 
-test('ReflectionCard has label, h4 heading and body', async () => {
+test('ReflectionCard has label, h3 heading and body', async () => {
   const c = await AstroContainer.create();
   const html = await c.renderToString(ReflectionCard, {
     props: { label: 'What I learned', heading: 'Ship the smallest honest thing' },
@@ -18,6 +18,6 @@ test('ReflectionCard has label, h4 heading and body', async () => {
   });
   expect(html).toContain('class="reflection-card"');
   expect(html).toContain('What I learned');
-  expect(html).toMatch(/<h4[^>]*>Ship the smallest honest thing/);
+  expect(html).toMatch(/<h3[^>]*>Ship the smallest honest thing/);
   expect(html).toContain('phased rollout');
 });

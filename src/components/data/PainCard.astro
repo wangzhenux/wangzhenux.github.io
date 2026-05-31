@@ -4,7 +4,7 @@ const { num, title } = Astro.props;
 ---
 <div class="pain-card">
   <div class="num">{num}</div>
-  <h4>{title}</h4>
+  <h3>{title}</h3>
   <p><slot /></p>
 </div>
 <style>
@@ -25,7 +25,7 @@ const { num, title } = Astro.props;
     line-height: 1;
     margin-bottom: var(--space-3);
   }
-  .pain-card h4 {
+  .pain-card h3 {
     font-family: var(--font-display);
     font-size: 17px;
     margin: 0 0 var(--space-2);

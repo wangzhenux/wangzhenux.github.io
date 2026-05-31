@@ -1,4 +1,11 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
-// Un-fixme in Phase 5 (Task 5.4) once /work/twilio exists.
-test.fixme('lightbox opens, traps focus, closes on Esc', async () => {});
+test('lightbox opens on showcase image and closes on Esc', async ({ page }) => {
+  await page.goto('/work/twilio');
+  await page.locator('[data-zoomable] img').first().click();
+  const dialog = page.locator('dialog.lightbox');
+  await expect(dialog).toBeVisible();
+  await expect(page.locator('.lightbox-close')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+});
