@@ -1,0 +1,124 @@
+---
+interface Role {
+  /** Job title, e.g. "Senior Product Designer". */
+  role: string;
+  /** Employer, e.g. "Twilio". */
+  company: string;
+  /** Optional span, e.g. "2023 — now". Omitted entirely when absent. */
+  year?: string;
+  /** Optional location, e.g. "San Francisco". Omitted entirely when absent. */
+  location?: string;
+}
+interface Props {
+  roles: Role[];
+  heading?: string;
+}
+const { roles, heading = "Where I've been" } = Astro.props;
+// Only allocate the year/location columns when at least one row supplies them,
+// so unknown values are omitted rather than fabricated.
+const hasYears = roles.some((r) => r.year);
+const hasLocs = roles.some((r) => r.location);
+---
+<section class="section" aria-labelledby="history-heading">
+  <h2 class="section-h2" id="history-heading">{heading}</h2>
+  <div
+    class="history"
+    data-cols={`${hasYears ? 'y' : ''}rl${hasLocs ? 'l' : ''}`}
+  >
+    {roles.map((r) => (
+      <div class="history-row">
+        {hasYears && <div class="history-year">{r.year}</div>}
+        <div class="history-role">
+          {r.role}<span class="at"> at </span>{r.company}
+        </div>
+        {hasLocs && <div class="history-loc">{r.location}</div>}
+      </div>
+    ))}
+  </div>
+</section>
+<style>
+  /* ported from about-resume.html .section / .history, tokenized */
+  .section {
+    padding: var(--space-12) var(--pad-page-x);
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-h2 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    margin: 0 0 var(--space-7);
+    font-weight: 500;
+    position: relative;
+  }
+  .section-h2::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: var(--space-4);
+  }
+  .history {
+    border-top: 1px solid var(--rule);
+  }
+  .history-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2) var(--space-6);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: baseline;
+  }
+  /* With a year column. */
+  .history[data-cols^='y'] .history-row {
+    grid-template-columns: 110px 1fr;
+  }
+  /* With a trailing location column. */
+  .history[data-cols$='l'] .history-row {
+    grid-template-columns: 1fr 130px;
+  }
+  .history[data-cols^='y'][data-cols$='l'] .history-row {
+    grid-template-columns: 110px 1fr 130px;
+  }
+  .history-year {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .history-role {
+    font-family: var(--font-display);
+    font-size: 17px;
+    color: var(--ink-primary);
+    font-weight: 500;
+  }
+  .history-role .at {
+    color: var(--ink-tertiary);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .history-loc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: right;
+  }
+  @media (max-width: 767px) {
+    .section {
+      padding: var(--space-11) var(--pad-page-x);
+    }
+    .history-row,
+    .history[data-cols^='y'] .history-row,
+    .history[data-cols$='l'] .history-row,
+    .history[data-cols^='y'][data-cols$='l'] .history-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+    .history-loc {
+      text-align: left;
+    }
+  }
+</style>

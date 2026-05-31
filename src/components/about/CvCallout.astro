@@ -1,0 +1,114 @@
+---
+interface Props {
+  /** Display string for the "Last updated" subline, e.g. "April 2026". */
+  lastUpdated: string;
+}
+const { lastUpdated } = Astro.props;
+const pdfHref = '/Zhen-Wang-Resume.pdf';
+---
+<section class="resume" aria-labelledby="cv-heading">
+  <div class="resume-text">
+    <h2 class="resume-h2" id="cv-heading">Curriculum vitae</h2>
+    <p class="resume-deck">
+      A <strong>PDF</strong> of roles, responsibilities, education, and skills —
+      for recruiters, hiring managers, and anyone reviewing for a specific role.
+    </p>
+    <p class="resume-updated">Last updated {lastUpdated}</p>
+  </div>
+  <div class="resume-buttons">
+    <a class="btn btn-primary" href={pdfHref} download>
+      Download PDF<span class="arrow" aria-hidden="true">↓</span>
+    </a>
+    <a class="btn btn-secondary" href={pdfHref} target="_blank" rel="noopener">
+      View in browser<span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+<style>
+  /* ported from about-resume.html .resume / .btn, tokenized */
+  .resume {
+    padding: var(--space-12) var(--pad-page-x);
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-7);
+    align-items: center;
+  }
+  .resume-h2 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    letter-spacing: -0.018em;
+    margin: 0 0 var(--space-2);
+    font-weight: 500;
+  }
+  .resume-deck {
+    font-size: 14px;
+    color: var(--ink-secondary);
+    margin: 0 0 var(--space-3);
+    max-width: 40ch;
+    line-height: 1.6;
+  }
+  .resume-deck strong {
+    color: var(--ink-primary);
+    font-weight: 500;
+  }
+  .resume-updated {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-tertiary);
+    margin: 0;
+  }
+  .resume-buttons {
+    display: flex;
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: var(--space-3) var(--space-5);
+    border-radius: 4px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition: opacity 0.2s, background 0.2s, color 0.2s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--ink-on-dark);
+  }
+  .btn-primary:hover,
+  .btn-primary:focus-visible {
+    opacity: 0.92;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink-primary);
+    border-color: var(--ink-primary);
+  }
+  .btn-secondary:hover,
+  .btn-secondary:focus-visible {
+    background: var(--ink-primary);
+    color: var(--bg-primary);
+  }
+  .btn .arrow {
+    font-size: 11px;
+  }
+  @media (max-width: 767px) {
+    .resume {
+      grid-template-columns: 1fr;
+      padding: var(--space-11) var(--pad-page-x);
+      gap: var(--space-6);
+    }
+    .resume-buttons {
+      flex-wrap: wrap;
+    }
+  }
+</style>
