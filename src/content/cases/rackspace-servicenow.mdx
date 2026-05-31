@@ -1,0 +1,370 @@
+---
+title: "Redesigning ServiceNow's new-hire onboarding at Rackspace"
+deck: "Researching users, running usability testing, and redesigning the ServiceNow platform around the new-hire process — across two coordinated research phases."
+slug: rackspace-servicenow
+company: Rackspace
+year: 2018
+role: Design Leader • UX Designer • User Researcher
+cover:
+  gradient: "linear-gradient(135deg, #2A2A30 0%, #0E0E12 100%)"
+order: 4
+featured: true
+archive: false
+sections:
+  - { id: s01, num: "01", label: "Background" }
+  - { id: s02, num: "02", label: "Research Study I" }
+  - { id: s03, num: "03", label: "Findings and prototypes" }
+  - { id: s04, num: "04", label: "Research Study II" }
+  - { id: s05, num: "05", label: "Other projects at Rackspace" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import CardRow from '../../components/data/CardRow.astro';
+import PainCard from '../../components/data/PainCard.astro';
+import ResearchStats from '../../components/data/ResearchStats.astro';
+import Stat from '../../components/data/Stat.astro';
+import Dual from '../../components/data/Dual.astro';
+import DualCol from '../../components/data/DualCol.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+
+<section id="s01">
+  <Lede>
+    ServiceNow is a platform-as-a-service (PaaS) provider of enterprise Service
+    Management (SM) software. Onboarding new hires is one of its most frequently
+    used functions — through ServiceNow, managers assign equipment, set
+    permissions for new employees, and track the onboarding process.
+  </Lede>
+
+  <BodyText>
+    The two main problems of the existing site were a **non-intuitive workflow**
+    and **confusing taxonomy**. Over two coordinated, iterative research phases,
+    I researched users, ran usability testing, and redesigned the new-hire
+    onboarding experience.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/over_process.png"
+      alt="Overview of the ServiceNow new-hire research and redesign process"
+      width={2553}
+      height={555}
+    />
+  </ImageShowcase>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/service_now_new_hire.png"
+      alt="The ServiceNow new-hire onboarding interface"
+      width={2642}
+      height={3531}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s02">
+  <SectionH>Research Study I</SectionH>
+  <BodyText>
+    The ServiceNow New Hire Process redesign and research efforts were conducted
+    in iterative, coordinated phases. During the first phase, generative research
+    was conducted to determine key user needs. Following data collection,
+    alternative designs were produced. The second phase of research was dedicated
+    to evaluating those designs.
+  </BodyText>
+
+  <SectionH small>Phase 1 goals</SectionH>
+  <CardRow>
+    <PainCard num="01" title="Document needs and pain points">
+      Document ServiceNow users' primary needs and key pain points, focusing on
+      the new-hire onboarding process.
+    </PainCard>
+    <PainCard num="02" title="Recommend a redesign">
+      Provide a set of recommendations for redesigning the onboarding elements of
+      ServiceNow.
+    </PainCard>
+    <PainCard num="03" title="Prioritize future work">
+      Provide insights into what other elements or processes addressed through
+      ServiceNow could be improved in later redesign efforts, and how to
+      prioritize those efforts.
+    </PainCard>
+  </CardRow>
+
+  <SectionH small>Heuristic evaluation</SectionH>
+  <BodyText>
+    Prior to user feedback sessions, a heuristic evaluation was completed. This
+    enabled the researcher to better understand the ServiceNow product, evaluate
+    it against standard usability heuristics, and identify potential pain points
+    for users during testing. The major issues surfaced:
+  </BodyText>
+
+  <Dual>
+    <DualCol heading="Major issues from heuristic evaluation">
+      <div class="dual-item"><div class="head">Unused real estate</div><div class="det">Lots of unused space on the screen.</div></div>
+      <div class="dual-item"><div class="head">Confusing icons</div><div class="det">Icons are confusing or don't work for HR.</div></div>
+      <div class="dual-item"><div class="head">Non-interactive info boxes</div><div class="det">Info boxes that you can't hover into or interact with, while holding lots of content.</div></div>
+      <div class="dual-item"><div class="head">Color contrast fails</div><div class="det">Color contrasts fail.</div></div>
+      <div class="dual-item"><div class="head">Disorganized titles and navigation</div><div class="det">Titles and navigation are not organized and are misleading.</div></div>
+      <div class="dual-item"><div class="head">Missing tooltips</div><div class="det">Tooltips are missing or confusing — annotation is needed for some labels.</div></div>
+    </DualCol>
+    <DualCol heading="Heuristic evaluation screenshots">
+      <div class="dual-item"><div class="det">Annotated screenshots from the heuristic evaluation are shown below.</div></div>
+    </DualCol>
+  </Dual>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/heuristic_eval_screenshots.png"
+      alt="Annotated screenshots from the ServiceNow heuristic evaluation"
+      width={1262}
+      height={1156}
+    />
+  </ImageShowcase>
+
+  <SectionH small>User feedback sessions I</SectionH>
+  <BodyText>
+    **Methods:** "Think Aloud" protocol (semi-structured usability testing), plus
+    post-session surveys including TAM (Technology Acceptance Model), SUS (System
+    Usability Scale), and STR (Supporting Tasks Rating).
+  </BodyText>
+
+  <ResearchStats cols={2}>
+    <Stat num="8" label="Rackspace managers">
+      <span class="item">Most had onboarded at least two new hires in the previous 6 months</span>
+      <span class="item">Sessions lasting approximately one hour each</span>
+    </Stat>
+    <Stat num="6" label="Teams represented">
+      <span class="item">SMB Windows · Customer Programs · Cloud Office Email</span>
+      <span class="item">Fanatical Support · Interaction Design · Data Practice</span>
+    </Stat>
+  </ResearchStats>
+
+  <BodyText>
+    During the first study, generative research was conducted with Rackspace
+    managers, varying by department/team as well as experience level.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/feedback1_results.png"
+      alt="Results from the first round of user feedback sessions"
+      width={3236}
+      height={810}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s03">
+  <SectionH>Findings and prototypes</SectionH>
+  <SectionH small>Top findings &amp; design decisions</SectionH>
+  <Dual>
+    <DualCol heading="Top findings">
+      <div class="dual-item"><div class="det">Link in email creates security concern</div></div>
+      <div class="dual-item"><div class="det">Tabs vs. one-page</div></div>
+      <div class="dual-item"><div class="det">White and grey color palette visually limiting</div></div>
+      <div class="dual-item"><div class="det">Iconography and labels not intuitive</div></div>
+      <div class="dual-item"><div class="det">Process progression unclear</div></div>
+      <div class="dual-item"><div class="det">Confusing commenting process</div></div>
+      <div class="dual-item"><div class="det">Permissions process unclear</div></div>
+      <div class="dual-item"><div class="det">Popup or panel often obscured</div></div>
+    </DualCol>
+    <DualCol heading="Design decision">
+      <div class="dual-item"><div class="det">Spell out the link</div></div>
+      <div class="dual-item"><div class="det">Smoother workflow / progress</div></div>
+      <div class="dual-item"><div class="det">Increase the color contrast</div></div>
+      <div class="dual-item"><div class="det">Find better icons and add tooltips</div></div>
+      <div class="dual-item"><div class="det">Redesign progress bar and indicators</div></div>
+      <div class="dual-item"><div class="det">Make comment interaction more obvious</div></div>
+      <div class="dual-item"><div class="det">Define mirror permissions</div></div>
+      <div class="dual-item"><div class="det">Create mouse-over and scroll function for popup</div></div>
+    </DualCol>
+  </Dual>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/design_photo.png"
+      alt="Design exploration for the ServiceNow redesign"
+      width={4466}
+      height={1083}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Four prototypes, narrowed to two</SectionH>
+  <BodyText>
+    In total, we came up with four different prototypes. **After we talked to a
+    developer, we narrowed the prototypes from four to two.** We finally picked
+    version 1 and version 4, and revised them based on the developer's feedback.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/v1.gif"
+      alt="Version 1 — single-page structure"
+      width={639}
+      height={314}
+    />
+  </ImageShowcase>
+  <BodyText>**Version 1:** single-page structure.</BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/v2.gif"
+      alt="Version 2 — single-page structure with collapse"
+      width={639}
+      height={309}
+    />
+  </ImageShowcase>
+  <BodyText>**Version 2:** single-page structure with collapse.</BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/v3.gif"
+      alt="Version 3 — single-page structure with three columns"
+      width={639}
+      height={309}
+    />
+  </ImageShowcase>
+  <BodyText>**Version 3:** single-page structure with three columns.</BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/v4.gif"
+      alt="Version 4 — multiple-page wizard structure"
+      width={639}
+      height={309}
+    />
+  </ImageShowcase>
+  <BodyText>**Version 4:** multiple-page wizard structure.</BodyText>
+</section>
+
+<section id="s04">
+  <SectionH>Research Study II</SectionH>
+  <BodyText>
+    During the second study of the project, **two design concepts** were chosen
+    for evaluation and feedback from managers.
+  </BodyText>
+
+  <SectionH small>Phase II goals</SectionH>
+  <CardRow>
+    <PainCard num="01" title="Evaluate the redesign">
+      Evaluate one iteration of ServiceNow redesign concepts and prototypes.
+    </PainCard>
+    <PainCard num="02" title="Recommend next steps">
+      Provide a set of recommendations for ongoing concept and prototype
+      development.
+    </PainCard>
+  </CardRow>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/test_prototypes.png"
+      alt="The two prototypes tested in the second research study"
+      width={2907}
+      height={2562}
+    />
+  </ImageShowcase>
+
+  <SectionH small>User feedback sessions II</SectionH>
+  <BodyText>
+    **9 Rackspace managers** participated in second usability feedback sessions,
+    lasting approximately one hour each, with high-fidelity prototypes.
+    Participants varied by department/team (e.g. different types of support
+    groups, sales, investment) as well as experience level. After each session,
+    on a scale of 1 to 100, participants rated each prototype based on how well
+    they expected it to support them in the new-hire process.
+  </BodyText>
+
+  <BodyText>
+    **Results: the rating for the prototype increased from 65 to 85.** In terms
+    of design preference, a slight majority (5 out of 9) preferred the single-page
+    form; however, order effect may have been a contributing factor to
+    participants' preferences — 6 out of 9 participants preferred the second
+    design they were presented with.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/usability_testing_photo.png"
+      alt="Photo from a usability testing session"
+      width={1440}
+      height={726}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Top findings &amp; design decisions II</SectionH>
+  <Dual>
+    <DualCol heading="Top findings">
+      <div class="dual-item"><div class="det">Labels still confusing to users</div></div>
+      <div class="dual-item"><div class="det">Confused by language of progress-bar stages</div></div>
+      <div class="dual-item"><div class="det">Concerns over logistics of desk location</div></div>
+      <div class="dual-item"><div class="det">Business costs of hardware selections</div></div>
+      <div class="dual-item"><div class="det">Desired to view permissions of mirrored Racker</div></div>
+      <div class="dual-item"><div class="det">Unclear or missing fields in submission process</div></div>
+      <div class="dual-item"><div class="det">Unsure how to create/edit autofill templates</div></div>
+      <div class="dual-item"><div class="det">Separate sections of Comment Center confusing</div></div>
+      <div class="dual-item"><div class="det">Desired status check of submitted ticket</div></div>
+    </DualCol>
+    <DualCol heading="Design decision">
+      <div class="dual-item"><div class="det">New labels and tooltip help throughout the form</div></div>
+      <div class="dual-item"><div class="det">Clearer wording to indicate ticket path and status</div></div>
+      <div class="dual-item"><div class="det">Select general area instead of specific location</div></div>
+      <div class="dual-item"><div class="det">Add informative icons and alert message</div></div>
+      <div class="dual-item"><div class="det">Able to display all permissions of a Racker</div></div>
+      <div class="dual-item"><div class="det">Scroll to and highlight the missing fields</div></div>
+      <div class="dual-item"><div class="det">Created more intuitive UI with role-based templates</div></div>
+      <div class="dual-item"><div class="det">Combined all comments into a single page</div></div>
+      <div class="dual-item"><div class="det">Provided live status updates and a comment section</div></div>
+    </DualCol>
+  </Dual>
+
+  <SectionH small>Revised prototype</SectionH>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/revised_prototype_1.png"
+      alt="Revised prototype — form before submission"
+      width={2642}
+      height={3531}
+    />
+  </ImageShowcase>
+  <BodyText>**Form before submission.**</BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/revised_prototype_2.png"
+      alt="Revised prototype — status check after submission"
+      width={2620}
+      height={2795}
+    />
+  </ImageShowcase>
+  <BodyText>**Status check after submission.**</BodyText>
+</section>
+
+<section id="s05">
+  <SectionH>Other projects at Rackspace</SectionH>
+  <BodyText>
+    In addition to the ServiceNow project, I also contributed to the development
+    of the style guide to assist with the implementation of internal tools at
+    Rackspace, and consulted with the company to build a high-fidelity prototype
+    that created consistency between the customer website and the customer support
+    website.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/noted_hifi.png"
+      alt="Design audit notes for internal tools"
+      width={1325}
+      height={743}
+    />
+  </ImageShowcase>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/rackspace-servicenow/hifi_design.png"
+      alt="High-fidelity design for customer-facing consistency"
+      width={936}
+      height={1013}
+    />
+  </ImageShowcase>
+</section>
