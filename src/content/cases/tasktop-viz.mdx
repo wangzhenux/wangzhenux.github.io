@@ -1,0 +1,222 @@
+---
+title: "Building Tasktop Viz, a flow-metrics tool from zero"
+deck: "Designing the first purpose-built tool to implement the Flow Framework™ — giving leadership visibility into product value streams and teams actionable insight, with limited time, vague needs, and a lot of unknowns."
+slug: tasktop-viz
+company: Tasktop
+year: 2021
+role: Senior UX Designer • Design Lead
+cover:
+  gradient: "linear-gradient(135deg, #B89668 0%, #5C432B 100%)"
+order: 3
+featured: true
+sections:
+  - { id: s01, num: "01", label: "The product" }
+  - { id: s02, num: "02", label: "Background" }
+  - { id: s03, num: "03", label: "Challenges" }
+  - { id: s04, num: "04", label: "Features and early experiments" }
+  - { id: s05, num: "05", label: "Narrowing the scope" }
+  - { id: s06, num: "06", label: "Feedback and iteration" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import SectionDeck from '../../components/reading/SectionDeck.astro';
+import Figure from '../../components/reading/Figure.astro';
+import CardRow from '../../components/data/CardRow.astro';
+import PainCard from '../../components/data/PainCard.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+
+<section id="s01">
+  <Lede>
+    Tasktop Viz gives real-time visibility into the health of product value
+    streams, and actionable insight into the obstacles impeding business value
+    delivery.
+  </Lede>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-viz/viz_header_image.png"
+      alt="Tasktop Viz dashboard surfacing flow metrics for a product value stream"
+      width={4376}
+      height={2880}
+    />
+  </ImageShowcase>
+
+  <SectionH>How features get designed</SectionH>
+  <SectionDeck>The general feature design process I followed at Tasktop.</SectionDeck>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-viz/feature_design_process.svg"
+      alt="General feature design process at Tasktop"
+      width={1335}
+      height={318}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s02">
+  <SectionH>Background</SectionH>
+  <BodyText>
+    In 2018, Tasktop CEO Dr. Mik Kersten wrote a market-developing book called
+    *Project to Product* — I assisted the CEO with designing the interior
+    graphics and the Flow Framework™ diagram. It introduced how organizations
+    move from a project-oriented to a product-oriented model to survive and
+    thrive in the age of digital disruption, using the Flow Framework™ as a
+    blueprint.
+  </BodyText>
+  <BodyText>
+    Tasktop began developing the first purpose-built tool to implement the Flow
+    Framework™ — one that could automatically extract the end-to-end tool data
+    underpinning software delivery, and translate that data into a common
+    language that business leaders could understand.
+  </BodyText>
+
+  <Figure
+    src="/cases/tasktop-viz/p2p.png"
+    alt="Project to Product book and the Flow Framework™"
+    caption="Project to Product + the Flow Framework™."
+  />
+</section>
+
+<section id="s03">
+  <SectionH>Challenges</SectionH>
+  <CardRow>
+    <PainCard num="01" title="From zero with limited time">
+      This was a totally new product with few existing competitors to learn from,
+      and time and resources were limited.
+    </PainCard>
+    <PainCard num="02" title="Vague customer needs">
+      We knew customers needed the tool, but we didn't have details — and
+      customers weren't clear about what to expect either.
+    </PainCard>
+    <PainCard num="03" title="Difficult to test">
+      It was difficult to find prospective users with the domain-specific
+      knowledge to understand the concepts.
+    </PainCard>
+  </CardRow>
+  <BodyText>
+    On top of that, there were a lot of unknowns: technical difficulties and what
+    data was available remained unknown, and there was no clear roadmap.
+  </BodyText>
+</section>
+
+<section id="s04">
+  <SectionH>Features and early experiments</SectionH>
+  <BodyText>
+    Before starting, we ran a **discovery workshop** with stakeholders —
+    including the CEO, VP of Product, and product managers — to create alignment
+    on overall goals, scope, and milestones, and to gather user needs. Out of
+    that came the feature list: users should be able to connect to different
+    tools, see the artifact types and projects once connected, intuitively
+    understand the flow metrics, add and customize products, categorize artifact
+    types and states into flow items and flow states, change configuration at any
+    time and see the results, see all five flow metrics, and analyze those
+    metrics to get insights.
+  </BodyText>
+
+  <SectionH small>Early data analysis and experiment</SectionH>
+  <BodyText>
+    The new product is very data-centric. To generate and visualize metrics, we
+    first needed to validate what data we could get and, from that, what
+    visualizations would make sense to users. We worked as a team with an agency
+    that had expertise in both design and data visualization, over three months.
+    During the collaboration, **I touched base with them almost every week to
+    keep track of the process and make sure the visualizations met the
+    requirements.** We analyzed the data and brainstormed a range of ideas
+    together — from the Sankey diagram to a creative solar-system visualization.
+    To demo the results we found examples and also implemented the idea in React
+    using sample data; the playback turned out well, and the stakeholders were
+    excited to see it.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-viz/viz_data_visualizations.png"
+      alt="Early data-visualization experiments, from Sankey diagrams to a solar-system concept"
+      width={711}
+      height={465}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s05">
+  <SectionH>Narrowing the scope</SectionH>
+  <BodyText>
+    After the early investigations, experiments, and meetings with engineers and
+    stakeholders, we decided to narrow the scope to the minimum set of features.
+    Moving forward, we advanced the product using three guiding principles.
+  </BodyText>
+
+  <CardRow>
+    <PainCard num="01" title="Quick time to value">
+      Give value instantly if we can.
+    </PainCard>
+    <PainCard num="02" title="Baby steps">
+      Give a little, get a lot; give a little more, get a lot more.
+    </PainCard>
+    <PainCard num="03" title="Make abstractions easy">
+      Modeling must occur at various layers.
+    </PainCard>
+  </CardRow>
+
+  <BodyText>
+    We simplified the initial workflow into a clearer sequence: model the product
+    value stream, add artifact types, view the dashboard, model flow states, and
+    view flow metrics.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-viz/viz_initial_workflow.png"
+      alt="Initial Viz workflow before simplification"
+      width={1413}
+      height={315}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s06">
+  <SectionH>Feedback and iteration</SectionH>
+  <BodyText>
+    As noted in the challenges, it was difficult to test with prospective users.
+    Instead, we used **feedback sessions** where stakeholders, product managers,
+    engineering, and designers could review and give insight from different
+    perspectives.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-viz/feedback_sessions.svg"
+      alt="Feedback sessions across stakeholders, PMs, engineering, and design"
+      width={1383}
+      height={253}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Rapid prototyping iterations</SectionH>
+  <BodyText>
+    I iterated rapidly on the design. This is the first iteration:
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-viz/viz_iteration1.png"
+      alt="Viz design iteration 1"
+      width={1377}
+      height={506}
+    />
+  </ImageShowcase>
+  <BodyText>
+    In the second iteration I made **two main changes based on feedback:**
+    instead of having all the configurations on one page, I split it into multiple
+    steps; and I used a left navigation to make better use of the screen width and
+    to make it easy to navigate between products (a product-centric nav).
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-viz/viz_iteration2.png"
+      alt="Viz design iteration 2"
+      width={1364}
+      height={575}
+    />
+  </ImageShowcase>
+</section>
