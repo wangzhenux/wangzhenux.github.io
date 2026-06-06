@@ -5,10 +5,12 @@ interface Props {
   caption: string;
   width?: number;
   height?: number;
+  /** Side-by-side layout: image on the left, caption on the right. */
+  split?: boolean;
 }
-const { src, alt, caption, width, height } = Astro.props;
+const { src, alt, caption, width, height, split = false } = Astro.props;
 ---
-<figure class="figure">
+<figure class:list={['figure', { 'figure--split': split }]}>
   <img
     class="figure-image"
     src={src}
@@ -39,5 +41,25 @@ const { src, alt, caption, width, height } = Astro.props;
     font-size: 11px;
     color: var(--ink-tertiary);
     line-height: 1.6;
+  }
+
+  /* Split: image left, caption right, vertically centred. */
+  .figure--split {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+  .figure--split .figure-image {
+    margin-bottom: 0;
+  }
+  .figure--split .figure-caption {
+    align-self: center;
+  }
+  @media (max-width: 767px) {
+    .figure--split {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
   }
 </style>

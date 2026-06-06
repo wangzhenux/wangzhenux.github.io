@@ -3,12 +3,19 @@ interface Props {
   name: string;
   strength: string;
   gap: string;
+  /** Real brand logo image (preferred). Falls back to a wordmark when absent. */
+  logo?: string;
   logoColor?: string;
 }
-const { name, strength, gap, logoColor } = Astro.props;
+const { name, strength, gap, logo, logoColor } = Astro.props;
 ---
 <div class="competitor">
-  <div class="competitor-logo" style={logoColor ? `border-left-color: ${logoColor}` : undefined}>{name}</div>
+  <div class="competitor-logo">
+    {logo
+      ? <img class="competitor-logo-img" src={logo} alt={`${name} logo`} width="28" height="28" loading="lazy" decoding="async" />
+      : <span class="competitor-logo-mark" style={logoColor ? `border-left-color: ${logoColor}` : undefined}>{name}</span>}
+    <span class="competitor-logo-name">{name}</span>
+  </div>
   <div class="competitor-good">
     <span class="label">Strength</span>
     {strength}
@@ -20,13 +27,11 @@ const { name, strength, gap, logoColor } = Astro.props;
 </div>
 <style>
   /* ported from case-study-twilio.html .competitor, tokenized.
-     Top-aligned (align-items: start); wordmark logo placeholder. The brand
-     `logoColor` is applied as a decorative left accent bar (not as text color)
-     so the wordmark itself stays at a readable ink contrast — saturated brand
-     hexes like #43A047 / #4285F4 fall well below AA as text on the tinted chip. */
+     Top-aligned (align-items: start). Real brand logo image + name; wordmark
+     fallback when no logo is supplied. */
   .competitor {
     display: grid;
-    grid-template-columns: 110px 1fr 1fr;
+    grid-template-columns: 140px 1fr 1fr;
     gap: var(--space-7);
     padding: var(--space-6) 0;
     border-bottom: 1px solid var(--rule-soft);
@@ -34,7 +39,24 @@ const { name, strength, gap, logoColor } = Astro.props;
   }
   .competitor:last-child { border-bottom: none; }
   .competitor-logo {
-    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .competitor-logo-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .competitor-logo-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--ink-primary);
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  .competitor-logo-mark {
     height: var(--space-7);
     background: var(--bg-secondary);
     border-radius: var(--space-1);
@@ -42,11 +64,15 @@ const { name, strength, gap, logoColor } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 var(--space-2);
     font-family: var(--font-display);
     font-weight: 600;
     color: var(--ink-primary);
     font-size: 14px;
     letter-spacing: -0.01em;
+  }
+  @media (max-width: 767px) {
+    .competitor { grid-template-columns: 1fr; gap: var(--space-2); }
   }
   .competitor-good {
     font-size: 14px;

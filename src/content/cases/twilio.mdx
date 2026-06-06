@@ -90,6 +90,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     alt="Job-to-be-done statement for the Regional Onboarding project"
     width={1486}
     height={1166}
+    split
     caption={'The job, in customer language: As a Twilio customer interested in developing an application for non-US customers, I want to be informed of the existence of different Twilio regions, so I can decide if building my applications in a Twilio non-US1 region makes sense for my use case.'}
   />
 </section>
@@ -105,18 +106,19 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <Competitors>
     <Competitor
       name="Plivo"
-      logoColor="#43A047"
+      logo="/cases/twilio/plivo.png"
       strength="Guided tour to onboard users to build an application; provides a redact option to anonymize data."
       gap="No tour specific to regions."
     />
     <Competitor
       name="Vonage"
+      logo="/cases/twilio/vonage.png"
       strength="Simple steps to quickly onboard users, and only shows relevant guides. Links to the docs to explain how they collect data."
       gap="Region is implied by the data-handling docs, not surfaced as an explicit onboarding step."
     />
     <Competitor
       name="Google Cloud"
-      logoColor="#4285F4"
+      logo="/cases/twilio/google_cloud.png"
       strength="Shows tutorials in the right panel to guide users on how to set up their instance."
       gap="Region is permanent once saved."
     />
