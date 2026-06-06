@@ -38,12 +38,12 @@ import PainCard from '../../components/data/PainCard.astro';
 import Competitors from '../../components/data/Competitors.astro';
 import Competitor from '../../components/data/Competitor.astro';
 import IdeasList from '../../components/data/IdeasList.astro';
+import Jtbd from '../../components/data/Jtbd.astro';
 import ResearchStats from '../../components/data/ResearchStats.astro';
 import Stat from '../../components/data/Stat.astro';
 import QuoteRow from '../../components/data/QuoteRow.astro';
 import QuoteCard from '../../components/data/QuoteCard.astro';
 import Phase from '../../components/data/Phase.astro';
-import Pullquote from '../../components/reading/Pullquote.astro';
 import SplitFeature from '../../components/showcase/SplitFeature.astro';
 import Critique from '../../components/showcase/Critique.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
@@ -88,9 +88,11 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   </CardRow>
 
   <SplitFeature image={{ src: "/cases/twilio/jtbd.png", alt: "Job-to-be-done statement for the Regional Onboarding project", width: 1486, height: 1166 }}>
-    <Pullquote>
-      The job, in customer language. As a <strong class="highlight">Twilio customer interested in developing an application for non-US customers</strong>, I want to <strong class="highlight">be informed of the existence of different Twilio regions</strong>, so I can <strong class="highlight">decide if building in a non-US1 region makes sense for my use case</strong>.
-    </Pullquote>
+    <Jtbd
+      role="Twilio customer interested in developing an application for non-US customers"
+      want="be informed of the existence of different Twilio regions"
+      outcome="decide if building in a non-US1 region makes sense for my use case"
+    />
   </SplitFeature>
 </section>
 

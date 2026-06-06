@@ -9,7 +9,8 @@ const { label, heading } = Astro.props;
 </div>
 <style>
   /* ported from case-study-twilio.html .quote-card, tokenized.
-     Mono accent label + display-serif h4 + italic quote (auto curly quotes). */
+     Mono accent label + display-serif h4 + display-serif quote with curly
+     quotation marks (no italic — kept upright to match the design system). */
   .quote-card {
     padding: var(--space-5);
     border: 1px solid var(--rule);
@@ -34,12 +35,11 @@ const { label, heading } = Astro.props;
   }
   .quote-card .q {
     font-family: var(--font-display);
-    font-style: italic;
-    font-size: 13px;
+    font-size: 16px;
     line-height: 1.5;
     color: var(--ink-secondary);
     margin: 0;
   }
-  .quote-card .q::before { content: '"'; }
-  .quote-card .q::after { content: '"'; }
+  .quote-card .q::before { content: '\201C'; }
+  .quote-card .q::after { content: '\201D'; }
 </style>

@@ -1,0 +1,42 @@
+---
+/**
+ * Job-to-be-done statement. Not a quote — a structured statement where the
+ * three framework connectors (As a / I want to / so I can) are tinted to make
+ * the structure legible, and the content stays plain (no whole-clause
+ * highlighting).
+ */
+interface Props {
+  role: string;
+  want: string;
+  outcome: string;
+  label?: string;
+}
+const { role, want, outcome, label = 'Job to be done' } = Astro.props;
+---
+<div class="jtbd">
+  <p class="jtbd-label">{label}</p>
+  <p class="jtbd-statement">
+    <span class="jtbd-conn">As a</span> {role}, <span class="jtbd-conn">I want to</span> {want}, <span class="jtbd-conn">so I can</span> {outcome}.
+  </p>
+</div>
+<style>
+  .jtbd-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-tertiary);
+    margin: 0 0 var(--space-4);
+  }
+  .jtbd-statement {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.4vw, 26px);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--ink-primary);
+    margin: 0;
+  }
+  .jtbd-conn {
+    color: var(--accent);
+  }
+</style>

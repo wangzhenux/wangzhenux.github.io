@@ -5,7 +5,9 @@ test('home shows featured + writing + (optional) selected, no axe issues', async
   await page.goto('/');
 
   // Hero + featured case are always present (Twilio is the spotlight).
-  await expect(page.locator('h1')).toBeVisible();
+  // Assert the hero headline specifically rather than a bare `h1` so a reused
+  // dev server on :4321 can't trip strict mode with transient duplicate h1s.
+  await expect(page.locator('.home-hero-h1')).toBeVisible();
   await expect(page.locator('.featured')).toBeVisible();
   await expect(page.locator('.featured-cover')).toHaveAttribute('href', '/work/twilio');
 
@@ -21,5 +23,5 @@ test('home shows featured + writing + (optional) selected, no axe issues', async
   }
 
   const r = await new AxeBuilder({ page }).analyze();
-  expect(r.violations).toEqual([]);
+  expect(r.violations, JSON.stringify(r.violations.map((v) => ({ id: v.id, nodes: v.nodes.map((n) => n.target) })), null, 2)).toEqual([]);
 });
