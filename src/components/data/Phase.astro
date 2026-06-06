@@ -27,7 +27,9 @@ const { num, label, title, meta } = Astro.props;
     display: grid;
     grid-template-columns: 80px 1fr;
     column-gap: var(--space-6);
-    padding: var(--space-9) 0 0;
+    /* Bottom padding separates the meta (audience/metric) from the phase's
+       image-showcase, which follows as a sibling block. */
+    padding: var(--space-9) 0 var(--space-6);
     align-items: start;
   }
   .phase-num {

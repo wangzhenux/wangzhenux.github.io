@@ -1,0 +1,51 @@
+---
+/**
+ * Two-column feature: rich text/quote on the left, image on the right.
+ * The left content comes from the default slot (so it can hold a quote with
+ * highlighted phrases). Stacks on mobile.
+ */
+interface Props {
+  image: { src: string; alt: string; width?: number; height?: number };
+  reverse?: boolean; // put the image on the left instead
+}
+const { image, reverse = false } = Astro.props;
+---
+<div class:list={['split-feature', { 'split-feature--reverse': reverse }]}>
+  <div class="split-feature-text"><slot /></div>
+  <img
+    class="split-feature-img"
+    src={image.src}
+    alt={image.alt}
+    width={image.width}
+    height={image.height}
+    loading="lazy"
+    decoding="async"
+  />
+</div>
+<style>
+  .split-feature {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: var(--space-9);
+    align-items: center;
+    margin: var(--space-9) 0;
+  }
+  .split-feature-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+  }
+  /* reverse: image first (left), text second (right) */
+  .split-feature--reverse .split-feature-text { order: 2; }
+  .split-feature--reverse .split-feature-img { order: 1; }
+  @media (max-width: 767px) {
+    .split-feature {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+    /* keep image after text on mobile regardless of reverse */
+    .split-feature--reverse .split-feature-text { order: 1; }
+    .split-feature--reverse .split-feature-img { order: 2; }
+  }
+</style>

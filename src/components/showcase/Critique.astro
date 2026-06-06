@@ -2,7 +2,8 @@
 interface CritiqueRow {
   label: string;
   heading: string;
-  fix: string;
+  /** The changes made in response — rendered as a bulleted list. */
+  changes: string[];
   image: { src: string; alt: string; width?: number; height?: number };
 }
 interface Props { rows: CritiqueRow[]; }
@@ -14,7 +15,10 @@ const { rows } = Astro.props;
       <div>
         <div class="critique-label">{row.label}</div>
         <h4>{row.heading}</h4>
-        <p class="critique-fix" set:html={row.fix} />
+        <p class="critique-changes-lead">Changes</p>
+        <ul class="critique-changes">
+          {row.changes.map((c) => <li set:html={c} />)}
+        </ul>
       </div>
       <div class="critique-thumb" data-zoomable>
         <img
@@ -69,13 +73,38 @@ const { rows } = Astro.props;
     font-weight: 500;
     color: var(--ink-primary);
   }
-  .critique-fix {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--ink-secondary);
-    margin: 0;
+  .critique-changes-lead {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin: var(--space-3) 0 var(--space-2);
   }
-  .critique-fix :global(strong) {
+  .critique-changes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+  }
+  .critique-changes li {
+    position: relative;
+    padding-left: var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+  .critique-changes li:last-child { margin-bottom: 0; }
+  .critique-changes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 5px;
+    height: 1px;
+    background: var(--ink-quaternary);
+  }
+  .critique-changes :global(strong) {
     color: var(--ink-primary);
     font-weight: 500;
   }
