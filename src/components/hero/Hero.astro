@@ -4,7 +4,7 @@ import MetaStrip from './MetaStrip.astro';
 import Container from '../layout/Container.astro';
 
 interface MetaField { label: string; value: string; }
-interface CoverProps { caseCover?: string; image?: string; alt: string; }
+interface CoverProps { caseCover?: string; image?: string; alt: string; width?: number; height?: number; }
 interface Props {
   eyebrow: string;
   title: string;
@@ -15,21 +15,18 @@ interface Props {
 const { eyebrow, title, deck, cover, metaFields } = Astro.props;
 ---
 <header class="hero">
-  {/* Text sits in the shared content frame (same x-padding as the homepage,
-      the back link, and the case body). The cover image spans full width. */}
+  {/* Whole hero is contained in the shared content frame — text, cover, and
+      meta all share the same x-padding as the homepage / back link / body.
+      The cover keeps a gutter on the left/right and rounded corners. */}
   <Container>
     <p class="hero-eyebrow">{eyebrow}</p>
     <h1 class="hero-title">{title}</h1>
     <p class="hero-deck">{deck}</p>
-  </Container>
-  <div class="hero-cover"><Cover {...cover} /></div>
-  <Container>
+    <div class="hero-cover"><Cover {...cover} /></div>
     <MetaStrip fields={metaFields} />
   </Container>
 </header>
 <style>
-  /* The hero itself is full-width so the cover can bleed edge-to-edge; the
-     text + meta are constrained by the inner Container. */
   .hero {
     padding-top: var(--space-8);
   }

@@ -48,10 +48,15 @@
   .showcase-inner {
     position: relative;
     z-index: 1;
-    /* Image content fills the window minus the page gutter; centred in the band. */
-    max-width: var(--max-content-wide, 1400px);
+    /* Image floats on the grid with clear breathing room: capped below the
+       band width and inset by a generous gutter, so the dotted grid frames it
+       on all sides. */
+    max-width: 1120px;
     margin-inline: auto;
-    padding-inline: var(--pad-page-x);
+    padding-inline: var(--space-12);
+  }
+  @media (max-width: 767px) {
+    .showcase-inner { padding-inline: var(--pad-page-x); }
   }
   /* Image fits its container at natural aspect ratio — never cropped. */
   .showcase-inner :global(img) {

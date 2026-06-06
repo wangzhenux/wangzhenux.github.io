@@ -13,6 +13,9 @@ const coverSchema = z
   .object({
     gradient: z.string().optional(),
     image: z.string().optional(),
+    // Intrinsic dimensions of `image` (for CLS-free reservation on the hero).
+    width: z.number().optional(),
+    height: z.number().optional(),
   })
   .refine((c) => Boolean(c.gradient || c.image), {
     message: 'cover requires `gradient` or `image`',

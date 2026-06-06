@@ -3,44 +3,53 @@ interface Props {
   caseCover?: string;
   image?: string;
   alt: string;
+  width?: number;
+  height?: number;
 }
-const { caseCover, image, alt } = Astro.props;
+const { caseCover, image, alt, width, height } = Astro.props;
 ---
 {image ? (
-  // TODO: optimize in Task 4.4 (swap plain <img> for Astro <Image>)
-  <img class="cover cover-image" src={image} alt={alt} />
+  <img
+    class="cover cover-image"
+    src={image}
+    alt={alt}
+    width={width}
+    height={height}
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+  />
 ) : (
   <div class="cover" style={`--case-cover: ${caseCover}`} role="img" aria-label={alt}></div>
 )}
 <style>
-  /* ported from case-study-twilio.html .cover, tokenized.
-     Per-case gradient supplied via --case-cover. */
-  /* The hero cover is full-bleed (edge-to-edge), so NO border-radius —
-     rounded corners against the viewport edges look off. Spacing below is
-     handled by the hero's .hero-cover wrapper. */
+  /* Contained, rounded hero cover (the hero sits in the shared content frame,
+     so the cover keeps a gutter on the left/right and rounded corners). */
   .cover {
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  /* Gradient placeholder cover (no real image): fixed banner ratio. */
+  div.cover {
     aspect-ratio: 16/8;
     background:
       radial-gradient(at 25% 25%, var(--cover-sheen), transparent 50%),
       var(--case-cover);
     position: relative;
-    overflow: hidden;
   }
-  /* A real cover image fills the band without being cropped. */
+  /* Real cover image: natural ratio, never cropped. */
   .cover-image {
+    display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: auto;
-    object-fit: contain;
     background: none;
-    overflow: visible;
   }
 
-  /* Cover aspect-ratio swaps per breakpoint (§9.3): 16/8 → 16/9 → 4/3. */
+  /* Gradient placeholder aspect-ratio swaps per breakpoint (§9.3). */
   @media (max-width: 1023px) {
-    .cover { aspect-ratio: 16/9; }
+    div.cover { aspect-ratio: 16/9; }
   }
   @media (max-width: 767px) {
-    .cover { aspect-ratio: 4/3; }
+    div.cover { aspect-ratio: 4/3; }
   }
 </style>

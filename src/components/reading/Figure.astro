@@ -3,11 +3,21 @@ interface Props {
   src: string;
   alt: string;
   caption: string;
+  width?: number;
+  height?: number;
 }
-const { src, alt, caption } = Astro.props;
+const { src, alt, caption, width, height } = Astro.props;
 ---
 <figure class="figure">
-  <img class="figure-image" src={src} alt={alt} />
+  <img
+    class="figure-image"
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading="lazy"
+    decoding="async"
+  />
   <figcaption class="figure-caption">{caption}</figcaption>
 </figure>
 <style>
@@ -16,11 +26,11 @@ const { src, alt, caption } = Astro.props;
   .figure {
     margin: var(--space-9) 0;
   }
+  /* Show the figure at its natural ratio — never cropped. */
   .figure-image {
+    display: block;
     width: 100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    background: var(--bg-secondary);
+    height: auto;
     border-radius: var(--radius-sm);
     margin-bottom: var(--space-3);
   }
