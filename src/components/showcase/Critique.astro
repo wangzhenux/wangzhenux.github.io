@@ -3,7 +3,7 @@ interface CritiqueRow {
   label: string;
   heading: string;
   fix: string;
-  image: { src: string; alt: string };
+  image: { src: string; alt: string; width?: number; height?: number };
 }
 interface Props { rows: CritiqueRow[]; }
 const { rows } = Astro.props;
@@ -17,7 +17,14 @@ const { rows } = Astro.props;
         <p class="critique-fix" set:html={row.fix} />
       </div>
       <div class="critique-thumb" data-zoomable>
-        <img src={row.image.src} alt={row.image.alt} />
+        <img
+          src={row.image.src}
+          alt={row.image.alt}
+          width={row.image.width}
+          height={row.image.height}
+          loading="lazy"
+          decoding="async"
+        />
       </div>
     </div>
   ))}
@@ -84,11 +91,11 @@ const { rows } = Astro.props;
     transform: translateY(-2px);
     box-shadow: var(--shadow-card);
   }
+  /* Show the full critique screenshot at its natural ratio — never cropped.
+     (These are tall portrait captures; a forced 4/3 crop cut them off.) */
   .critique-thumb img {
     width: 100%;
-    aspect-ratio: 4/3;
-    object-fit: cover;
-    background: var(--bg-primary);
+    height: auto;
     display: block;
   }
 </style>

@@ -15,20 +15,25 @@ const { caseCover, image, alt } = Astro.props;
 <style>
   /* ported from case-study-twilio.html .cover, tokenized.
      Per-case gradient supplied via --case-cover. */
+  /* The hero cover is full-bleed (edge-to-edge), so NO border-radius —
+     rounded corners against the viewport edges look off. Spacing below is
+     handled by the hero's .hero-cover wrapper. */
   .cover {
     aspect-ratio: 16/8;
     background:
       radial-gradient(at 25% 25%, var(--cover-sheen), transparent 50%),
       var(--case-cover);
-    border-radius: var(--radius);
-    margin-bottom: var(--space-7);
     position: relative;
     overflow: hidden;
   }
+  /* A real cover image fills the band without being cropped. */
   .cover-image {
     width: 100%;
-    object-fit: cover;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
     background: none;
+    overflow: visible;
   }
 
   /* Cover aspect-ratio swaps per breakpoint (§9.3): 16/8 → 16/9 → 4/3. */

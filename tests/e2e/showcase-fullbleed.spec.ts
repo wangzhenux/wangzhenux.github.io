@@ -27,7 +27,11 @@ for (const width of [1440, 1000]) {
     expect(Math.abs(width - (band.x + band.width)), `band right gap`).toBeLessThanOrEqual(TOL);
 
     // Image is not cropped: rendered aspect ratio matches the natural one.
+    // Wait for the lazy image to finish decoding first so naturalWidth is set
+    // (avoids a parallel-run race where it reads 0 before load).
     const img = page.locator('.image-showcase img').first();
+    await img.scrollIntoViewIfNeeded();
+    await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
     const ar = await img.evaluate((el: HTMLImageElement) => ({
       rendered: el.getBoundingClientRect().width / el.getBoundingClientRect().height,
       natural: el.naturalWidth / el.naturalHeight,
