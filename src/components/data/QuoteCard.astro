@@ -1,16 +1,19 @@
 ---
-interface Props { label: string; heading: string; }
-const { label, heading } = Astro.props;
+interface Props { label: string; heading: string; quote: string; }
+const { label, heading, quote } = Astro.props;
 ---
 <div class="quote-card">
   <div class="quote-card-label">{label}</div>
   <h4>{heading}</h4>
-  <p class="q"><slot /></p>
+  <p class="q">{quote}</p>
 </div>
 <style>
   /* ported from case-study-twilio.html .quote-card, tokenized.
      Mono accent label + display-serif h4 + display-serif quote with curly
-     quotation marks (no italic — kept upright to match the design system). */
+     quotation marks (upright, no italic — matches the design system).
+     The quote is a prop (not a slot) so the text renders directly inside .q;
+     a Markdown slot would wrap the text in its own <p>, which is illegal
+     inside <p class="q"> and would leave .q empty (just the quote marks). */
   .quote-card {
     padding: var(--space-5);
     border: 1px solid var(--rule);
