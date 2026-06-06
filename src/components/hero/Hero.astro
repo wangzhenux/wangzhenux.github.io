@@ -1,6 +1,7 @@
 ---
 import Cover from './Cover.astro';
 import MetaStrip from './MetaStrip.astro';
+import Container from '../layout/Container.astro';
 
 interface MetaField { label: string; value: string; }
 interface CoverProps { caseCover?: string; image?: string; alt: string; }
@@ -14,19 +15,23 @@ interface Props {
 const { eyebrow, title, deck, cover, metaFields } = Astro.props;
 ---
 <header class="hero">
-  <p class="hero-eyebrow">{eyebrow}</p>
-  <h1 class="hero-title">{title}</h1>
-  <p class="hero-deck">{deck}</p>
-  <Cover {...cover} />
-  <MetaStrip fields={metaFields} />
+  {/* Text sits in the shared content frame (same x-padding as the homepage,
+      the back link, and the case body). The cover image spans full width. */}
+  <Container>
+    <p class="hero-eyebrow">{eyebrow}</p>
+    <h1 class="hero-title">{title}</h1>
+    <p class="hero-deck">{deck}</p>
+  </Container>
+  <div class="hero-cover"><Cover {...cover} /></div>
+  <Container>
+    <MetaStrip fields={metaFields} />
+  </Container>
 </header>
 <style>
-  /* ported from case-study-twilio.html .hero*, tokenized.
-     Title uses clamp() per §4.2/§9.3 (no type-scale token yet). */
+  /* The hero itself is full-width so the cover can bleed edge-to-edge; the
+     text + meta are constrained by the inner Container. */
   .hero {
-    max-width: var(--max-content);
-    margin: 0 auto;
-    padding: var(--space-8) 0 0;
+    padding-top: var(--space-8);
   }
   .hero-eyebrow {
     font-family: var(--font-mono);
@@ -53,5 +58,10 @@ const { eyebrow, title, deck, cover, metaFields } = Astro.props;
     color: var(--ink-secondary);
     max-width: 50ch;
     margin: 0 0 var(--space-8);
+  }
+  /* Full-width cover (the .hero is full-width, so width:100% = viewport width),
+     with breathing room before the meta strip. */
+  .hero-cover {
+    margin-bottom: var(--space-8);
   }
 </style>
