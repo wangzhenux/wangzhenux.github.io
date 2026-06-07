@@ -1,0 +1,252 @@
+---
+title: "Making integration configurations portable"
+deck: "A way for customers to move configuration changes between product instances without manual rework — from five user studies to a shipped History, export, and import flow."
+slug: tasktop-portability
+company: Tasktop
+year: 2022
+role: Senior UX Designer • Design Lead
+cover:
+  gradient: "linear-gradient(135deg, #2D5A87 0%, #18324A 100%)"
+order: 3
+featured: true
+sections:
+  - { id: s01, num: "01", label: "The product" }
+  - { id: s02, num: "02", label: "The problem" }
+  - { id: s03, num: "03", label: "Research" }
+  - { id: s04, num: "04", label: "From pain points to a flow" }
+  - { id: s05, num: "05", label: "Iterating to ship" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import CardRow from '../../components/data/CardRow.astro';
+import PainCard from '../../components/data/PainCard.astro';
+import ResearchStats from '../../components/data/ResearchStats.astro';
+import Stat from '../../components/data/Stat.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+import Reflection from '../../components/showcase/Reflection.astro';
+import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
+
+<section id="s01">
+  <Lede>
+    Tasktop Integration Hub is enterprise software that connects the specialized
+    tools across a software delivery chain — flowing work automatically from tool
+    to tool so teams stop sharing every update through emails, status sheets, and
+    endless meetings.
+  </Lede>
+
+  <BodyText>
+    As lead feature designer on Hub, I worked a repeatable process — gathering
+    requirements, running design workshops, wireframing, design critiques, and
+    high-fidelity prototypes — to take features from a problem to a shipped
+    design. Portability of Configurations was one of two features I led; the
+    other, [Integration Landscape](/work/integration-landscape), is written up
+    separately.
+  </BodyText>
+</section>
+
+<section id="s02">
+  <SectionH>The problem</SectionH>
+  <BodyText>
+    This feature lets customers track the changes they make in one instance of
+    the product and transfer those changes to another instance without too much
+    manual work. A new History screen catalogs changes Tasktop Hub users make to
+    general settings or specific configuration elements — including the date of
+    the change, the name of the user who made it, and a description — and lets
+    users export selected changes and import them into a different instance.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_process.png"
+      alt="Overall process for the Portability of Configurations project"
+      width={6228}
+      height={1748}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Background</SectionH>
+  <BodyText>
+    To ensure the integrity and functionality of their systems, customers
+    typically make changes in a controlled environment such as a test or
+    development environment, where they can validate and fine-tune the changes
+    before deploying to production. But even after successfully testing and
+    verifying the changes, customers still need to manually replicate them in the
+    production environment. **This manual replication process is crucial to
+    maintain consistency between environments and minimize potential errors or
+    discrepancies** — and it was a deal-breaking feature for the business.
+  </BodyText>
+</section>
+
+<section id="s03">
+  <SectionH>Five user studies</SectionH>
+  <BodyText>
+    I worked with the PM to conduct five user studies, asking customers to walk
+    through their journey.
+  </BodyText>
+
+  <ResearchStats cols={5}>
+    <Stat num="🚗" label="Automotive">
+      <span class="item">6+ instances</span>
+      <span class="item">45+ integrations</span>
+    </Stat>
+    <Stat num="💵" label="Finance">
+      <span class="item">2 instances</span>
+      <span class="item">10+ integrations</span>
+    </Stat>
+    <Stat num="💼" label="Insurance">
+      <span class="item">2 instances</span>
+      <span class="item">15 integrations</span>
+    </Stat>
+    <Stat num="🎧" label="Consulting">
+      <span class="item">6+ instances</span>
+      <span class="item">10–15 integrations</span>
+    </Stat>
+    <Stat num="🚙" label="Automotive">
+      <span class="item">10+ instances</span>
+      <span class="item">8+ integrations</span>
+    </Stat>
+  </ResearchStats>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_customer_journey.png"
+      alt="Customer journey map from the Portability of Configurations user studies"
+      width={3714}
+      height={2228}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s04">
+  <SectionH>From pain points to a flow</SectionH>
+
+  <SectionH small>Top pain points</SectionH>
+  <CardRow>
+    <PainCard num="01" title="Overhead manually tracking changes">
+      Manually tracking and documenting changes is time-consuming and
+      labor-intensive — keeping track of changes to code, configuration files, or
+      other system components using spreadsheets, version control tools, or even
+      paper-based logs.
+    </PainCard>
+    <PainCard num="02" title="Error-prone manual replication">
+      Replicating changes made in a test instance manually to a production
+      instance is time-consuming, tedious, and prone to errors, which can lead to
+      inconsistencies due to human error, lack of documentation, miscommunication,
+      and differences in system configurations.
+    </PainCard>
+  </CardRow>
+
+  <SectionH small>Proposed solutions and user flow</SectionH>
+  <BodyText>
+    To tackle the pain points, I worked with PMs and engineers to come up with
+    solutions and potential user flows.
+  </BodyText>
+  <CardRow>
+    <PainCard num="01" title="Audit configuration changes">
+      Automatically audit all user-made changes and present a transparent record
+      of the change history, eliminating the need for manual documentation.
+    </PainCard>
+    <PainCard num="02" title="Transfer changes">
+      Enable users to transfer changes from one instance to another, with
+      assistance in validating the changes for a seamless migration.
+    </PainCard>
+  </CardRow>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_user_flow.png"
+      alt="Proposed user flow for auditing and transferring configuration changes"
+      width={3112}
+      height={944}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s05">
+  <SectionH>Iterating to ship</SectionH>
+
+  <SectionH small>Design iterations and usability testing</SectionH>
+  <BodyText>
+    I conducted five usability tests with three internal users and two customers,
+    iterating on the designs along the way. A few of the changes:
+  </BodyText>
+
+  <BodyText>
+    On the **History screen**, the expand-and-collapse was over-complicated and
+    the summary could be clearer, so I reduced the number of collapses and
+    reorganized the information.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_history_summary.png"
+      alt="History summary iteration"
+      width={3660}
+      height={536}
+    />
+  </ImageShowcase>
+  <BodyText>
+    It also wasn't clear that users could select and export changes, so I added
+    an action button to trigger the selection for export.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_history_export_changes.png"
+      alt="History export-changes iteration"
+      width={3652}
+      height={1238}
+    />
+  </ImageShowcase>
+  <BodyText>
+    In the **Import Wizard**, more metadata needed to be included in the exported
+    file, so I added details like instance name, last updated date, and number of
+    changes.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_import_metadata.png"
+      alt="Import metadata iteration"
+      width={3656}
+      height={412}
+    />
+  </ImageShowcase>
+  <BodyText>
+    Rather than a confirm dialog with limited information, testing suggested an
+    extra summary step, so I added a confirmation step at the end of the wizard to
+    summarize what had been imported successfully.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_import_success.png"
+      alt="Import success step iteration"
+      width={3656}
+      height={892}
+    />
+  </ImageShowcase>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/poc_all_screens.png"
+      alt="All screens of the Portability of Configurations feature"
+      width={3840}
+      height={2140}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Key learning</SectionH>
+  <BodyText>
+    While working with engineering, we faced technical difficulties aligning the
+    History screen summary with the design. To ensure a quick release, I proposed
+    temporarily hiding some unnecessary information from the log while keeping it
+    readable. Engineering and the PM agreed, with plans to fine-tune the history
+    to match the design later.
+  </BodyText>
+  <Reflection>
+    <ReflectionCard label="On shipping" heading="“Don't let perfect be the enemy of good”">
+      Instead of spending a lot of time tackling the technical difficulties, use
+      an alternative solution to solve it for customers — even if it isn't
+      perfect.
+    </ReflectionCard>
+  </Reflection>
+</section>

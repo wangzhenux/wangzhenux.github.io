@@ -1,0 +1,176 @@
+---
+title: "Integration Landscape: a value-stream overview for Tasktop Hub"
+deck: "Designing the first at-a-glance view of an enterprise's entire software delivery value stream — by scoping a broad problem down to the view that mattered first."
+slug: integration-landscape
+company: Tasktop
+year: 2022
+role: Senior UX Designer • Design Lead
+cover:
+  gradient: "linear-gradient(135deg, #2D5A87 0%, #18324A 100%)"
+  image: "/cases/tasktop-hub/il_final_design.png"
+  width: 1586
+  height: 833
+order: 2
+featured: true
+sections:
+  - { id: s01, num: "01", label: "The product" }
+  - { id: s02, num: "02", label: "The problem" }
+  - { id: s03, num: "03", label: "Requirements & workshops" }
+  - { id: s04, num: "04", label: "Design & outcome" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import Figure from '../../components/reading/Figure.astro';
+import Dual from '../../components/data/Dual.astro';
+import DualCol from '../../components/data/DualCol.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+
+<section id="s01">
+  <Lede>
+    Tasktop Integration Hub is enterprise software that connects the specialized
+    tools across a software delivery chain — flowing work automatically from tool
+    to tool so teams stop sharing every update through emails, status sheets, and
+    endless meetings.
+  </Lede>
+
+  <BodyText>
+    As lead feature designer on Hub, I worked a repeatable process — gathering
+    requirements, running design workshops, wireframing, design critiques, and
+    high-fidelity prototypes — to take features from a problem to a shipped
+    design. Integration Landscape was one of two features I led; the other,
+    [making integration configurations portable](/work/tasktop-portability), is
+    written up separately.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/feature_design_process.svg"
+      alt="General feature design process at Tasktop"
+      width={1335}
+      height={318}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s02">
+  <SectionH>The problem</SectionH>
+  <BodyText>
+    The Integration Landscape is the overall view of all the integrations a
+    customer has set up. It aims to help users better understand their artifact
+    flow in a big picture, and — eventually — provide an intuitive way to build
+    their integrations. Landscape view provides a simple but dramatic visual
+    overview of an enterprise's entire software delivery value stream. This kind
+    of at-a-glance value-stream overview was the first of its kind: it lets users
+    quickly see which systems are integrated, what models are being used, whether
+    flows are one-way or two-way, and which artifacts are flowing between tools
+    (e.g. Stories, Defects, Requirements).
+  </BodyText>
+
+  <SectionH small>Background</SectionH>
+  <BodyText>
+    Tasktop Integration Hub is enterprise software built to power some of the
+    world's largest Agile and DevOps transformations. From the feedback we got,
+    customers were very happy with the tool's efficiency and effortlessness.
+    However, when prospects and customers start thinking about their integration,
+    they start at the very highest level rather than the low-level details, and
+    work their way down. Given the stage of the product, we only had the lower
+    levels there — integrations were created by starting with the available
+    elements and working up. **This made it difficult for users to get
+    higher-level visibility into their entire landscape in a single place.**
+  </BodyText>
+
+  <Figure
+    src="/cases/tasktop-hub/il_sla.png"
+    alt="Software lifecycle architecture diagram inspired by the field teams"
+    caption="Inspired by software lifecycle architecture from the field teams."
+  />
+</section>
+
+<section id="s03">
+  <SectionH>Requirements and design workshops</SectionH>
+  <BodyText>
+    I gathered the fundamental requirements and the nice-to-have user needs, then
+    ran cross-disciplinary design workshops where team members could rapidly
+    generate and discuss a wide set of ideas from different perspectives.
+  </BodyText>
+
+  <Dual>
+    <DualCol heading="Fundamental requirements">
+      <div class="dual-item"><div class="head">Visualize the workflow</div><div class="det">It must be easy for users to visualize the entire workflow.</div></div>
+      <div class="dual-item"><div class="head">Locate an integration</div><div class="det">Users must be able to quickly locate an integration.</div></div>
+      <div class="dual-item"><div class="head">Match users' mental model</div><div class="det">The Landscape must match how users think about the flow of information between different systems or departments.</div></div>
+      <div class="dual-item"><div class="head">Construct without full detail</div><div class="det">It must let users dynamically construct integration components without having all of the details upfront.</div></div>
+    </DualCol>
+    <DualCol heading="Who joined the workshops">
+      <div class="dual-item"><div class="head">Product Manager</div><div class="det">Insights from the perspective of business value and product vision.</div></div>
+      <div class="dual-item"><div class="head">Engineering</div><div class="det">Opinions from the perspective of technical feasibility.</div></div>
+      <div class="dual-item"><div class="head">Customer-facing team members</div><div class="det">Customer use cases and scenario details.</div></div>
+      <div class="dual-item"><div class="head">UX designer</div><div class="det">Sketching ideas and digging deep to refine concepts and tackle design challenges.</div></div>
+    </DualCol>
+  </Dual>
+</section>
+
+<section id="s04">
+  <SectionH>Wireframing, critiques, and scoping down</SectionH>
+  <BodyText>
+    After the workshops, we determined the basic workflow for how users could
+    build the landscape from scratch and run integrations from it. However, after
+    discussing with stakeholders — especially engineering —
+    **with the concern of time and effort, we decided to narrow the scope and
+    focus on the display-only view first**, then build up from there.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/il_workflow.png"
+      alt="Initial workflow showing the landscape building capability"
+      width={6306}
+      height={874}
+    />
+  </ImageShowcase>
+
+  <BodyText>
+    We explored three versions of the concept. Version 1 had clear procedures to
+    build the landscape but was difficult to develop and not very scalable.
+    Version 2 (scoped to display only) was less complicated to develop and
+    scalable, but the flow was harder to read as a whole. Version 3 (also
+    display-only) had a clean structure that was intuitive for viewing the
+    overall flow between repositories, made it easy to filter the artifact flow,
+    and gave a good foundation for integration construction in the future.
+  </BodyText>
+
+  <SectionH small>Final design</SectionH>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/il_visual_elements.svg"
+      alt="Visual elements used in the Integration Landscape"
+      width={809}
+      height={147}
+    />
+  </ImageShowcase>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-hub/il_final_design.png"
+      alt="Final Integration Landscape design"
+      width={1586}
+      height={833}
+    />
+  </ImageShowcase>
+
+  <SectionH small>What I took away</SectionH>
+  <BodyText>
+    Enterprise software platforms are typically complicated, heavyweight, and
+    difficult to use, and user experience is often overlooked. But UX plays a
+    huge role in the success of a software company: good UX improves not only the
+    user's happiness but their effectiveness in meeting company needs. In this
+    project I learned how to **scope down a problem and extract its key values.**
+    Hiding the non-essential details and providing a high-level landscape
+    presents a much clearer view of customers' overall integrations and reduces
+    noise; they can then use toggles and filters to locate and browse details as
+    needed. Instead of solving the whole challenge at once, I got my ideas into
+    shape by breaking it down, then put them together at the end.
+  </BodyText>
+</section>
