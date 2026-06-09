@@ -8,6 +8,4 @@
     <path d="M-6 -4 a6 6 0 1 1 9 5 c-2 1.6 -3 3 -3 5" fill="none" stroke="#FAF5E8" stroke-width="2.4" stroke-linecap="round"/>
     <circle cx="0" cy="9" r="1.8" fill="#FAF5E8"/>
   </g>
-  <line x1="44" y1="174" x2="276" y2="174" stroke="#1A141026" stroke-width="1.5"/>
-  <text x="44" y="190" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.4" fill="#B93A23">11</text>
 </svg>

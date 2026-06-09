@@ -8,6 +8,4 @@
     <circle cx="0" cy="-46" r="8" fill="#FAF5E8"/>
   </g>
   <g stroke="#1A1410" stroke-width="2" fill="none" stroke-linecap="round"><path d="M236 150 v-14 M229 140 h14 M230 140 v10 M242 140 v10"/></g>
-  <line x1="44" y1="174" x2="276" y2="174" stroke="#1A141026" stroke-width="1.5"/>
-  <text x="44" y="190" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.4" fill="#B93A23">06</text>
 </svg>

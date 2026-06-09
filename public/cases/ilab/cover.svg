@@ -13,6 +13,4 @@
     <rect x="190" y="68" width="44" height="32" rx="4" fill="#FAF5E8"/>
     <rect x="190" y="104" width="44" height="32" rx="4" fill="#FAF5E8"/>
   </g>
-  <line x1="44" y1="172" x2="276" y2="172" stroke="#1A141026" stroke-width="1.5"/>
-  <text x="44" y="188" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.4" fill="#B93A23">07</text>
 </svg>

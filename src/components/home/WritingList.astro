@@ -1,22 +1,14 @@
 ---
-import { fetchMedium } from '../../lib/medium';
+import { writings } from '../../lib/writings';
 import Container from '../layout/Container.astro';
 
 interface Props {
-  handle?: string;
   limit?: number;
   title?: string;
 }
-const { handle = 'wangzhen614', limit = 3, title = 'Writing' } = Astro.props;
-const profileUrl = `https://medium.com/@${handle}`;
-
-const posts = await fetchMedium(handle, limit);
-
-const dateFmt = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short' });
-function formatDate(pubDate: string): string {
-  const d = new Date(pubDate);
-  return Number.isNaN(d.getTime()) ? pubDate : dateFmt.format(d);
-}
+const { limit = 3, title = 'Writing' } = Astro.props;
+const profileUrl = 'https://medium.com/@wangzhen614';
+const posts = writings.slice(0, limit);
 ---
 <section class="writing" aria-labelledby="writing-heading">
   <Container>
@@ -25,34 +17,22 @@ function formatDate(pubDate: string): string {
       <a class="writing-more" href={profileUrl} target="_blank" rel="noopener">on Medium →</a>
     </div>
 
-    {posts.length > 0 ? (
-      <ul class="writing-list">
-        {posts.map((post) => (
-          <li>
-            <a class="writing-row" href={post.link} target="_blank" rel="noopener">
-              {post.image ? (
-                <img class="writing-thumb" src={post.image} alt="" loading="lazy" />
-              ) : (
-                <span class="writing-thumb writing-thumb--placeholder" aria-hidden="true"></span>
-              )}
-              <span class="writing-date">{formatDate(post.pubDate)}</span>
-              <span class="writing-headline">{post.title}</span>
-              <span class="writing-excerpt">{post.excerpt}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p class="writing-empty">
-        <a href={profileUrl} target="_blank" rel="noopener">Find my writing on Medium →</a>
-      </p>
-    )}
+    <ul class="writing-list">
+      {posts.map((post) => (
+        <li>
+          <a class="writing-row" href={post.link} target="_blank" rel="noopener">
+            <img class="writing-thumb" src={post.image} alt="" loading="lazy" width="72" height="72" />
+            <span class="writing-headline">{post.title}</span>
+            <span class="writing-excerpt">{post.excerpt}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </Container>
 </section>
 <style>
-  /* ported from homepage.html .writing / .writing-row / .writing-date /
-     .writing-headline / .writing-excerpt, tokenized. A thumbnail column is
-     added: real image when present, cream --bg-secondary placeholder when not. */
+  /* ported from homepage.html .writing, tokenized. Curated three-up list with a
+     square hero thumbnail, serif headline, and a condensed excerpt. */
   .writing {
     padding-block: var(--space-11);
   }
@@ -89,42 +69,29 @@ function formatDate(pubDate: string): string {
   }
   .writing-row {
     display: grid;
-    grid-template-columns: 64px 110px 1fr 1fr;
+    grid-template-columns: 72px 1.1fr 1.4fr;
     gap: var(--space-6);
     align-items: center;
-    padding: var(--space-4) 0;
+    padding: var(--space-5) 0;
     border-bottom: 1px solid var(--rule-soft);
     text-decoration: none;
     color: inherit;
   }
   .writing-thumb {
-    width: 64px;
+    width: 72px;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: var(--radius-sm);
-  }
-  .writing-thumb--placeholder {
-    display: block;
-    background: var(--bg-secondary);
     border: 1px solid var(--rule-soft);
-  }
-  .writing-date {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--ink-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    align-self: baseline;
   }
   .writing-headline {
     font-family: var(--font-display);
     font-size: 18px;
-    line-height: 1.25;
+    line-height: 1.3;
     letter-spacing: -0.01em;
     color: var(--ink-primary);
     font-weight: 500;
     transition: color 0.2s ease;
-    align-self: baseline;
   }
   .writing-row:hover .writing-headline,
   .writing-row:focus-visible .writing-headline {
@@ -133,33 +100,18 @@ function formatDate(pubDate: string): string {
   .writing-excerpt {
     font-size: 13px;
     color: var(--ink-tertiary);
-    line-height: 1.5;
-    max-width: 48ch;
-    align-self: baseline;
-  }
-  .writing-empty {
-    border-top: 1px solid var(--rule);
-    padding-top: var(--space-5);
-    margin: 0;
-  }
-  .writing-empty a {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--ink-secondary);
-    text-decoration: none;
-  }
-  .writing-empty a:hover,
-  .writing-empty a:focus-visible {
-    color: var(--accent);
+    line-height: 1.55;
+    max-width: 52ch;
   }
   @media (max-width: 767px) {
     .writing-row {
-      grid-template-columns: 48px 1fr;
+      grid-template-columns: 56px 1fr;
       gap: var(--space-3) var(--space-4);
+      align-items: start;
     }
     .writing-thumb {
-      width: 48px;
-      grid-row: span 3;
+      width: 56px;
+      grid-row: span 2;
     }
     .writing-excerpt {
       display: none;

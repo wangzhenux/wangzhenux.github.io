@@ -10,6 +10,4 @@
   <path d="M126 106 Q160 134 200 60" fill="none" stroke="#E0573E" stroke-width="2.6" stroke-dasharray="1.5 7" stroke-linecap="round"/>
   <circle cx="126" cy="106" r="5" fill="#F0E6D2"/>
   <circle cx="200" cy="60" r="6.5" fill="#E0573E"/>
-  <text x="44" y="160" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.6" fill="#E0573E">01</text>
-  <line x1="200" y1="155" x2="276" y2="155" stroke="#F0E6D233" stroke-width="1.5"/>
 </svg>
