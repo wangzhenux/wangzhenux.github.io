@@ -1,0 +1,14 @@
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a calligraphic brush stroke with a carved name seal">
+  <rect width="320" height="200" fill="#EFE7D2"/>
+  <path d="M52 122 C 92 98, 130 152, 176 116 C 216 86, 244 104, 274 80 C 248 118, 214 112, 176 134 C 134 158, 96 118, 64 132 C 57 130, 52 127, 52 122 Z" fill="#B93A23"/>
+  <g transform="translate(214,52)">
+    <rect x="0" y="0" width="42" height="42" rx="6" fill="none" stroke="#1A1410" stroke-width="2.4"/>
+    <g stroke="#1A1410" stroke-width="2" stroke-linecap="round" fill="none">
+      <path d="M21 8 V34"/>
+      <path d="M11 16 H31"/>
+      <path d="M11 27 H31"/>
+    </g>
+  </g>
+  <line x1="44" y1="174" x2="276" y2="174" stroke="#1A141026" stroke-width="1.5"/>
+  <text x="44" y="190" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.4" fill="#B93A23">12</text>
+</svg>

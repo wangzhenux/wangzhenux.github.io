@@ -1,0 +1,15 @@
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a network of connected tool cards with one highlighted">
+  <rect width="320" height="200" fill="#EFE7D2"/>
+  <g fill="none" stroke="#1A1410" stroke-width="2">
+    <path d="M70 64 L150 48 M70 64 L132 110 M150 48 L226 70 M132 110 L226 70 M226 70 L250 128 M132 110 L250 128"/>
+  </g>
+  <g>
+    <rect x="44" y="50" width="52" height="28" rx="4" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+    <rect x="124" y="34" width="52" height="28" rx="4" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+    <rect x="106" y="96" width="52" height="28" rx="4" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+    <rect x="224" y="118" width="52" height="28" rx="4" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+    <rect x="200" y="56" width="52" height="28" rx="4" fill="#B93A23" stroke="#B93A23" stroke-width="2"/>
+  </g>
+  <line x1="44" y1="170" x2="276" y2="170" stroke="#1A141026" stroke-width="1.5"/>
+  <text x="44" y="186" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.4" fill="#B93A23">02</text>
+</svg>

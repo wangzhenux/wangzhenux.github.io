@@ -1,0 +1,20 @@
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a route between two pins with a car midway">
+  <rect width="320" height="200" fill="#EFE7D2"/>
+  <path d="M74 78 Q150 40 174 96 T256 120" fill="none" stroke="#1A1410" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round"/>
+  <g fill="#FAF5E8" stroke="#1A1410" stroke-width="2">
+    <path d="M74 78 m0 -16 a16 16 0 0 1 16 16 c0 12 -16 26 -16 26 c0 0 -16 -14 -16 -26 a16 16 0 0 1 16 -16 z"/>
+  </g>
+  <circle cx="74" cy="78" r="5" fill="#1A1410"/>
+  <g fill="#B93A23" stroke="#B93A23" stroke-width="2">
+    <path d="M256 120 m0 -16 a16 16 0 0 1 16 16 c0 12 -16 26 -16 26 c0 0 -16 -14 -16 -26 a16 16 0 0 1 16 -16 z"/>
+  </g>
+  <circle cx="256" cy="120" r="5" fill="#FAF5E8"/>
+  <g transform="translate(150,104)">
+    <rect x="-22" y="-10" width="44" height="18" rx="6" fill="#1A1410"/>
+    <path d="M-14 -10 l5 -9 h18 l5 9" fill="#1A1410"/>
+    <circle cx="-12" cy="9" r="5" fill="#1A1410" stroke="#EFE7D2" stroke-width="2"/>
+    <circle cx="12" cy="9" r="5" fill="#1A1410" stroke="#EFE7D2" stroke-width="2"/>
+  </g>
+  <line x1="44" y1="174" x2="276" y2="174" stroke="#1A141026" stroke-width="1.5"/>
+  <text x="44" y="190" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.4" fill="#B93A23">09</text>
+</svg>

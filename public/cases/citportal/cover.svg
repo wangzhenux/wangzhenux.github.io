@@ -1,0 +1,18 @@
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a browser window holding a combinatorial test matrix">
+  <rect width="320" height="200" fill="#EFE7D2"/>
+  <rect x="74" y="44" width="172" height="112" rx="6" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <path d="M74 64 H246" stroke="#1A1410" stroke-width="2"/>
+  <g fill="#1A1410"><circle cx="86" cy="54" r="2.6"/><circle cx="96" cy="54" r="2.6"/><circle cx="106" cy="54" r="2.6"/></g>
+  <g stroke="#1A141033" stroke-width="1.2">
+    <path d="M122 64 V156 M170 64 V156 M218 64 V156 M98 88 H246 M98 112 H246 M98 136 H246"/>
+  </g>
+  <g fill="#B93A23">
+    <rect x="100" y="68" width="20" height="18" rx="2"/>
+    <rect x="172" y="92" width="20" height="18" rx="2"/>
+    <rect x="124" y="116" width="20" height="18" rx="2"/>
+    <rect x="220" y="116" width="20" height="18" rx="2"/>
+    <rect x="148" y="140" width="20" height="14" rx="2"/>
+  </g>
+  <line x1="44" y1="174" x2="276" y2="174" stroke="#1A141026" stroke-width="1.5"/>
+  <text x="44" y="190" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.4" fill="#B93A23">08</text>
+</svg>

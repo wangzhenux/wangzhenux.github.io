@@ -1,0 +1,18 @@
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: people matched to project cards by connecting lines">
+  <rect width="320" height="200" fill="#EFE7D2"/>
+  <g fill="none" stroke="#1A1410" stroke-width="1.8">
+    <path d="M96 60 L188 84 M96 100 L188 84 M96 140 L188 120 M96 100 L188 120"/>
+  </g>
+  <path d="M96 140 L188 84" fill="none" stroke="#B93A23" stroke-width="2.2"/>
+  <g stroke="#1A1410" stroke-width="2" fill="#FAF5E8">
+    <g transform="translate(78,60)"><circle cx="0" cy="-7" r="7"/><path d="M-12 9 a12 12 0 0 1 24 0" fill="#FAF5E8"/></g>
+    <g transform="translate(78,100)"><circle cx="0" cy="-7" r="7"/><path d="M-12 9 a12 12 0 0 1 24 0" fill="#FAF5E8"/></g>
+    <g transform="translate(78,140)"><circle cx="0" cy="-7" r="7" fill="#B93A23" stroke="#B93A23"/><path d="M-12 9 a12 12 0 0 1 24 0" fill="#B93A23" stroke="#B93A23"/></g>
+  </g>
+  <g stroke="#1A1410" stroke-width="2">
+    <rect x="190" y="68" width="44" height="32" rx="4" fill="#FAF5E8"/>
+    <rect x="190" y="104" width="44" height="32" rx="4" fill="#FAF5E8"/>
+  </g>
+  <line x1="44" y1="172" x2="276" y2="172" stroke="#1A141026" stroke-width="1.5"/>
+  <text x="44" y="188" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.4" fill="#B93A23">07</text>
+</svg>
