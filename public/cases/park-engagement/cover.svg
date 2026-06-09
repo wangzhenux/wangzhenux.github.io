@@ -1,11 +1,10 @@
-<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a tree and a location pin on a park ground line">
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a tree and a location pin standing on a park ground line">
   <rect width="320" height="200" fill="#EFE7D2"/>
-  <line x1="52" y1="150" x2="268" y2="150" stroke="#1A1410" stroke-width="2"/>
-  <g stroke="#1A1410" stroke-width="2.4" fill="none" stroke-linecap="round"><path d="M96 150 V104"/></g>
-  <path d="M96 60 C 118 60, 128 82, 120 98 C 132 104, 124 124, 108 122 C 104 132, 88 132, 84 122 C 68 124, 60 104, 72 98 C 64 82, 74 60, 96 60 Z" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
-  <g transform="translate(190,150)">
-    <path d="M0 0 C -16 -22, -22 -34, -22 -46 a22 22 0 0 1 44 0 c0 12 -6 24 -22 46 z" fill="#B93A23"/>
-    <circle cx="0" cy="-46" r="8" fill="#FAF5E8"/>
+  <line x1="44" y1="156" x2="276" y2="156" stroke="#1A1410" stroke-width="2"/>
+  <path d="M104 118 V156" fill="none" stroke="#1A1410" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M104 42 C 122 42, 134 56, 132 74 C 146 80, 142 106, 120 106 C 116 120, 92 120, 88 106 C 66 104, 62 80, 76 74 C 74 56, 86 42, 104 42 Z" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <g transform="translate(210,156)">
+    <path d="M0 0 C -16 -24, -26 -38, -26 -52 a26 26 0 0 1 52 0 C 26 -38, 16 -24, 0 0 Z" fill="#B93A23"/>
+    <circle cx="0" cy="-52" r="10" fill="#FAF5E8"/>
   </g>
-  <g stroke="#1A1410" stroke-width="2" fill="none" stroke-linecap="round"><path d="M236 150 v-14 M229 140 h14 M230 140 v10 M242 140 v10"/></g>
 </svg>
