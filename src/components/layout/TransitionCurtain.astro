@@ -1,0 +1,117 @@
+---
+import { getCollection } from 'astro:content';
+import { taglines } from '../../lib/taglines';
+
+// slug → thesis, only for cases that exist and have a tagline.
+const cases = await getCollection('cases');
+const map: Record<string, string> = {};
+for (const c of cases) {
+  const t = taglines[c.data.slug];
+  if (t) map[c.data.slug] = t;
+}
+---
+<div id="case-curtain" transition:persist aria-hidden="true">
+  <p class="case-curtain-thesis"></p>
+</div>
+<script type="application/json" id="case-taglines" set:html={JSON.stringify(map)}></script>
+
+<script>
+  // Per-case "thesis curtain" on case-study open: a dark panel sweeps up with
+  // the case's one-line thesis, holds long enough to read, then lifts to reveal
+  // the page. Driven by the Astro view-transition lifecycle so it covers the
+  // (cheap) page swap underneath. Honors prefers-reduced-motion.
+  const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const HOLD = 1100; // ms the thesis stays up after the page is in place
+
+  const curtain = () => document.getElementById('case-curtain');
+  const fmt = (s: string) => s.replace(/\*([^*]+)\*/g, '<span class="cc-accent">$1</span>');
+  const taglineFor = (slug: string) => {
+    try { return JSON.parse(document.getElementById('case-taglines')?.textContent || '{}')[slug]; }
+    catch { return null; }
+  };
+
+  if (!(window as any).__caseCurtainInit) {
+    (window as any).__caseCurtainInit = true;
+
+    document.addEventListener('astro:before-preparation', (e: any) => {
+      if (REDUCE) return;
+      const to = new URL(e.to, location.href);
+      const m = to.pathname.match(/^\/work\/([a-z0-9-]+)\/?$/);
+      if (!m) return;
+      const tag = taglineFor(m[1]);
+      if (!tag) return;
+      const c = curtain();
+      if (!c) return;
+      const t = c.querySelector('.case-curtain-thesis');
+      if (t) t.innerHTML = fmt(tag);
+      c.classList.remove('is-lifting');
+      void c.offsetWidth; // reflow so the sweep animates from the bottom
+      c.classList.add('is-sweeping');
+      // Hold the swap until the curtain has fully covered the screen.
+      const orig = e.loader;
+      e.loader = async () => { await orig(); await new Promise((r) => setTimeout(r, 520)); };
+    });
+
+    document.addEventListener('astro:after-swap', () => {
+      const c = curtain();
+      if (!c || !c.classList.contains('is-sweeping')) return;
+      setTimeout(() => {
+        c.classList.remove('is-sweeping');
+        c.classList.add('is-lifting');
+        const done = () => { c.classList.remove('is-lifting'); c.removeEventListener('transitionend', done); };
+        c.addEventListener('transitionend', done);
+        setTimeout(done, 800); // fallback if transitionend is missed
+      }, HOLD);
+    });
+  }
+</script>
+
+<style is:global>
+  #case-curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--pad-page-x);
+    background: var(--bg-inverse);
+    transform: translateY(100%);
+    visibility: hidden;
+    pointer-events: none;
+  }
+  #case-curtain.is-sweeping {
+    visibility: visible;
+    transform: translateY(0);
+    transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  #case-curtain.is-lifting {
+    visibility: visible;
+    transform: translateY(-100%);
+    transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  .case-curtain-thesis {
+    margin: 0;
+    max-width: 18ch;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 52px);
+    line-height: 1.16;
+    letter-spacing: -0.02em;
+    color: var(--ink-on-dark);
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  #case-curtain.is-sweeping .case-curtain-thesis,
+  #case-curtain.is-lifting .case-curtain-thesis {
+    opacity: 1;
+    transform: none;
+  }
+  #case-curtain.is-sweeping .case-curtain-thesis {
+    transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+  }
+  .case-curtain-thesis .cc-accent { color: var(--accent-on-dark); }
+  @media (prefers-reduced-motion: reduce) {
+    #case-curtain { display: none; }
+  }
+</style>

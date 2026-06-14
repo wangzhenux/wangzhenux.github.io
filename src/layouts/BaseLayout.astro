@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import TransitionCurtain from '../components/layout/TransitionCurtain.astro';
 interface Props {
   title: string;
   description?: string;
@@ -56,5 +57,6 @@ const ogImageUrl = ogImage
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
     <slot />
+    <TransitionCurtain />
   </body>
 </html>

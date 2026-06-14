@@ -20,6 +20,9 @@
   --accent: #B93A23;
   --accent-soft: #B93A2314;
   --accent-medium: #B93A2355;
+  /* Brighter terracotta for dark surfaces (spotlight cover, thesis curtain),
+     where the AA-darkened --accent reads muddy. Matches the dark cover SVGs. */
+  --accent-on-dark: #E0573E;
   --highlight: rgba(245, 200, 100, 0.7);
 
   /* === Rules === */
