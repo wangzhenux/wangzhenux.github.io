@@ -1,0 +1,316 @@
+---
+title: "UnitPulse Insight"
+deck: "A 0-to-1 leasing-analytics product that put a full-funnel view and a natural-language Data Copilot in front of 79 property-management accounts — turning scattered spreadsheets into one source of truth."
+slug: up-insight
+company: UnitPulse
+year: 2025
+role: "Product Designer (0-to-1, end-to-end)"
+cover:
+  gradient: "linear-gradient(135deg, #2E6F73 0%, #15393B 100%)"
+  image: "/cases/up-insight/cover.svg"
+  width: 1600
+  height: 1000
+order: 2
+featured: true
+span: "Concept 2023 → funnel dashboard 2024 → AI-native 2025"
+outcome:
+  metric: "79 accounts · 78 active users"
+  context: "core dashboard used by 52 (~66%), as of May 2026"
+status: shipped
+sections:
+  - { id: s01, num: "01", label: "The problem" }
+  - { id: s02, num: "02", label: "My role" }
+  - { id: s03, num: "03", label: "Process & key decisions" }
+  - { id: s04, num: "04", label: "The AI-native leap" }
+  - { id: s05, num: "05", label: "AI velocity" }
+  - { id: s06, num: "06", label: "Outcome" }
+  - { id: s07, num: "07", label: "Reflection" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import SectionDeck from '../../components/reading/SectionDeck.astro';
+import CardRow from '../../components/data/CardRow.astro';
+import PainCard from '../../components/data/PainCard.astro';
+import Dual from '../../components/data/Dual.astro';
+import DualCol from '../../components/data/DualCol.astro';
+import ResearchStats from '../../components/data/ResearchStats.astro';
+import Stat from '../../components/data/Stat.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+import Outcome from '../../components/showcase/Outcome.astro';
+import Reflection from '../../components/showcase/Reflection.astro';
+import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
+
+{/*
+  ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
+  EST markers to confirm or replace:
+
+  ‹EST-1› "~X hours/week of manual reporting eliminated per manager" — NOT
+    measured, so it is OMITTED from the visible page; the Outcome section uses
+    the qualitative framing instead. The documented baseline was manual
+    Superset → Google Sheets reporting, and a stated success metric was
+    "reduction in time spent on manual reporting." If you can defend a figure
+    (e.g. "managers previously spent ~half a day/week compiling reports"), add
+    it to s06 and label it an estimate. Otherwise leave the qualitative line.
+
+  ‹EST-collab› Collaborator names/extent — the My role section credits "the
+    data-infrastructure team" generically and is explicit that you led design
+    and did NOT own the data pipeline. Confirm the PM name, the data-infra lead
+    (you mentioned Honglu), and eng, then add real names if you want them
+    credited. Do not overstate pipeline ownership.
+
+  ‹EST-velocity› AI velocity (s05) — phrased to match what you actually did with
+    Claude / Claude Code on this product (interactive prototypes, the
+    funnel/Sankey front-end scaffold, phase-gated build specs). Trim any line
+    that reads as aspirational rather than actual before publishing.
+
+  PENDING — Closing links: the brief asks to link "CRM Copilot" and "AI
+    Evaluation Harness" heroes, but those case pages do not exist yet, so the
+    template's automatic next-case link is used instead. Create those cases,
+    then wire explicit links if you want them here.
+
+  PENDING — Visuals: every <ImageShowcase> below is a labeled "SWAP" placeholder
+    (grep `SWAP`). Replace /cases/up-insight/{sankey,copilot,attribution,
+    investor-report}.svg with real Figma exports.
+  ═══════════════════════════════════════════════════════════════════════
+*/}
+
+<section id="s01">
+  <Lede>
+    The leasing team ran on Google Sheets. Numbers were moved by hand out of
+    Superset and into spreadsheets to track goals and progress — slow to update,
+    and easy to get wrong.
+  </Lede>
+
+  <BodyText>
+    The company needed leasing performance visible **inside** the product:
+    accurate enough to trust, and simple enough that a non-analyst owner could
+    self-serve. That last part mattered, because trust in the data was itself a
+    design problem.
+  </BodyText>
+
+  <SectionH>Three problems in the way</SectionH>
+  <CardRow>
+    <PainCard num="01" title="Manual, error-prone reporting">
+      Data moved by hand from Superset into Google Sheets to track goals and
+      progress — a slow loop that was easy to get wrong.
+    </PainCard>
+    <PainCard num="02" title="Agents blocked on managers">
+      Agents depended on managers to pull the numbers they needed, which delayed
+      sales follow-ups.
+    </PainCard>
+    <PainCard num="03" title="Trust was the real problem">
+      An earlier in-product dashboard had been hidden because its data was
+      inaccurate. Re-earning trust in the data was part of the brief.
+    </PainCard>
+  </CardRow>
+</section>
+
+<section id="s02">
+  <SectionH>My role</SectionH>
+  <BodyText>
+    I owned design end-to-end across the product's evolution — from competitive
+    research, to the MVP funnel dashboard, to the AI-native analytics product it
+    became.
+  </BodyText>
+
+  <SectionH small>Ownership and collaboration</SectionH>
+  <Dual>
+    <DualCol heading="What I owned">
+      <div class="dual-item"><div class="head">End-to-end design</div><div class="det">Competitive research, the funnel-dashboard MVP, and the AI-native UnitPulse Insight product.</div></div>
+      <div class="dual-item"><div class="head">Designing around the data</div><div class="det">Working within accuracy and pipeline constraints — not around them — so the product only showed numbers the team could stand behind.</div></div>
+    </DualCol>
+    <DualCol heading="Who I partnered with">
+      <div class="dual-item"><div class="head">Product management</div><div class="det">Partnered on scope and what to cut.</div></div>
+      <div class="dual-item"><div class="head">Data-infrastructure team</div><div class="det">Owned accuracy and the data pipeline that fed the dashboard.</div></div>
+      <div class="dual-item"><div class="head">Engineering</div><div class="det">Built the shipped product.</div></div>
+    </DualCol>
+  </Dual>
+
+  <BodyText>
+    To be precise: **I led design; I did not own the data pipeline.** Designing
+    around data-accuracy constraints — deciding what to surface and what to hold
+    back until it was trustworthy — was a real part of the work.
+    {/* ‹EST-collab› confirm PM / data-infra (Honglu?) / eng names before publish */}
+  </BodyText>
+</section>
+
+<section id="s03">
+  <SectionH>Process & key decisions</SectionH>
+  <SectionDeck>Three decisions that shaped the product, each with the tradeoff it carried.</SectionDeck>
+
+  <SectionH small>1 · MVP over parity</SectionH>
+  <BodyText>
+    I researched RealPage BI, Entrata BI, and Amazon BI. Their shared trait was
+    customizability bought at the cost of complexity. I deliberately chose a
+    focused, non-customizable MVP built around the three metrics every leasing
+    **and** marketing team cares about: leads, applications, and signed leases.
+    **Tradeoff —** less flexibility, in exchange for far lower cognitive load for
+    a non-analyst owner.
+  </BodyText>
+
+  <SectionH small>2 · Define the funnel precisely</SectionH>
+  <BodyText>
+    I designed the full conversion funnel — Prospects → Tours scheduled → Tours
+    completed → Applications started → Applications submitted → Leases signed —
+    filterable by region, agent, channel, and date. I dropped "Qualified
+    Prospects" because the term wasn't clear to users, and attached a tooltip to
+    **each** term rather than one combined tooltip, so a definition travels with
+    the data it explains. **Tradeoff —** a more granular funnel is more to render,
+    but it removes ambiguity.
+  </BodyText>
+
+  <SectionH small>3 · Separate units from co-living beds</SectionH>
+  <BodyText>
+    The business model spans both traditional units and co-living beds, so I kept
+    them as separate views — occupancy shown as both raw numbers and percents,
+    filterable by region. **Tradeoff —** two views to maintain instead of one
+    blended number, but a blended number hides reality.
+  </BodyText>
+</section>
+
+<section id="s04">
+  <SectionH>The AI-native leap</SectionH>
+  <BodyText>
+    I productized the dashboard into **UnitPulse Insight**, an AI-native
+    analytics product. Five additions did the heavy lifting: a full-funnel Sankey
+    view, per-prospect channel attribution, AI alerts that surface anomalies and
+    drop-offs, a natural-language Data Copilot, and automated investor reports.
+  </BodyText>
+
+  {/* SWAP: Figma frame — full-funnel Sankey (Traffic → Leads → Tours → Applications → Signed) */}
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/up-insight/sankey.svg"
+      alt="Placeholder for the full-funnel Sankey visualization"
+      width={1600}
+      height={900}
+    />
+  </ImageShowcase>
+
+  <BodyText>
+    The **Data Copilot** is the piece that changes the job: instead of building a
+    report, an owner asks a question in plain language and gets the answer back
+    against their own data.
+  </BodyText>
+
+  {/* SWAP: Figma frame — Data Copilot natural-language conversation */}
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/up-insight/copilot.svg"
+      alt="Placeholder for the Data Copilot conversation"
+      width={1600}
+      height={900}
+    />
+  </ImageShowcase>
+
+  <BodyText>
+    **Channel attribution** traces each prospect back to where it came from, so
+    spend can be judged by signed leases rather than raw traffic — and **AI
+    alerts** flag the drop-offs worth looking at before anyone goes hunting.
+  </BodyText>
+
+  {/* SWAP: Figma frame — per-prospect channel attribution */}
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/up-insight/attribution.svg"
+      alt="Placeholder for the channel attribution view"
+      width={1600}
+      height={900}
+    />
+  </ImageShowcase>
+
+  {/* SWAP: Figma frame — automated investor PDF report */}
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/up-insight/investor-report.svg"
+      alt="Placeholder for the automated investor PDF report"
+      width={1600}
+      height={900}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Strategic considerations</SectionH>
+  <BodyText>
+    UP Insight is the free, land-first wedge of a "Trojan Horse" go-to-market:
+    free analytics earns the account, then expands into paid leasing products. To
+    do that job, the design had to serve three distinct owner types at once.
+  </BodyText>
+  <CardRow>
+    <PainCard num="01" title="Small landlords">
+      2–10 units. Need answers at a glance, with no analyst on staff.
+    </PainCard>
+    <PainCard num="02" title="PM companies">
+      50–200 units. Managing at scale across regions, agents, and channels.
+    </PainCard>
+    <PainCard num="03" title="Investor-owners">
+      10–30 units. Data-driven — they want attribution and reportable numbers.
+    </PainCard>
+  </CardRow>
+</section>
+
+<section id="s05">
+  <SectionH>AI velocity</SectionH>
+  <BodyText>
+    I used Claude and Claude Code to compress 0-to-1 delivery: generating and
+    iterating on interactive HTML/React prototypes, building the funnel and
+    Sankey front-end scaffold, and producing phase-gated build specs the team
+    executed against.
+  </BodyText>
+  <BodyText>
+    That turned competitive research and PRD content into testable prototypes in
+    days rather than weeks, and moved me closer to owning the frontend rather
+    than handing off static mocks.
+    {/* ‹EST-velocity› trim any line above that's aspirational rather than what you actually did */}
+  </BodyText>
+</section>
+
+<section id="s06">
+  <SectionH>Outcome</SectionH>
+  <Outcome
+    metric="79"
+    heading="property-management accounts adopted UP Insight — 78 active users, as of May 2026"
+  >
+    The core Analytics dashboard — funnel, channel attribution, and the Data
+    Copilot — is used by 52 accounts, about two-thirds of the base, with roughly
+    45 minutes of engagement per user over the quarter (high for B2B analytics).
+  </Outcome>
+
+  <ResearchStats cols={3}>
+    <Stat num="52" label="On the core dashboard">
+      <span class="item">≈66% of all accounts</span>
+      <span class="item">funnel · attribution · Data Copilot</span>
+    </Stat>
+    <Stat num="45" label="“Your Day” summary">
+      <span class="item">users on the daily-summary view</span>
+    </Stat>
+    <Stat num="14" label="“Live Agents” monitor">
+      <span class="item">accounts watching agents in real time</span>
+    </Stat>
+  </ResearchStats>
+
+  <BodyText>
+    Beyond the numbers: the product replaced manual Superset → Sheets reporting,
+    gave owners self-serve access without routing through a manager, and
+    established a single source of truth the team trusts.
+    {/* ‹EST-1› "hours/week of manual reporting eliminated" intentionally omitted — not measured. Add only if defensible; see top note. */}
+  </BodyText>
+</section>
+
+<section id="s07">
+  <SectionH>Reflection</SectionH>
+  <Reflection>
+    <ReflectionCard label="On measurement" heading="Adoption is real; deeper outcomes weren't instrumented">
+      Adoption is strong and measured. But deeper outcome metrics — like
+      decision-to-action lift — weren't instrumented during my involvement.
+      Wiring those in is what I'd add next.
+    </ReflectionCard>
+    <ReflectionCard label="On what's next" heading="One seat per account is the next design problem">
+      Adoption runs about one seat per account (78 users across 79 accounts). The
+      next design problem is multi-user team accounts — so a whole leasing team,
+      not just the owner, lives in the product.
+    </ReflectionCard>
+  </Reflection>
+</section>
