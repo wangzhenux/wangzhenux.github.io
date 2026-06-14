@@ -12,7 +12,7 @@ cover:
   height: 1000
 order: 2
 featured: true
-team: "1 PM · ~3 engineers · me (design lead)"
+team: "2 PMs · 3 engineers · me (sole designer)"
 span: "2025 · V1 (Command Center phase)"
 outcome:
   metric: "Company P0"
@@ -53,20 +53,11 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   Number labels: [REAL] used confidently; [TARGET] phrased as goals, never as
   results; ‹EST› = confirm/replace before publish.
 
-  ‹EST-team› Team size — page states "1 PM · ~3 engineers · me (design lead)".
-    Confirm the exact count before publish.
-
-  ‹EST-listing-scope› AI Listing Bot (s09-A) — page credits you as prototype
-    UI/UX design lead (named on PRD). Confirm which screens you prototyped vs
-    engineering; don't claim beyond the UI/UX prototype.
-
-  ‹EST-leasing-scope› AI Leasing Bot (s09-B) — page credits you with the
-    copilot-facing suggestion UX. Confirm your specific design surface vs the
-    eng/data team that built the intelligence layer.
-
-  ‹EST-poi-role› POI Mapping Bot (s09-C) — page credits you with designing the
-    response FORMAT (how POI data renders as copilot cards). Confirm your
-    contribution vs engineering before publish.
+  CONFIRMED (2026-06-14) — team and design ownership: 2 PMs · 3 engineers · you
+    as the SOLE designer / design lead, across the copilot AND all three related
+    features (Listing, Leasing, POI). Copy credits design ownership only; the
+    intelligence layers / orchestrator / pipelines remain engineering's. Nothing
+    claimed beyond UI/UX design.
 
   TARGETS (label every one as a goal): copilot — 10+ NL operations, >80%
     command-success / 3mo, >75% weekly active / 2mo, A/B NL-vs-menu task time.
@@ -114,9 +105,9 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
 <section id="s02">
   <SectionH>My role</SectionH>
   <BodyText>
-    The PM owned the PRD. I was **Product Design Lead**, owning two things
-    end-to-end: the copilot's interaction prototype, and the front-end
-    generative-UI container system.
+    The PMs owned the PRD. As the team's **sole designer and design lead**, I
+    owned two things end-to-end: the copilot's interaction prototype, and the
+    front-end generative-UI container system.
   </BodyText>
 
   <SectionH small>Ownership and collaboration</SectionH>
@@ -126,12 +117,11 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       <div class="dual-item"><div class="head">The generative-UI container</div><div class="det">An adaptive front-end surface that renders model-generated dashboards, forms, and tables on the fly, with context isolated across browser tabs (PRD §5.4).</div></div>
     </DualCol>
     <DualCol heading="Who I partnered with">
-      <div class="dual-item"><div class="head">Product management</div><div class="det">Owned the PRD and product scope.</div></div>
-      <div class="dual-item"><div class="head">Engineering</div><div class="det">Owned the orchestrator and the state machine behind the commands.</div></div>
+      <div class="dual-item"><div class="head">Product (2 PMs)</div><div class="det">Owned the PRD and product scope.</div></div>
+      <div class="dual-item"><div class="head">Engineering (3)</div><div class="det">Owned the orchestrator and the state machine behind the commands.</div></div>
     </DualCol>
   </Dual>
   <BodyText>
-    {/* ‹EST-team› confirm "1 PM · ~3 engineers · me" before publish */}
     So: I led the design of the surface and its behavior; engineering owned the
     machinery underneath it.
   </BodyText>
@@ -297,7 +287,6 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       Q3 2025, end-to-end from data to automated listing to UTM lead tracking.
       Targeted >90% weekly active usage and a 30% blended-CAC reduction — goals,
       not results.
-      {/* ‹EST-listing-scope› confirm which screens you prototyped vs eng */}
     </BodyText>
   </SplitFeature>
 
@@ -313,7 +302,6 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       to choose, edit, or dismiss feeds a data flywheel. Status: targeted >30%
       adoption of AI-suggested messages within two months — a goal, not a
       measured result.
-      {/* ‹EST-leasing-scope› confirm your design surface vs eng/data */}
     </BodyText>
   </SplitFeature>
 
@@ -327,7 +315,6 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       (marker, name and address, open status, map and photo preview) renders
       cleanly as copilot cards. It's designing data *for an AI to speak*
       fluently and visually, not just another screen.
-      {/* ‹EST-poi-role› confirm your contribution vs engineering */}
     </BodyText>
   </SplitFeature>
 </section>
