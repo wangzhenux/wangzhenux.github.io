@@ -9,3 +9,11 @@ test('thesis curtain still navigates into the case', async ({ page }) => {
   // curtain resets (no leftover covering class) once it has lifted
   await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/, { timeout: 4000 });
 });
+
+// The same curtain plays on the way back, so the round trip is consistent.
+test('curtain also plays on case -> home and lands home', async ({ page }) => {
+  await page.goto('/work/up-insight');
+  await page.locator('a.back').click();
+  await expect(page).toHaveURL(/:4321\/?$/, { timeout: 6000 });
+  await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/, { timeout: 4000 });
+});

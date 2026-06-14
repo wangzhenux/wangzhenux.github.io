@@ -1,10 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import { taglines } from '../../lib/taglines';
+import { taglines, homeTagline } from '../../lib/taglines';
 
-// slug → thesis, only for cases that exist and have a tagline.
+// Lookup keyed by destination: each case slug → its thesis (entering a case),
+// and '/' → the site line (returning home from a case). Only cases that exist.
 const cases = await getCollection('cases');
-const map: Record<string, string> = {};
+const map: Record<string, string> = { '/': homeTagline };
 for (const c of cases) {
   const t = taglines[c.data.slug];
   if (t) map[c.data.slug] = t;
@@ -25,20 +26,28 @@ for (const c of cases) {
 
   const curtain = () => document.getElementById('case-curtain');
   const fmt = (s: string) => s.replace(/\*([^*]+)\*/g, '<span class="cc-accent">$1</span>');
-  const taglineFor = (slug: string) => {
-    try { return JSON.parse(document.getElementById('case-taglines')?.textContent || '{}')[slug]; }
+  const lookup = (key: string) => {
+    try { return JSON.parse(document.getElementById('case-taglines')?.textContent || '{}')[key]; }
     catch { return null; }
   };
+  const norm = (u: string) => (new URL(u, location.href).pathname.replace(/\/+$/, '') || '/');
+  const slugOf = (p: string) => { const m = p.match(/^\/work\/([a-z0-9-]+)$/); return m ? m[1] : null; };
 
   if (!(window as any).__caseCurtainInit) {
     (window as any).__caseCurtainInit = true;
 
     document.addEventListener('astro:before-preparation', (e: any) => {
       if (REDUCE) return;
-      const to = new URL(e.to, location.href);
-      const m = to.pathname.match(/^\/work\/([a-z0-9-]+)\/?$/);
-      if (!m) return;
-      const tag = taglineFor(m[1]);
+      const toPath = norm(e.to);
+      const fromPath = norm(e.from);
+      // Entering a case → its thesis; leaving a case back home → the site line.
+      // Same curtain motion both ways so the round trip is consistent.
+      let key: string | null = null;
+      const toSlug = slugOf(toPath);
+      if (toSlug) key = toSlug;
+      else if (toPath === '/' && slugOf(fromPath)) key = '/';
+      if (!key) return;
+      const tag = lookup(key);
       if (!tag) return;
       const c = curtain();
       if (!c) return;

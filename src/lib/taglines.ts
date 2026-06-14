@@ -19,3 +19,11 @@ export const taglines: Record<string, string> = {
   plotguru: "Real-time trivia for the shows you're *already watching*.",
   sketches: 'The slow craft that *balances out the screens*.',
 };
+
+/**
+ * Shown on the same curtain when returning home from a case study, so the
+ * leave-a-case transition mirrors the enter-a-case one. Site-level line (from
+ * the homepage hero voice), not a per-case thesis. Edit freely; *asterisks*
+ * tint a word in accent.
+ */
+export const homeTagline = 'Quiet, *useful* software.';
