@@ -29,10 +29,12 @@ export async function getSelected(): Promise<CaseEntry[]> {
   return featured.slice(1);
 }
 
-/** Archived cases, sorted by `order` ascending. */
+/** Archived cases, sorted by year descending (most recent first); `order` breaks ties. */
 export async function getArchive(): Promise<CaseEntry[]> {
-  const cases = await getAllCases();
-  return cases.filter((c) => c.data.archive === true);
+  const cases = await getCollection('cases');
+  return cases
+    .filter((c) => c.data.archive === true)
+    .sort((a, b) => b.data.year - a.data.year || a.data.order - b.data.order);
 }
 
 /**

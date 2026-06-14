@@ -1,6 +1,6 @@
 <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a numbered onboarding step flow ending in a completion check">
   <rect width="320" height="200" fill="#EFE7D2"/>
-  <path d="M82 64 H142 M160 82 V122 M178 140 H242" fill="none" stroke="#1A1410" stroke-width="2"/>
+  <path d="M62 64 H160 M160 64 V140 M160 140 H260" fill="none" stroke="#1A1410" stroke-width="2"/>
   <g fill="#FAF5E8" stroke="#1A1410" stroke-width="2">
     <circle cx="62" cy="64" r="18"/>
     <circle cx="160" cy="64" r="18"/>

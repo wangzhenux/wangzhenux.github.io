@@ -1,11 +1,11 @@
-<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a television screen with a play button and a quiz prompt">
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a TV show playing above three trivia answer options, one selected">
   <rect width="320" height="200" fill="#EFE7D2"/>
-  <rect x="80" y="46" width="160" height="98" rx="8" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
-  <path d="M140 150 H200 M160 144 V150 M180 144 V150" stroke="#1A1410" stroke-width="2" stroke-linecap="round" fill="none"/>
-  <path d="M150 78 v32 l28 -16 z" fill="#1A1410"/>
-  <g transform="translate(196,104)">
-    <circle cx="0" cy="0" r="20" fill="#B93A23"/>
-    <path d="M-6 -4 a6 6 0 1 1 9 5 c-2 1.6 -3 3 -3 5" fill="none" stroke="#FAF5E8" stroke-width="2.4" stroke-linecap="round"/>
-    <circle cx="0" cy="9" r="1.8" fill="#FAF5E8"/>
+  <rect x="82" y="34" width="156" height="82" rx="8" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <path d="M150 58 v34 l28 -17 z" fill="#1A1410"/>
+  <g stroke="#1A1410" stroke-width="2" fill="none" stroke-linecap="round"><path d="M160 116 V128 M140 130 H180"/></g>
+  <g>
+    <rect x="56" y="148" width="58" height="22" rx="11" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+    <rect x="131" y="148" width="58" height="22" rx="11" fill="#B93A23"/>
+    <rect x="206" y="148" width="58" height="22" rx="11" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
   </g>
 </svg>

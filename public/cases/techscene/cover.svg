@@ -1,14 +1,11 @@
-<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a calendar with a highlighted day and a location pin">
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a calendar with a location pin marking an event on a date">
   <rect width="320" height="200" fill="#EFE7D2"/>
-  <rect x="70" y="50" width="140" height="108" rx="6" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
-  <path d="M70 76 H210" stroke="#1A1410" stroke-width="2"/>
-  <g stroke="#1A1410" stroke-width="2" stroke-linecap="round"><path d="M92 44 V58 M188 44 V58"/></g>
-  <g stroke="#1A141033" stroke-width="1.2">
-    <path d="M105 76 V158 M140 76 V158 M175 76 V158 M70 104 H210 M70 130 H210"/>
-  </g>
-  <rect x="142" y="106" width="31" height="22" fill="#B93A23"/>
-  <g transform="translate(228,108)">
-    <path d="M0 -20 a18 18 0 0 1 18 18 c0 13 -18 30 -18 30 c0 0 -18 -17 -18 -30 a18 18 0 0 1 18 -18 z" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
-    <circle cx="0" cy="-2" r="6.5" fill="#B93A23"/>
+  <rect x="74" y="46" width="172" height="118" rx="8" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <path d="M74 74 H246" stroke="#1A1410" stroke-width="2"/>
+  <g stroke="#1A1410" stroke-width="2" stroke-linecap="round"><path d="M104 40 V54 M216 40 V54"/></g>
+  <g stroke="#1A141033" stroke-width="1.2"><path d="M117 74 V164 M160 74 V164 M203 74 V164 M74 103 H246 M74 134 H246"/></g>
+  <g transform="translate(181,130)">
+    <path d="M0 0 C -14 -19, -22 -30, -22 -42 a22 22 0 0 1 44 0 c0 12 -8 23 -22 42 z" fill="#B93A23"/>
+    <circle cx="0" cy="-42" r="8.5" fill="#FAF5E8"/>
   </g>
 </svg>
