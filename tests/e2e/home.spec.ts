@@ -4,12 +4,12 @@ import AxeBuilder from '@axe-core/playwright';
 test('home shows featured + writing + (optional) selected, no axe issues', async ({ page }) => {
   await page.goto('/');
 
-  // Hero + featured case are always present (Twilio is the spotlight).
+  // Hero + featured case are always present (UP Insight is the spotlight).
   // Assert the hero headline specifically rather than a bare `h1` so a reused
   // dev server on :4321 can't trip strict mode with transient duplicate h1s.
   await expect(page.locator('.home-hero-h1')).toBeVisible();
   await expect(page.locator('.featured')).toBeVisible();
-  await expect(page.locator('.featured-cover')).toHaveAttribute('href', '/work/twilio');
+  await expect(page.locator('.featured-cover')).toHaveAttribute('href', '/work/up-insight');
 
   // Writing section renders (graceful even when the Medium feed is empty).
   await expect(page.locator('.writing')).toBeVisible();

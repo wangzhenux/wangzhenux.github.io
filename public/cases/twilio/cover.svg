@@ -1,13 +1,13 @@
-<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a globe with a path tracing from one region to another">
-  <rect width="320" height="180" fill="#181210"/>
-  <circle cx="160" cy="84" r="54" fill="#1F1813" stroke="#F0E6D2" stroke-width="2"/>
-  <g fill="none" stroke="#F0E6D2" stroke-width="1.4" opacity="0.85">
-    <ellipse cx="160" cy="84" rx="24" ry="54"/>
-    <ellipse cx="160" cy="84" rx="46" ry="54"/>
-    <line x1="106" y1="84" x2="214" y2="84"/>
-    <path d="M114 58 H206 M114 110 H206"/>
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a globe with a path tracing from one region to another">
+  <rect width="320" height="200" fill="#EFE7D2"/>
+  <circle cx="160" cy="100" r="58" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <g fill="none" stroke="#1A1410" stroke-width="1.4" opacity="0.7">
+    <ellipse cx="160" cy="100" rx="26" ry="58"/>
+    <ellipse cx="160" cy="100" rx="48" ry="58"/>
+    <line x1="102" y1="100" x2="218" y2="100"/>
+    <path d="M112 72 H208 M112 128 H208"/>
   </g>
-  <path d="M126 106 Q160 134 200 60" fill="none" stroke="#E0573E" stroke-width="2.6" stroke-dasharray="1.5 7" stroke-linecap="round"/>
-  <circle cx="126" cy="106" r="5" fill="#F0E6D2"/>
-  <circle cx="200" cy="60" r="6.5" fill="#E0573E"/>
+  <path d="M126 124 Q160 154 204 70" fill="none" stroke="#B93A23" stroke-width="2.6" stroke-dasharray="1.5 7" stroke-linecap="round"/>
+  <circle cx="126" cy="124" r="5" fill="#1A1410"/>
+  <circle cx="204" cy="70" r="6.5" fill="#B93A23"/>
 </svg>
