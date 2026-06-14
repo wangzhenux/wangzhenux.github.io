@@ -24,7 +24,8 @@ sections:
   - { id: s04, num: "04", label: "The AI-native leap" }
   - { id: s05, num: "05", label: "AI velocity" }
   - { id: s06, num: "06", label: "Outcome" }
-  - { id: s07, num: "07", label: "Reflection" }
+  - { id: s07, num: "07", label: "Where this is heading" }
+  - { id: s08, num: "08", label: "Reflection" }
 ---
 
 import Lede from '../../components/reading/Lede.astro';
@@ -65,6 +66,18 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     Claude / Claude Code on this product (interactive prototypes, the
     funnel/Sankey front-end scaffold, phase-gated build specs). Trim any line
     that reads as aspirational rather than actual before publishing.
+
+  ‹EST-copilot› Designing the Data Copilot (s04) — confirm each of the four
+    design decisions (plain-language answer, grounded/sourced, answer→visualize
+    →act, graceful uncertainty) reflects what you ACTUALLY designed. Cut any
+    that are aspirational rather than built/specced.
+
+  ‹EST-merge› Convergence section (s07, "Where this is heading") — confirm the
+    framing and timing before publishing: the 2026 convergence of UP Marketing /
+    UP Leasing / UP Insight into one framework, and the cross-domain copilot
+    direction. This is recent and from you, not yet in PRDs. The copy is careful
+    to frame the merge as a company-level direction and your part as the design
+    thinking for a coherent cross-domain copilot — not "I merged three products."
 
   PENDING — Closing links: the brief asks to link "CRM Copilot" and "AI
     Evaluation Harness" heroes, but those case pages do not exist yet, so the
@@ -190,13 +203,16 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     />
   </ImageShowcase>
 
+  <SectionH small>Designing the Data Copilot</SectionH>
   <BodyText>
-    The **Data Copilot** is the piece that changes the job: instead of building a
-    report, an owner asks a question in plain language and gets the answer back
-    against their own data.
+    The Copilot is the piece that changes the job. A non-analyst owner — a small
+    landlord, a busy PM staffer — shouldn't have to build a report or learn a BI
+    tool to answer a plain question like "which channel gave me the best leads
+    last month?" So designing it was as much about designing for trust as for
+    answers.
   </BodyText>
 
-  {/* SWAP: Figma frame — Data Copilot natural-language conversation */}
+  {/* SWAP: Figma frame — Data Copilot conversation */}
   <ImageShowcase>
     <ShowcaseImage
       src="/cases/up-insight/copilot.svg"
@@ -205,6 +221,29 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       height={900}
     />
   </ImageShowcase>
+
+  <BodyText>
+    **1 · Plain-language in, trustworthy answer out.** The owner asks in natural
+    language and gets a direct answer — plus the chart or number behind it —
+    rather than a wall of data to interpret.
+  </BodyText>
+  <BodyText>
+    **2 · Grounded and sourced, not hallucinated.** Every answer is tied to the
+    owner's real funnel data, and where a number appears, the design surfaces what
+    it is based on. Trust was a first-class constraint here: the predecessor
+    dashboard had been hidden for inaccuracy, so the Copilot had to show its work.
+  </BodyText>
+  <BodyText>
+    **3 · Answer → visualize → act.** It doesn't stop at a reply — it can render
+    the relevant funnel or attribution view inline, connecting a question straight
+    to the dashboard instead of living in a silo.
+  </BodyText>
+  <BodyText>
+    **4 · Graceful under uncertainty.** When a question is ambiguous or the data
+    is thin, it asks a clarifying question or states the limit, rather than
+    inventing a confident-looking answer.
+    {/* ‹EST-copilot› confirm each of the 4 decisions reflects what you actually designed; cut any that are aspirational */}
+  </BodyText>
 
   <BodyText>
     **Channel attribution** traces each prospect back to where it came from, so
@@ -300,6 +339,29 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
 </section>
 
 <section id="s07">
+  <SectionH>Where this is heading</SectionH>
+  <BodyText>
+    In 2026, UnitPulse converged its three previously separate products — UP
+    Marketing, UP Leasing, and UP Insight — into one cohesive product framework,
+    rather than three standalone tools.
+    {/* ‹EST-merge› confirm framing + timing (2026, product names) before publish — recent, from me, not yet in PRDs */}
+  </BodyText>
+  <BodyText>
+    A unified product calls for a unified conversational layer. The Data Copilot
+    is evolving from a *data* assistant into one that spans data, leasing, and
+    marketing — which is the design problem I'm sitting with now: how a single
+    conversational surface stays coherent, predictable, and trustworthy across
+    very different domains and intents, instead of fragmenting into three
+    assistants wearing one name.
+  </BodyText>
+  <BodyText>
+    The convergence is a company-level product direction; my part is the design
+    thinking for that coherent cross-domain copilot experience — the layer where
+    a product ecosystem either feels like one tool or three.
+  </BodyText>
+</section>
+
+<section id="s08">
   <SectionH>Reflection</SectionH>
   <Reflection>
     <ReflectionCard label="On measurement" heading="Adoption is real; deeper outcomes weren't instrumented">
