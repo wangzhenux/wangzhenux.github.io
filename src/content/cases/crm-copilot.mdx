@@ -1,0 +1,333 @@
+---
+title: "The CRM Copilot"
+deck: "A conversational command center that turns a 15-click menu maze into a single sentence — and unifies an entire suite of leasing AI bots behind one interface."
+slug: crm-copilot
+company: UnitPulse
+year: 2025
+role: "Product Design Lead"
+cover:
+  gradient: "linear-gradient(135deg, #3F4D86 0%, #20294A 100%)"
+  image: "/cases/crm-copilot/cover.svg"
+  width: 1600
+  height: 1000
+order: 2
+featured: true
+team: "1 PM · ~3 engineers · me (design lead)"
+span: "2025 · V1 (Command Center phase)"
+outcome:
+  metric: "Company P0"
+  context: "2025 H2; the CRM served ~170 agents at peak"
+status: shipped
+sections:
+  - { id: s01, num: "01", label: "The problem" }
+  - { id: s02, num: "02", label: "My role" }
+  - { id: s03, num: "03", label: "Approach" }
+  - { id: s04, num: "04", label: "The generative-UI container" }
+  - { id: s05, num: "05", label: "One front door for the AI suite" }
+  - { id: s06, num: "06", label: "Strategic considerations" }
+  - { id: s07, num: "07", label: "Outcome & targets" }
+  - { id: s08, num: "08", label: "Reflection" }
+  - { id: s09, num: "09", label: "The AI suite behind it" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import SectionDeck from '../../components/reading/SectionDeck.astro';
+import Pullquote from '../../components/reading/Pullquote.astro';
+import CardRow from '../../components/data/CardRow.astro';
+import PainCard from '../../components/data/PainCard.astro';
+import Dual from '../../components/data/Dual.astro';
+import DualCol from '../../components/data/DualCol.astro';
+import ResearchStats from '../../components/data/ResearchStats.astro';
+import Stat from '../../components/data/Stat.astro';
+import SplitFeature from '../../components/showcase/SplitFeature.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+import Outcome from '../../components/showcase/Outcome.astro';
+import Reflection from '../../components/showcase/Reflection.astro';
+import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
+
+{/*
+  ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
+  Number labels: [REAL] used confidently; [TARGET] phrased as goals, never as
+  results; ‹EST› = confirm/replace before publish.
+
+  ‹EST-team› Team size — page states "1 PM · ~3 engineers · me (design lead)".
+    Confirm the exact count before publish.
+
+  ‹EST-listing-scope› AI Listing Bot (s09-A) — page credits you as prototype
+    UI/UX design lead (named on PRD). Confirm which screens you prototyped vs
+    engineering; don't claim beyond the UI/UX prototype.
+
+  ‹EST-leasing-scope› AI Leasing Bot (s09-B) — page credits you with the
+    copilot-facing suggestion UX. Confirm your specific design surface vs the
+    eng/data team that built the intelligence layer.
+
+  ‹EST-poi-role› POI Mapping Bot (s09-C) — page credits you with designing the
+    response FORMAT (how POI data renders as copilot cards). Confirm your
+    contribution vs engineering before publish.
+
+  TARGETS (label every one as a goal): copilot — 10+ NL operations, >80%
+    command-success / 3mo, >75% weekly active / 2mo, A/B NL-vs-menu task time.
+    Listing Bot — >90% weekly active, 30% blended-CAC reduction. Leasing Bot —
+    >30% adoption of AI-suggested messages / 2mo. None are measured results.
+
+  PENDING — Related-case links: the brief asks to link UP Insight, Tour
+    Scheduling (new), and the AI Evaluation Harness (upcoming). Only UP Insight
+    exists; the other two have no page yet, so the template's automatic
+    next-case link is used. Wire explicit links once those cases exist.
+
+  PENDING — Visuals: every <ImageShowcase>/<SplitFeature> with a "SWAP" label
+    (grep `SWAP`) is a placeholder. The cover and the s05 architecture diagram
+    are real bespoke SVGs; replace the rest with Figma exports.
+  ═══════════════════════════════════════════════════════════════════════
+*/}
+
+<section id="s01">
+  <Lede>
+    Agents lived inside a deep, menu-driven CRM. Routine actions meant long
+    click-paths — and when a function was buried, they pinged tech support just
+    to ask whether it was even possible.
+  </Lede>
+
+  <Pullquote>
+    It takes fifteen clicks through confusing menus just to log that I've
+    completed a tour. I wish I could just type it.
+    <cite>— David Chen, leasing agent · PRD persona</cite>
+  </Pullquote>
+
+  <BodyText>
+    Meanwhile the company was shipping a string of AI bets — a Listing Bot, a
+    Leasing Bot, a multi-channel inbox — with no unified place to command them.
+    The biggest AI investments were at risk of low adoption for want of a front
+    door.
+  </BodyText>
+
+  <BodyText>
+    **The stakes were explicit.** The copilot was scoped as a keystone of the
+    2025 AI strategy, a company **P0**, and the cheapest path to a future mobile
+    CRM.
+  </BodyText>
+</section>
+
+<section id="s02">
+  <SectionH>My role</SectionH>
+  <BodyText>
+    The PM owned the PRD. I was **Product Design Lead**, owning two things
+    end-to-end: the copilot's interaction prototype, and the front-end
+    generative-UI container system.
+  </BodyText>
+
+  <SectionH small>Ownership and collaboration</SectionH>
+  <Dual>
+    <DualCol heading="What I owned">
+      <div class="dual-item"><div class="head">The copilot interaction prototype</div><div class="det">The conversational flow — command, feedback, recovery — end to end.</div></div>
+      <div class="dual-item"><div class="head">The generative-UI container</div><div class="det">An adaptive front-end surface that renders model-generated dashboards, forms, and tables on the fly, with context isolated across browser tabs (PRD §5.4).</div></div>
+    </DualCol>
+    <DualCol heading="Who I partnered with">
+      <div class="dual-item"><div class="head">Product management</div><div class="det">Owned the PRD and product scope.</div></div>
+      <div class="dual-item"><div class="head">Engineering</div><div class="det">Owned the orchestrator and the state machine behind the commands.</div></div>
+    </DualCol>
+  </Dual>
+  <BodyText>
+    {/* ‹EST-team› confirm "1 PM · ~3 engineers · me" before publish */}
+    So: I led the design of the surface and its behavior; engineering owned the
+    machinery underneath it.
+  </BodyText>
+</section>
+
+<section id="s03">
+  <SectionH>Approach</SectionH>
+  <SectionDeck>Four principles, against one hard constraint.</SectionDeck>
+  <BodyText>
+    The constraint set the bar: **a conversational layer only wins if it's faster
+    than muscle-memory menus.** Everything below serves that one test.
+  </BodyText>
+
+  <BodyText>
+    **1 · Conversational-first, typo-forgiving.** Plain commands — however
+    loosely typed — map to real CRM actions, not search results.
+  </BodyText>
+  <BodyText>
+    **2 · Beat the menu, or it dies.** The command commits instantly on send; a
+    "working on it" state plus command shortcuts mask LLM latency so the copilot
+    *feels* faster than the click-path it replaces.
+  </BodyText>
+  <BodyText>
+    **3 · Fail gracefully.** Ambiguity earns a clarifying question or a
+    suggestion — never a dead-end error.
+  </BodyText>
+  <BodyText>
+    **4 · Teach by doing.** Relevant commands surface in context (progressive
+    discoverability), replacing the old "is this even possible?" trip to support.
+  </BodyText>
+</section>
+
+<section id="s04">
+  <SectionH>The generative-UI container</SectionH>
+  <BodyText>
+    Rather than hand-design a fixed panel for every command, I designed **one
+    adaptive container** that renders model-generated UI — dashboards, forms,
+    tables — on demand. New AI capabilities can appear without new screens, and
+    the same framework extends to mobile.
+  </BodyText>
+  <BodyText>
+    Context is **isolated per browser tab**, so state from one open tab never
+    bleeds into another.
+  </BodyText>
+
+  {/* SWAP: Figma frame — copilot sidebar + generated card */}
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/crm-copilot/copilot-card.svg"
+      alt="Placeholder for the copilot sidebar with a model-generated card"
+      width={1600}
+      height={900}
+    />
+  </ImageShowcase>
+
+  <ResearchStats cols={2}>
+    <Stat num="15" label="clicks, before">
+      <span class="item">to log a completed tour in the menu-driven CRM</span>
+    </Stat>
+    <Stat num="1" label="sentence, after">
+      <span class="item">“log that I finished the 2pm tour”</span>
+    </Stat>
+  </ResearchStats>
+</section>
+
+<section id="s05">
+  <SectionH>One front door for the AI suite</SectionH>
+  <BodyText>
+    The bigger idea: the copilot as the unifying **command layer** over the AI
+    Listing Bot, the AI Leasing Bot, and everyday CRM operations — one place an
+    agent speaks to, instead of three tools to learn.
+  </BodyText>
+
+  {/* SWAP: Figma frame — architecture (real bespoke diagram below) */}
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/crm-copilot/architecture.svg"
+      alt="Architecture: a leasing agent commands the CRM Copilot, which fronts the AI Listing Bot, AI Leasing Bot, and CRM operations"
+      width={1600}
+      height={650}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s06">
+  <SectionH>Strategic considerations</SectionH>
+  <SectionDeck>Three decisions, each with the tradeoff it carried.</SectionDeck>
+
+  <BodyText>
+    **1 · Perceived speed over feature breadth.** I scoped V1 to the
+    highest-frequency commands and over-invested in feedback states.
+    **Tradeoff —** fewer commands, in exchange for faster trust.
+  </BodyText>
+  <BodyText>
+    **2 · A container, not a catalog of screens.** A harder system to build, but
+    durable leverage: it scales to a growing AI suite and to mobile without a
+    redesign. **Tradeoff —** more upfront systems work for far less per-feature
+    design later.
+  </BodyText>
+  <BodyText>
+    **3 · Grounded the command set in real tech-support tickets.** The first
+    commands were the frictions that demonstrably existed, not guesses.
+    **Tradeoff —** narrower at launch, but every command earned its place.
+  </BodyText>
+</section>
+
+<section id="s07">
+  <SectionH>Outcome &amp; targets</SectionH>
+  <Outcome
+    metric="~170"
+    heading="agents and managers the CRM served at peak (Pendo, May–Jul 2025, before the platform's wind-down)"
+  >
+    The copilot shipped into a CRM at real scale — but copilot-specific usage was
+    not independently instrumented during my involvement, so the figures below
+    are the documented design goals, not measured results.
+  </Outcome>
+
+  <SectionH small>Targets we set (goals, not results)</SectionH>
+  <BodyText>
+    The PRD set these as **targets**: 10+ natural-language operations; a >80%
+    command-success rate within three months; >75% weekly active usage within two
+    months; and an A/B test of task time, natural-language commands vs menus.
+  </BodyText>
+  <BodyText>
+    **On honesty:** because copilot usage wasn't separately instrumented and the
+    platform is now being wound down, I show these as goals, not outcomes. The
+    next step would be to instrument command-success and time-to-complete
+    directly.
+    {/* ‹EST› all s07 percentages are PRD targets — keep "targeted/goal" framing, never as results */}
+  </BodyText>
+</section>
+
+<section id="s08">
+  <SectionH>Reflection</SectionH>
+  <Reflection>
+    <ReflectionCard label="On leverage" heading="Interface as leverage">
+      Designing the system — the container — rather than the screens turned one
+      lightweight layer into the front-end for an entire AI roadmap. The cheapest
+      surface became the most strategic one.
+    </ReflectionCard>
+    <ReflectionCard label="On speed" heading="Perceived speed is a design material">
+      Against muscle-memory menus, the win wasn't raw model latency — it was the
+      feedback choreography that made the copilot feel instant. Designing the wait
+      mattered as much as designing the answer.
+    </ReflectionCard>
+  </Reflection>
+</section>
+
+<section id="s09">
+  <SectionH>The AI suite behind it</SectionH>
+  <SectionDeck>Features I led design on — the bots the command layer fronts.</SectionDeck>
+
+  <SplitFeature image={{ src: "/cases/crm-copilot/listing.svg", alt: "Placeholder for the AI Listing Bot composer / review screen", width: 1600, height: 900 }}>
+    <SectionH small>AI Listing Bot</SectionH>
+    <BodyText>
+      An AI marketing copilot in the same CRM sidebar that automates the listing
+      lifecycle: it ingests property data, generates ad copy, picks and overlays
+      photos, and publishes rich-media listings across Facebook, TikTok, YouTube,
+      Rednote, and local sites — with the agent reviewing and editing before
+      anything goes live. I was prototype UI/UX design lead (named on the PRD).
+      The principle was **control and transparency** — the agent always sees what
+      the AI generated and what it will do before it acts. Status: MVP completed
+      Q3 2025, end-to-end from data to automated listing to UTM lead tracking.
+      Targeted >90% weekly active usage and a 30% blended-CAC reduction — goals,
+      not results.
+      {/* ‹EST-listing-scope› confirm which screens you prototyped vs eng */}
+    </BodyText>
+  </SplitFeature>
+
+  <SplitFeature reverse image={{ src: "/cases/crm-copilot/smart-reply.svg", alt: "Placeholder for AI Leasing Bot smart-reply suggestions in the sidebar", width: 1600, height: 900 }}>
+    <SectionH small>AI Leasing Bot</SectionH>
+    <BodyText>
+      An intelligence layer that powers smart-reply suggestions and property
+      knowledge inside the copilot: it offers high-quality replies and materials
+      an agent can use in one click, and every suggestion shows its data source
+      so it can be trusted. I led the copilot-facing suggestion UX. Principles:
+      suggestions stay **frictionless and unobtrusive**; trust comes from
+      **source attribution** (e.g. “Source: Floor Plan Analysis”); and one click
+      to choose, edit, or dismiss feeds a data flywheel. Status: targeted >30%
+      adoption of AI-suggested messages within two months — a goal, not a
+      measured result.
+      {/* ‹EST-leasing-scope› confirm your design surface vs eng/data */}
+    </BodyText>
+  </SplitFeature>
+
+  <SplitFeature image={{ src: "/cases/crm-copilot/poi.svg", alt: "Placeholder for the POI Mapping Bot response card", width: 1600, height: 900 }}>
+    <SectionH small>POI Mapping Bot</SectionH>
+    <BodyText>
+      A Level-1 knowledge capability of the Leasing Bot: during a prospect chat
+      it answers neighborhood questions (“what schools are near this property?”)
+      with a short summary, formatted POI cards, and a static map with markers.
+      My angle was designing the **response format** — so structured POI data
+      (marker, name and address, open status, map and photo preview) renders
+      cleanly as copilot cards. It's designing data *for an AI to speak*
+      fluently and visually, not just another screen.
+      {/* ‹EST-poi-role› confirm your contribution vs engineering */}
+    </BodyText>
+  </SplitFeature>
+</section>

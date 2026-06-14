@@ -6,6 +6,7 @@
  */
 export const taglines: Record<string, string> = {
   'up-insight': 'From scattered spreadsheets to one *source of truth*.',
+  'crm-copilot': 'Fifteen clicks, or *one sentence*.',
   twilio: 'Teaching a US-only platform to feel *global*.',
   'tasktop-portability': 'Moving config changes between instances — without the *manual rework*.',
   'integration-landscape': 'An at-a-glance view of the whole *value stream*.',

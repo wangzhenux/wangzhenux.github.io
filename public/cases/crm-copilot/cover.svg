@@ -1,0 +1,19 @@
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a command bar generating an adaptive UI card">
+  <rect width="320" height="200" fill="#EFE7D2"/>
+  <rect x="84" y="32" width="152" height="92" rx="8" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <line x1="84" y1="54" x2="236" y2="54" stroke="#1A1410" stroke-width="2"/>
+  <circle cx="96" cy="43" r="3" fill="#1A1410"/>
+  <g fill="#1A1410">
+    <rect x="98" y="96" width="10" height="18"/>
+    <rect x="114" y="84" width="10" height="30"/>
+    <rect x="130" y="90" width="10" height="24"/>
+  </g>
+  <rect x="146" y="80" width="10" height="34" fill="#B93A23"/>
+  <g stroke="#1A141040" stroke-width="1.8" stroke-linecap="round"><path d="M172 86 H224 M172 99 H214 M172 112 H222"/></g>
+  <rect x="56" y="150" width="208" height="32" rx="16" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <path d="M74 159 l6 7 l-6 7" fill="none" stroke="#1A1410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="92" y1="166" x2="178" y2="166" stroke="#1A141055" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="246" cy="166" r="11" fill="#B93A23"/>
+  <path d="M241 166 h8 M245 162 l5 4 l-5 4" fill="none" stroke="#FAF5E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(272,40)" fill="#B93A23"><path d="M0 -11 C 1.4 -4.3, 4.3 -1.4, 11 0 C 4.3 1.4, 1.4 4.3, 0 11 C -1.4 4.3, -4.3 1.4, -11 0 C -4.3 -1.4, -1.4 -4.3, 0 -11 Z"/></g>
+</svg>

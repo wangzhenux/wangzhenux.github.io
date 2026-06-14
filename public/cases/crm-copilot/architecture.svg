@@ -1,0 +1,30 @@
+<svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram: a leasing agent commands the CRM Copilot, which fronts the AI Listing Bot, AI Leasing Bot, and CRM operations">
+  <rect width="640" height="260" fill="#EFE7D2"/>
+  <g fill="none" stroke="#1A1410" stroke-width="2">
+    <path d="M150 130 H236"/>
+    <path d="M404 130 C 440 130, 446 64, 486 64"/>
+    <path d="M404 130 H486"/>
+    <path d="M404 130 C 440 130, 446 196, 486 196"/>
+  </g>
+  <g font-family="Inter, system-ui, sans-serif" text-anchor="middle">
+    <g>
+      <rect x="40" y="106" width="110" height="48" rx="8" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+      <text x="95" y="135" font-size="15" fill="#1A1410">Leasing agent</text>
+    </g>
+    <g>
+      <rect x="236" y="98" width="168" height="64" rx="10" fill="#B93A23"/>
+      <text x="320" y="126" font-size="18" font-weight="500" fill="#FAF5E8">CRM Copilot</text>
+      <text x="320" y="146" font-size="11" fill="#FAF5E8" opacity="0.85">one command layer</text>
+    </g>
+    <g fill="#FAF5E8" stroke="#1A1410" stroke-width="2">
+      <rect x="486" y="44" width="120" height="42" rx="8"/>
+      <rect x="486" y="109" width="120" height="42" rx="8"/>
+      <rect x="486" y="174" width="120" height="42" rx="8"/>
+    </g>
+    <g font-size="13" fill="#1A1410">
+      <text x="546" y="70">AI Listing Bot</text>
+      <text x="546" y="135">AI Leasing Bot</text>
+      <text x="546" y="200">CRM operations</text>
+    </g>
+  </g>
+</svg>
