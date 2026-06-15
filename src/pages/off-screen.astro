@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/chrome/Nav.astro';
+import Footer from '../components/chrome/Footer.astro';
+import OffScreenGallery from '../components/offscreen/OffScreenGallery.astro';
+---
+<BaseLayout
+  title="Off-screen — Zhen Wang"
+  description="Photographs, calligraphy, and ink painting by Zhen Wang — the slow work that balances out the screens."
+>
+  <Nav currentPath="/off-screen" />
+  <main id="main" tabindex="-1">
+    <header class="hero">
+      <p class="hero-eyebrow">Photography · Calligraphy · Painting</p>
+      <h1 class="hero-h1">Off-screen</h1>
+      <p class="hero-deck">
+        The slow work that balances out the screens: photographs gathered on
+        travels and around home, and traditional Chinese calligraphy and painting.
+      </p>
+    </header>
+
+    <OffScreenGallery />
+  </main>
+  <Footer />
+</BaseLayout>
+<style>
+  .hero {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding: var(--space-13) var(--pad-page-x) var(--space-10);
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-tertiary);
+    margin: 0 0 var(--space-4);
+  }
+  .hero-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -0.022em;
+    margin: 0 0 var(--space-5);
+    font-weight: 500;
+  }
+  .hero-deck {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-secondary);
+    max-width: 56ch;
+    margin: 0;
+  }
+  @media (max-width: 767px) {
+    .hero {
+      padding: var(--space-11) var(--pad-page-x) var(--space-9);
+    }
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+import { gallery, filters, imgUrl } from '../../lib/offscreen';
+---
+<section class="gallery" data-gallery aria-label="Gallery of photography, calligraphy, and painting">
+  <div class="chips" role="group" aria-label="Filter by category">
+    {filters.map((f, i) => (
+      <button class="chip" type="button" data-filter={f.key} aria-pressed={i === 0 ? 'true' : 'false'}>
+        {f.label}
+      </button>
+    ))}
+  </div>
+  <p class="visually-hidden" data-gallery-live aria-live="polite"></p>
+
+  <div class="quilt">
+    {gallery.map((item) => (
+      <figure class:list={['tile', item.wide && 'tile--wide']} data-cat={item.cat} data-zoomable>
+        <img src={imgUrl(item.file)} width={item.w} height={item.h} alt={item.alt} loading="lazy" decoding="async" />
+        {/* Visual hover label only. The accessible description is the img alt,
+            surfaced via the lightbox trigger's aria-label + the lightbox caption,
+            so the duplicate visible text is hidden from assistive tech. */}
+        <figcaption aria-hidden="true">{item.alt}</figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<script>
+  import { init as initLightbox } from '../../islands/lightbox';
+  import { init as initGalleryFilter } from '../../islands/gallery-filter';
+  const run = () => {
+    initLightbox();
+    initGalleryFilter();
+  };
+  run();
+  document.addEventListener('astro:page-load', run); // re-init after view transitions
+</script>
+
+<style>
+  .gallery {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--pad-page-x);
+  }
+
+  /* Category filter chips */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-7);
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink-secondary);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .chip:hover {
+    border-color: var(--ink-primary);
+    color: var(--ink-primary);
+  }
+  .chip[aria-pressed='true'] {
+    background: var(--ink-primary);
+    color: var(--bg-primary);
+    border-color: var(--ink-primary);
+  }
+
+  /* Quilt: 4 columns; panoramic pieces span two so they keep their composition. */
+  .quilt {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    grid-auto-flow: dense;
+  }
+  .tile {
+    position: relative;
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+    aspect-ratio: 3 / 2;
+  }
+  .tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .tile--wide {
+    grid-column: span 2;
+    aspect-ratio: 3 / 1;
+  }
+  .tile:hover img {
+    transform: scale(1.03);
+  }
+  .tile figcaption {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    margin: 0;
+    padding: var(--space-7) var(--space-4) var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    color: var(--ink-on-dark);
+    background: linear-gradient(transparent, var(--cover-scrim));
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .tile:hover figcaption,
+  .tile:focus-visible figcaption {
+    opacity: 1;
+  }
+  .tile[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 1023px) {
+    .quilt { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 767px) {
+    .quilt { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tile img { transition: none; }
+    .tile:hover img { transform: none; }
+  }
+</style>

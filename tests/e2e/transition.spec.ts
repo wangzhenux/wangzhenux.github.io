@@ -29,3 +29,13 @@ test('curtain plays when entering About and shows its tagline', async ({ page })
   await expect(page).toHaveURL(/\/about\/?$/, { timeout: 6000 });
   await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/, { timeout: 4000 });
 });
+
+// The Off-screen gallery is a standalone page that gets the same entry curtain.
+test('curtain plays when entering Off-screen and shows its tagline', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('nav.nav a[href="/off-screen"]').click();
+  await expect(page.locator('#case-curtain')).toHaveClass(/is-sweeping/, { timeout: 2000 });
+  await expect(page.locator('.case-curtain-thesis')).toContainText('balances out the screens', { timeout: 2000 });
+  await expect(page).toHaveURL(/\/off-screen\/?$/, { timeout: 6000 });
+  await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/, { timeout: 4000 });
+});

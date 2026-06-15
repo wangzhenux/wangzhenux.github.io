@@ -1,9 +1,0 @@
-<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a calligraphic ink brush stroke with a red name seal">
-  <path d="M44 112 C 68 94, 96 96, 124 106 C 158 118, 196 114, 226 99 C 242 91, 252 93, 266 82 C 256 104, 232 109, 204 117 C 170 127, 134 129, 102 119 C 82 113, 62 119, 50 122 C 44 119, 41 116, 44 112 Z" fill="#1A1410"/>
-  <rect x="212" y="120" width="42" height="42" rx="4" fill="#B93A23"/>
-  <g stroke="#FAF5E8" stroke-width="2.4" stroke-linecap="round" fill="none">
-    <path d="M233 128 V154"/>
-    <path d="M221 137 H245"/>
-    <path d="M224 148 H242"/>
-  </g>
-</svg>

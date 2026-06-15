@@ -18,7 +18,6 @@ export const taglines: Record<string, string> = {
   'pool-my-ride': 'Share the ride — and the *parking permit*.',
   techscene: 'Every tech event in Austin, in *one place*.',
   plotguru: "Real-time trivia for the shows you're *already watching*.",
-  sketches: 'The slow craft that *balances out the screens*.',
 };
 
 /**
@@ -31,3 +30,6 @@ export const homeTagline = 'Quiet, *useful* software.';
 
 /** Shown on the curtain when opening the About page (consistent with cases). */
 export const aboutTagline = 'Designer, developer, *occasional calligrapher*.';
+
+/** Shown on the curtain when opening the Off-screen gallery. */
+export const offscreenTagline = 'The slow craft that *balances out the screens*.';
