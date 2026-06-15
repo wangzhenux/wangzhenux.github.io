@@ -17,3 +17,15 @@ test('curtain also plays on case -> home and lands home', async ({ page }) => {
   await expect(page).toHaveURL(/:4321\/?$/, { timeout: 6000 });
   await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/, { timeout: 4000 });
 });
+
+// Entering About plays the same thesis curtain as a case study, so the way in
+// is consistent with the work pages — it sweeps up with the About tagline, then
+// lands on /about and lifts.
+test('curtain plays when entering About and shows its tagline', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('nav.nav a[href="/about"]').click();
+  await expect(page.locator('#case-curtain')).toHaveClass(/is-sweeping/, { timeout: 2000 });
+  await expect(page.locator('.case-curtain-thesis')).toContainText('calligrapher', { timeout: 2000 });
+  await expect(page).toHaveURL(/\/about\/?$/, { timeout: 6000 });
+  await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/, { timeout: 4000 });
+});

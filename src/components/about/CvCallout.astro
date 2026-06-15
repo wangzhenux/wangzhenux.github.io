@@ -7,29 +7,38 @@ const { lastUpdated } = Astro.props;
 const pdfHref = '/Zhen-Wang-Resume.pdf';
 ---
 <section class="resume" aria-labelledby="cv-heading">
-  <div class="resume-text">
-    <h2 class="resume-h2" id="cv-heading">Curriculum vitae</h2>
-    <p class="resume-deck">
-      A <strong>PDF</strong> of roles, responsibilities, education, and skills —
-      for recruiters, hiring managers, and anyone reviewing for a specific role.
-    </p>
-    <p class="resume-updated">Last updated {lastUpdated}</p>
-  </div>
-  <div class="resume-buttons">
-    <a class="btn btn-primary" href={pdfHref} download>
-      Download PDF<span class="arrow" aria-hidden="true">↓</span>
-    </a>
-    <a class="btn btn-secondary" href={pdfHref} target="_blank" rel="noopener">
-      View in browser<span class="arrow" aria-hidden="true">→</span>
-    </a>
+  <div class="resume-inner">
+    <div class="resume-text">
+      <h2 class="resume-h2" id="cv-heading">Curriculum vitae</h2>
+      <p class="resume-deck">
+        A <strong>PDF</strong> of roles, responsibilities, education, and skills —
+        for recruiters, hiring managers, and anyone reviewing for a specific role.
+      </p>
+      <p class="resume-updated">Last updated {lastUpdated}</p>
+    </div>
+    <div class="resume-buttons">
+      <a class="btn btn-primary" href={pdfHref} download>
+        Download PDF<span class="arrow" aria-hidden="true">↓</span>
+      </a>
+      <a class="btn btn-secondary" href={pdfHref} target="_blank" rel="noopener">
+        View in browser<span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
   </div>
 </section>
 <style>
-  /* ported from about-resume.html .resume / .btn, tokenized */
+  /* ported from about-resume.html .resume / .btn, tokenized.
+     Full-bleed tinted band (like the footer/nav bars): the section spans the
+     viewport and carries the background + framing rules; the inner wrapper owns
+     the max-content frame so its content aligns with every other About section. */
   .resume {
-    padding: var(--space-12) var(--pad-page-x);
     background: var(--bg-secondary);
-    border-bottom: 1px solid var(--rule);
+    border-block: 1px solid var(--rule);
+  }
+  .resume-inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding: var(--space-12) var(--pad-page-x);
     display: grid;
     grid-template-columns: 1fr auto;
     gap: var(--space-7);
@@ -102,7 +111,7 @@ const pdfHref = '/Zhen-Wang-Resume.pdf';
     font-size: 11px;
   }
   @media (max-width: 767px) {
-    .resume {
+    .resume-inner {
       grid-template-columns: 1fr;
       padding: var(--space-11) var(--pad-page-x);
       gap: var(--space-6);

@@ -28,3 +28,6 @@ export const taglines: Record<string, string> = {
  * tint a word in accent.
  */
 export const homeTagline = 'Quiet, *useful* software.';
+
+/** Shown on the curtain when opening the About page (consistent with cases). */
+export const aboutTagline = 'Designer, developer, *occasional calligrapher*.';

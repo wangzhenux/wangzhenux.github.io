@@ -1,11 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import { taglines, homeTagline } from '../../lib/taglines';
+import { taglines, homeTagline, aboutTagline } from '../../lib/taglines';
 
 // Lookup keyed by destination: each case slug → its thesis (entering a case),
 // and '/' → the site line (returning home from a case). Only cases that exist.
 const cases = await getCollection('cases');
-const map: Record<string, string> = { '/': homeTagline };
+const map: Record<string, string> = { '/': homeTagline, '/about': aboutTagline };
 for (const c of cases) {
   const t = taglines[c.data.slug];
   if (t) map[c.data.slug] = t;
@@ -44,8 +44,9 @@ for (const c of cases) {
       // Same curtain motion both ways so the round trip is consistent.
       let key: string | null = null;
       const toSlug = slugOf(toPath);
-      if (toSlug) key = toSlug;
-      else if (toPath === '/' && slugOf(fromPath)) key = '/';
+      if (toSlug) key = toSlug;                                 // entering a case
+      else if (toPath === '/about') key = '/about';             // entering About
+      else if (toPath === '/' && (slugOf(fromPath) || fromPath === '/about')) key = '/'; // home, leaving a case or About
       if (!key) return;
       const tag = lookup(key);
       if (!tag) return;
