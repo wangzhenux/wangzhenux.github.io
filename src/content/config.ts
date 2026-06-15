@@ -55,6 +55,9 @@ export const caseSchema = z.object({
   collaborators: z.array(z.string()).optional(),
   status: z.enum(['shipped', 'in-design', 'planned']).optional(),
   liveUrl: z.string().optional(),
+  // When set, this case is a standalone top-nav destination (label = the value):
+  // it gets a Nav tab and is kept out of the work grid, archive, and next-case.
+  navTab: z.string().optional(),
 });
 
 const cases = defineCollection({

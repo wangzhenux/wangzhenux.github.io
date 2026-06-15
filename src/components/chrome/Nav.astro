@@ -1,9 +1,17 @@
 ---
+import { getCollection } from 'astro:content';
 interface Props { currentPath?: string; }
 const { currentPath = '/' } = Astro.props;
+// Cases flagged `navTab` are standalone sections (e.g. Sketches) and get their
+// own top-nav link, placed between Writing and About.
+const navTabs = (await getCollection('cases'))
+  .filter((c) => c.data.navTab)
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((c) => ({ href: `/work/${c.data.slug}`, label: c.data.navTab as string }));
 const links = [
   { href: '/', label: 'Work' },
   { href: '/writing', label: 'Writing' },
+  ...navTabs,
   { href: '/about', label: 'About' },
 ];
 const isActive = (href: string) =>

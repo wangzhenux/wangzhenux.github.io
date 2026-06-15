@@ -11,10 +11,10 @@ export async function getAllCases(): Promise<CaseEntry[]> {
   return cases.sort(byOrder);
 }
 
-/** Featured, non-archive cases sorted by `order` ascending. */
+/** Featured, non-archive, non-nav-tab cases sorted by `order` ascending. */
 async function getFeaturedAll(): Promise<CaseEntry[]> {
   const cases = await getAllCases();
-  return cases.filter((c) => c.data.featured && !c.data.archive);
+  return cases.filter((c) => c.data.featured && !c.data.archive && !c.data.navTab);
 }
 
 /** The single homepage spotlight: lowest-order featured non-archive case. */
@@ -33,7 +33,7 @@ export async function getSelected(): Promise<CaseEntry[]> {
 export async function getArchive(): Promise<CaseEntry[]> {
   const cases = await getCollection('cases');
   return cases
-    .filter((c) => c.data.archive === true)
+    .filter((c) => c.data.archive === true && !c.data.navTab)
     .sort((a, b) => b.data.year - a.data.year || a.data.order - b.data.order);
 }
 
@@ -42,7 +42,7 @@ export async function getArchive(): Promise<CaseEntry[]> {
  * first. Returns undefined if there are no non-archive cases.
  */
 export async function getNext(slug: string): Promise<CaseEntry | undefined> {
-  const cases = (await getAllCases()).filter((c) => !c.data.archive);
+  const cases = (await getAllCases()).filter((c) => !c.data.archive && !c.data.navTab);
   if (cases.length === 0) return undefined;
   const idx = cases.findIndex((c) => c.data.slug === slug);
   if (idx === -1) return cases[0];
