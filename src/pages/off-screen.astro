@@ -24,6 +24,11 @@ import OffScreenGallery from '../components/offscreen/OffScreenGallery.astro';
   <Footer />
 </BaseLayout>
 <style>
+  /* Breathing room between the gallery and the footer (the gallery is the last
+     element in <main> and has no block padding of its own). */
+  main {
+    padding-bottom: var(--space-13);
+  }
   .hero {
     max-width: var(--max-content);
     margin-inline: auto;
