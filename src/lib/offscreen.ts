@@ -1,20 +1,23 @@
 /**
  * Data for the Off-screen gallery (/off-screen) — photographs, calligraphy, and
- * ink painting. Kept separate from layout so the image source can be swapped in
- * ONE place when these move to a CDN.
+ * ink painting. Kept separate from layout so the image source lives in ONE place.
  *
- * IMAGE HOSTING (migration note):
- *   `imgUrl(file)` builds the src. Today it points at the in-repo `public/`
- *   copies. To move to Cloudinary (or any CDN) later, change ONLY `imgUrl` to
- *   return the remote URL (e.g. `https://res.cloudinary.com/<cloud>/image/upload/
- *   f_auto,q_auto,w_1600/off-screen/${file}`) and delete the local copies. Each
- *   item already carries intrinsic `w`/`h` so layout stays CLS-free regardless
- *   of host.
+ * IMAGE HOSTING: served from Cloudinary (cloud `dcswo1dgj`, folder `off-screen`)
+ * with automatic format + quality and a 1600px cap — the originals are no longer
+ * in the repo. `imgUrl(file)` is the single seam; to re-host, change only the
+ * constants below. Each item carries intrinsic `w`/`h` so layout stays CLS-free
+ * regardless of the delivered (downscaled) size.
  */
 
-/** Build the image URL for a gallery file. Single seam for a future CDN swap. */
+// f_auto  = best format per browser (AVIF/WebP), q_auto = automatic quality,
+// c_limit,w_1600 = downscale to fit 1600px wide, never upscale.
+const CLOUDINARY = 'https://res.cloudinary.com/dcswo1dgj/image/upload';
+const TRANSFORM = 'f_auto,q_auto,c_limit,w_1600';
+
+/** Build the Cloudinary delivery URL for a gallery file (off-screen/<id>). */
 export function imgUrl(file: string): string {
-  return `/cases/sketches/${file}`;
+  const id = file.replace(/\.[^.]+$/, ''); // 'caligraphy.jpeg' -> 'caligraphy'
+  return `${CLOUDINARY}/${TRANSFORM}/off-screen/${id}`;
 }
 
 export type GalleryCategory = 'ink' | 'creatures' | 'places';
