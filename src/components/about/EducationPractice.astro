@@ -1,45 +1,48 @@
 ---
 interface EducationItem {
-  /** Primary line, e.g. a degree or field of study. */
+  /** Primary line — degree + field. */
   primary: string;
-  /** Optional supporting detail (institution, focus, year). */
+  /** Supporting detail — institution · year. */
   detail?: string;
+  /** Optional monochrome institution logo, right-aligned. Falls back to text. */
+  logo?: string;
 }
 interface Props {
-  heading?: string;
-  /** Education entries. Only real, sourced lines should be passed. */
   education: EducationItem[];
 }
-const { heading = 'Education & practice', education } = Astro.props;
+const { education } = Astro.props;
 ---
 <section class="section" aria-labelledby="edu-heading">
-  <h2 class="section-h2" id="edu-heading">{heading}</h2>
-  <div class="two-col">
-    <div>
-      <h3 class="two-col-h3">Education</h3>
-      {education.map((e) => (
-        <p class="edu-line">
-          <strong>{e.primary}</strong>{e.detail && <span class="edu-detail"> · {e.detail}</span>}
-        </p>
-      ))}
-    </div>
-    <div>
-      <h3 class="two-col-h3">How I work</h3>
-      <p>
-        My work sits where design meets engineering. I design and systematize in
-        Figma, move fast from concept to interface with AI tools like Google
-        Stitch, and prototype in real, working code with Claude Code — so what I
-        propose is grounded in what's actually buildable, not just a static mock.
-        Most of my decade has been on dense, expert software — developer tools,
-        enterprise platforms, and increasingly AI-assisted products — where the
-        work is making complexity feel obvious. When the team needs ground truth
-        I run usability sessions; when an idea is hard to explain, I draw it.
-      </p>
-    </div>
-  </div>
+  <h2 class="section-h2" id="edu-heading">Education</h2>
+  <ul class="edu-list">
+    {education.map((e) => (
+      <li class="edu-row">
+        <div class="edu-meta">
+          <span class="edu-primary">{e.primary}</span>
+          {e.detail && <span class="edu-detail">{e.detail}</span>}
+        </div>
+        {e.logo && (
+          <img class="edu-logo" src={e.logo} alt="" aria-hidden="true" height="30" loading="lazy" decoding="async" />
+        )}
+      </li>
+    ))}
+  </ul>
+</section>
+
+<section class="section" aria-labelledby="approach-heading">
+  <h2 class="section-h2" id="approach-heading">How I work</h2>
+  <p class="approach">
+    My work sits where design meets engineering. I design and systematize in
+    Figma, move fast from concept to interface with AI tools like Google Stitch,
+    and prototype in real, working code with Claude Code — so what I propose is
+    grounded in what's actually buildable, not just a static mock. Most of my
+    decade has been on dense, expert software — developer tools, enterprise
+    platforms, and increasingly AI-assisted products — where the work is making
+    complexity feel obvious. When the team needs ground truth I run usability
+    sessions; when an idea is hard to explain, I draw it.
+  </p>
 </section>
 <style>
-  /* ported from about-resume.html .section / .two-col, tokenized */
   .section {
     padding: var(--space-12) var(--pad-page-x);
     max-width: var(--max-content);
@@ -62,37 +65,57 @@ const { heading = 'Education & practice', education } = Astro.props;
     background: var(--accent);
     margin-bottom: var(--space-4);
   }
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-9);
+  .edu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
   }
-  .two-col-h3 {
+  .edu-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: var(--space-5) 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .edu-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+  .edu-primary {
     font-family: var(--font-display);
-    font-size: 17px;
-    margin: 0 0 var(--space-3);
-    font-weight: 500;
-  }
-  .two-col p {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--ink-secondary);
-    margin: 0 0 var(--space-3);
-  }
-  .edu-line strong {
+    font-size: 18px;
     color: var(--ink-primary);
     font-weight: 500;
   }
   .edu-detail {
-    color: var(--ink-tertiary);
+    font-size: 14px;
+    color: var(--ink-secondary);
+  }
+  /* Institution mark as a quiet right-aligned accent, knocked back to one ink tone. */
+  .edu-logo {
+    height: 30px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+    object-position: right center;
+    filter: brightness(0);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+  .approach {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-secondary);
+    max-width: 62ch;
+    margin: 0;
   }
   @media (max-width: 767px) {
     .section {
       padding: var(--space-11) var(--pad-page-x);
-    }
-    .two-col {
-      grid-template-columns: 1fr;
-      gap: var(--space-7);
     }
   }
 </style>
