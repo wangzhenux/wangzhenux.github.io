@@ -1,40 +1,33 @@
 ---
-interface Role {
-  /** Job title, e.g. "Senior Product Designer". */
-  role: string;
+interface Company {
   /** Employer, e.g. "Twilio". */
   company: string;
-  /** Optional span, e.g. "2023 — now". Omitted entirely when absent. */
-  year?: string;
-  /** Optional location, e.g. "San Francisco". Omitted entirely when absent. */
-  location?: string;
+  /** Role(s) held there, e.g. "Design Lead · Senior UX Designer". */
+  title: string;
+  /** Optional monochrome logo served from /public. Falls back to text only. */
+  logo?: string;
 }
 interface Props {
-  roles: Role[];
+  companies: Company[];
   heading?: string;
 }
-const { roles, heading = "Where I've been" } = Astro.props;
-// Only allocate the year/location columns when at least one row supplies them,
-// so unknown values are omitted rather than fabricated.
-const hasYears = roles.some((r) => r.year);
-const hasLocs = roles.some((r) => r.location);
+const { companies, heading = "Where I've been" } = Astro.props;
 ---
 <section class="section" aria-labelledby="history-heading">
   <h2 class="section-h2" id="history-heading">{heading}</h2>
-  <div
-    class="history"
-    data-cols={`${hasYears ? 'y' : ''}rl${hasLocs ? 'l' : ''}`}
-  >
-    {roles.map((r) => (
-      <div class="history-row">
-        {hasYears && <div class="history-year">{r.year}</div>}
-        <div class="history-role">
-          {r.role}<span class="at"> at </span>{r.company}
+  <ul class="history">
+    {companies.map((c) => (
+      <li class="history-row">
+        {c.logo && (
+          <img class="history-logo" src={c.logo} alt={`${c.company} logo`} width="32" height="32" loading="lazy" decoding="async" />
+        )}
+        <div class="history-meta">
+          <span class="history-company">{c.company}</span>
+          <span class="history-role">{c.title}</span>
         </div>
-        {hasLocs && <div class="history-loc">{r.location}</div>}
-      </div>
+      </li>
     ))}
-  </div>
+  </ul>
 </section>
 <style>
   /* ported from about-resume.html .section / .history, tokenized */
@@ -61,66 +54,47 @@ const hasLocs = roles.some((r) => r.location);
     margin-bottom: var(--space-4);
   }
   .history {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     border-top: 1px solid var(--rule);
   }
   .history-row {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-2) var(--space-6);
-    padding: var(--space-4) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    padding: var(--space-5) 0;
     border-bottom: 1px solid var(--rule-soft);
-    align-items: baseline;
   }
-  /* With a year column. */
-  .history[data-cols^='y'] .history-row {
-    grid-template-columns: 110px 1fr;
+  /* Monochrome employer mark; the source SVG/PNG is already a single ink tone.
+     Reserves a fixed box so logo + text-only rows still align. */
+  .history-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+    opacity: 0.85;
   }
-  /* With a trailing location column. */
-  .history[data-cols$='l'] .history-row {
-    grid-template-columns: 1fr 130px;
+  .history-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
   }
-  .history[data-cols^='y'][data-cols$='l'] .history-row {
-    grid-template-columns: 110px 1fr 130px;
-  }
-  .history-year {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--ink-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-  }
-  .history-role {
+  .history-company {
     font-family: var(--font-display);
-    font-size: 17px;
+    font-size: 18px;
     color: var(--ink-primary);
     font-weight: 500;
   }
-  .history-role .at {
-    color: var(--ink-tertiary);
-    font-style: italic;
-    font-weight: 400;
-  }
-  .history-loc {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--ink-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-align: right;
+  .history-role {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
   }
   @media (max-width: 767px) {
     .section {
       padding: var(--space-11) var(--pad-page-x);
-    }
-    .history-row,
-    .history[data-cols^='y'] .history-row,
-    .history[data-cols$='l'] .history-row,
-    .history[data-cols^='y'][data-cols$='l'] .history-row {
-      grid-template-columns: 1fr;
-      gap: var(--space-1);
-    }
-    .history-loc {
-      text-align: left;
     }
   }
 </style>

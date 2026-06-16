@@ -21,28 +21,32 @@ test('CvCallout has download + view-in-browser buttons and a Last updated line',
   expect(html).toContain('April 2026');
 });
 
-test('WorkHistory renders one row per role with role + company', async () => {
+test('WorkHistory renders one row per company with company + role(s)', async () => {
   const c = await AstroContainer.create();
-  const roles = [
-    { role: 'Senior Product Designer', company: 'Twilio' },
-    { role: 'Lead UX Designer', company: 'Tasktop' },
-    { role: 'Senior Designer', company: 'Rackspace' },
+  const companies = [
+    { company: 'Twilio', title: 'Senior Product Designer' },
+    { company: 'Tasktop', title: 'Design Lead · Senior UX Designer' },
+    { company: 'Rackspace', title: 'Senior Designer' },
   ];
-  const html = await c.renderToString(WorkHistory, { props: { roles } });
+  const html = await c.renderToString(WorkHistory, { props: { companies } });
   expect((html.match(/class="history-row"/g) || []).length).toBe(3);
   expect(html).toContain('Senior Product Designer');
   expect(html).toContain('Twilio');
-  expect(html).toContain('Tasktop');
-  expect(html).toContain('Rackspace');
+  expect(html).toContain('Design Lead · Senior UX Designer');
 });
 
-test('WorkHistory omits the year/location columns when values are absent', async () => {
+test('WorkHistory shows a logo when provided and omits it cleanly otherwise', async () => {
   const c = await AstroContainer.create();
-  const roles = [{ role: 'Senior Designer', company: 'Rackspace' }];
-  const html = await c.renderToString(WorkHistory, { props: { roles } });
-  // No fabricated year or location text leaks in.
-  expect(html).not.toContain('history-year');
-  expect(html).not.toContain('history-loc');
+  const withLogo = await c.renderToString(WorkHistory, {
+    props: { companies: [{ company: 'Twilio', title: 'Senior Product Designer', logo: '/logos/twilio.svg' }] },
+  });
+  expect(withLogo).toContain('history-logo');
+  expect(withLogo).toContain('/logos/twilio.svg');
+  // No logo → no <img>, no fabricated mark.
+  const noLogo = await c.renderToString(WorkHistory, {
+    props: { companies: [{ company: 'Rackspace', title: 'Senior Designer' }] },
+  });
+  expect(noLogo).not.toContain('history-logo');
 });
 
 test('ReachMe renders three contact cards with the real links', async () => {
