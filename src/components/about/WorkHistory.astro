@@ -18,11 +18,10 @@ const { companies, heading = "Where I've been" } = Astro.props;
   <ul class="history">
     {companies.map((c) => (
       <li class="history-row">
-        {c.logo && (
-          <img class="history-logo" src={c.logo} alt={`${c.company} logo`} width="32" height="32" loading="lazy" decoding="async" />
-        )}
         <div class="history-meta">
-          <span class="history-company">{c.company}</span>
+          {c.logo
+            ? <img class="history-logo" src={c.logo} alt={c.company} height="22" loading="lazy" decoding="async" />
+            : <span class="history-company">{c.company}</span>}
           <span class="history-role">{c.title}</span>
         </div>
       </li>
@@ -60,26 +59,26 @@ const { companies, heading = "Where I've been" } = Astro.props;
     border-top: 1px solid var(--rule);
   }
   .history-row {
-    display: flex;
-    align-items: center;
-    gap: var(--space-5);
     padding: var(--space-5) 0;
     border-bottom: 1px solid var(--rule-soft);
-  }
-  /* Monochrome employer mark; the source SVG/PNG is already a single ink tone.
-     Reserves a fixed box so logo + text-only rows still align. */
-  .history-logo {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    flex-shrink: 0;
-    opacity: 0.85;
   }
   .history-meta {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: var(--space-2);
     min-width: 0;
+  }
+  /* The employer wordmark stands in for the company name, knocked back to one
+     ink tone so the four brand fonts read as a single calm system (and the
+     light Rackspace mark becomes visible on the cream surface). */
+  .history-logo {
+    height: 22px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    object-position: left center;
+    filter: brightness(0);
+    opacity: 0.8;
   }
   .history-company {
     font-family: var(--font-display);
