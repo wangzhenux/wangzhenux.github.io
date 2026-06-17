@@ -1,0 +1,265 @@
+---
+title: "Cutting Tour No-Shows"
+deck: "Redesigning the tour confirmation and reminder system — SMS, email, and a language-agnostic 'reply to confirm' flow — cut no-shows from 17% to 10% in the first month."
+slug: tour-scheduling
+company: UnitPulse / Tripalink
+year: 2024
+role: "Product Design Lead"
+cover:
+  gradient: "linear-gradient(135deg, #6E7A36 0%, #2C3318 100%)"
+  image: "/cases/tour-scheduling/cover.svg"
+  width: 1600
+  height: 1000
+order: 3
+featured: true
+status: shipped
+meta:
+  - { label: "Role", value: "Product Design Lead — message flow, templates, confirm interaction" }
+  - { label: "Surface", value: "SMS + email lifecycle messaging, tied to the CRM tour flow" }
+  - { label: "Result", value: "No-shows 17% → 10% in month one (~40% relative)" }
+  - { label: "Scope", value: "Booking confirmation · 24-hr reminder w/ confirm CTA · cancellation" }
+  - { label: "Year", value: "2024, with a later AI tour-agent tie-in" }
+outcome:
+  metric: "17% → 10%"
+  context: "tour no-shows, first month after launch"
+sections:
+  - { id: s01, num: "01", label: "The problem" }
+  - { id: s02, num: "02", label: "My role" }
+  - { id: s03, num: "03", label: "Design decisions" }
+  - { id: s04, num: "04", label: "Craft detail" }
+  - { id: s05, num: "05", label: "The AI tie-in" }
+  - { id: s06, num: "06", label: "Outcome" }
+  - { id: s07, num: "07", label: "Reflection" }
+---
+
+import Lede from '../../components/reading/Lede.astro';
+import BodyText from '../../components/reading/BodyText.astro';
+import SectionH from '../../components/reading/SectionH.astro';
+import SectionDeck from '../../components/reading/SectionDeck.astro';
+import Dual from '../../components/data/Dual.astro';
+import DualCol from '../../components/data/DualCol.astro';
+import ResearchStats from '../../components/data/ResearchStats.astro';
+import Stat from '../../components/data/Stat.astro';
+import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
+import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+import Outcome from '../../components/showcase/Outcome.astro';
+import Reflection from '../../components/showcase/Reflection.astro';
+import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
+import RelatedCases from '../../components/showcase/RelatedCases.astro';
+
+{/*
+  ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
+  Number labels: [REAL] = measured/sourced, used confidently; [TARGET] = phrased
+  as a goal, never as a result; ‹EST› = confirm/replace before publish. Remove
+  this entire block before publishing.
+
+  ‹EST-confirm› (s03, decision 2) Confirm the exact confirm mechanic — "reply 1"
+    vs "reply YES/confirm". Sources show both a numeric and a keyword scheme;
+    lock the real v1 behavior. The page currently says "a single short reply
+    (e.g. '1')" so it reads correctly under either; tighten once confirmed.
+
+  ‹EST-scope› (s02) Confirm exactly which templates/flows you owned vs the CRM
+    team. The page credits you with the message flow, the templates, and the
+    confirm interaction, and is explicit that the CRM/eng team owned delivery and
+    automation. Adjust if ownership was narrower/broader.
+
+  ‹EST-metric› (s06, and the deck) Confirm the precise denominator for 17%→10%.
+    CRM-2906 phrases the baseline as "17% of cancellations"; the deck/outcome
+    state it as the no-show RATE. The page commits to ONE definition — the
+    overall tour no-show rate — so "17% of what?" has a clean answer. If the real
+    figure is the reminder-attributed share of cancellations, reword the deck,
+    the Result meta row, and s06 to match, consistently.
+
+  SOURCES referenced in copy (real): CRM-2906, CRM-3402, CRM-2731, CRM release
+    notes (Dec 2024), the "Tour Agents" + tour-confirmation→AI-signal page, and
+    your A2P 10DLC / TCPA Twilio registration work.
+
+  PENDING — Visuals: every <ImageShowcase> with a "SWAP" comment (grep `SWAP`)
+    is a placeholder for a Figma frame — the three branded email templates and
+    the SMS confirm flow. Replace before publish.
+
+  NOTE — crm-copilot.mdx's own internal notes already plan to link this case
+    ("Tour Scheduling (new)") once it existed; wire that reciprocal link when
+    convenient.
+  ═══════════════════════════════════════════════════════════════════════
+*/}
+
+<section id="s01">
+  <Lede>
+    No-shows are expensive. A prospect who books a tour and never arrives burns
+    an agent's time and costs the property a chance to lease the unit.
+  </Lede>
+
+  <BodyText>
+    The day-of reminder flow was the single biggest lever on that loss — CRM-2906
+    traced the no-show problem squarely back to it. And the messages worked
+    against themselves: there were too many of them, and they ran too long, which
+    risked the worst outcome of all — a prospect opting out of texts entirely.
+  </BodyText>
+
+  <BodyText>
+    So the brief carried a real tension. **Reminders have to cut no-shows without
+    annoying prospects into unsubscribing** — and every message has to stay
+    A2P 10DLC and TCPA-compliant. Those weren't competing concerns to balance
+    later; they were the design constraint from the first message.
+  </BodyText>
+</section>
+
+<section id="s02">
+  <SectionH>My role</SectionH>
+  <BodyText>
+    I was **Product Design Lead for the tour messaging lifecycle.** I designed
+    the message flow, the templates, and the "reply to confirm" interaction —
+    and partnered with the CRM and engineering team on delivery, and with
+    compliance on A2P / TCPA.
+  </BodyText>
+
+  <SectionH small>Ownership and collaboration</SectionH>
+  <Dual>
+    <DualCol heading="What I owned">
+      <div class="dual-item"><div class="head">The message flow</div><div class="det">Which message fires when — booking confirmation, the pre-tour reminder, and the cancellation path — and what each one asks for.</div></div>
+      <div class="dual-item"><div class="head">The templates</div><div class="det">The SMS and email copy and layout, built on the product's real brand tokens.</div></div>
+      <div class="dual-item"><div class="head">The confirm interaction</div><div class="det">The "reply to confirm" mechanic — short, language-agnostic, and quick to answer.</div></div>
+    </DualCol>
+    <DualCol heading="Who I partnered with">
+      <div class="dual-item"><div class="head">CRM &amp; engineering</div><div class="det">Owned delivery, scheduling, and the automation behind the messages.</div></div>
+      <div class="dual-item"><div class="head">Compliance</div><div class="det">Owned the A2P 10DLC / TCPA requirements the design had to satisfy.</div></div>
+    </DualCol>
+  </Dual>
+  <BodyText>
+    To be precise: **I led the design of the messages and the confirm experience;
+    I did not build the delivery automation.** That stayed with engineering.
+    {/* ‹EST-scope› confirm exact templates/flows owned vs the CRM team before publish */}
+  </BodyText>
+</section>
+
+<section id="s03">
+  <SectionH>Design decisions</SectionH>
+  <SectionDeck>Six decisions, each with the reason behind it.</SectionDeck>
+
+  <BodyText>
+    **1 · Interactive confirmation, not a passive reminder.** Short, clear
+    messages that ask the prospect to *actively confirm* — so the appointment is
+    locked in rather than merely announced. An unanswered reminder is easy to
+    ignore; a question is harder to leave hanging. (CRM-2906 / CRM-3402:
+    "lock in the appointment, reduce no-shows; interactive, short, clear.")
+  </BodyText>
+  <BodyText>
+    **2 · A language-agnostic confirm.** A single short reply — for example,
+    "1" — confirms the tour regardless of the language the prospect reads in.
+    That matters for a bilingual renter base, where a "reply YES" prompt quietly
+    excludes anyone not reading in English.
+    {/* ‹EST-confirm› lock the real v1 mechanic ("1" vs "YES/confirm"); copy is hedged to read correctly under either */}
+  </BodyText>
+  <BodyText>
+    **3 · Right message, right moment.** A booking confirmation on schedule; a
+    reminder that carries the confirm ask ahead of the tour; and a clean
+    cancellation path when plans change. Each message earns its send.
+  </BodyText>
+  <BodyText>
+    **4 · Trim to reduce opt-outs.** I cut the number and length of the touring
+    messages and removed the feedback request from the confirmation messages, so
+    the essential confirm ask isn't buried under things that can wait. Fewer,
+    shorter messages are both kinder to the prospect and safer against opt-outs.
+    (CRM release notes, December 2024.)
+  </BodyText>
+  <BodyText>
+    **5 · Brand-aware templates.** The templates adapt their branding for partner
+    and third-party properties that lease under their own brand, so a reminder
+    looks like it came from the property the prospect is touring — not from a
+    platform they've never heard of. (CRM-2731.)
+  </BodyText>
+  <BodyText>
+    **6 · Compliance as a design constraint.** A2P 10DLC and TCPA-compliant
+    opt-in and message design were built in from the start, not bolted on — the
+    same registration work I'd done on the Twilio side made the rules concrete
+    rather than abstract.
+  </BodyText>
+</section>
+
+<section id="s04">
+  <SectionH>Craft detail</SectionH>
+  <BodyText>
+    The three production email templates — the booking confirmation, the reminder
+    that carries the confirm CTA, and the cancellation — were built on the **real
+    brand tokens extracted from the live product CSS:** the warm off-white
+    background, the olive and lime accents, and the product's Manrope / Inter type
+    stack. So the designs match the brand that actually ships, not a mockup's
+    approximation of it.
+  </BodyText>
+
+  {/* SWAP: Figma frames — the 3 branded email templates (booking confirmation, reminder + confirm CTA, cancellation) + the SMS confirm flow */}
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tour-scheduling/cover.svg"
+      alt="Placeholder for the three branded email templates and the SMS reply-to-confirm flow"
+      width={1600}
+      height={1000}
+    />
+  </ImageShowcase>
+</section>
+
+<section id="s05">
+  <SectionH>The AI tie-in</SectionH>
+  <BodyText>
+    The tour flow later became conversational. Scheduling, rescheduling, and
+    cancelling a tour are now handled by AI **"Tour Agents,"** and the prospect's
+    confirm reply feeds a signal back into the AI leasing system — so a "yes" is
+    no longer just a calendar event, it's input the broader system can act on.
+  </BodyText>
+  <BodyText>
+    That connects this lifecycle work to the wider [CRM Copilot ecosystem](/work/crm-copilot):
+    the lightweight confirm interaction designed here became one of the everyday
+    signals the leasing AI reads.
+  </BodyText>
+</section>
+
+<section id="s06">
+  <SectionH>Outcome</SectionH>
+  <Outcome
+    metric="~40%"
+    heading="relative drop in tour no-shows in the first month after launch"
+  >
+    The redesigned confirmation and reminder flow shipped, and the no-show rate
+    dropped within the first month — the before-and-after is below. It's an
+    early signal, not a settled result, but it moved the number the project set
+    out to move.
+    {/* ‹EST-metric› confirm 17%→10% is the overall no-show RATE (page's committed definition) vs CRM-2906's "17% of cancellations"; reword consistently if needed */}
+  </Outcome>
+
+  <ResearchStats cols={2}>
+    <Stat num="17%" label="No-shows, before">
+      <span class="item">the day-of reminder flow was the main driver (CRM-2906)</span>
+    </Stat>
+    <Stat num="10%" label="No-shows, month one">
+      <span class="item">after the interactive "reply to confirm" redesign</span>
+    </Stat>
+  </ResearchStats>
+
+  <BodyText>
+    The honest framing: this is a one-month, post-launch signal, and I'd hold it
+    loosely until it proves durable. The things I'd watch next are whether the
+    rate holds over time, how it varies by region, and an A/B test of the
+    confirm-CTA wording.
+  </BodyText>
+</section>
+
+<section id="s07">
+  <SectionH>Reflection</SectionH>
+  <Reflection>
+    <ReflectionCard label="On measurement" heading="A first signal, not a verdict">
+      A 40% relative drop in month one is a strong start, but one month is a
+      signal, not proof. What I'd instrument next is the no-show delta by message
+      variant, so the win can be attributed to specific copy rather than to the
+      redesign as a whole.
+    </ReflectionCard>
+    <ReflectionCard label="On what's next" heading="Design it as an experiment">
+      The natural next moves are tests, not a one-shot fix: confirm-rate by
+      channel (SMS vs email), and reminder timing — does a 24-hour reminder beat
+      a same-morning one? Each is a question the messaging system can answer if
+      it's built to be measured.
+    </ReflectionCard>
+  </Reflection>
+</section>
+
+<RelatedCases slugs={["crm-copilot", "up-insight"]} />

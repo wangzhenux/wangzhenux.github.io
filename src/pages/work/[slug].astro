@@ -30,19 +30,25 @@ const eyebrow = [data.company, String(data.year), data.role]
   .join(' · ');
 
 // Meta-strip fields auto-fit to whatever the case actually provides (§11.1).
-const metaFields = [
-  data.role ? { label: 'Role', value: data.role } : null,
-  data.team ? { label: 'Team', value: data.team } : null,
-  data.span ? { label: 'Span', value: data.span } : null,
-  data.outcome
-    ? {
-        label: 'Outcome',
-        value: data.outcome.context
-          ? `${data.outcome.metric} — ${data.outcome.context}`
-          : data.outcome.metric,
-      }
-    : null,
-].filter((f): f is { label: string; value: string } => f !== null);
+// A case may supply an explicit `meta` array (custom labels) when its snapshot
+// doesn't map onto the default Role/Team/Span/Outcome four; otherwise the strip
+// is built from those fields.
+const metaFields =
+  data.meta && data.meta.length > 0
+    ? data.meta
+    : [
+        data.role ? { label: 'Role', value: data.role } : null,
+        data.team ? { label: 'Team', value: data.team } : null,
+        data.span ? { label: 'Span', value: data.span } : null,
+        data.outcome
+          ? {
+              label: 'Outcome',
+              value: data.outcome.context
+                ? `${data.outcome.metric} — ${data.outcome.context}`
+                : data.outcome.metric,
+            }
+          : null,
+      ].filter((f): f is { label: string; value: string } => f !== null);
 
 const cover = {
   caseCover: data.cover.gradient,

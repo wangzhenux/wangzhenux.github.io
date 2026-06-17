@@ -51,6 +51,10 @@ export const caseSchema = z.object({
       context: z.string().optional(),
     })
     .optional(),
+  // Custom hero meta-strip rows. When present, they replace the auto-built
+  // Role/Team/Span/Outcome strip — for cases whose snapshot doesn't map onto
+  // those four labels. Rendered through the same MetaStrip component.
+  meta: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
   class: z.string().optional(),
   collaborators: z.array(z.string()).optional(),
   status: z.enum(['shipped', 'in-design', 'planned']).optional(),

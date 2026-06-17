@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import CaseCard from '../home/CaseCard.astro';
+
+interface Props {
+  /** Case slugs to link, in display order. Unknown slugs are skipped. */
+  slugs: string[];
+  heading?: string;
+}
+const { slugs, heading = 'Related work' } = Astro.props;
+
+// Pull the real entries from the collection so titles, decks, and covers stay
+// in sync with each case's own front-matter instead of being duplicated here.
+const all = await getCollection('cases');
+const cases = slugs
+  .map((slug) => all.find((c) => c.data.slug === slug))
+  .filter((c): c is (typeof all)[number] => Boolean(c));
+---
+{cases.length > 0 && (
+  <section class="related" aria-labelledby="related-heading">
+    <h2 class="related-h2" id="related-heading">{heading}</h2>
+    <div class="related-grid">
+      {cases.map((c) => (
+        <CaseCard
+          slug={c.data.slug}
+          title={c.data.title}
+          company={c.data.company}
+          year={c.data.year}
+          role={c.data.role}
+          cover={c.data.cover.gradient}
+          image={c.data.cover.image}
+          summary={c.data.deck}
+        />
+      ))}
+    </div>
+  </section>
+)}
+<style>
+  /* Closing "related work" links, sized to the reading column (no Container) so
+     it flows after the last case section. Reuses the homepage CaseCard. */
+  .related {
+    margin-top: var(--space-11);
+    padding-top: var(--space-9);
+    border-top: 1px solid var(--rule);
+  }
+  .related-h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    margin: 0 0 var(--space-7);
+    font-weight: 500;
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8) var(--space-6);
+  }
+  @media (max-width: 767px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
