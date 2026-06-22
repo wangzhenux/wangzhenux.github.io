@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Zhen Wang — Résumé</title>
+<style>
+  :root {
+    --blue: #2f49c9;
+    --ink: #2a2c39;
+    --body: #33353d;
+    --muted: #6b7280;
+    --steel: #9aa1b0;
+    --side-bg: #f3f4f6;
+    --rule: #e3e5ec;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @page { size: Letter; margin: 0; }
+  html, body { width: 8.5in; height: 11in; }
+  body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: var(--body);
+    font-size: 11px;
+    line-height: 1.52;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+  }
+  .geo {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  /* ---------- sidebar ---------- */
+  .side {
+    width: 2.62in;
+    flex: 0 0 2.62in;
+    background: var(--side-bg);
+    padding: 0.6in 0.34in 0.4in;
+  }
+  .name {
+    font-weight: 800;
+    font-size: 27px;
+    letter-spacing: 0.06em;
+    line-height: 1.04;
+    color: var(--ink);
+    text-transform: uppercase;
+  }
+  .role-sub {
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .summary {
+    font-size: 9.9px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+
+  .side h2, .main h2 {
+    font-family: "Avenir Next", "Futura", "Helvetica Neue", Arial, sans-serif;
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .side section { margin-top: 27px; }
+  .side h2 { margin-bottom: 12px; }
+
+  .contact-row { margin-bottom: 9px; }
+  .contact-row .lbl {
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 10px;
+  }
+  .contact-row .val {
+    color: var(--body);
+    font-size: 9.9px;
+    word-break: break-word;
+  }
+
+  .edu { margin-bottom: 12px; }
+  .edu .school { font-weight: 700; color: var(--ink); font-size: 10.2px; }
+  .edu .date {
+    color: var(--steel);
+    font-size: 8.7px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 1px 0 2px;
+  }
+  .edu .deg { color: var(--body); font-size: 9.8px; }
+  .edu .gpa { color: var(--muted); font-size: 9.4px; }
+
+  .skill-grp { margin-bottom: 9px; }
+  .skill-grp .k { font-weight: 700; color: var(--ink); }
+  .skill-grp .v { color: var(--body); }
+
+  /* ---------- main ---------- */
+  .main {
+    flex: 1;
+    padding: 0.6in 0.42in 0.4in 0.4in;
+  }
+  .main > h2 { margin-bottom: 18px; }
+
+  .job { margin-bottom: 21px; }
+  .job:last-child { margin-bottom: 0; }
+  .job-head {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+  }
+  .job-co { font-weight: 700; color: var(--ink); font-size: 11.3px; }
+  .job-title { color: var(--body); font-size: 11px; }
+  .job-dot { color: var(--steel); }
+  .job-date {
+    color: var(--steel);
+    font-size: 8.8px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    margin: 3px 0 7px;
+  }
+  ul.bullets { list-style: none; }
+  ul.bullets li {
+    position: relative;
+    padding-left: 13px;
+    margin-bottom: 7px;
+  }
+  ul.bullets li:last-child { margin-bottom: 0; }
+  ul.bullets li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--blue);
+  }
+  .metric { font-weight: 700; color: var(--ink); }
+</style>
+</head>
+<body>
+  <aside class="side">
+    <div class="name geo">Zhen<br/>Wang</div>
+    <div class="role-sub">Product Designer</div>
+    <p class="summary">Senior product designer with ~10 years turning dense, expert software — developer tools, enterprise platforms, and increasingly AI-native products — into experiences that make complexity feel obvious.</p>
+
+    <section>
+      <h2>Contact</h2>
+      <div class="contact-row"><div class="lbl">Portfolio</div><div class="val">wangzhenux.github.io</div></div>
+      <div class="contact-row"><div class="lbl">Email</div><div class="val">wangzhen614@gmail.com</div></div>
+      <div class="contact-row"><div class="lbl">Phone</div><div class="val">512-658-5191</div></div>
+      <div class="contact-row"><div class="lbl">LinkedIn</div><div class="val">linkedin.com/in/zhenwang614</div></div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="edu">
+        <div class="school">The University of Texas at Austin</div>
+        <div class="date">May 2016</div>
+        <div class="deg">MS, Information Studies — UX specialization</div>
+        <div class="gpa">GPA 4.0 / 4.0</div>
+      </div>
+      <div class="edu">
+        <div class="school">University of Nebraska–Lincoln</div>
+        <div class="date">May 2014</div>
+        <div class="deg">BS, Computer Engineering</div>
+        <div class="gpa">GPA 3.8 / 4.0</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Skills</h2>
+      <div class="skill-grp"><span class="k">Design:</span> <span class="v">UI &amp; visual design · Figma systems &amp; libraries · interaction &amp; user flows</span></div>
+      <div class="skill-grp"><span class="k">Prototyping:</span> <span class="v">Figma · working code (TypeScript/React, HTML/CSS/JS) · AI tools (Claude Code, Google Stitch)</span></div>
+      <div class="skill-grp"><span class="k">Research:</span> <span class="v">usability testing · data analysis · heuristic &amp; competitive analysis · workshops</span></div>
+    </section>
+  </aside>
+
+  <main class="main">
+    <h2>Experience</h2>
+
+    <div class="job">
+      <div class="job-head"><span class="job-co">Tripalink, Corp.</span><span class="job-dot">·</span><span class="job-title">Lead Product Designer</span></div>
+      <div class="job-date">July 2023 – Present</div>
+      <ul class="bullets">
+        <li>Lead end-to-end design for <span class="metric">UnitPulse</span>, Tripalink's AI-native leasing platform — the full renter journey from engagement and touring to application and move-in. Empowered leasing agents to manage <span class="metric">250+ leads/month</span> each, a sustained <span class="metric">20% YoY</span> efficiency gain.</li>
+        <li>Helped drive the convergence of three separate products into one platform — one login, one design language, with a conversational Copilot as the command layer — as design lead.</li>
+        <li>Integrated AI across leasing and marketing, cutting manual work <span class="metric">40%</span> while lifting tour-to-lease conversions <span class="metric">+16%</span> and rental applications <span class="metric">+3%</span>.</li>
+        <li>Grew the consumer site <span class="metric">+28% YoY</span> in monthly active users (AI-powered search, optimized listings, referral program) at a steady 3.4% lead-gen rate; manage and mentor the design team across product, engineering, and operations.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><span class="job-co">Twilio Inc.</span><span class="job-dot">·</span><span class="job-title">Product Designer</span></div>
+      <div class="job-date">June 2021 – February 2023</div>
+      <ul class="bullets">
+        <li>Spearheaded the Regional Onboarding initiative to improve comprehension of Twilio Regions; the redesigned "Buy a Number" page increased impressions <span class="metric">+179%</span>.</li>
+        <li>Drove removal of the "Default Region" feature by aligning cross-functional stakeholders and partnering with research to reduce user confusion.</li>
+        <li>Ran a mental-model study (<span class="metric">34 participants, 17K+ accounts</span> analyzed) to reshape the cross-product region-switching experience.</li>
+        <li>Initiated and documented Twilio's Global Design Guidelines — a scalable design system and library for brand and UX consistency.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><span class="job-co">Tasktop Technologies US Inc.</span><span class="job-dot">·</span><span class="job-title">Senior UX Designer</span></div>
+      <div class="job-date">July 2016 – June 2021</div>
+      <ul class="bullets">
+        <li>Led product design for enterprise software connecting DevOps tools, making the value stream visible and measurable for Fortune 500 customers.</li>
+        <li>Partnered directly with the CEO to take a new Flow Framework™ product (featured in <em>Project to Product</em>) from 0 to 1, securing a <span class="metric">$2M enterprise deal</span> within a year.</li>
+        <li>Contributed front-end development (TypeScript, HTML, CSS, JS), bridging design and engineering for seamless delivery.</li>
+        <li>Initiated and ran usability testing to validate design decisions and drive measurable UX improvements.</li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>
