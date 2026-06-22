@@ -66,10 +66,10 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
-  .side section { margin-top: 27px; }
-  .side h2 { margin-bottom: 12px; }
+  .side section { margin-top: 38px; }
+  .side h2 { margin-bottom: 16px; }
 
-  .contact-row { margin-bottom: 9px; }
+  .contact-row { margin-bottom: 15px; }
   .contact-row .lbl {
     font-weight: 700;
     color: var(--ink);
@@ -93,7 +93,7 @@
   .edu .deg { color: var(--body); font-size: 9.8px; }
   .edu .gpa { color: var(--muted); font-size: 9.4px; }
 
-  .skill-grp { margin-bottom: 9px; }
+  .skill-grp { margin-bottom: 16px; }
   .skill-grp .k { font-weight: 700; color: var(--ink); }
   .skill-grp .v { color: var(--body); }
 
@@ -138,6 +138,9 @@
     border-radius: 50%;
     background: var(--blue);
   }
+  .edu-h2 { margin-top: 22px; }
+  .edu-row { margin-bottom: 11px; }
+  .edu-row:last-child { margin-bottom: 0; }
   .metric { font-weight: 700; color: var(--ink); }
 </style>
 </head>
@@ -145,7 +148,7 @@
   <aside class="side">
     <div class="name geo">Zhen<br/>Wang</div>
     <div class="role-sub">Product Designer</div>
-    <p class="summary">Senior product designer with ~10 years turning dense, expert software — developer tools, enterprise platforms, and increasingly AI-native products — into experiences that make complexity feel obvious.</p>
+    <p class="summary">Lead Product Designer who ships the production front-end (TypeScript/React) for AI-native developer and enterprise tools. ~10 years making dense, expert software legible — validating decisions in working code, not just mockups. CS / engineering background; AI-assisted design workflow.</p>
 
     <section>
       <h2>Contact</h2>
@@ -156,25 +159,10 @@
     </section>
 
     <section>
-      <h2>Education</h2>
-      <div class="edu">
-        <div class="school">The University of Texas at Austin</div>
-        <div class="date">May 2016</div>
-        <div class="deg">MS, Information Studies — UX specialization</div>
-        <div class="gpa">GPA 4.0 / 4.0</div>
-      </div>
-      <div class="edu">
-        <div class="school">University of Nebraska–Lincoln</div>
-        <div class="date">May 2014</div>
-        <div class="deg">BS, Computer Engineering</div>
-        <div class="gpa">GPA 3.8 / 4.0</div>
-      </div>
-    </section>
-
-    <section>
       <h2>Skills</h2>
+      <div class="skill-grp"><span class="k">Building:</span> <span class="v">Production front-end (TypeScript/React, HTML/CSS/JS) · code-based prototyping to validate decisions in working software</span></div>
+      <div class="skill-grp"><span class="k">AI:</span> <span class="v">Designing AI-native products (conversational / agentic UI) · AI-assisted workflow with Claude Code</span></div>
       <div class="skill-grp"><span class="k">Design:</span> <span class="v">UI &amp; visual design · Figma systems &amp; libraries · interaction &amp; user flows</span></div>
-      <div class="skill-grp"><span class="k">Prototyping:</span> <span class="v">Figma · working code (TypeScript/React, HTML/CSS/JS) · AI tools (Claude Code, Google Stitch)</span></div>
       <div class="skill-grp"><span class="k">Research:</span> <span class="v">usability testing · data analysis · heuristic &amp; competitive analysis · workshops</span></div>
     </section>
   </aside>
@@ -183,36 +171,45 @@
     <h2>Experience</h2>
 
     <div class="job">
-      <div class="job-head"><span class="job-co">Tripalink, Corp.</span><span class="job-dot">·</span><span class="job-title">Lead Product Designer</span></div>
+      <div class="job-head"><span class="job-co">Tripalink</span><span class="job-dot">·</span><span class="job-title">Lead Product Designer</span></div>
       <div class="job-date">July 2023 – Present</div>
       <ul class="bullets">
-        <li>Lead end-to-end design for <span class="metric">UnitPulse</span>, Tripalink's AI-native leasing platform — the full renter journey from engagement and touring to application and move-in. Empowered leasing agents to manage <span class="metric">250+ leads/month</span> each, a sustained <span class="metric">20% YoY</span> efficiency gain.</li>
-        <li>Helped drive the convergence of three separate products into one platform — one login, one design language, with a conversational Copilot as the command layer — as design lead.</li>
-        <li>Integrated AI across leasing and marketing, cutting manual work <span class="metric">40%</span> while lifting tour-to-lease conversions <span class="metric">+16%</span> and rental applications <span class="metric">+3%</span>.</li>
-        <li>Grew the consumer site <span class="metric">+28% YoY</span> in monthly active users (AI-powered search, optimized listings, referral program) at a steady 3.4% lead-gen rate; manage and mentor the design team across product, engineering, and operations.</li>
+        <li>Lead end-to-end design for <span class="metric">UnitPulse</span>, Tripalink's AI-native leasing platform — the full renter journey from engagement and touring to application and move-in. Redesigned the agent leasing console so each agent can manage <span class="metric">250+ leads/month</span>, a sustained <span class="metric">20% YoY</span> efficiency gain.</li>
+        <li>Helped drive the convergence of three separate products into one platform (one login, one design language, with a conversational Copilot as the command layer) as design lead — shaping how the Copilot surfaces its reasoning, asks before acting, and hands off to a human mid-task.</li>
+        <li>Integrated AI across leasing and marketing, cutting manual work <span class="metric">40%</span> while lifting tour-to-lease conversion <span class="metric">+16%</span>.</li>
+        <li>Grew the consumer site <span class="metric">+28% YoY</span> in monthly active users through AI-powered search, optimized listings, and a referral program.</li>
+        <li>Manage and mentor the design team; partner with engineering and operations on delivery.</li>
       </ul>
     </div>
 
     <div class="job">
-      <div class="job-head"><span class="job-co">Twilio Inc.</span><span class="job-dot">·</span><span class="job-title">Product Designer</span></div>
+      <div class="job-head"><span class="job-co">Twilio</span><span class="job-dot">·</span><span class="job-title">Product Designer</span></div>
       <div class="job-date">June 2021 – February 2023</div>
       <ul class="bullets">
-        <li>Spearheaded the Regional Onboarding initiative to improve comprehension of Twilio Regions; the redesigned "Buy a Number" page increased impressions <span class="metric">+179%</span>.</li>
-        <li>Drove removal of the "Default Region" feature by aligning cross-functional stakeholders and partnering with research to reduce user confusion.</li>
-        <li>Ran a mental-model study (<span class="metric">34 participants, 17K+ accounts</span> analyzed) to reshape the cross-product region-switching experience.</li>
+        <li>Redesigned the Buy-a-Number page for regional number purchase as part of the Regional Onboarding initiative, lifting page impressions <span class="metric">+179%</span>.</li>
+        <li>Ran a mental-model study (<span class="metric">34 participants, 17K+ accounts</span> analyzed) and drove removal of the Default Region feature by aligning cross-functional stakeholders, reducing cross-product confusion.</li>
         <li>Initiated and documented Twilio's Global Design Guidelines — a scalable design system and library for brand and UX consistency.</li>
       </ul>
     </div>
 
     <div class="job">
-      <div class="job-head"><span class="job-co">Tasktop Technologies US Inc.</span><span class="job-dot">·</span><span class="job-title">Senior UX Designer</span></div>
+      <div class="job-head"><span class="job-co">Tasktop</span><span class="job-dot">·</span><span class="job-title">Senior UX Designer</span></div>
       <div class="job-date">July 2016 – June 2021</div>
       <ul class="bullets">
         <li>Led product design for enterprise software connecting DevOps tools, making the value stream visible and measurable for Fortune 500 customers.</li>
-        <li>Partnered directly with the CEO to take a new Flow Framework™ product (featured in <em>Project to Product</em>) from 0 to 1, securing a <span class="metric">$2M enterprise deal</span> within a year.</li>
-        <li>Contributed front-end development (TypeScript, HTML, CSS, JS), bridging design and engineering for seamless delivery.</li>
-        <li>Initiated and ran usability testing to validate design decisions and drive measurable UX improvements.</li>
+        <li>Partnered directly with the CEO to take a new Flow Framework™ product (featured in the book <em>Project to Product</em>) from 0 to 1, securing a <span class="metric">$2M enterprise deal</span> within a year.</li>
+        <li>Contributed front-end development (TypeScript, HTML/CSS/JS) alongside design, carrying interaction and edge-case decisions into shipped code.</li>
       </ul>
+    </div>
+
+    <h2 class="edu-h2">Education</h2>
+    <div class="edu-row">
+      <div class="job-head"><span class="job-co">The University of Texas at Austin</span><span class="job-dot">·</span><span class="job-title">MS, Information Studies (UX)</span></div>
+      <div class="job-date">May 2016 &nbsp;·&nbsp; GPA 4.0 / 4.0</div>
+    </div>
+    <div class="edu-row">
+      <div class="job-head"><span class="job-co">University of Nebraska–Lincoln</span><span class="job-dot">·</span><span class="job-title">BS, Computer Engineering</span></div>
+      <div class="job-date">May 2014 &nbsp;·&nbsp; GPA 3.8 / 4.0</div>
     </div>
   </main>
 </body>
