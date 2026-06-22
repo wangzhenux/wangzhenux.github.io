@@ -1,0 +1,26 @@
+<svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A leasing funnel: Traffic to Leads to Tours to Applications to Signed, narrowing left to right, with marketing channels feeding the top">
+  <rect width="480" height="200" fill="#EFE7D2"/>
+  <!-- channel-attribution inputs feeding the funnel -->
+  <g font-family="ui-monospace, Menlo, monospace" font-size="8" fill="#1A141088">
+    <circle cx="26" cy="40" r="3" fill="#B93A23"/><text x="34" y="43">Search</text>
+    <circle cx="26" cy="58" r="3" fill="#1A141066"/><text x="34" y="61">Social</text>
+    <circle cx="26" cy="76" r="3" fill="#1A141066"/><text x="34" y="79">Referral</text>
+  </g>
+  <g stroke="#1A141044" stroke-width="1.5" fill="none"><path d="M70 40 Q92 50 96 64"/><path d="M70 58 H96"/><path d="M70 76 Q92 66 96 64"/></g>
+  <!-- Sankey-ish narrowing band -->
+  <path d="M96 40 L188 52 L264 70 L340 86 L420 100 L420 116 L340 118 L264 122 L188 124 L96 128 Z"
+        fill="#1A14100f" stroke="#1A141033" stroke-width="1.5"/>
+  <!-- the signed cap in accent -->
+  <path d="M420 100 L452 104 L452 112 L420 116 Z" fill="#B93A2333" stroke="#B93A23" stroke-width="1.5"/>
+  <!-- stage dividers -->
+  <g stroke="#1A141033" stroke-width="1.5"><path d="M188 52 V124"/><path d="M264 70 V122"/><path d="M340 86 V118"/><path d="M420 100 V116"/></g>
+  <!-- stage labels -->
+  <g font-family="system-ui, Helvetica, Arial, sans-serif" font-size="10" fill="#1A1410" text-anchor="middle">
+    <text x="140" y="158">Traffic</text>
+    <text x="226" y="158">Leads</text>
+    <text x="302" y="158">Tours</text>
+    <text x="380" y="158">Applications</text>
+    <text x="436" y="176" font-family="Georgia, serif" font-style="italic" fill="#B93A23">Signed</text>
+  </g>
+  <g stroke="#1A141033" stroke-width="1" stroke-dasharray="2 3"><path d="M140 130 V150 M226 124 V150 M302 122 V150 M380 118 V150 M436 116 V168"/></g>
+</svg>

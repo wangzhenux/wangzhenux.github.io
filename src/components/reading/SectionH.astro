@@ -1,11 +1,11 @@
 ---
-interface Props { small?: boolean; }
-const { small = false } = Astro.props;
+interface Props { small?: boolean; wide?: boolean; }
+const { small = false, wide = false } = Astro.props;
 ---
 {small ? (
   <h3 class="section-h section-h--small"><slot /></h3>
 ) : (
-  <h2 class="section-h"><slot /></h2>
+  <h2 class:list={['section-h', { 'section-h--wide': wide }]}><slot /></h2>
 )}
 <style>
   /* ported from case-study-twilio.html .section-h, tokenized.
@@ -31,5 +31,10 @@ const { small = false } = Astro.props;
   .section-h--small {
     font-size: 22px;
     margin: var(--space-9) 0 var(--space-4);
+  }
+  /* Let a heading fill the full reading column instead of the default 22ch
+     measure — used by scrollytelling cases whose Act headlines are statements. */
+  .section-h--wide {
+    max-width: none;
   }
 </style>

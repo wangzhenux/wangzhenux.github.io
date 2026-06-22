@@ -5,6 +5,7 @@
  * Edit freely; a case with no entry here simply opens without a thesis curtain.
  */
 export const taglines: Record<string, string> = {
+  'unitpulse-platform': 'Three products, merged into *one platform*.',
   'up-insight': 'From scattered spreadsheets to one *source of truth*.',
   'crm-copilot': 'Fifteen clicks, or *one sentence*.',
   'tour-scheduling': 'A reminder you can answer in *one tap* — fewer no-shows.',

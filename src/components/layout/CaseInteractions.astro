@@ -1,16 +1,19 @@
 ---
-// Mounts the client-side interaction islands (TOC scrollspy + lightbox) on a
-// case study page. The script block below is processed/bundled by Astro and
-// runs in the browser. It re-runs on `astro:page-load` so the islands
-// re-initialize after a view-transition navigation (§8.6).
+// Mounts the client-side interaction islands (TOC scrollspy + lightbox + the
+// reveal-on-scroll island used by the flagship). The script block below is
+// processed/bundled by Astro and runs in the browser. It re-runs on
+// `astro:page-load` so the islands re-initialize after a view-transition
+// navigation (§8.6). The reveal island no-ops on pages without `[data-reveal]`.
 ---
 <script>
   import { init as initToc } from '../../islands/toc-scrollspy';
   import { init as initLightbox } from '../../islands/lightbox';
+  import { init as initReveal } from '../../islands/reveal';
 
   const run = () => {
     initToc();
     initLightbox();
+    initReveal();
   };
 
   run();

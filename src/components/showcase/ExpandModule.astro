@@ -1,0 +1,112 @@
+---
+interface Props {
+  /** Module number, e.g. "1". */
+  n: string;
+  /** Headline shown collapsed and expanded. */
+  title: string;
+  /** Role line shown under the headline. */
+  role: string;
+  /** Optional deep-dive link rendered at the end of the expanded body. */
+  href?: string;
+  linkText?: string;
+}
+const { n, title, role, href, linkText } = Astro.props;
+---
+{/* Native <details> disclosure: accessible and keyboard-operable with zero JS or
+    storage. Collapsed shows the number, headline, and role; expanding reveals the
+    slotted detail (and the optional deep-dive link). */}
+<details class="expand">
+  <summary class="expand-summary">
+    <span class="expand-n" aria-hidden="true">{n}</span>
+    <span class="expand-head">
+      <span class="expand-title">{title}</span>
+      <span class="expand-role">{role}</span>
+    </span>
+    <span class="expand-chevron" aria-hidden="true">
+      <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4" /></svg>
+    </span>
+  </summary>
+  <div class="expand-body">
+    <slot />
+    {href && linkText && (
+      <a class="expand-link" href={href}>{linkText}</a>
+    )}
+  </div>
+</details>
+<style>
+  .expand {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    margin-top: -1px; /* collapse adjacent borders when stacked */
+  }
+  .expand-summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-5);
+    padding: var(--space-6) 0;
+  }
+  /* Remove the native disclosure triangle across engines. */
+  .expand-summary::-webkit-details-marker { display: none; }
+  .expand-summary::marker { content: ''; }
+  .expand-n {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    padding-top: var(--space-1);
+  }
+  .expand-head {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .expand-title {
+    font-family: var(--font-display);
+    font-size: 21px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--ink-primary);
+    font-weight: 500;
+  }
+  .expand-role {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-tertiary);
+    line-height: 1.5;
+  }
+  .expand-chevron {
+    flex: 0 0 auto;
+    color: var(--ink-tertiary);
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  .expand[open] .expand-chevron { transform: rotate(180deg); color: var(--accent); }
+  .expand-summary:hover .expand-chevron { color: var(--accent); }
+  .expand-summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+  .expand-body {
+    padding: 0 0 var(--space-8);
+  }
+  /* The deep-dive link, styled like a quiet mono CTA. */
+  .expand-link {
+    display: inline-block;
+    margin-top: var(--space-6);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: var(--space-1);
+  }
+  .expand-link:hover { border-bottom-color: var(--accent); }
+</style>

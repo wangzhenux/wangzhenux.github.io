@@ -1,0 +1,31 @@
+<svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three product tiles of equal weight: UP Marketing finds renters, UP Leasing converts them, UP Insight measures the funnel">
+  <rect width="480" height="200" fill="#EFE7D2"/>
+
+  <!-- Tile 1: UP Marketing — Find — broadcast / channel -->
+  <rect x="20" y="28" width="136" height="144" rx="8" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <circle cx="88" cy="74" r="3.4" fill="#1A1410"/>
+  <g fill="none" stroke="#1A1410" stroke-width="2.2" stroke-linecap="round">
+    <path d="M79 65 a 12 12 0 0 0 0 18"/>
+    <path d="M72 59 a 20 20 0 0 0 0 30"/>
+    <path d="M97 65 a 12 12 0 0 1 0 18"/>
+    <path d="M104 59 a 20 20 0 0 1 0 30"/>
+  </g>
+  <text x="88" y="128" text-anchor="middle" font-family="system-ui, Helvetica, Arial, sans-serif" font-size="12" fill="#1A1410">UP Marketing</text>
+  <text x="88" y="152" text-anchor="middle" font-family="Georgia, serif" font-size="17" font-style="italic" fill="#B93A23">Find</text>
+
+  <!-- Tile 2: UP Leasing — Convert — a checked lease -->
+  <rect x="172" y="28" width="136" height="144" rx="8" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <rect x="226" y="52" width="30" height="40" rx="3" fill="none" stroke="#1A1410" stroke-width="2.2"/>
+  <g stroke="#1A141066" stroke-width="2" stroke-linecap="round"><path d="M232 62 H250 M232 70 H250 M232 78 H244"/></g>
+  <circle cx="256" cy="86" r="9" fill="#FAF5E8" stroke="#1A1410" stroke-width="2.2"/>
+  <path d="M252 86 l3 3 l5 -6" fill="none" stroke="#B93A23" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="240" y="128" text-anchor="middle" font-family="system-ui, Helvetica, Arial, sans-serif" font-size="12" fill="#1A1410">UP Leasing</text>
+  <text x="240" y="152" text-anchor="middle" font-family="Georgia, serif" font-size="17" font-style="italic" fill="#B93A23">Convert</text>
+
+  <!-- Tile 3: UP Insight — Measure — sparkle -->
+  <rect x="324" y="28" width="136" height="144" rx="8" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <g transform="translate(389,72)" fill="#1A1410"><path d="M0 -13 C 1.6 -5, 5 -1.6, 13 0 C 5 1.6, 1.6 5, 0 13 C -1.6 5, -5 1.6, -13 0 C -5 -1.6, -1.6 -5, 0 -13 Z"/></g>
+  <g transform="translate(406,58)" fill="#B93A23"><path d="M0 -5 C 0.6 -2, 2 -0.6, 5 0 C 2 0.6, 0.6 2, 0 5 C -0.6 2, -2 0.6, -5 0 C -2 -0.6, -0.6 -2, 0 -5 Z"/></g>
+  <text x="392" y="128" text-anchor="middle" font-family="system-ui, Helvetica, Arial, sans-serif" font-size="12" fill="#1A1410">UP Insight</text>
+  <text x="392" y="152" text-anchor="middle" font-family="Georgia, serif" font-size="17" font-style="italic" fill="#B93A23">Measure</text>
+</svg>
