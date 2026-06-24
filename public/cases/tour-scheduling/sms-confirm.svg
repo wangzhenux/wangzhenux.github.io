@@ -1,0 +1,17 @@
+<svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The reply-to-confirm SMS: a short reminder asks the prospect to reply 1, a one-tap confirm that works in any language">
+  <rect width="480" height="200" fill="#EFE7D2"/>
+  <!-- incoming reminder bubble -->
+  <path d="M40 38 h236 a10 10 0 0 1 10 10 v34 a10 10 0 0 1 -10 10 h-214 l-16 16 v-16 h-6 a10 10 0 0 1 -10 -10 v-34 a10 10 0 0 1 10 -10 Z" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <text x="56" y="62" font-family="system-ui, Helvetica, Arial, sans-serif" font-size="12" fill="#1A1410">Your tour is tomorrow at 2:00 PM.</text>
+  <text x="56" y="80" font-family="system-ui, Helvetica, Arial, sans-serif" font-size="12" fill="#1A1410">Reply <tspan font-weight="700" fill="#B93A23">1</tspan> to confirm.</text>
+
+  <!-- outgoing reply "1" -->
+  <path d="M360 104 h64 a10 10 0 0 1 10 10 v22 a10 10 0 0 1 -10 10 h-46 l-12 12 v-12 h-6 a10 10 0 0 1 -10 -10 v-22 a10 10 0 0 1 10 -10 Z" fill="#B93A23"/>
+  <text x="392" y="130" text-anchor="middle" font-family="Georgia, serif" font-size="17" font-weight="700" fill="#FAF5E8">1</text>
+
+  <!-- confirmed -->
+  <circle cx="70" cy="150" r="13" fill="none" stroke="#1A1410" stroke-width="2"/>
+  <path d="M64 150 l5 5 l9 -11" fill="none" stroke="#B93A23" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="92" y="148" font-family="system-ui, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#1A1410">Tour confirmed</text>
+  <text x="92" y="164" font-family="ui-monospace, Menlo, monospace" font-size="9" fill="#1A141099">one tap · any language</text>
+</svg>

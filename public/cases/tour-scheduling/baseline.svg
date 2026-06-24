@@ -1,0 +1,29 @@
+<svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The typical reminder: a one-way blast of several long messages, with no way to confirm and an easy path to opt out">
+  <rect width="480" height="220" fill="#EFE7D2"/>
+  <!-- phone -->
+  <rect x="40" y="24" width="150" height="172" rx="16" fill="#FAF5E8" stroke="#1A1410" stroke-width="2"/>
+  <line x1="40" y1="48" x2="190" y2="48" stroke="#1A141022" stroke-width="1.5"/>
+  <circle cx="115" cy="36" r="2.6" fill="#1A141055"/>
+  <!-- several long incoming bubbles (too many, too long) -->
+  <g>
+    <rect x="54" y="58" width="118" height="26" rx="7" fill="#EFE7D2" stroke="#1A141055" stroke-width="1.5"/>
+    <g stroke="#1A141044" stroke-width="2" stroke-linecap="round"><path d="M62 68 H160 M62 76 H140"/></g>
+    <rect x="54" y="90" width="118" height="26" rx="7" fill="#EFE7D2" stroke="#1A141055" stroke-width="1.5"/>
+    <g stroke="#1A141044" stroke-width="2" stroke-linecap="round"><path d="M62 100 H160 M62 108 H150"/></g>
+    <rect x="54" y="122" width="118" height="26" rx="7" fill="#EFE7D2" stroke="#1A141055" stroke-width="1.5"/>
+    <g stroke="#1A141044" stroke-width="2" stroke-linecap="round"><path d="M62 132 H160 M62 140 H132"/></g>
+  </g>
+  <!-- opt-out -->
+  <text x="115" y="174" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="9" fill="#B93A23">Reply STOP to opt out</text>
+
+  <!-- annotations: one-way, no confirm -->
+  <g font-family="system-ui, Helvetica, Arial, sans-serif" font-size="12" fill="#1A1410">
+    <g stroke="#1A141066" stroke-width="2" fill="none"><path d="M210 80 H300" stroke-linecap="round"/><path d="M298 75 l6 5 l-6 5"/></g>
+    <text x="312" y="84">One-way blast</text>
+    <text x="312" y="100" font-size="10" fill="#1A141099">— no way to reply or confirm</text>
+
+    <g stroke="#1A141066" stroke-width="2" fill="none"><path d="M210 134 H300" stroke-linecap="round"/><path d="M298 129 l6 5 l-6 5"/></g>
+    <text x="312" y="138">Too many, too long</text>
+    <text x="312" y="154" font-size="10" fill="#1A141099">— trains people to mute it</text>
+  </g>
+</svg>
