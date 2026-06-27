@@ -38,7 +38,8 @@ const countLabel = String(count).padStart(2, '0');
 <style>
   /* ported from homepage.html .selected / .selected-grid, tokenized.
      Asymmetric grid: 1.5fr lead slot + 1fr followers. The lead card
-     (first entry) is rendered with `large` so its cover gets the 4/3 ratio. */
+     (first entry) is rendered with `large` so its cover and title render
+     larger (the cover keeps the authored 16:10 ratio, like every card). */
   .selected {
     padding-block: var(--space-10) var(--space-11);
     border-top: 1px solid var(--rule);

@@ -50,11 +50,14 @@ const meta = [company, year, role].filter(Boolean).join(' · ');
   .case-cover-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    background: none;
+    /* Covers are authored at 16:10 — fit the whole composition and centre it,
+       never crop. A warm mat covers any off-ratio cover cleanly. */
+    object-fit: contain;
+    object-position: center;
+    background: var(--bg-secondary);
   }
   .case-card.span-2 .case-cover {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 10;
   }
   .case-link:hover .case-cover,
   .case-link:focus-visible .case-cover {
