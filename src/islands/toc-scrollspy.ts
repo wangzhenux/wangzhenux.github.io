@@ -120,7 +120,7 @@ export function init(): void {
 
   // Showcase fade: hide the TOC (and pause setActive) while a full-bleed showcase
   // band is on screen (§8.3).
-  const showcases = document.querySelectorAll('.image-showcase');
+  const showcases = document.querySelectorAll('.image-showcase, .scar, .bento');
   if (showcases.length) {
     const visible = new Set<Element>();
     const showcaseObserver = new IntersectionObserver(

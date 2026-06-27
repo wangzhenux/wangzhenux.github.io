@@ -1,0 +1,188 @@
+---
+/**
+ * EXAMPLE VISUAL (Section 6) — the GEO content architecture, built from tokens
+ * so it restyles from tokens.css. Three zones: a canonical, server-rendered URL
+ * tree → a structured, citable FAQ/JSON-LD block → that same block surfaced in
+ * BOTH a Google SERP and an AI answer. It illustrates the *intent* (designed for
+ * citation), not a measured citation count.
+ */
+---
+<figure class="geo">
+  <figcaption class="geo-eyebrow">GEO content architecture — built to be cited</figcaption>
+  <div class="geo-flow">
+    <!-- Zone 1: canonical URL tree -->
+    <div class="geo-zone">
+      <span class="geo-cap">Canonical · server-rendered</span>
+      <ul class="geo-tree">
+        <li>unitpulse.ai/</li>
+        <li class="i1">/{'{state}'} <em>hub</em></li>
+        <li class="i2">/{'{state}'}/{'{city}'} <em>hub</em></li>
+        <li class="i3 leaf">/{'{state}'}/{'{city}'}/{'{slug}'} <em>PDP</em></li>
+      </ul>
+      <span class="geo-badge">FAQPage + BreadcrumbList JSON-LD</span>
+      <ul class="geo-notes">
+        <li>/search · <strong>noindex</strong> (ephemeral chat)</li>
+        <li>/property/[id] → <strong>301</strong> → canonical</li>
+      </ul>
+    </div>
+
+    <svg class="geo-arrow" viewBox="0 0 40 24" aria-hidden="true"><path d="M2 12 H34" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/><path d="M28 5 l8 7 l-8 7" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+    <!-- Zone 2: the citable block -->
+    <div class="geo-zone geo-zone--card">
+      <span class="geo-cap">A structured, quotable answer</span>
+      <div class="geo-faq">
+        <span class="geo-jsonld">{'{ }'}</span>
+        <p class="geo-q">"Is it walkable to USC?"</p>
+        <p class="geo-a">Yes — the building is a 12-minute walk to campus, with two bus lines at the corner.</p>
+      </div>
+    </div>
+
+    <svg class="geo-arrow" viewBox="0 0 40 24" aria-hidden="true"><path d="M2 12 H34" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/><path d="M28 5 l8 7 l-8 7" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+    <!-- Zone 3: surfaced two ways -->
+    <div class="geo-zone geo-zone--out">
+      <div class="geo-out">
+        <span class="geo-cap">Google · indexed</span>
+        <p class="geo-serp-title">Apartments near USC — walkable studios</p>
+        <p class="geo-serp-url">unitpulse.ai › ca › los-angeles › …</p>
+        <p class="geo-serp-snip">12-minute walk to campus, two bus lines…</p>
+      </div>
+      <div class="geo-out geo-out--ai">
+        <span class="geo-cap">AI answer · cited</span>
+        <p class="geo-ai-line">"…a 12-minute walk to USC, with two bus lines nearby."</p>
+        <span class="geo-cite"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 l3 3 l7 -8" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>unitpulse.ai</span>
+      </div>
+    </div>
+  </div>
+  <figcaption class="geo-foot">Designed for the answer engine: structure + intent. Classic indexing is the measured part (GSC); AI citation is the forward bet.</figcaption>
+</figure>
+<style>
+  .geo {
+    margin: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-7);
+  }
+  .geo-eyebrow,
+  .geo-cap {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-tertiary);
+  }
+  .geo-eyebrow { font-size: 11px; display: block; margin-bottom: var(--space-6); }
+  .geo-cap { font-size: 9px; display: block; margin-bottom: var(--space-3); }
+  .geo-flow {
+    display: grid;
+    grid-template-columns: 1.05fr auto 0.95fr auto 1fr;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .geo-zone { min-width: 0; }
+  .geo-zone--card,
+  .geo-out {
+    background: var(--bg-secondary);
+    border: 1px solid var(--rule-soft);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4);
+  }
+  /* URL tree */
+  .geo-tree {
+    list-style: none;
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--ink-secondary);
+  }
+  .geo-tree .i1 { padding-left: var(--space-3); }
+  .geo-tree .i2 { padding-left: var(--space-5); }
+  .geo-tree .i3 { padding-left: var(--space-7); }
+  .geo-tree .leaf { color: var(--ink-primary); }
+  .geo-tree em {
+    font-style: normal;
+    color: var(--ink-tertiary);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-left: var(--space-2);
+  }
+  .geo-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: var(--radius-sm);
+    padding: var(--space-1) var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+  .geo-notes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--ink-tertiary);
+  }
+  .geo-notes strong { color: var(--ink-secondary); font-weight: 600; }
+  /* Citable block */
+  .geo-faq { position: relative; }
+  .geo-jsonld {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .geo-q {
+    font-family: var(--font-display);
+    font-size: 15px;
+    color: var(--ink-primary);
+    margin: 0 0 var(--space-2);
+    max-width: 18ch;
+  }
+  .geo-a {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+  /* Outputs */
+  .geo-zone--out { display: grid; gap: var(--space-3); }
+  .geo-serp-title { font-size: 12px; color: var(--accent); margin: 0 0 var(--space-1); line-height: 1.35; }
+  .geo-serp-url { font-family: var(--font-mono); font-size: 9px; color: var(--ink-tertiary); margin: 0 0 var(--space-1); }
+  .geo-serp-snip { font-size: 11px; color: var(--ink-secondary); margin: 0; line-height: 1.45; }
+  .geo-ai-line { font-size: 12px; color: var(--ink-primary); margin: 0 0 var(--space-2); line-height: 1.45; }
+  .geo-cite {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-tertiary);
+  }
+  .geo-cite svg { width: 12px; height: 12px; }
+  .geo-arrow { width: 40px; height: 24px; justify-self: center; }
+  .geo-foot {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--ink-tertiary);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule-soft);
+  }
+  /* Stack on narrow screens; point the arrows down. */
+  @media (max-width: 880px) {
+    .geo-flow { grid-template-columns: 1fr; }
+    .geo-arrow { transform: rotate(90deg); }
+  }
+</style>

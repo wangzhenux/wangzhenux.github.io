@@ -1,0 +1,95 @@
+---
+/**
+ * Ownership chips for a case where the surface layer sits on someone else's
+ * platform. Three honest buckets — what I owned, what was shared, and what the
+ * platform/engineering layer owned (which I built ON, never claim). Colours are
+ * all tokens so the whole thing restyles from `tokens.css`.
+ */
+interface Props {
+  /** Surfaces I owned end-to-end. */
+  mine: string[];
+  /** Shared / co-owned work. */
+  shared?: string[];
+  /** Platform layer I built on but do NOT claim. */
+  platform?: string[];
+  /** Label for the platform bucket (e.g. "Engineering"). */
+  platformLabel?: string;
+}
+const { mine, shared = [], platform = [], platformLabel = 'Engineering' } =
+  Astro.props;
+const groups = [
+  { key: 'mine', label: 'Mine', items: mine },
+  { key: 'shared', label: 'Shared', items: shared },
+  { key: 'platform', label: platformLabel, items: platform },
+].filter((g) => g.items.length > 0);
+---
+<div class="rolechips">
+  {groups.map((g) => (
+    <div class={`rc-group rc-group--${g.key}`}>
+      <span class="rc-bucket">{g.label}</span>
+      <ul class="rc-list">
+        {g.items.map((it) => (
+          <li class="rc-chip">{it}</li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>
+<style>
+  .rolechips {
+    display: grid;
+    gap: var(--space-5);
+    margin: var(--space-7) 0;
+    padding: var(--space-6);
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+  }
+  .rc-group {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+  .rc-bucket {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-tertiary);
+    padding-top: var(--space-2);
+  }
+  .rc-group--mine .rc-bucket { color: var(--accent); }
+  .rc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .rc-chip {
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--ink-secondary);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    background: var(--bg-primary);
+  }
+  /* Mine = the emphasised bucket (accent-tinted, accent ink). */
+  .rc-group--mine .rc-chip {
+    color: var(--accent);
+    border-color: var(--accent-soft);
+    background: var(--accent-soft);
+  }
+  /* Platform = muted; I built on it, I don't claim it. */
+  .rc-group--platform .rc-chip {
+    color: var(--ink-tertiary);
+    background: transparent;
+    border-style: dashed;
+  }
+  @media (max-width: 600px) {
+    .rc-group { grid-template-columns: 1fr; gap: var(--space-2); }
+  }
+</style>

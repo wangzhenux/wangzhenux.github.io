@@ -1,0 +1,92 @@
+---
+/**
+ * A clearly-marked stand-in for a real product screenshot the user will drop in
+ * later. Renders a labelled frame at a given aspect ratio so the page reads as
+ * finished now. To swap: replace this element with a <ShowcaseImage src=… /> in
+ * the same slot (inside its <ImageShowcase>). Token-driven so it restyles from
+ * tokens.css.
+ */
+interface Props {
+  /** What screenshot belongs here (shown on the frame as guidance). */
+  label: string;
+  /** Aspect ratio, e.g. "16 / 9", "4 / 3", "9 / 16" for a phone. */
+  aspect?: string;
+  /** Visual hint: a desktop browser frame or a phone frame. */
+  kind?: 'browser' | 'phone';
+}
+const { label, aspect = '16 / 9', kind = 'browser' } = Astro.props;
+---
+<div class={`shot shot--${kind}`} style={`--shot-aspect: ${aspect}`} role="img" aria-label={`Placeholder — ${label}`}>
+  <div class="shot-chrome">
+    <span class="shot-dot"></span><span class="shot-dot"></span><span class="shot-dot"></span>
+  </div>
+  <div class="shot-body">
+    <svg class="shot-glyph" viewBox="0 0 48 48" aria-hidden="true" fill="none">
+      <rect x="6" y="10" width="36" height="28" rx="3" stroke="var(--ink-tertiary)" stroke-width="2"/>
+      <circle cx="16" cy="20" r="3" stroke="var(--ink-tertiary)" stroke-width="2"/>
+      <path d="M9 35 L20 25 L27 31 L34 25 L39 30" stroke="var(--ink-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p class="shot-label">{label}</p>
+    <p class="shot-tag">SWAP — drop the real screenshot here</p>
+  </div>
+</div>
+<style>
+  .shot {
+    width: 100%;
+    aspect-ratio: var(--shot-aspect);
+    background: var(--bg-primary);
+    border: 1px dashed var(--rule);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .shot--phone {
+    max-width: 320px;
+    margin-inline: auto;
+    border-radius: var(--radius);
+  }
+  .shot-chrome {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--rule-soft);
+    flex: none;
+  }
+  .shot-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-sm);
+    background: var(--rule);
+  }
+  .shot--phone .shot-chrome { justify-content: center; }
+  .shot-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: var(--space-2);
+    padding: var(--space-6);
+  }
+  .shot-glyph { width: 40px; height: 40px; opacity: 0.7; }
+  .shot-label {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--ink-secondary);
+    margin: 0;
+    max-width: 38ch;
+  }
+  .shot-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,216 @@
+---
+/**
+ * EXAMPLE VISUAL (Section 7) — the AI evaluation suite, built from tokens. Nine
+ * intent families, the honest 34 / 9 / 4 Pass / Fail / Blocked split (no
+ * green-wash), and the Fair-Housing compliance path: refuse → cite law →
+ * redirect to a lawful search. Numbers come straight from the spec's test
+ * workbook; nothing here is invented.
+ */
+const families = [
+  'Direct search',
+  'Location-only',
+  'Need-location',
+  'Non-search',
+  'With-context',
+  'Compare',
+  'Relocate',
+  'Fallback',
+  'Compliance',
+];
+const split = [
+  { key: 'pass', label: 'Pass', n: 34 },
+  { key: 'fail', label: 'Fail', n: 9 },
+  { key: 'blocked', label: 'Blocked', n: 4 },
+];
+---
+<figure class="tm">
+  <figcaption class="tm-eyebrow">Conversational search — bilingual regression suite</figcaption>
+  <p class="tm-summary">
+    <strong>47 cases</strong> · 9 intent families · English + Chinese · each run
+    in a fresh session and judged on the routed <code>route_code</code> and
+    node-level logs, not just the visible reply.
+  </p>
+
+  <!-- honest split -->
+  <div class="tm-bar" role="img" aria-label="34 pass, 9 fail, 4 blocked of 47 cases">
+    {split.map((s) => (
+      <span class={`tm-seg tm-seg--${s.key}`} style={`flex: ${s.n}`}></span>
+    ))}
+  </div>
+  <ul class="tm-legend">
+    {split.map((s) => (
+      <li class="tm-leg-item">
+        <span class={`tm-swatch tm-swatch--${s.key}`}></span>
+        <span class="tm-leg-n">{s.n}</span>
+        <span class="tm-leg-l">{s.label}</span>
+      </li>
+    ))}
+  </ul>
+
+  <!-- 9 intent families -->
+  <span class="tm-cap">9 intent families</span>
+  <ul class="tm-fams">
+    {families.map((f) => (
+      <li class={`tm-fam${f === 'Compliance' ? ' tm-fam--flag' : ''}`}>{f}</li>
+    ))}
+  </ul>
+
+  <!-- compliance path -->
+  <div class="tm-comp">
+    <span class="tm-cap tm-cap--accent">Fair-Housing compliance — designed and tested</span>
+    <ol class="tm-steps">
+      <li class="tm-step tm-step--risk">Protected-class filter request</li>
+      <li class="tm-chev" aria-hidden="true">→</li>
+      <li class="tm-step">Refuse — never extract it</li>
+      <li class="tm-chev" aria-hidden="true">→</li>
+      <li class="tm-step">Cite fair-housing law</li>
+      <li class="tm-chev" aria-hidden="true">→</li>
+      <li class="tm-step tm-step--ok">Redirect to a lawful search</li>
+    </ol>
+    <p class="tm-note">
+      The suite caught a real <strong>Blocker</strong>: one path extracted a
+      protected-class attribute as a filter and affirmed it; another path handled
+      it as the gold standard. Compliance must be tested, not assumed.
+    </p>
+  </div>
+
+  <figcaption class="tm-foot">34 Pass / 9 Fail / 4 Blocked — a real signal, mapped back to 7 prior bugs as a regression guard.</figcaption>
+</figure>
+<style>
+  .tm {
+    margin: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-7);
+  }
+  .tm-eyebrow,
+  .tm-cap {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-tertiary);
+  }
+  .tm-eyebrow { font-size: 11px; display: block; margin-bottom: var(--space-4); }
+  .tm-cap { font-size: 10px; display: block; margin-bottom: var(--space-3); }
+  .tm-cap--accent { color: var(--accent); }
+  .tm-summary {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-secondary);
+    margin: 0 0 var(--space-6);
+    max-width: 60ch;
+  }
+  .tm-summary code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-primary);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    padding: 0 var(--space-1);
+  }
+  /* split bar */
+  .tm-bar {
+    display: flex;
+    height: 14px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    gap: 2px;
+    margin-bottom: var(--space-3);
+  }
+  .tm-seg { display: block; }
+  .tm-seg--pass { background: var(--ink-primary); }
+  .tm-seg--fail { background: var(--accent); }
+  .tm-seg--blocked { background: var(--ink-quaternary); }
+  .tm-legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    margin: 0 0 var(--space-7);
+    padding: 0;
+  }
+  .tm-leg-item { display: flex; align-items: baseline; gap: var(--space-2); }
+  .tm-swatch {
+    width: 9px;
+    height: 9px;
+    border-radius: var(--radius-sm);
+    transform: translateY(1px);
+  }
+  .tm-swatch--pass { background: var(--ink-primary); }
+  .tm-swatch--fail { background: var(--accent); }
+  .tm-swatch--blocked { background: var(--ink-quaternary); }
+  .tm-leg-n { font-family: var(--font-display); font-size: 18px; color: var(--ink-primary); }
+  .tm-leg-l { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-tertiary); }
+  /* families */
+  .tm-fams {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+    gap: var(--space-2);
+    margin: 0 0 var(--space-7);
+    padding: 0;
+  }
+  .tm-fam {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--ink-secondary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--rule-soft);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+  }
+  .tm-fam--flag {
+    color: var(--accent);
+    border-color: var(--accent-soft);
+    background: var(--accent-soft);
+    font-weight: 600;
+  }
+  /* compliance path */
+  .tm-comp {
+    background: var(--bg-secondary);
+    border: 1px solid var(--rule-soft);
+    border-left: 2px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: var(--space-5);
+  }
+  .tm-steps {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-4);
+    padding: 0;
+  }
+  .tm-step {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-secondary);
+    background: var(--bg-primary);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+  }
+  .tm-step--risk { color: var(--accent); border-color: var(--accent-soft); }
+  .tm-step--ok { color: var(--ink-primary); border-color: var(--ink-tertiary); }
+  .tm-chev { font-family: var(--font-mono); color: var(--ink-tertiary); }
+  .tm-note {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+    margin: 0;
+    max-width: 64ch;
+  }
+  .tm-note strong { color: var(--accent); font-weight: 600; }
+  .tm-foot {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--ink-tertiary);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule-soft);
+  }
+</style>

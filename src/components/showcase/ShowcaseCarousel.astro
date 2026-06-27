@@ -1,0 +1,610 @@
+---
+import ScreenshotPlaceholder from './ScreenshotPlaceholder.astro';
+
+/**
+ * A reusable "peek" carousel for any case study (steps, design decisions, key
+ * features…). Each slide is a card whose LEFT edge aligns with the case's content
+ * column; the next card peeks on the right (overflow shows it) and cards sliding
+ * off-left are clipped — the Apple-style feature carousel. Each card lays its
+ * screenshot left / rationale right (stacking on narrow screens).
+ *
+ * The band is full-bleed on the same dotted grid as <ImageShowcase> for visual
+ * consistency. A JS-measured `--scar-cl` aligns the first card exactly to the
+ * content column (scrollbar-proof), and the card width + translate are pure CSS
+ * calc off it, so it stays correct on resize.
+ *
+ * Behaviour: auto-advances by default but hands the reader the controls — a
+ * play / pause that sticks (and becomes REPLAY at the end; it never auto-loops),
+ * prev / next, and clickable dots whose active one fills as a progress bar.
+ * Pauses on hover and when off-screen, freezing the progress in place (no reset).
+ * `prefers-reduced-motion` starts paused with instant transitions; ←/→ keys work.
+ *
+ * Token-only CSS; the script is component-scoped (Astro bundles it). Drop in a
+ * real screenshot per slide via `image`/`imageAlt`; until then `label` renders a
+ * labelled placeholder.
+ *
+ *   <ShowcaseCarousel slides={[{ eyebrow: "01", title: "…", body: "…", label: "…" }]} />
+ */
+interface Slide {
+  /** Small label above the title (e.g. "01", or a category). */
+  eyebrow?: string;
+  title: string;
+  body: string;
+  /** Caption for the placeholder until a real screenshot is supplied. */
+  label?: string;
+  /** Real screenshot src (public path). When set, replaces the placeholder. */
+  image?: string;
+  imageAlt?: string;
+  width?: number;
+  height?: number;
+  /** Muted demo clip (public path). Takes priority over `image`. Auto-plays from
+   *  the start when its slide is active and the band is in view; never loops. */
+  video?: string;
+  /** Poster frame shown before play and under prefers-reduced-motion. */
+  poster?: string;
+  /** Optional CSS background (e.g. a brand gradient) for THIS slide's media frame.
+   *  When set, the clip FITS (contain) and floats centered on the backdrop — for
+   *  clips whose aspect doesn't match the 16:10 slot. Otherwise the clip fills. */
+  bg?: string;
+}
+interface Props {
+  slides: Slide[];
+  /** Accessible name for the carousel region. */
+  label?: string;
+  autoplay?: boolean;
+  intervalMs?: number;
+}
+const {
+  slides,
+  label = 'Gallery',
+  autoplay = true,
+  intervalMs = 5000,
+} = Astro.props;
+const count = slides.length;
+---
+<section
+  class="scar"
+  data-autoplay={autoplay ? 'true' : 'false'}
+  data-interval={intervalMs}
+  data-playing="false"
+  aria-roledescription="carousel"
+  aria-label={label}
+  style={`--scar-dur: ${intervalMs}ms`}
+>
+  <div class="scar-vp">
+    <ul class="scar-track">
+      {slides.map((s, i) => (
+        <li
+          class="scar-slide"
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`${i + 1} of ${count}${s.title ? ` — ${s.title}` : ''}`}
+        >
+          <div
+            class="scar-media"
+            data-showcase={s.bg ? 'true' : undefined}
+            style={s.bg ? `--scar-media-bg: ${s.bg}` : undefined}
+          >
+            {s.video ? (
+              <video
+                class="scar-video"
+                src={s.video}
+                poster={s.poster}
+                muted
+                playsinline
+                preload="metadata"
+                aria-label={s.imageAlt ?? s.label ?? s.title}
+              ></video>
+            ) : s.image ? (
+              <img
+                class="scar-img"
+                src={s.image}
+                alt={s.imageAlt ?? s.label ?? s.title}
+                width={s.width}
+                height={s.height}
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <ScreenshotPlaceholder label={s.label ?? s.title} aspect="16 / 10" kind="browser" />
+            )}
+          </div>
+          <div class="scar-cap">
+            {s.eyebrow && <span class="scar-eyebrow">{s.eyebrow}</span>}
+            <h4 class="scar-title">{s.title}</h4>
+            <p class="scar-body">{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="scar-foot">
+    <button class="scar-btn scar-prev" type="button" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <ol class="scar-dots">
+      {slides.map((s, i) => (
+        <li>
+          <button
+            class="scar-dot"
+            type="button"
+            data-i={i}
+            aria-label={`Go to slide ${i + 1}`}
+            aria-current={i === 0 ? 'true' : 'false'}
+          ></button>
+        </li>
+      ))}
+    </ol>
+    <button class="scar-btn scar-next" type="button" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="scar-btn scar-play" type="button" aria-label="Play automatically" aria-pressed="false">
+      <svg class="scar-ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+      <svg class="scar-ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg>
+      <svg class="scar-ic-replay" viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M4 12a8 8 0 1 0 2.5-5.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 4v4h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <p class="scar-status" aria-live="polite"></p>
+</section>
+
+<style>
+  .scar {
+    position: relative;
+    width: 100vw;
+    /* --scar-cl is the content column's LEFT offset from the viewport. The band's
+       pull and the first card's inset are BOTH derived from it, so the card always
+       aligns to the column and the band reaches the exact viewport edges. The JS
+       sets it precisely (scrollbar-proof); this max() is a close first-paint
+       fallback. */
+    --scar-cl: max(var(--pad-page-x), calc(50vw - var(--max-content) / 2 + var(--pad-page-x)));
+    margin-left: calc(-1 * var(--scar-cl));
+    margin-right: calc(-1 * var(--scar-cl));
+    padding-block: var(--space-10);
+    --scar-gap: var(--space-7);
+    /* Each card is the content's MAX WIDTH (not the viewport). The next card then
+       peeks into the freed right margin — where the TOC sat, which fades while the
+       band is in view — and cards sliding off-left are clipped at the content edge. */
+    --scar-card: min(
+      calc(var(--max-content) - 2 * var(--pad-page-x)),
+      calc(100vw - 2 * var(--pad-page-x))
+    );
+  }
+  .scar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--bg-secondary);
+    background-image: radial-gradient(circle, var(--rule) 1px, transparent 1.5px);
+    background-size: 28px 28px;
+    z-index: 0;
+  }
+
+  /* The viewport starts at the content column and clips horizontally there, so a
+     card sliding off-left disappears at the content edge (empty gutter to its
+     left) while the next card peeks to the right. `clip` (not hidden) leaves the
+     vertical axis visible so the cards' shadows aren't cut. */
+  .scar-vp {
+    position: relative;
+    z-index: 1;
+    /* Full-bleed viewport: clips at BOTH viewport edges, so the previous card
+       peeks into the left gutter and the next card peeks on the right. */
+    overflow-x: clip;
+  }
+  .scar-track {
+    list-style: none;
+    margin: 0;
+    /* Inset only the FIRST card to the content column; as cards advance, the
+       previous one is left peeking in the left gutter (mirroring the right). */
+    padding: 0 0 0 var(--scar-cl);
+    display: flex;
+    gap: var(--scar-gap);
+    /* translate is set in px by the script (the per-slide step is measured from
+       layout, so it stays correct on resize); we only animate it here. */
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .scar-slide {
+    flex: 0 0 var(--scar-card);
+    box-sizing: border-box;
+    background: var(--bg-primary);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: clamp(var(--space-5), 2.2vw, var(--space-8));
+    display: grid;
+    /* Media takes the lion's share so the demo reads clearly; the caption holds
+       the short rationale beside it. */
+    grid-template-columns: 1.9fr 1fr;
+    gap: clamp(var(--space-5), 2vw, var(--space-7));
+    align-items: center;
+  }
+  @media (max-width: 860px) {
+    .scar-slide { grid-template-columns: 1fr; gap: var(--space-5); }
+  }
+
+  .scar-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+  }
+  .scar-video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+  }
+  /* Showcase mode: the media is a gradient frame (set per-carousel via
+     --scar-media-bg) and the clip FITS inside it (contain), floating centered —
+     so it's never cropped and the brand backdrop shows around it. */
+  .scar-media[data-showcase="true"] {
+    aspect-ratio: 16 / 10;
+    background: var(--scar-media-bg, var(--bg-secondary));
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    display: grid;
+    place-items: center;
+    padding: clamp(var(--space-6), 4vw, var(--space-10));
+    overflow: hidden;
+  }
+  .scar-media[data-showcase="true"] .scar-video,
+  .scar-media[data-showcase="true"] .scar-img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    aspect-ratio: auto;
+    object-fit: contain;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: transparent;
+  }
+  .scar-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+  }
+  .scar-title {
+    font-family: var(--font-display);
+    font-size: 23px;
+    line-height: 1.18;
+    letter-spacing: -0.012em;
+    color: var(--ink-primary);
+    margin: var(--space-3) 0 var(--space-4);
+    font-weight: 500;
+  }
+  .scar-body {
+    font-size: 16px;
+    line-height: 1.66;
+    color: var(--ink-secondary);
+    margin: 0;
+    max-width: 46ch;
+  }
+
+  /* Controls — aligned to the content column (under the card's left edge). */
+  .scar-foot {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+  .scar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    color: var(--ink-primary);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .scar-btn:hover {
+    background: var(--bg-secondary);
+    border-color: var(--ink-tertiary);
+  }
+  .scar-btn svg { width: 16px; height: 16px; }
+  .scar-play { margin-left: var(--space-4); }
+  .scar-ic-pause, .scar-ic-replay { display: none; }
+  .scar[data-playing="true"] .scar-ic-play { display: none; }
+  .scar[data-playing="true"] .scar-ic-pause { display: block; }
+  /* Reached the end — offer a replay instead of looping back automatically. */
+  .scar[data-ended="true"] .scar-ic-play,
+  .scar[data-ended="true"] .scar-ic-pause { display: none; }
+  .scar[data-ended="true"] .scar-ic-replay { display: block; }
+
+  .scar-dots {
+    list-style: none;
+    margin: 0 var(--space-2);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .scar-dots li { display: flex; }
+  .scar-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: var(--rule);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: width 0.3s ease, background 0.3s ease;
+  }
+  .scar-dot[aria-current="true"] {
+    width: 30px;
+    background: var(--accent-soft);
+  }
+  .scar-dot[aria-current="true"]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 0;
+    background: var(--accent);
+    border-radius: 999px;
+  }
+  .scar[data-playing="true"] .scar-dot[aria-current="true"]::after {
+    animation: scar-fill var(--scar-dur, 5000ms) linear forwards;
+  }
+  /* Hover / off-screen freezes the progress in place (it does not reset). */
+  .scar[data-frozen="true"] .scar-dot[aria-current="true"]::after {
+    animation-play-state: paused;
+  }
+  @keyframes scar-fill {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  .scar-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scar-track { transition: none; }
+    .scar[data-playing="true"] .scar-dot[aria-current="true"]::after { animation: none; }
+  }
+</style>
+
+<script>
+  function initCarousel(root: HTMLElement) {
+    const track = root.querySelector<HTMLElement>('.scar-track');
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('.scar-slide'));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('.scar-dot'));
+    const prev = root.querySelector<HTMLButtonElement>('.scar-prev');
+    const next = root.querySelector<HTMLButtonElement>('.scar-next');
+    const playBtn = root.querySelector<HTMLButtonElement>('.scar-play');
+    const status = root.querySelector<HTMLElement>('.scar-status');
+    if (!track || slides.length === 0) return;
+
+    const count = slides.length;
+    const interval = Number(root.dataset.interval) || 5000;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const autoplayEnabled = root.dataset.autoplay === 'true' && !reduce;
+
+    let i = 0;
+    let userPlaying = autoplayEnabled; // the user's intent (toggled by play/pause)
+    let frozen = false; // transient — hover / off-screen
+    let ended = false; // reached the last slide — offer replay, don't loop
+    let remaining = interval; // ms left in the current slide's cycle
+    let cycleStart = 0;
+    let timer: number | undefined;
+    let inView = true; // band on-screen — drives clip playback + freeze
+    // Per-slide demo clips. Muted up front so browsers permit autoplay.
+    const videos = slides.map((s) => s.querySelector<HTMLVideoElement>('video'));
+    videos.forEach((v) => { if (v) v.muted = true; });
+
+    // Align the first card exactly to the content column: measure the offset from
+    // the full-bleed band's left edge to the content column's left, scrollbar-proof.
+    function measureCL() {
+      const parent = root.parentElement;
+      if (!parent) return;
+      const pl = parseFloat(getComputedStyle(parent).paddingLeft) || 0;
+      // The content column's left edge. Both the band's pull (margin) and the first
+      // card's inset read this same value, so the card aligns to the column exactly
+      // and the band reaches the true viewport edges — independent of scrollbar.
+      const contentLeft = parent.getBoundingClientRect().left + pl;
+      root.style.setProperty('--scar-cl', `${contentLeft}px`);
+    }
+    function relayout() {
+      measureCL();
+      applyTransform();
+    }
+    // Translate by the measured per-slide step (card width + gap). offsetLeft
+    // ignores transforms and reflects the current layout, so this is correct at
+    // first paint and after any resize without caching stale values.
+    function applyTransform() {
+      const step = slides.length > 1
+        ? slides[1].offsetLeft - slides[0].offsetLeft
+        : slides[0].offsetWidth;
+      track!.style.transform = `translateX(${-i * step}px)`;
+    }
+
+    function clearTimer() {
+      if (timer) { clearTimeout(timer); timer = undefined; }
+    }
+    function armTimer(ms: number) {
+      clearTimer();
+      cycleStart = Date.now();
+      timer = window.setTimeout(tick, ms);
+    }
+    /** Re-trigger the active dot's fill animation from 0 (same-dot restarts). */
+    function restartFill() {
+      const active = root.querySelector<HTMLElement>('.scar-dot[aria-current="true"]');
+      if (!active) return;
+      root.setAttribute('data-playing', 'false');
+      void active.offsetWidth;
+      root.setAttribute('data-playing', userPlaying ? 'true' : 'false');
+    }
+    // Play the active slide's clip from the start while the band is on screen; pause
+    // every other clip. Muted + reduced-motion aware; never loops (no `loop` attr).
+    function syncVideos() {
+      videos.forEach((v, x) => {
+        if (!v) return;
+        if (x === i && inView && !reduce) {
+          v.muted = true;
+          if (v.paused) {
+            try { v.currentTime = 0; } catch { /* not seekable yet */ }
+            const p = v.play();
+            if (p && typeof p.catch === 'function') p.catch(() => {});
+          }
+        } else if (!v.paused) {
+          v.pause();
+        }
+      });
+    }
+    function setActive() {
+      applyTransform();
+      dots.forEach((d, x) => d.setAttribute('aria-current', x === i ? 'true' : 'false'));
+      if (status) status.textContent = `Slide ${i + 1} of ${count}`;
+      syncVideos();
+    }
+    function updateBtn() {
+      if (ended) {
+        playBtn?.setAttribute('aria-pressed', 'false');
+        playBtn?.setAttribute('aria-label', 'Replay from the first slide');
+      } else {
+        playBtn?.setAttribute('aria-pressed', userPlaying ? 'true' : 'false');
+        playBtn?.setAttribute('aria-label', userPlaying ? 'Pause automatic advance' : 'Play automatically');
+      }
+    }
+    function clearEnded() {
+      if (!ended) return;
+      ended = false;
+      root.removeAttribute('data-ended');
+    }
+
+    // Auto-advance fired. On the last slide, stop and offer replay — never loop.
+    function tick() {
+      if (i >= count - 1) { endAutoplay(); return; }
+      i += 1;
+      setActive();
+      remaining = interval;
+      restartFill();
+      if (userPlaying && !frozen) armTimer(interval);
+    }
+    function endAutoplay() {
+      ended = true;
+      userPlaying = false;
+      clearTimer();
+      root.removeAttribute('data-frozen');
+      root.setAttribute('data-playing', 'false');
+      root.setAttribute('data-ended', 'true');
+      updateBtn();
+    }
+    function replay() {
+      clearEnded();
+      i = 0;
+      setActive();
+      play();
+    }
+    // Manual nav (arrows / dots): jump, reset this slide's cycle to full.
+    function go(n: number) {
+      clearEnded();
+      i = (n + count) % count;
+      setActive();
+      remaining = interval;
+      restartFill();
+      if (userPlaying && !frozen) armTimer(interval);
+      updateBtn();
+    }
+    function play() {
+      if (!autoplayEnabled) return;
+      clearEnded();
+      userPlaying = true;
+      frozen = false;
+      remaining = interval;
+      root.removeAttribute('data-frozen');
+      root.setAttribute('data-playing', 'true');
+      restartFill();
+      armTimer(interval);
+      updateBtn();
+    }
+    function pauseByUser() {
+      userPlaying = false;
+      clearTimer();
+      root.removeAttribute('data-frozen');
+      root.setAttribute('data-playing', 'false');
+      updateBtn();
+    }
+    // Freeze in place (hover / off-screen) — banks the remaining time and pauses
+    // the progress fill where it is, so it never resets.
+    function freeze() {
+      if (!userPlaying || frozen) return;
+      frozen = true;
+      remaining = Math.max(0, remaining - (Date.now() - cycleStart));
+      clearTimer();
+      root.setAttribute('data-frozen', 'true');
+    }
+    function unfreeze() {
+      if (!userPlaying || !frozen) return;
+      frozen = false;
+      root.removeAttribute('data-frozen');
+      armTimer(remaining);
+    }
+
+    prev?.addEventListener('click', () => go(i - 1));
+    next?.addEventListener('click', () => go(i + 1));
+    dots.forEach((d) => d.addEventListener('click', () => go(Number(d.dataset.i))));
+    playBtn?.addEventListener('click', () => {
+      if (ended) replay();
+      else if (userPlaying) pauseByUser();
+      else play();
+    });
+    root.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); go(i + 1); }
+    });
+    root.addEventListener('mouseenter', freeze);
+    root.addEventListener('mouseleave', unfreeze);
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => entries.forEach((en) => {
+          inView = en.isIntersecting;
+          if (en.isIntersecting) unfreeze(); else freeze();
+          syncVideos();
+        }),
+        { threshold: 0.3 },
+      );
+      io.observe(root);
+    }
+    let rAF = 0;
+    const scheduleRelayout = () => {
+      cancelAnimationFrame(rAF);
+      rAF = requestAnimationFrame(relayout);
+    };
+    window.addEventListener('resize', scheduleRelayout);
+    // The content column's width can change without a window resize event (e.g. the
+    // TOC column collapsing at a breakpoint, or a programmatic viewport change), so
+    // observe the parent directly — it's the source of truth for --scar-cl.
+    if ('ResizeObserver' in window && root.parentElement) {
+      new ResizeObserver(scheduleRelayout).observe(root.parentElement);
+    }
+
+    relayout();
+    setActive();
+    updateBtn();
+    if (autoplayEnabled) play();
+  }
+
+  document.querySelectorAll<HTMLElement>('.scar').forEach(initCarousel);
+</script>

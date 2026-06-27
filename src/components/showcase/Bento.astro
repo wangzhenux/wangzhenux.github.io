@@ -1,0 +1,225 @@
+---
+/**
+ * A reusable Apple-style bento grid for a set of short, scannable points. One
+ * `hero` card spans 2×2, `wide` cards span two columns, the rest are 1×1, packed
+ * with `grid-auto-flow: dense`. Each card leads with a VISUAL — a real screenshot
+ * (`image`) or a labelled placeholder you swap later (`visual`) — then a punchy
+ * title + a one-line body.
+ *
+ * Breaks out to the full content width (like <ImageShowcase>); the optional
+ * heading + deck live inside the same full-width frame, so the whole section is
+ * one width. The sticky TOC fades while it's in view (its band class `.bento` is
+ * in the toc-scrollspy showcase observer). Token-only CSS.
+ *
+ *   <Bento heading="…" deck="…" items={[{ title, body, visual, size: 'hero' }, …]} />
+ */
+interface BentoItem {
+  title: string;
+  body?: string;
+  /** Hint for the placeholder until a real screenshot is supplied. */
+  visual?: string;
+  /** Real screenshot src (public path). When set, replaces the placeholder. */
+  image?: string;
+  imageAlt?: string;
+  /** Footprint. Default is a 1×1 cell. */
+  size?: 'hero' | 'wide';
+}
+interface Props {
+  items: BentoItem[];
+  heading?: string;
+  deck?: string;
+  label?: string;
+}
+const { items, heading, deck, label = 'Highlights' } = Astro.props;
+const glyph =
+  '<svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="6" y="10" width="36" height="28" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="20" r="3" stroke="currentColor" stroke-width="2"/><path d="M9 35 L20 25 L27 31 L34 25 L39 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+---
+<section class="bento" aria-label={label}>
+  <div class="bento-inner">
+    {heading && <h2 class="bento-h">{heading}</h2>}
+    {deck && <p class="bento-deck">{deck}</p>}
+    <ul class="bento-grid">
+      {items.map((it) => (
+        <li class:list={['bento-card', it.size && `bento-card--${it.size}`]}>
+          <div class="bento-visual">
+            {it.image ? (
+              <img
+                class="bento-img"
+                src={it.image}
+                alt={it.imageAlt ?? it.visual ?? it.title}
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div class="bento-ph" role="img" aria-label={`Placeholder — ${it.visual ?? it.title}`}>
+                <span class="bento-ph-glyph" set:html={glyph} />
+                {it.visual && <span class="bento-ph-label">{it.visual}</span>}
+              </div>
+            )}
+          </div>
+          <div class="bento-text">
+            <h3 class="bento-title">{it.title}</h3>
+            {it.body && <p class="bento-body">{it.body}</p>}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  /* Full-bleed breakout (same math as <ImageShowcase>); the inner frame caps at
+     the content width and left-aligns with the reading column. */
+  .bento {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-1 * var(--pad-page-x));
+    margin-right: calc(-1 * var(--pad-page-x));
+    margin-block: var(--space-12) var(--space-9);
+  }
+  @media (min-width: 1080px) {
+    .bento {
+      margin-left: calc(var(--max-content) / 2 - var(--pad-page-x) - 50vw);
+      margin-right: calc(var(--max-content) / 2 - var(--pad-page-x) - 50vw);
+    }
+  }
+  .bento-inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--pad-page-x);
+  }
+
+  /* Heading + deck (match SectionH / SectionDeck) — now full content width. */
+  .bento-h {
+    font-family: var(--font-display);
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.018em;
+    color: var(--ink-primary);
+    font-weight: 500;
+    margin: 0 0 var(--space-6);
+  }
+  .bento-h::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: var(--space-5);
+  }
+  .bento-deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-tertiary);
+    margin: calc(-1 * var(--space-4)) 0 var(--space-7);
+    max-width: 50ch;
+  }
+
+  .bento-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 14rem;
+    grid-auto-flow: row dense;
+    gap: var(--space-4);
+  }
+  .bento-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    overflow: hidden;
+    background: var(--bg-secondary);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+  .bento-card--wide { grid-column: span 2; }
+  .bento-card--hero {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: var(--accent-soft);
+    border-color: var(--accent-soft);
+    padding: var(--space-5);
+  }
+
+  /* The visual fills the space above the text; the placeholder/screenshot covers it. */
+  .bento-visual {
+    flex: 1;
+    min-height: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .bento-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .bento-ph {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: var(--space-2);
+    text-align: center;
+    padding: var(--space-3);
+    background: var(--bg-primary);
+    border: 1px dashed var(--rule);
+    border-radius: var(--radius);
+  }
+  .bento-card--hero .bento-ph { background: var(--bg-primary); }
+  .bento-ph-glyph {
+    display: block;
+    width: 30px;
+    height: 30px;
+    color: var(--ink-tertiary);
+    opacity: 0.7;
+  }
+  .bento-ph-glyph :global(svg) { width: 100%; height: 100%; }
+  .bento-ph-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    color: var(--ink-tertiary);
+    max-width: 24ch;
+  }
+  .bento-card--hero .bento-ph-glyph { width: 38px; height: 38px; }
+  .bento-card--hero .bento-ph-label { font-size: 11px; }
+
+  .bento-text { flex: none; }
+  .bento-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+    color: var(--ink-primary);
+    margin: 0 0 var(--space-1);
+    font-weight: 500;
+  }
+  .bento-card--hero .bento-title { font-size: 23px; margin-bottom: var(--space-2); }
+  .bento-body {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+  .bento-card--hero .bento-body { font-size: 15px; line-height: 1.55; }
+
+  /* Tablet: 2 columns; cards size to content (visual keeps a 16:10 ratio). */
+  @media (max-width: 900px) {
+    .bento-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: auto; }
+    .bento-card--hero { grid-column: span 2; grid-row: span 1; }
+    .bento-card--wide { grid-column: span 2; }
+    .bento-visual { flex: none; aspect-ratio: 16 / 10; }
+  }
+  @media (max-width: 560px) {
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-card--hero,
+    .bento-card--wide { grid-column: span 1; }
+  }
+</style>
