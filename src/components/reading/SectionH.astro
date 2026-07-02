@@ -31,6 +31,8 @@ const { small = false, wide = false } = Astro.props;
   .section-h--small {
     font-size: 22px;
     margin: var(--space-9) 0 var(--space-4);
+    /* Small section headers span the full content column (not the 22ch measure). */
+    max-width: none;
   }
   /* Let a heading fill the full reading column instead of the default 22ch
      measure — used by scrollytelling cases whose Act headlines are statements. */

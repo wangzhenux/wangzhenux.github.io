@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 130" width="440" height="130" role="img" aria-label="An out-of-scope request receiving a polite, compliant decline and a redirect to a safe next step">
+  <rect width="440" height="130" fill="#FAF5E8"/>
+  <rect x="10" y="10" width="420" height="110" rx="14" fill="#FFFFFF" stroke="#1A1410" stroke-opacity="0.1"/>
+
+  <!-- incoming out-of-scope ask (chat bubble with a tail) -->
+  <rect x="26" y="28" width="138" height="50" rx="13" fill="#1A1410" fill-opacity="0.05" stroke="#1A1410" stroke-opacity="0.08"/>
+  <path d="M40 78 v11 l13 -11 z" fill="#1A1410" fill-opacity="0.05"/>
+  <rect x="42" y="42" width="112" height="7" rx="3.5" fill="#1A1410" fill-opacity="0.18"/>
+  <rect x="42" y="56" width="78" height="7" rx="3.5" fill="#1A1410" fill-opacity="0.1"/>
+
+  <!-- polite decline bubble (terracotta tint) with a gentle "no" (circle-minus) -->
+  <rect x="186" y="28" width="134" height="50" rx="13" fill="#B93A23" fill-opacity="0.08" stroke="#B93A23" stroke-opacity="0.3"/>
+  <circle cx="210" cy="53" r="12" fill="none" stroke="#B93A23" stroke-opacity="0.75" stroke-width="2.2"/>
+  <path d="M203.5 53 h13" stroke="#B93A23" stroke-opacity="0.75" stroke-width="2.2" stroke-linecap="round"/>
+  <rect x="232" y="46" width="72" height="7" rx="3.5" fill="#B93A23" fill-opacity="0.4"/>
+  <rect x="232" y="60" width="50" height="6" rx="3" fill="#1A1410" fill-opacity="0.14"/>
+
+  <!-- redirect to a compliant next step: bold arrow -> white chip with a check (the yes-path) -->
+  <path d="M330 53 h24 m-8 -7 l8 7 -8 7" stroke="#B93A23" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="364" y="31" width="58" height="44" rx="11" fill="#FFFFFF" stroke="#B93A23" stroke-opacity="0.55"/>
+  <path d="M378 53 l7 7 l13 -15" stroke="#B93A23" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

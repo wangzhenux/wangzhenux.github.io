@@ -16,11 +16,13 @@ test('Toc renders one focusable button per section with data-target', async () =
   expect(html).toContain('data-target="s01"');
 });
 
-test('BodyWrap centers body + slots a toc region', async () => {
+test('BodyWrap wraps the body in the content frame (no sidebar TOC)', async () => {
   const c = await AstroContainer.create();
   const html = await c.renderToString(BodyWrap, {
-    slots: { default: '<p>body</p>', toc: '<aside>toc</aside>' },
+    slots: { default: '<p>body</p>' },
   });
   expect(html).toContain('<p>body</p>');
-  expect(html).toContain('toc');
+  expect(html).toContain('class="body-wrap"');
+  // The sidebar TOC region was removed — the top progress bar is the section nav now.
+  expect(html).not.toContain('body-toc');
 });

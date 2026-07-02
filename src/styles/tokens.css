@@ -43,6 +43,10 @@
   --radius: 6px;
   --radius-lg: 12px;
 
+  /* Vertical-scrollbar width, measured by an inline script in BaseLayout. Used by
+     full-bleed bands so they span the content area exactly (no scrollbar overflow). */
+  --sbw: 0px;
+
   /* === Shadows === */
   --shadow-card: 0 12px 30px -10px rgba(20, 14, 8, 0.16);
   --shadow-hover: 0 16px 36px -12px rgba(20, 14, 8, 0.18);

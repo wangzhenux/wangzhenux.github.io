@@ -17,25 +17,17 @@
 <style>
   .image-showcase {
     position: relative;
-    width: 100vw;
+    width: calc(100vw - var(--sbw));
     padding-block: var(--space-9);
-    /* Below 1080px the content frame is full-width, so the body column's left
-       edge sits at the page gutter. Anchor the band to the viewport-left by
-       pulling back exactly one gutter. */
-    margin-left: calc(-1 * var(--pad-page-x));
-    margin-right: calc(-1 * var(--pad-page-x));
+    /* Span the content area exactly (viewport minus the scrollbar), centered, so the
+       band never overflows past the content edges. --sbw is measured in BaseLayout. */
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
   }
   /* At >=1080px the frame is centred (max-content). The body column's LEFT edge
      is fixed at the frame content-left (50vw - max-content/2 + gutter) no matter
      how wide the sticky TOC is, so we can anchor the full-bleed band to the true
      viewport edge with the frame tokens. The TOC fades out while a showcase is in
      view (§8.3), so spanning the full width doesn't collide with it. */
-  @media (min-width: 1080px) {
-    .image-showcase {
-      margin-left: calc(var(--max-content) / 2 - var(--pad-page-x) - 50vw);
-      margin-right: calc(var(--max-content) / 2 - var(--pad-page-x) - 50vw);
-    }
-  }
   .image-showcase::before {
     content: '';
     position: absolute;
@@ -65,7 +57,7 @@
     height: auto;
     max-height: none;
     object-fit: contain;
-    border-radius: var(--radius);
+    border-radius: var(--radius-lg);
     cursor: zoom-in;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }

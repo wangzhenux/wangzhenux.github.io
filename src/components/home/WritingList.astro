@@ -1,6 +1,7 @@
 ---
 import { writings } from '../../lib/writings';
 import Container from '../layout/Container.astro';
+import Icon from '../chrome/Icon.astro';
 
 interface Props {
   limit?: number;
@@ -14,7 +15,7 @@ const posts = writings.slice(0, limit);
   <Container>
     <div class="writing-header">
       <h2 class="writing-title" id="writing-heading">{title}</h2>
-      <a class="writing-more" href={profileUrl} target="_blank" rel="noopener">on Medium →</a>
+      <a class="writing-more" href={profileUrl} target="_blank" rel="noopener">on Medium <Icon name="arrow-up-right" size={12} /></a>
     </div>
 
     <ul class="writing-list">
@@ -50,6 +51,9 @@ const posts = writings.slice(0, limit);
     font-weight: 500;
   }
   .writing-more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
     font-family: var(--font-mono);
     font-size: 11px;
     color: var(--ink-tertiary);

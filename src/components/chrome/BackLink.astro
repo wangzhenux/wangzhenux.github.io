@@ -1,11 +1,17 @@
 ---
+import Icon from './Icon.astro';
 interface Props { href?: string; }
 const { href = '/' } = Astro.props;
 ---
-<a class="back" href={href}>← All work</a>
+<a class="back" href={href} aria-label="Back to all work">
+  <Icon name="arrow-left" size={13} />
+  <span>All work</span>
+</a>
 <style>
   .back {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
     max-width: var(--max-content);
     margin: 0 auto;
     padding: var(--space-6) var(--pad-page-x) 0;

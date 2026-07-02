@@ -4,34 +4,34 @@ deck: "Rebuilding UnitPulse's renter site around a conversational search grounde
 slug: unitpulse-site
 company: UnitPulse
 year: 2026
+type: "Web app"
 role: "Product Design Lead"
 cover:
   gradient: "linear-gradient(135deg, #EFE7D2 0%, #F1E9D5 100%)"
   image: "/cases/unitpulse-site/cover.svg"
   width: 1600
   height: 1000
+heroImage: "/cases/unitpulse-site/welcome-hero.jpg"
+heroAlt: "The renter site's conversational welcome — \"Hi, welcome to UnitPulse\" with three ways to start (know my city, match my lifestyle, just exploring) and an ask-anything box, beside a live map of Los Angeles with priced listing markers"
+heroWidth: 2560
+heroHeight: 1605
 order: 2
 featured: true
 meta:
-  - { label: "Role", value: "Product Design Lead — renter UX, conversational search, GEO surfaces, AI evaluation, visual system" }
-  - { label: "Built on", value: "SSR + data layer owned by engineering — I built the surface layer on top" }
-  - { label: "Stack", value: "Next.js 16 (SSR) · React 19 · TypeScript · Tailwind · Dify" }
-  - { label: "Velocity", value: "~19 merged PRs in ~6 weeks · Claude Code multi-worktree workflow" }
-  - { label: "Status", value: "Live in production at unitpulse.ai" }
+  - { label: "Team", value: "Product Design Lead", sub: "Solo design · engineering on the backend" }
+  - { label: "Span", value: "~6 weeks" }
+  - { label: "Type", value: "Web app" }
+  - { label: "Outcome", value: "Live in production · 245 pages indexed, 96 leads" }
 sections:
-  - { id: s01, num: "01", label: "The problem" }
-  - { id: s02, num: "02", label: "My role" }
-  - { id: s03, num: "03", label: "Scope & refresh" }
-  - { id: s04, num: "04", label: "One search, two modes" }
-  - { id: s05, num: "05", label: "Conversation principles" }
-  - { id: s06, num: "06", label: "Path to leasing" }
-  - { id: s07, num: "07", label: "GEO architecture" }
-  - { id: s08, num: "08", label: "Testing the AI" }
-  - { id: s09, num: "09", label: "Outcome" }
-  - { id: s10, num: "10", label: "Reflection" }
+  - { id: ctx, num: "00", label: "Context" }
+  - { id: p1, num: "01", label: "The problem" }
+  - { id: p2, num: "02", label: "Talking to renters" }
+  - { id: p3, num: "03", label: "One search, two modes" }
+  - { id: p4, num: "04", label: "Designed to be found" }
+  - { id: p5, num: "05", label: "Built & tested" }
+  - { id: p6, num: "06", label: "Results" }
 ---
 
-import Lede from '../../components/reading/Lede.astro';
 import BodyText from '../../components/reading/BodyText.astro';
 import SectionH from '../../components/reading/SectionH.astro';
 import SectionDeck from '../../components/reading/SectionDeck.astro';
@@ -41,6 +41,11 @@ import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
 import ScreenshotPlaceholder from '../../components/showcase/ScreenshotPlaceholder.astro';
 import ShowcaseCarousel from '../../components/showcase/ShowcaseCarousel.astro';
 import Bento from '../../components/showcase/Bento.astro';
+import CardGrid from '../../components/showcase/CardGrid.astro';
+import PersonaGrid from '../../components/showcase/PersonaGrid.astro';
+import CompetitorGrid from '../../components/showcase/CompetitorGrid.astro';
+import PartHeader from '../../components/showcase/PartHeader.astro';
+import JourneyStrip from '../../components/showcase/JourneyStrip.astro';
 import RoleChips from '../../components/showcase/RoleChips.astro';
 import SiteGeoArch from '../../components/showcase/SiteGeoArch.astro';
 import SiteTestMatrix from '../../components/showcase/SiteTestMatrix.astro';
@@ -54,8 +59,8 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 {/*
   ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
   Claim labels used in copy: [REAL] = verifiable (GSC / GA4 / git / the test
-  workbook / docs), stated confidently; [TARGET] = a documented goal, phrased as
-  a goal; ‹C› = confirm before publish. Remove this entire block before publishing.
+  workbook / docs); [TARGET] = a documented goal; ‹C› = confirm before publish.
+  Remove this entire block before publishing.
 
   HARD RULES honored in this copy:
   - Ownership. Mine: renter front-end/UX, the conversational chat UX + integration
@@ -64,69 +69,95 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     + Astra/Dify data layer were owned by engineering — I built ON it and never
     claim it. The Gemini→Dify migration is framed as SHARED.
   - NAME REMOVED per Zhen's instruction: the backend engineer is referred to
-    neutrally ("engineering" / "a backend engineer"), never by name.
-  - Naming rule: the prior visual-system codename is NOT used anywhere; the visual
-    work is referred to neutrally as "the refreshed visual system."
+    neutrally ("engineering"), never by name.
+  - Naming rule: the prior visual-system codename is NOT used anywhere.
   - Metrics are EARLY TRACTION for a ~6-week-old rebuild; 0 applications reported
     honestly; no invented numbers; GSC/GA4 window stated (2026-05-05 → 06-23).
   - GEO = designed-for-AI-citation (architecture + intent), NOT a proven citation
     count. Classic indexing (GSC) is the measured part.
 
   CONFIRM before publish:
-  ‹C-ownership› Keep the engineering/data-layer boundary precise; don't claim the
-    backend (SSR scaffolding + Astra/Dify data layer).
-  ‹C-metrics-window› GSC/GA4 figures are for 2026-05-05 → 06-23; window stated in s09.
-  ‹C-geo-intent› GEO = designed-for-AI-citation (intent), not a proven citation count.
-  ‹C-apps› Applications = 0 in window; reported honestly in s09.
-  ‹C-latency› Confirm the real in-progress/loading treatment before claiming it (s05 #4).
-  ‹C-testcounts› Suite = 47 cases, 9 families, 34 Pass / 9 Fail / 4 Blocked, EN+ZH,
-    mapped to 7 prior bugs — reconfirm if the workbook changes (s08).
+  ‹C-personas› Part 02 personas are research-derived ARCHETYPES. Avatars are
+    AI-GENERATED synthetic faces (Gemini "Nano Banana Pro" via scripts/gen-personas.mjs)
+    — fictional persona stand-ins, NOT real people. Confirm they match your real
+    research; add real names if you want them named.
+  ‹C-competitive› Part 02 rates Zillow / Apartments.com / Redfin on 3 axes (AI chat /
+    unified control / AI-citable). The 0–3 ratings are MY read of each product + a web
+    check (Jun 2026, per the launch reporting) — verify before publish. Screenshots live
+    in public/cases/unitpulse-site/competitors/{zillow,apartments,redfin}.png (third-party
+    captures for comparative use). UnitPulse's own position is stated in the key-finding.
+  ‹C-ownership› Keep the engineering/data-layer boundary precise (Context + meta).
+  ‹C-metrics-window› GSC/GA4 figures are 2026-05-05 → 06-23; stated in Part 06.
+  ‹C-geo-intent› GEO = designed-for citation, not a measured count (Part 04).
+  ‹C-apps› Applications = 0 in window; reported honestly (Part 06).
+  ‹C-latency› Confirm the real in-progress/loading treatment (Part 03 principles).
+  ‹C-testcounts› Suite = 47 cases, 9 families, 34/9/4, EN+ZH, mapped to 7 prior
+    bugs — reconfirm if the workbook changes (Part 05).
+  ‹C-features› Context bento lists shipped features; confirm "Tour shortlist" and
+    "Personalized search" are live (vs. in-design) before publish — all five now
+    carry real product mockups exported from Figma.
 
   VISUALS:
-  - <ScreenshotPlaceholder> marks every slot awaiting a REAL screenshot Zhen will
-    provide — swap each for a <ShowcaseImage src=… /> in the same slot.
-  - <SiteGeoArch> (s07) and <SiteTestMatrix> (s08) are EXAMPLE VISUALS built from
-    tokens; the outcome <ResearchStats> band (s09) carries the real numbers.
+  - The hero is the conversational welcome (welcome-hero.jpg); property-detail is a
+    real screenshot. listing-map.jpg (results split-view) remains available for reuse.
+  - Part 04 principles use bespoke SVG illustrations (principles/*.svg) — conceptual
+    mini-vignettes in the warm palette, not screenshots.
+  - <ShowcaseCarousel> carries five real demo clips; <ScreenshotPlaceholder> marks
+    slots still awaiting a real screenshot (the two lead-capture modals).
+  - <SiteGeoArch> / <SiteTestMatrix> are EXAMPLE diagrams built from tokens; the
+    <ResearchStats> band (Part 06) carries the real numbers.
+  - Context <Bento> uses REAL product mockups for all five features (exported from
+    the UnitPulse Listing Figma, bento-*.png), including Tour shortlist + Personalized.
+  - <CardGrid> visuals are icon-led; swap to screenshots later if desired.
+  - <PersonaGrid> avatars are AI-generated synthetic headshots (personas/*.jpg);
+    <CompetitorGrid> screenshots are placeholders awaiting real captures (the Redfin
+    one — Redfin AI Search — goes at competitors/redfin.png once supplied).
   ═══════════════════════════════════════════════════════════════════════
 */}
 
-<section id="s01" data-reveal>
-  <Lede>
-    A renter's search no longer starts only in Google. It starts in a chat — with
-    ChatGPT, Perplexity, Gemini — and increasingly the question is answered before
-    anyone clicks a link. So I rebuilt UnitPulse's renter site to be found in both
-    places at once: searchable by natural conversation, and structured so an answer
-    engine can cite it.
-  </Lede>
+<section id="ctx" data-reveal>
+  <PartHeader kicker="Context" title="What we shipped" noRule />
+  <Bento
+    label="The renter site's primary features"
+    items={[
+      {
+        size: "hero",
+        image: "/cases/unitpulse-site/bento-conversational.png",
+        imageAlt: "The conversational welcome — \"Elite long-term rentals, found by conversation\" with a chat box, structured filter chips, and example prompts",
+        title: "Conversational home search",
+        body: "An integrated LLM assistant that turns a vague need — \"walkable to USC, dog-friendly, under $2,500\" — into real listings on the map. Grounded on live inventory, so it never invents a home.",
+      },
+      {
+        image: "/cases/unitpulse-site/bento-intake.png",
+        imageAlt: "The in-conversation guided intake card — \"How many bedrooms?\" with checkbox options",
+        title: "Guided intake",
+        body: "Inline stepped cards capture must-haves.",
+      },
+      {
+        image: "/cases/unitpulse-site/bento-map.png",
+        imageAlt: "A live map with price pins beside a listing card",
+        title: "Map split-view",
+        body: "A live map with price pins beside the result grid.",
+      },
+      {
+        image: "/cases/unitpulse-site/bento-tour.png",
+        imageAlt: "A planned tour day with multiple stops — two showings scheduled at 9:00 and 10:30",
+        title: "Tour shortlist",
+        body: "Shortlist homes and plan several tours in one pass.",
+      },
+      {
+        image: "/cases/unitpulse-site/bento-personalized.png",
+        imageAlt: "Suggested follow-up questions tailored to the renter's past searches",
+        title: "Personalized search",
+        body: "Adapts to past searches and stated context.",
+      },
+    ]}
+  />
+  <SectionH small>What I owned</SectionH>
   <BodyText>
-    **The starting point.** The prior site was a client-only SPA — app-like and
-    fluid, but effectively invisible to search engines and uncitable by AI answer
-    engines, because there was no server-rendered, structured content for either to
-    read.
+    Engineering owned the server-rendered scaffold and data layer; I built the renter
+    surface **on top of** it — and never claim it.
   </BodyText>
-  <BodyText>
-    **The 2026 shift.** Renters increasingly begin in AI answer engines, not only
-    Google. A site that can't be cited there is invisible to a growing slice of
-    demand — no matter how good the app feels once you're inside it.
-  </BodyText>
-  <BodyText>
-    **The tension to design around.** Keep the experience rich and app-like *and*
-    make it fully indexable and citable — without letting the ephemeral chat
-    pollute the search index. That tension shaped almost every decision that follows.
-  </BodyText>
-</section>
-
-<section id="s02" data-reveal>
-  <SectionH wide>My role — and the honest boundary</SectionH>
-  <BodyText>
-    I led product design on the renter surface layer: the UX, the
-    conversational-search experience, the SEO/GEO content architecture, lead
-    capture and compliance, the refreshed visual system, and the AI test suite. I
-    built all of that **on top of** a server-rendered scaffold and data layer owned
-    by engineering — which I don't take credit for. The migration of the chat
-    backend from Gemini to Dify was a shared effort.
-  </BodyText>
-
   <RoleChips
     mine={[
       "Renter front-end & UX",
@@ -142,67 +173,196 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
   />
 </section>
 
-<section id="s03" data-reveal>
-  <SectionH wide>Shipping fast meant deciding what *not* to build</SectionH>
+<section id="p1" data-reveal>
+  <PartHeader num="01" title="The problem" />
   <BodyText>
-    To ship an AI-native rebuild in weeks, I treated the redesign as a
-    prioritization decision, not a coat of paint. I scoped to the **minimum viable
-    renter journey** and nothing speculative: location search, a listing grid with
-    a map split-view, a property detail page (floor plans, amenities, availability),
-    inquire, and schedule-a-tour.
+    A renter's search no longer starts in Google — it starts in a chat, often
+    answered before anyone clicks. The old site couldn't be found in either place: a
+    client-only SPA, invisible to search engines and answer engines alike. The fix
+    was a harder design problem than a redesign.
   </BodyText>
-  <BodyText>
-    **The refreshed visual system.** Alongside the scope cut, I refreshed the
-    visual system for a cleaner, warmer, more trustworthy feel — a named
-    brand-token palette (no hex literals), a serif display paired with a grotesque
-    body, a bento home layout, and a neighborhood-discovery surface — so the AI
-    features read as premium and credible rather than experimental.
-  </BodyText>
-  <BodyText>
-    **Accessibility, baked in.** Documented touch targets (44pt on mobile,
-    36–40px on desktop) and aria-labels on icon buttons, set as defaults rather
-    than retrofits.
-  </BodyText>
-  <BodyText>
-    **Why it matters.** The discipline wasn't the features I added — it was knowing
-    what to leave out so the AI bet could actually ship.
-  </BodyText>
-
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-site/listing-map.jpg"
-      alt="The renter site's search results: a map split-view of Los Angeles on the left with priced listing markers, and a grid of '102 homes within map area' on the right"
-      width={1724}
-      height={1084}
-    />
-  </ImageShowcase>
-
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-site/property-detail.jpg"
-      alt="A property detail page: a photo gallery, the home's name and address, studio-to-4-bed floor plans, pricing, and a schedule-a-tour panel"
-      width={1728}
-      height={1084}
-    />
-  </ImageShowcase>
+  <CardGrid
+    label="The problem in three"
+    items={[
+      {
+        icon: "eyeoff",
+        title: "Invisible to search & AI",
+        body: "A client-only SPA — nothing server-rendered for Google or an answer engine to read.",
+      },
+      {
+        icon: "spark",
+        title: "Renters start in a chat",
+        body: "Search now begins in answer engines, not only Google — and a site that can't be cited there is invisible to a growing slice of demand.",
+      },
+      {
+        icon: "balance",
+        title: "The tension to design around",
+        body: "Keep the experience rich and app-like, yet fully indexable and citable — without the ephemeral chat polluting the index.",
+      },
+    ]}
+  />
 </section>
 
-<section id="s04" data-reveal>
-  <SectionH wide>The core challenge: one search, two modes</SectionH>
+<section id="p2" data-reveal>
+  <PartHeader num="02" title="Talking to renters" />
   <BodyText>
-    The hardest design problem wasn't the chat — it was reconciling two search
-    models that pull in opposite directions. **Pure conversational search** is
-    flexible and welcoming and handles fuzzy intent, but it's slow for precise
-    changes, can be ambiguous, and hides the at-a-glance control renters expect.
-    **Pure faceted search** is fast, precise, and familiar, but rigid — it can't
-    handle "somewhere walkable under $3k that takes my dog." The problem was to
-    build *one* coherent interface that does both, not two modes bolted together.
+    Before designing the search, I talked to renters about how they actually look
+    for a home. Three profiles surfaced — and they want different things.
+  </BodyText>
+  <PersonaGrid
+    label="Three kinds of renters"
+    personas={[
+      {
+        avatar: "a",
+        image: "/cases/unitpulse-site/personas/decisive.jpg",
+        name: "The decisive renter",
+        who: "Relocating on a timeline; knows the essentials.",
+        traits: ["Set budget", "Target neighborhood", "Move-in date"],
+        needs: "Filters and a map — fast, precise, no conversation.",
+      },
+      {
+        avatar: "b",
+        image: "/cases/unitpulse-site/personas/explorer.jpg",
+        name: "The open explorer",
+        who: "First place in a new city; knows the vibe, not the specifics.",
+        traits: ["Fuzzy criteria", "Lifestyle-led", "Open on area"],
+        needs: "Conversation that turns \"walkable and lively\" into real listings.",
+      },
+      {
+        avatar: "c",
+        image: "/cases/unitpulse-site/personas/shortlister.jpg",
+        name: "The shortlister",
+        who: "Down to a few homes, comparing the details.",
+        traits: ["Specific questions", "Comparing", "Close to deciding"],
+        needs: "Answers about one place — commute, schools, walkability.",
+      },
+    ]}
+  />
+
+  <SectionH small>How rental search works today</SectionH>
+  <BodyText>
+    By the time I shipped, conversational search had become table stakes — Zillow,
+    Apartments.com, and Redfin all launched it in 2025–26. So I evaluated each on the
+    three axes this rebuild competes on.
+  </BodyText>
+  {/* ‹C-competitive› Ratings are my read of each product (incl. the screenshots) + a web check (Jun 2026); verify before publish. Drop real captures into competitors/{zillow,apartments,redfin}.png. */}
+  <CompetitorGrid
+    label="Competitive landscape — AI chat, unified control, AI-citability"
+    dimensions={["AI chat", "Unified control", "AI-citable"]}
+    competitors={[
+      {
+        name: "Zillow",
+        tag: "NL search + AI mode",
+        image: "/cases/unitpulse-site/competitors/zillow-crop.jpg",
+        imageAlt: "Zillow search with bedroom / bathroom filters and AI natural-language search",
+        levels: [3, 2, 1],
+        summary: "Natural-language search, an \"AI mode\" beta, and a ChatGPT integration — the deepest AI stack. But filters and chat stay separate modes, and pages aren't built for organic citation.",
+      },
+      {
+        name: "Apartments.com",
+        tag: "Voice + chat",
+        image: "/cases/unitpulse-site/competitors/apartments-crop.jpg",
+        imageAlt: "Apartments.com Ai conversational and voice search refining results",
+        levels: [3, 2, 1],
+        summary: "Voice + chat \"Smart Search\" (sitewide Jan 2026) drives big engagement lifts — but it's a guided refine layered on the portal, not unified with the filters.",
+      },
+      {
+        name: "Redfin",
+        tag: "AI search · beta",
+        image: "/cases/unitpulse-site/competitors/redfin-crop.jpg",
+        imageAlt: "Redfin AI Search — a step-by-step conversational Q&A",
+        levels: [3, 1, 1],
+        summary: "Sierra-built AI Search replaces filters with pure chat — a linear Q&A. Fluid, but you lose the at-a-glance control precise renters rely on.",
+      },
+    ]}
+  />
+  <BodyText>
+    The key finding: AI chat is everywhere now, but it's mostly bolted on as a
+    chat-only Q&A — renters lose the fast, structured control they rely on. No one
+    fuses conversation and filters on one shared state, and no one structures their
+    pages to be cited by answer engines. That's the opening this rebuild is built for.
+  </BodyText>
+  <Pullquote>
+    Two kinds of renters, one missing interface: nobody lets you start vague, get
+    precise, and keep asking — all on the same canvas.
+  </Pullquote>
+</section>
+
+<section id="p3" data-reveal>
+  <PartHeader num="03" title="One search, two modes" />
+  <BodyText>
+    So I designed the two models as one. Conversational handles intent; faceted
+    handles precision; both write to a single shared state, so they can never drift
+    apart or contradict each other.
   </BodyText>
 
-  <SectionH small>Five decisions, one interface</SectionH>
+  <SectionH small>The renter journey I designed for</SectionH>
+  <JourneyStrip
+    label="The minimum viable renter journey"
+    steps={[
+      { label: "Search", desc: "A place or a need — typed or spoken" },
+      { label: "Browse", desc: "Map split-view + a live listing grid" },
+      { label: "Detail", desc: "Floor plans, amenities, neighborhood Q&A" },
+      { label: "Act", desc: "Inquire or schedule a tour" },
+    ]}
+  />
 
-  {/* SWAP: each slide's `image`/`imageAlt` takes a real screenshot; until then the
-      `label` renders a labelled placeholder. Decisions 1–2 are the chat screens. */}
+  <SectionH small>The principles I designed the conversation against</SectionH>
+  {/* ‹C-latency› confirm the real in-progress/loading treatment before claiming the latency principle. */}
+  <Bento
+    bleed
+    label="Seven principles behind the conversational search"
+    items={[
+      {
+        size: "hero",
+        image: "/cases/unitpulse-site/principles/keep-user-in-control.svg",
+        imageAlt: "An editable search summary — AI-proposed criteria shown as removable chips, one being edited, with the results updating below",
+        title: "Keep the user in control",
+        body: "Every AI guess is visible and editable, and intake steps skip. The assistant proposes; the renter disposes.",
+      },
+      {
+        image: "/cases/unitpulse-site/principles/set-honest-expectations.svg",
+        imageAlt: "A result summary stating how many homes were found, with a listing and a clear next-step prompt",
+        title: "Set honest expectations",
+        body: "It says what it found, and what it can do next.",
+      },
+      {
+        image: "/cases/unitpulse-site/principles/make-latency-feel-handled.svg",
+        imageAlt: "A chat echoing the renter's intent back, with a live in-progress indicator instead of a dead UI",
+        title: "Make latency feel handled",
+        body: "An instant echo of intent — never a dead UI.",
+      },
+      {
+        size: "wide",
+        image: "/cases/unitpulse-site/principles/ground-in-real-data.svg",
+        imageAlt: "Real listings from live inventory beside an honest empty state shown when nothing matches",
+        title: "Ground every answer in real data",
+        body: "Real inventory only. No match? It says so — it never invents one.",
+      },
+      {
+        image: "/cases/unitpulse-site/principles/reduce-blank-page-burden.svg",
+        imageAlt: "A guided intake card on step one of three, offering selectable options instead of an empty text box",
+        title: "Reduce the blank-page burden",
+        body: "Guided intake and suggested follow-ups.",
+      },
+      {
+        image: "/cases/unitpulse-site/principles/bridge-to-action.svg",
+        imageAlt: "A listing with two calls to action — an inquire button and a primary schedule-a-tour button",
+        title: "Bridge to action",
+        body: "Every result links to inquire and tour — not a walled garden.",
+      },
+      {
+        size: "wide",
+        image: "/cases/unitpulse-site/principles/refuse-gracefully.svg",
+        imageAlt: "An out-of-scope request receiving a polite, compliant decline and a redirect to a safe next step",
+        title: "Refuse gracefully",
+        body: "Out-of-scope or non-compliant asks get a polite decline and a compliant next step — designed and tested.",
+      },
+    ]}
+  />
+
+  <SectionH small>Five decisions, one interface</SectionH>
+  {/* Each slide carries a real demo clip; until a screenshot is dropped in, the label renders a placeholder. */}
   <ShowcaseCarousel
     label="How I resolved it — five design decisions, each visible in the product"
     slides={[
@@ -250,83 +410,105 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
         poster: "/cases/unitpulse-site/shared-state-poster.jpg",
         bg: "linear-gradient(180deg, #1a4534 0%, rgba(26, 69, 52, 0.75) 100%)",
         imageAlt: "The unified search: a conversational welcome panel (I know my city / Match my lifestyle / Just exploring) with a chat input on the left, and a live map on the right — both driven by one shared state.",
-        body: "Typing, tapping a chip, or moving a filter all update one source of truth that drives both the result list and the live map (\"homes appear as we talk,\" price pins on the map) — so the two modes can never drift apart or contradict each other.",
+        body: "Typing, tapping a chip, or moving a filter all update one source of truth that drives both the result list and the live map (\"homes appear as we talk,\" price pins on the map) — so the two modes can never drift apart.",
       },
     ]}
   />
 
-  <Pullquote>
-    I didn't choose conversational <em>or</em> faceted search — I designed them as
-    one shared state, so renters get natural language for intent and structured
-    controls for precision.
-  </Pullquote>
 </section>
 
-<section id="s05" data-reveal>
-  {/* ‹C-latency› confirm the real in-progress/loading treatment before claiming the latency principle. */}
-  {/* SWAP: each card's `visual` is a placeholder hint — drop a real screenshot in via `image: "/cases/unitpulse-site/…"`. */}
-  <Bento
-    heading="The principles I designed the conversation against"
-    deck="Seven rules the assistant is built to honor — each with how I applied it."
-    label="Seven principles behind the conversational search"
+<section id="p4" data-reveal>
+  <PartHeader num="04" title="Designed to be found" />
+  <BodyText>
+    Designing for the answer engine — not just the search engine — is a bet most
+    rental sites haven't made.
+  </BodyText>
+  <CardGrid
+    label="The GEO architecture"
     items={[
       {
-        size: "hero",
-        visual: "Editable summary + removable chips",
-        title: "Keep the user in control",
-        body: "Every AI guess is visible and editable, and intake steps skip. The assistant proposes; the renter disposes.",
+        icon: "link",
+        title: "Canonical, server-rendered",
+        body: "A `/state/city/slug` hierarchy with FAQPage + BreadcrumbList JSON-LD — Google-indexable and structured for an LLM to quote.",
       },
       {
-        visual: "“13 matching homes” + next steps",
-        title: "Set honest expectations",
-        body: "It says what it found, and what it can do next.",
+        icon: "quote",
+        title: "Citable neighborhood Q&A",
+        body: "Each property page carries real questions — “Is it walkable to USC?” — exactly what a renter asks an engine, structured so it can lift them.",
       },
       {
-        visual: "In-progress state + intent echo",
-        title: "Make latency feel handled",
-        body: "An instant echo of intent — never a dead UI.",
-      },
-      {
-        size: "wide",
-        visual: "Real listings + an honest empty state",
-        title: "Ground every answer in real data",
-        body: "Real inventory only. No match? It says so — it never invents one.",
-      },
-      {
-        visual: "Guided intake card (1 / 3)",
-        title: "Reduce the blank-page burden",
-        body: "Guided intake and suggested follow-ups.",
-      },
-      {
-        visual: "Inquire + Schedule-a-tour CTAs",
-        title: "Bridge to action",
-        body: "Every result links to inquire and tour — not a walled garden.",
-      },
-      {
-        size: "wide",
-        visual: "Graceful decline + a lawful redirect",
-        title: "Refuse gracefully",
-        body: "Out-of-scope or non-compliant asks get a polite decline and a compliant next step — designed and tested.",
+        icon: "shield",
+        title: "The chat stays out of the index",
+        body: "Ephemeral chat lives in a noindex /search space; legacy /property/[id] URLs 301-redirect to their canonical homes.",
       },
     ]}
   />
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/unitpulse-site/property-detail.jpg"
+      alt="A property detail page: a photo gallery, the home's name and address, studio-to-4-bed floor plans, pricing, a schedule-a-tour panel, and a neighborhood Q&A wall"
+      width={1728}
+      height={1084}
+    />
+  </ImageShowcase>
+
+  {/* EXAMPLE VISUAL — token-built diagram of the canonical → cited architecture */}
+  <ImageShowcase>
+    <SiteGeoArch />
+  </ImageShowcase>
+
+  <BodyText>
+    To be precise: this is architecture and intent designed *for* citation, not a
+    measured count of AI citations. Classic indexing is the part I can measure today.
+  </BodyText>
 </section>
 
-<section id="s06" data-reveal>
-  <SectionH wide>The minimum journey still has to convert</SectionH>
-  <BodyText>
-    A lean journey is only worth shipping if it ends in a real lead. The path
-    closes with two low-friction actions: a **Send-a-Message** (inquire) modal and a
-    **Schedule-a-Tour** modal with date and time-slot selection, a name, and
-    email-or-phone ("either is fine").
-  </BodyText>
-  <BodyText>
-    **Compliance and honesty, by design.** Twilio A2P 10DLC SMS-consent and
-    disclosure, email/phone validation, honest success-state copy, and GA4
-    conversion events that fire **only after a real 2xx** — so the lead count
-    tracks real leads, not optimistic clicks.
-  </BodyText>
+<section id="p5" data-reveal>
+  <PartHeader num="05" title="Built & tested" />
+  <SectionH small>Shipped in ~6 weeks</SectionH>
+  <CardGrid
+    label="How it shipped fast"
+    items={[
+      {
+        icon: "route",
+        title: "Scoped to the minimum",
+        body: "The redesign was a prioritization decision, not a coat of paint — knowing what to leave out so the AI bet could ship.",
+      },
+      {
+        icon: "palette",
+        title: "A refreshed visual system",
+        body: "A named brand-token palette, a serif display + grotesque body, a bento home — so the AI features read as premium, not experimental.",
+      },
+      {
+        icon: "access",
+        title: "Accessibility, baked in",
+        body: "44pt touch targets on mobile, 36–40px on desktop, aria-labels on icon buttons — defaults, not retrofits.",
+      },
+    ]}
+  />
 
+  <SectionH small>The lean journey still has to convert</SectionH>
+  <CardGrid
+    label="Lead capture"
+    items={[
+      {
+        icon: "mail",
+        title: "Send a message",
+        body: "An inquire modal — name plus email-or-phone, either is fine.",
+      },
+      {
+        icon: "calendar",
+        title: "Schedule a tour",
+        body: "A date and time-slot grid, with SMS consent.",
+      },
+      {
+        icon: "lock",
+        title: "Compliant, and honest",
+        body: "Twilio A2P 10DLC consent + disclosure; GA4 fires only after a real 2xx — so the count tracks real leads, not optimistic clicks.",
+      },
+    ]}
+  />
   {/* SWAP: real screenshots — (left) Send-a-Message modal; (right) Schedule-a-Tour modal with the time-slot grid. */}
   <Dual>
     <ScreenshotPlaceholder
@@ -340,99 +522,36 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
       kind="phone"
     />
   </Dual>
-</section>
 
-<section id="s07" data-reveal>
-  <SectionH wide>GEO-first: designing for the answer engine, not just the search engine</SectionH>
-  <BodyText>
-    **The architecture.** A canonical URL hierarchy — `/{state}/{city}/{slug}` plus
-    state and city hubs — server-rendered, with `FAQPage` and `BreadcrumbList`
-    JSON-LD baked in, so the pages are Google-indexable *and* structured for an LLM
-    to quote.
-  </BodyText>
-  <BodyText>
-    **The bet, made tangible.** Each PDP carries a large bank of real neighborhood
-    Q&A — "Is it walkable to USC?", "Best neighborhoods in LA for grad students?" —
-    exactly the questions a renter asks an answer engine, structured so an engine
-    can lift them.
-  </BodyText>
-  <BodyText>
-    **The key decisions.** Canonical pages render standalone and indexable; the
-    ephemeral chat lives in a `noindex` `/search` space so it never pollutes the
-    index; and legacy `/property/[id]` URLs 301-redirect to their canonical homes.
-  </BodyText>
-  <BodyText>
-    **Why it matters.** Designing for the answer engine — not only the search
-    engine — is a forward bet most rental sites haven't made. To be clear about the
-    claim: this is architecture and intent designed *for* citation, not a measured
-    count of AI citations. Classic indexing is the part I can measure today.
-  </BodyText>
-
-  {/* SWAP: real screenshot — PDP showing the neighborhood FAQ / Q&A wall. */}
-  <ImageShowcase>
-    <ScreenshotPlaceholder
-      label="Property detail page — the neighborhood FAQ / Q&A wall"
-      aspect="16 / 10"
-      kind="browser"
-    />
-  </ImageShowcase>
-
-  {/* EXAMPLE VISUAL — replace with a final diagram if desired */}
-  <ImageShowcase>
-    <SiteGeoArch />
-  </ImageShowcase>
-</section>
-
-<section id="s08" data-reveal>
-  <SectionH wide>Testing the AI like a system — quality and Fair Housing</SectionH>
-  <BodyText>
-    **What I built.** A **47-case bilingual (English + Chinese) regression suite**
-    for the conversational search, organized into **9 intent families** — direct
-    search, location-only, need-location, non-search, with-context, compare,
-    relocate, fallback, and **compliance**. Each case runs in a fresh session, in
-    both languages, and is judged on the actual routed `route_code` and node-level
-    logs — not just the visible reply. I defined a severity taxonomy
-    (Blocker / High / Medium / Low) and mapped cases back to **7 known prior bugs**
-    as a regression guard.
-  </BodyText>
-  <BodyText>
-    **AI-assisted, human-adjudicated.** I used Claude to help draft the full case
-    matrix and drive the runs, so coverage was systematic rather than ad hoc — then
-    I adjudicated every result against the logs.
-  </BodyText>
-  <BodyText>
-    **What it caught — real, not vanity.** The run came back **34 Pass / 9 Fail /
-    4 Blocked** — a real signal, not a green-washed "all passed." Concrete defects
-    surfaced with root-cause nodes: neighborhood, intersection, and transit searches
-    failing at geocoding (`geo_cache_miss`); a named-property lookup misrouting to
-    area-knowledge instead of a property detail; an "apply to property" action that
-    never emitted; and a compare flow stuck in an `ask_priority` loop.
-  </BodyText>
-  <BodyText>
-    **The Fair-Housing dimension.** I deliberately included adversarial compliance
-    cases — requests to filter by a landlord's ethnicity, to exclude families with
-    children, or to steer toward a group's neighborhood — to test whether the
-    assistant would perform illegal discriminatory filtering under U.S. Fair Housing
-    rules. The suite caught real violations: one path extracted a protected-class
-    attribute as if it were a filterable amenity and affirmed the intent (flagged
-    **Blocker**), while another handled it as the gold standard — citing fair-housing
-    law and redirecting to a lawful search.
-  </BodyText>
-  <BodyText>
-    **The principle.** Compliance must be *designed and tested, not assumed* — the
-    router must refuse protected-class filters, never extract them, and redirect to
-    a neutral, lawful search. That's the difference between a demo and a product that
-    can ship in a regulated domain.
-  </BodyText>
-
+  <SectionH small>Tested like a system — quality and Fair Housing</SectionH>
+  <CardGrid
+    label="How I tested the conversational search"
+    items={[
+      {
+        icon: "grid",
+        title: "47 cases · 9 families · EN + ZH",
+        body: "Each runs in a fresh session, in both languages, judged on the routed `route_code` and node logs — not just the visible reply.",
+      },
+      {
+        icon: "bars",
+        title: "34 Pass / 9 Fail / 4 Blocked",
+        body: "A real signal, not a green-washed “all passed.” Mapped back to 7 known prior bugs as a regression guard.",
+      },
+      {
+        icon: "shield",
+        title: "Fair Housing, tested",
+        body: "Adversarial cases proved the router must refuse protected-class filters, never extract them, and redirect to a lawful search.",
+      },
+    ]}
+  />
   {/* EXAMPLE VISUAL — built from the test-workbook numbers above */}
   <ImageShowcase>
     <SiteTestMatrix />
   </ImageShowcase>
 </section>
 
-<section id="s09" data-reveal>
-  <SectionH wide>Early traction — honest, not inflated</SectionH>
+<section id="p6" data-reveal>
+  <PartHeader num="06" title="Early traction — honest, not inflated" />
   <SectionDeck>A ~6-week-old production rebuild, live and ramping. All figures measured in GSC / GA4 over the window 2026-05-05 → 06-23.</SectionDeck>
 
   <ResearchStats cols={2}>
@@ -459,12 +578,9 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     isn't the magnitudes — it's that the architecture is **live**, indexing is
     **climbing from zero**, the funnel is **converting real leads**, and the GEO bet
     is designed to compound. Applications aren't flowing yet (**0** in the window),
-    and I'd rather say that than dress it up. All of it is measured in GSC / GA4.
+    and I'd rather say that than dress it up.
   </BodyText>
-</section>
 
-<section id="s10" data-reveal>
-  <SectionH wide>What I'd carry into any AI product</SectionH>
   <Reflection>
     <ReflectionCard label="On the bet" heading="Design for the answer engine, not just the search engine">
       The forward move was to build content an AI can cite, and to prove an
@@ -477,11 +593,6 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
       first-class thing you verify — not assume.
     </ReflectionCard>
   </Reflection>
-  <BodyText>
-    **What I'd watch next.** AI-citation signals as they become observable, the
-    indexed→click ramp, tour→application conversion, and closing the bilingual gaps
-    the test suite exposed.
-  </BodyText>
 
   <RelatedCases
     slugs={["unitpulse-platform", "up-insight"]}

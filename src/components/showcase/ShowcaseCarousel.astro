@@ -152,7 +152,7 @@ const count = slides.length;
 <style>
   .scar {
     position: relative;
-    width: 100vw;
+    width: calc(100vw - var(--sbw));
     /* --scar-cl is the content column's LEFT offset from the viewport. The band's
        pull and the first card's inset are BOTH derived from it, so the card always
        aligns to the column and the band reaches the exact viewport edges. The JS
@@ -168,7 +168,7 @@ const count = slides.length;
        band is in view — and cards sliding off-left are clipped at the content edge. */
     --scar-card: min(
       calc(var(--max-content) - 2 * var(--pad-page-x)),
-      calc(100vw - 2 * var(--pad-page-x))
+      calc(100vw - var(--sbw) - 2 * var(--pad-page-x))
     );
   }
   .scar::before {
@@ -191,6 +191,10 @@ const count = slides.length;
     /* Full-bleed viewport: clips at BOTH viewport edges, so the previous card
        peeks into the left gutter and the next card peeks on the right. */
     overflow-x: clip;
+    /* Swipe/drag: horizontal gestures drive the carousel; vertical gestures still
+       scroll the page (pan-y). Grab cursor hints draggability on pointer devices. */
+    touch-action: pan-y;
+    cursor: grab;
   }
   .scar-track {
     list-style: none;
@@ -209,7 +213,7 @@ const count = slides.length;
     box-sizing: border-box;
     background: var(--bg-primary);
     border: 1px solid var(--rule);
-    border-radius: var(--radius);
+    border-radius: var(--radius-lg);
     padding: clamp(var(--space-5), 2.2vw, var(--space-8));
     display: grid;
     /* Media takes the lion's share so the demo reads clearly; the caption holds
@@ -576,6 +580,53 @@ const count = slides.length;
     });
     root.addEventListener('mouseenter', freeze);
     root.addEventListener('mouseleave', unfreeze);
+
+    // --- Swipe / pointer-drag: let people drag through the slides (touch + mouse) ---
+    const vp = root.querySelector<HTMLElement>('.scar-vp') ?? track;
+    let dragging = false, decided = false, activePtr = -1, ptrType = '';
+    let startX = 0, startY = 0, dragDX = 0, dragStep = 0;
+    function dragStart(e: PointerEvent) {
+      if (dragging || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      dragging = true; decided = false; activePtr = e.pointerId; ptrType = e.pointerType;
+      startX = e.clientX; startY = e.clientY; dragDX = 0;
+      dragStep = slides.length > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : slides[0].offsetWidth;
+      freeze(); // pause autoplay while a finger/pointer is down
+    }
+    function dragMove(e: PointerEvent) {
+      if (!dragging || e.pointerId !== activePtr) return;
+      const dx = e.clientX - startX, dy = e.clientY - startY;
+      if (!decided) {
+        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        // Commit only to a clearly horizontal gesture; let vertical pass to page scroll.
+        if (Math.abs(dx) <= Math.abs(dy)) { dragging = false; if (ptrType !== 'mouse') unfreeze(); return; }
+        decided = true;
+        track!.style.transition = 'none';
+        track!.style.userSelect = 'none';
+        vp.style.cursor = 'grabbing';
+        try { vp.setPointerCapture(activePtr); } catch { /* capture unsupported */ }
+      }
+      e.preventDefault();
+      dragDX = dx;
+      let shift = dx;
+      // Rubber-band resistance at the first/last slide.
+      if ((i === 0 && shift > 0) || (i === count - 1 && shift < 0)) shift *= 0.35;
+      track!.style.transform = `translateX(${-i * dragStep + shift}px)`;
+    }
+    function dragEnd(e: PointerEvent) {
+      if (!dragging || e.pointerId !== activePtr) return;
+      dragging = false; activePtr = -1;
+      track!.style.transition = ''; track!.style.userSelect = ''; vp.style.cursor = '';
+      const isMouse = ptrType === 'mouse'; // mouse keeps the hover-freeze; touch resumes
+      if (!decided) { if (!isMouse) unfreeze(); return; }
+      const threshold = Math.min(72, dragStep * 0.18);
+      if (dragDX <= -threshold && i < count - 1) { if (!isMouse) { frozen = false; root.removeAttribute('data-frozen'); } go(i + 1); }
+      else if (dragDX >= threshold && i > 0) { if (!isMouse) { frozen = false; root.removeAttribute('data-frozen'); } go(i - 1); }
+      else { applyTransform(); if (!isMouse) unfreeze(); } // didn't cross threshold — snap back
+    }
+    vp.addEventListener('pointerdown', dragStart);
+    vp.addEventListener('pointermove', dragMove);
+    vp.addEventListener('pointerup', dragEnd);
+    vp.addEventListener('pointercancel', dragEnd);
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(
         (entries) => entries.forEach((en) => {

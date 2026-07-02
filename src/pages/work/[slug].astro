@@ -6,7 +6,6 @@ import BackLink from '../../components/chrome/BackLink.astro';
 import Footer from '../../components/chrome/Footer.astro';
 import Hero from '../../components/hero/Hero.astro';
 import BodyWrap from '../../components/layout/BodyWrap.astro';
-import Toc from '../../components/layout/Toc.astro';
 import ProgressBar from '../../components/layout/ProgressBar.astro';
 import NextCase from '../../components/showcase/NextCase.astro';
 import CaseInteractions from '../../components/layout/CaseInteractions.astro';
@@ -29,17 +28,18 @@ const eyebrow = [data.company, String(data.year), data.role]
   .filter(Boolean)
   .join(' · ');
 
-// Meta-strip fields auto-fit to whatever the case actually provides (§11.1).
-// A case may supply an explicit `meta` array (custom labels) when its snapshot
-// doesn't map onto the default Role/Team/Span/Outcome four; otherwise the strip
-// is built from those fields.
+// Standard meta strip across all cases: Team (role highlighted, team as the sub),
+// Span, Type, Outcome — in that order (§11.1). A case may still supply an explicit
+// `meta` array to override. Absent fields are omitted, so the order stays consistent.
 const metaFields =
   data.meta && data.meta.length > 0
     ? data.meta
     : [
-        data.role ? { label: 'Role', value: data.role } : null,
-        data.team ? { label: 'Team', value: data.team } : null,
-        data.span ? { label: 'Span', value: data.span } : null,
+        data.role || data.team
+          ? { label: 'Team', value: data.role ?? data.team!, sub: data.role ? data.team : undefined }
+          : null,
+        data.span || data.year ? { label: 'Span', value: data.span ?? String(data.year) } : null,
+        data.type ? { label: 'Type', value: data.type } : null,
         data.outcome
           ? {
               label: 'Outcome',
@@ -48,14 +48,16 @@ const metaFields =
                 : data.outcome.metric,
             }
           : null,
-      ].filter((f): f is { label: string; value: string } => f !== null);
+      ].filter((f): f is { label: string; value: string; sub?: string } => f !== null);
 
+// The case-page hero prefers a real product screenshot (heroImage) when present,
+// falling back to the card cover. The homepage CaseCard still uses `cover`.
 const cover = {
   caseCover: data.cover.gradient,
-  image: data.cover.image,
-  width: data.cover.width,
-  height: data.cover.height,
-  alt: `${data.title} cover`,
+  image: data.heroImage ?? data.cover.image,
+  width: data.heroWidth ?? data.cover.width,
+  height: data.heroHeight ?? data.cover.height,
+  alt: data.heroAlt ?? `${data.title} cover`,
 };
 
 const next = await getNext(data.slug);
@@ -78,7 +80,6 @@ const mainStyle = data.cover.gradient
     />
     <BodyWrap>
       <Content />
-      <Toc sections={data.sections} slot="toc" />
     </BodyWrap>
     {next && (
       <div class="next-case-wrap">

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 320" width="430" height="320" role="img" aria-label="An AI-proposed search summary: assistant-suggested criteria shown as removable chips with one being edited, and the results updating below">
+  <rect width="430" height="320" fill="#FAF5E8"/>
+  <rect x="14" y="14" width="402" height="292" rx="16" fill="#FFFFFF" stroke="#1A1410" stroke-opacity="0.1"/>
+
+  <!-- header: AI-proposed summary (sparkle = assistant-suggested) -->
+  <path d="M46 37 l2.4 5.4 5.4 2.4 -5.4 2.4 -2.4 5.4 -2.4 -5.4 -5.4 -2.4 5.4 -2.4 z" fill="#B93A23"/>
+  <rect x="66" y="40" width="128" height="11" rx="5.5" fill="#1A1410" fill-opacity="0.22"/>
+  <rect x="66" y="58" width="92" height="8" rx="4" fill="#1A1410" fill-opacity="0.1"/>
+
+  <!-- chips row 1 (AI-proposed criteria, each removable via ×) -->
+  <g>
+    <rect x="38" y="86" width="120" height="30" rx="15" fill="#1A1410" fill-opacity="0.04" stroke="#1A1410" stroke-opacity="0.12"/>
+    <rect x="54" y="97" width="68" height="8" rx="4" fill="#1A1410" fill-opacity="0.2"/>
+    <path d="M134 97 l8 8 m0 -8 l-8 8" stroke="#1A1410" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="170" y="86" width="104" height="30" rx="15" fill="#1A1410" fill-opacity="0.04" stroke="#1A1410" stroke-opacity="0.12"/>
+    <rect x="186" y="97" width="54" height="8" rx="4" fill="#1A1410" fill-opacity="0.2"/>
+    <path d="M250 97 l8 8 m0 -8 l-8 8" stroke="#1A1410" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="286" y="86" width="96" height="30" rx="15" fill="#1A1410" fill-opacity="0.04" stroke="#1A1410" stroke-opacity="0.12"/>
+    <rect x="302" y="97" width="46" height="8" rx="4" fill="#1A1410" fill-opacity="0.2"/>
+    <path d="M358 97 l8 8 m0 -8 l-8 8" stroke="#1A1410" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- chips row 2: one being edited (accent + caret, no ×), one removable -->
+  <g>
+    <rect x="38" y="128" width="158" height="30" rx="15" fill="#B93A23" fill-opacity="0.1" stroke="#B93A23" stroke-opacity="0.55"/>
+    <rect x="54" y="139" width="92" height="8" rx="4" fill="#B93A23" fill-opacity="0.55"/>
+    <rect x="154" y="133" width="3" height="19" rx="1.5" fill="#B93A23"/>
+  </g>
+  <g>
+    <rect x="210" y="128" width="120" height="30" rx="15" fill="#1A1410" fill-opacity="0.04" stroke="#1A1410" stroke-opacity="0.12"/>
+    <rect x="226" y="139" width="62" height="8" rx="4" fill="#1A1410" fill-opacity="0.2"/>
+    <path d="M306 139 l8 8 m0 -8 l-8 8" stroke="#1A1410" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- divider -->
+  <rect x="38" y="180" width="354" height="1.5" fill="#1A1410" fill-opacity="0.08"/>
+
+  <!-- results updating below -->
+  <g>
+    <rect x="38" y="194" width="50" height="50" rx="8" fill="#E4DAC6"/>
+    <rect x="102" y="202" width="184" height="9" rx="4.5" fill="#1A1410" fill-opacity="0.16"/>
+    <rect x="102" y="220" width="120" height="7" rx="3.5" fill="#1A1410" fill-opacity="0.1"/>
+    <rect x="330" y="202" width="52" height="9" rx="4.5" fill="#1A1410" fill-opacity="0.22"/>
+  </g>
+  <g>
+    <rect x="38" y="252" width="50" height="50" rx="8" fill="#E4DAC6"/>
+    <rect x="102" y="260" width="160" height="9" rx="4.5" fill="#1A1410" fill-opacity="0.16"/>
+    <rect x="102" y="278" width="104" height="7" rx="3.5" fill="#1A1410" fill-opacity="0.1"/>
+    <rect x="330" y="260" width="52" height="9" rx="4.5" fill="#1A1410" fill-opacity="0.22"/>
+  </g>
+</svg>

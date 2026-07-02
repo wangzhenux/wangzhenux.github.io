@@ -1,5 +1,5 @@
 ---
-interface Field { label: string; value: string; }
+interface Field { label: string; value: string; sub?: string; }
 interface Props { fields: Field[]; }
 const { fields } = Astro.props;
 ---
@@ -8,6 +8,7 @@ const { fields } = Astro.props;
     <div>
       <dt class="label">{f.label}</dt>
       <dd class="value">{f.value}</dd>
+      {f.sub && <dd class="sub">{f.sub}</dd>}
     </div>
   ))}
 </dl>
@@ -36,6 +37,14 @@ const { fields } = Astro.props;
     color: var(--ink-primary);
     line-height: 1.5;
     margin: 0;
+    font-weight: 500;
+  }
+  /* Secondary line under a value — e.g. team context beneath the highlighted role. */
+  .meta-strip .sub {
+    color: var(--ink-tertiary);
+    line-height: 1.5;
+    font-size: 11px;
+    margin: var(--space-1) 0 0;
   }
 
   /* Responsive column collapse (§9.1). min() caps the columns at the breakpoint

@@ -1,0 +1,88 @@
+---
+/**
+ * A compact horizontal framework device — a numbered progress strip of steps,
+ * each a node on a rule with a label + one-line description. Good for a journey or
+ * a research framework (à la Discover → Explore → Resolve). Token-only.
+ *
+ *   <JourneyStrip steps={[{ label: "Search", desc: "…" }, …]} />
+ */
+interface Step {
+  label: string;
+  desc: string;
+}
+interface Props {
+  steps: Step[];
+  label?: string;
+}
+const { steps, label = 'Journey' } = Astro.props;
+---
+<section class="jstrip" aria-label={label} style={`--jn: ${steps.length}`}>
+  <ol class="jstrip-row">
+    {steps.map((s, i) => (
+      <li class="jstrip-step">
+        <span class="jstrip-num">{String(i + 1).padStart(2, '0')}</span>
+        <span class="jstrip-label">{s.label}</span>
+        <span class="jstrip-desc">{s.desc}</span>
+      </li>
+    ))}
+  </ol>
+</section>
+<style>
+  .jstrip {
+    margin: var(--space-7) 0;
+  }
+  .jstrip-row {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--jn, 4), 1fr);
+    gap: var(--space-5);
+  }
+  .jstrip-step {
+    position: relative;
+    padding-top: var(--space-5);
+    border-top: 2px solid var(--rule);
+  }
+  /* The accent node sitting on the rule. */
+  .jstrip-step::before {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--space-1));
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .jstrip-num {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-tertiary);
+    margin-bottom: var(--space-2);
+  }
+  .jstrip-label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--ink-primary);
+    font-weight: 500;
+    margin-bottom: var(--space-1);
+  }
+  .jstrip-desc {
+    display: block;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
+    max-width: 24ch;
+  }
+  @media (max-width: 700px) {
+    .jstrip-row { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 430px) {
+    .jstrip-row { grid-template-columns: 1fr; }
+  }
+</style>

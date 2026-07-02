@@ -54,8 +54,16 @@ export const caseSchema = z.object({
   // Custom hero meta-strip rows. When present, they replace the auto-built
   // Role/Team/Span/Outcome strip — for cases whose snapshot doesn't map onto
   // those four labels. Rendered through the same MetaStrip component.
-  meta: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
+  meta: z.array(z.object({ label: z.string(), value: z.string(), sub: z.string().optional() })).optional(),
+  // Product type for the standard meta strip (e.g. "Web app", "Mobile app", "Dashboard").
+  type: z.string().optional(),
   class: z.string().optional(),
+  // A real product screenshot for the case-page hero, distinct from the homepage
+  // card `cover` (which may stay an abstract illustration). Falls back to cover.
+  heroImage: z.string().optional(),
+  heroAlt: z.string().optional(),
+  heroWidth: z.number().optional(),
+  heroHeight: z.number().optional(),
   collaborators: z.array(z.string()).optional(),
   status: z.enum(['shipped', 'in-design', 'planned']).optional(),
   liveUrl: z.string().optional(),

@@ -1,6 +1,7 @@
 ---
 import MetaStrip from '../hero/MetaStrip.astro';
 import Container from '../layout/Container.astro';
+import Icon from '../chrome/Icon.astro';
 
 interface MetaField { label: string; value: string; }
 interface Props {
@@ -27,7 +28,7 @@ const href = `/work/${slug}`;
           <span class="featured-meta">{eyebrow}</span>
           <span class="featured-title" id="featured-heading">{title}</span>
         </span>
-        <span class="featured-cta">Read the story →</span>
+        <span class="featured-cta">Read the story <Icon name="arrow-right" size={14} /></span>
       </span>
     </a>
     {summary && <p class="featured-lead">{summary}</p>}
@@ -45,7 +46,7 @@ const href = `/work/${slug}`;
     display: block;
     position: relative;
     aspect-ratio: 16 / 9;
-    border-radius: var(--radius);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     color: var(--ink-on-dark);
     margin-bottom: var(--space-7);
@@ -101,6 +102,9 @@ const href = `/work/${slug}`;
     max-width: 22ch;
   }
   .featured-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     font-family: var(--font-mono);
     font-size: 13px;
     background: var(--bg-primary);

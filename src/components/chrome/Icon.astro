@@ -1,0 +1,42 @@
+---
+/**
+ * Inline UI icon — one consistent line-icon family for chrome (nav arrows,
+ * chevrons, download). Stroke 2, round caps/joins, inherits `currentColor`, sized
+ * via `size` (px). Decorative by default (aria-hidden); pass `label` to expose it
+ * as an image to assistive tech. Replaces text-glyph "icons" (←, →, ▾, ↓).
+ *
+ *   <Icon name="arrow-left" size={14} />
+ *   <Icon name="download" size={15} label="Download" />
+ */
+interface Props {
+  name: string;
+  size?: number;
+  label?: string;
+}
+const { name, size = 16, label } = Astro.props;
+const P = (d: string) =>
+  `<path d="${d}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+const icons: Record<string, string> = {
+  'arrow-left': P('M19 12H5') + P('M12 19l-7-7 7-7'),
+  'arrow-right': P('M5 12h14') + P('M12 5l7 7-7 7'),
+  'arrow-up-right': P('M7 17L17 7') + P('M8 7h9v9'),
+  'arrow-down': P('M12 5v14') + P('M5 12l7 7 7-7'),
+  download: P('M12 4v11') + P('M7 11l5 5 5-5') + P('M5 20h14'),
+  'chevron-down': P('M6 9l6 6 6-6'),
+};
+const a11y = label
+  ? { role: 'img', 'aria-label': label }
+  : { 'aria-hidden': 'true' as const };
+---
+<svg
+  class="icon"
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill="none"
+  {...a11y}
+  set:html={icons[name] ?? ''}
+></svg>
+<style>
+  .icon { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
+</style>

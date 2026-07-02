@@ -1,0 +1,119 @@
+---
+/**
+ * A full-content-width grid of compact point cards — a small line icon, a title,
+ * and a one-line body. The card-forward replacement for a run of paragraphs. Full
+ * bleed like <ImageShowcase> so it's wider than the reading column; the sticky TOC
+ * fades while it's on screen (`.cardgrid` is in the toc-scrollspy observer).
+ *
+ *   <CardGrid cols={3} items={[{ icon: "route", title: "…", body: "…" }, …]} />
+ */
+interface Item {
+  title: string;
+  body: string;
+  icon?: string;
+  eyebrow?: string;
+}
+interface Props {
+  items: Item[];
+  cols?: number;
+  label?: string;
+}
+const { items, cols = 3, label = 'Highlights' } = Astro.props;
+
+const S =
+  '" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+const icons: Record<string, string> = {
+  eyeoff: `<svg viewBox="0 0 24 24"><path d="M3 3l18 18${S}<path d="M10.6 6.1A9 9 0 0 1 12 6c5 0 9 6 9 6a13 13 0 0 1-2.2 2.7${S}<path d="M6.3 6.3A13 13 0 0 0 3 12s4 6 9 6c1 0 2-.2 2.9-.6${S}<path d="M9.9 9.9a3 3 0 0 0 4.2 4.2${S}</svg>`,
+  spark: `<svg viewBox="0 0 24 24"><path d="M12 4l1.8 6.2L20 12l-6.2 1.8L12 20l-1.8-6.2L4 12l6.2-1.8z${S}</svg>`,
+  balance: `<svg viewBox="0 0 24 24"><path d="M12 4v16M6 8h12${S}<path d="M6 8l-2.5 5a3 3 0 0 0 5 0z${S}<path d="M18 8l-2.5 5a3 3 0 0 0 5 0z${S}</svg>`,
+  route: `<svg viewBox="0 0 24 24"><path d="M5 18h4l4-12h6${S}<circle cx="5" cy="18" r="1.7${S}<circle cx="19" cy="6" r="1.7${S}</svg>`,
+  palette: `<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.7-1 1.4-2-.3-1 .3-2 1.4-2H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8Z${S}<circle cx="7.5" cy="11" r=".6${S}<circle cx="11" cy="7.5" r=".6${S}<circle cx="15.5" cy="9" r=".6${S}</svg>`,
+  access: `<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2${S}<path d="M5 9h14M12 9v5m0 0l-3 5m3-5l3 5${S}</svg>`,
+  link: `<svg viewBox="0 0 24 24"><path d="M9 15l6-6${S}<path d="M11 6l1.2-1.2a4 4 0 0 1 5.6 5.6L16.6 12${S}<path d="M13 18l-1.2 1.2a4 4 0 0 1-5.6-5.6L7.4 12${S}</svg>`,
+  quote: `<svg viewBox="0 0 24 24"><path d="M7.5 7c-2 1-3 3-3 6v4h5v-5H6.5c0-1.6.7-2.6 2-3.4z${S}<path d="M17.5 7c-2 1-3 3-3 6v4h5v-5h-3c0-1.6.7-2.6 2-3.4z${S}</svg>`,
+  shield: `<svg viewBox="0 0 24 24"><path d="M12 3l8 3.4V12c0 4.6-3.2 7.7-8 9-4.8-1.3-8-4.4-8-9V6.4z${S}<path d="M9 12l2 2 4-4${S}</svg>`,
+  grid: `<svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5${S}<rect x="13" y="4" width="7" height="7" rx="1.5${S}<rect x="4" y="13" width="7" height="7" rx="1.5${S}<rect x="13" y="13" width="7" height="7" rx="1.5${S}</svg>`,
+  bars: `<svg viewBox="0 0 24 24"><path d="M5 20v-8M10 20V5M15 20v-9M20 20V8${S}</svg>`,
+  mail: `<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2${S}<path d="M4 7l8 6 8-6${S}</svg>`,
+  calendar: `<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2${S}<path d="M4 9.5h16M8 3v4M16 3v4${S}<path d="M9 14.5l1.6 1.6L14 12.5${S}</svg>`,
+  lock: `<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2${S}<path d="M8 11V8a4 4 0 0 1 8 0v3${S}</svg>`,
+  pin: `<svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z${S}<circle cx="12" cy="10" r="2.5${S}</svg>`,
+  chat: `<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-4 3v-3H4z${S}<path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01${S}</svg>`,
+};
+---
+<section class="cardgrid" aria-label={label}>
+  <ul class="cg-grid" style={`--cg-cols: ${cols}`}>
+    {items.map((it) => (
+      <li class="cg-card">
+        {it.icon && icons[it.icon] && (
+          <span class="cg-icon" aria-hidden="true" set:html={icons[it.icon]} />
+        )}
+        {it.eyebrow && <span class="cg-eyebrow">{it.eyebrow}</span>}
+        <h4 class="cg-title">{it.title}</h4>
+        <p class="cg-body">{it.body}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+<style>
+  .cardgrid {
+    position: relative;
+    width: calc(100vw - var(--sbw));
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
+    margin-block: var(--space-7);
+  }
+  .cg-grid {
+    list-style: none;
+    margin: 0;
+    padding-inline: var(--pad-page-x);
+    max-width: var(--max-content);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(var(--cg-cols, 3), 1fr);
+    gap: var(--space-4);
+  }
+  .cg-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    background: var(--bg-secondary);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+  .cg-icon {
+    display: block;
+    width: 26px;
+    height: 26px;
+    color: var(--accent);
+  }
+  .cg-icon :global(svg) { width: 100%; height: 100%; display: block; }
+  .cg-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .cg-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+    color: var(--ink-primary);
+    margin: 0;
+    font-weight: 500;
+  }
+  .cg-body {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+  @media (max-width: 860px) {
+    .cg-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .cg-grid { grid-template-columns: 1fr; }
+  }
+</style>

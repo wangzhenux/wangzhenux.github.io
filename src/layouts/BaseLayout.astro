@@ -53,6 +53,20 @@ const ogImageUrl = ogImage
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
 
     <ClientRouter />
+    {/* Measure the vertical scrollbar width into --sbw so full-bleed bands span the
+        content area exactly (no scrollbar overflow). Recomputed on nav + resize. */}
+    <script is:inline>
+      (() => {
+        const setSbw = () =>
+          document.documentElement.style.setProperty(
+            '--sbw',
+            window.innerWidth - document.documentElement.clientWidth + 'px'
+          );
+        document.addEventListener('astro:page-load', setSbw);
+        window.addEventListener('resize', setSbw, { passive: true });
+        setSbw();
+      })();
+    </script>
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>

@@ -3,6 +3,7 @@ interface Props {
   /** Display string for the "Last updated" subline, e.g. "April 2026". */
   lastUpdated: string;
 }
+import Icon from '../chrome/Icon.astro';
 const { lastUpdated } = Astro.props;
 const pdfHref = '/Zhen-Wang-Resume.pdf';
 ---
@@ -18,10 +19,10 @@ const pdfHref = '/Zhen-Wang-Resume.pdf';
     </div>
     <div class="resume-buttons">
       <a class="btn btn-primary" href={pdfHref} download>
-        Download PDF<span class="arrow" aria-hidden="true">↓</span>
+        Download PDF<Icon name="download" size={15} />
       </a>
       <a class="btn btn-secondary" href={pdfHref} target="_blank" rel="noopener">
-        View in browser<span class="arrow" aria-hidden="true">→</span>
+        View in browser<Icon name="arrow-up-right" size={14} />
       </a>
     </div>
   </div>
@@ -106,9 +107,6 @@ const pdfHref = '/Zhen-Wang-Resume.pdf';
   .btn-secondary:focus-visible {
     background: var(--ink-primary);
     color: var(--bg-primary);
-  }
-  .btn .arrow {
-    font-size: 11px;
   }
   @media (max-width: 767px) {
     .resume-inner {

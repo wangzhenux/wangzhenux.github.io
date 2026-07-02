@@ -1,0 +1,207 @@
+---
+/**
+ * Competitive analysis — named-competitor cards, each with a product screenshot
+ * (or a labelled placeholder to swap a real capture into), a wordmark + tag, a small
+ * three-dimension rating meter, and a one-line summary. One card can be `featured`
+ * (the "us" benchmark). Full-bleed like <CardGrid>. Token-only.
+ *
+ * NOTE: third-party screenshots/logos are not bundled — supply `image` with your own
+ * captured screenshot per competitor; the `name` renders as a text wordmark.
+ *
+ *   <CompetitorGrid
+ *     dimensions={["AI chat", "Unified control", "AI-citable"]}
+ *     competitors={[{ name: "Zillow", tag: "…", levels: [3,2,1], summary: "…", image: "…" }]} />
+ */
+interface Competitor {
+  name: string;
+  summary: string;
+  tag?: string;
+  /** One 0–3 rating per shared dimension (same order as `dimensions`). */
+  levels?: number[];
+  /** Real screenshot src (public path). Until supplied, a labelled placeholder shows. */
+  image?: string;
+  imageAlt?: string;
+  /** Highlight this card as the benchmark ("us"). */
+  featured?: boolean;
+}
+interface Props {
+  competitors: Competitor[];
+  /** Shared rating axes, shown per card as labelled 3-dot meters. */
+  dimensions?: string[];
+  label?: string;
+}
+const { competitors, dimensions = [], label = 'Competitive landscape' } = Astro.props;
+const shotGlyph =
+  '<svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="6" y="10" width="36" height="28" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="20" r="3" stroke="currentColor" stroke-width="2"/><path d="M9 35 L20 25 L27 31 L34 25 L39 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const dots = [0, 1, 2];
+---
+<section class="competitor-grid" aria-label={label}>
+  <ul class="comp-grid">
+    {competitors.map((c) => (
+      <li class:list={['comp-card', c.featured && 'comp-card--ours']}>
+        {c.featured && <span class="comp-flag">This project</span>}
+        <div class="comp-shot">
+          <div class="comp-ph" aria-hidden="true">
+            <span class="comp-ph-glyph" set:html={shotGlyph} />
+            <span class="comp-ph-label">{c.name} — screenshot</span>
+          </div>
+          {c.image && (
+            <img class="comp-img" src={c.image} alt={c.imageAlt ?? `${c.name} search`} loading="lazy" decoding="async" onerror="this.style.display='none'" />
+          )}
+        </div>
+        <div class="comp-meta">
+          <span class="comp-name">{c.name}</span>
+          {c.tag && <span class="comp-tag">{c.tag}</span>}
+        </div>
+        {c.levels && dimensions.length > 0 && (
+          <ul class="comp-dims">
+            {dimensions.map((dim, i) => (
+              <li class="comp-dim">
+                <span class="comp-dim-label">{dim}</span>
+                <span class="comp-meter" role="img" aria-label={`${dim}: ${c.levels?.[i] ?? 0} of 3`}>
+                  {dots.map((d) => (
+                    <span class:list={['comp-dot', (c.levels?.[i] ?? 0) > d && 'is-on']} />
+                  ))}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <p class="comp-summary">{c.summary}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+<style>
+  .competitor-grid {
+    position: relative;
+    width: calc(100vw - var(--sbw));
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
+    margin-block: var(--space-7);
+  }
+  .comp-grid {
+    list-style: none;
+    margin: 0;
+    padding-inline: var(--pad-page-x);
+    max-width: var(--max-content);
+    margin-inline: auto;
+    display: grid;
+    /* Fluid: fit as many ~290px columns as the width allows (3 → 2 → 1), no fixed
+       breakpoints, so the grid tracks the page width smoothly and drops to a single
+       column earlier (keeping cards wide enough that the name + tag never collide). */
+    grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
+    gap: var(--space-4);
+  }
+  .comp-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    background: var(--bg-secondary);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+  }
+  /* The "us" benchmark card — accent-tinted, accent border. */
+  .comp-card--ours {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+  .comp-flag {
+    position: absolute;
+    top: calc(-1 * var(--space-2));
+    right: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--bg-primary);
+    background: var(--accent);
+    border-radius: var(--radius-sm);
+    padding: var(--space-1) var(--space-2);
+  }
+  .comp-shot {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .comp-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+  .comp-ph {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: var(--space-2);
+    text-align: center;
+    padding: var(--space-3);
+    background: var(--bg-primary);
+    border: 1px dashed var(--rule);
+    border-radius: var(--radius);
+  }
+  .comp-ph-glyph { display: block; width: 30px; height: 30px; color: var(--ink-tertiary); opacity: 0.7; }
+  .comp-ph-glyph :global(svg) { width: 100%; height: 100%; }
+  .comp-ph-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--ink-tertiary);
+  }
+  /* Wrap the tag below the name on tight cards instead of letting it overflow. */
+  .comp-meta { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-1) var(--space-2); }
+  .comp-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--ink-primary);
+    font-weight: 500;
+  }
+  .comp-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-tertiary);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: var(--space-1) var(--space-2);
+    white-space: nowrap;
+  }
+  /* Three-dimension rating meters. */
+  .comp-dims {
+    list-style: none;
+    margin: 0;
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .comp-card--ours .comp-dims { border-color: var(--accent); }
+  .comp-dim { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+  .comp-dim-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: var(--ink-secondary);
+  }
+  .comp-meter { display: inline-flex; gap: var(--space-1); flex-shrink: 0; }
+  .comp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rule); }
+  .comp-dot.is-on { background: var(--accent); }
+  .comp-summary {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
+    margin: 0;
+  }
+</style>

@@ -23,41 +23,63 @@ interface BentoItem {
   imageAlt?: string;
   /** Footprint. Default is a 1×1 cell. */
   size?: 'hero' | 'wide';
+  /** Icon-led card (no visual slot) — a small accent glyph above the title. Used
+   *  for a feature/context bento; ignored when `image` or `visual` is present. */
+  icon?: string;
 }
 interface Props {
   items: BentoItem[];
-  heading?: string;
-  deck?: string;
+  /** Accessible name for the grid region. Section/sub-section TITLES are not set here —
+   *  precede the <Bento> with <PartHeader> or <SectionH small> (see DESIGN.md §5). */
   label?: string;
+  /** Full-bleed images (run to the card edges) instead of the default framed/padded
+   *  look. Use for illustrations whose own background matches the card surface. */
+  bleed?: boolean;
 }
-const { items, heading, deck, label = 'Highlights' } = Astro.props;
+const { items, label = 'Highlights', bleed = false } = Astro.props;
 const glyph =
   '<svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="6" y="10" width="36" height="28" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="20" r="3" stroke="currentColor" stroke-width="2"/><path d="M9 35 L20 25 L27 31 L34 25 L39 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+// Line-icon set for icon-led cards (a small accent glyph above the title).
+const SI =
+  '" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>';
+const icons: Record<string, string> = {
+  chat: `<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-4 3v-3H4z${SI}<path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01${SI}</svg>`,
+  intake: `<svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2${SI}<path d="M9 8h6M9 12h6M9 16h3${SI}</svg>`,
+  pin: `<svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z${SI}<circle cx="12" cy="10" r="2.5${SI}</svg>`,
+  calendar: `<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2${SI}<path d="M4 9.5h16M8 3v4M16 3v4${SI}<path d="M9 14.5l1.6 1.6L14 12.5${SI}</svg>`,
+  user: `<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5${SI}<path d="M5 20a7 7 0 0 1 14 0${SI}</svg>`,
+  link: `<svg viewBox="0 0 24 24"><path d="M9 15l6-6${SI}<path d="M11 6l1.2-1.2a4 4 0 0 1 5.6 5.6L16.6 12${SI}<path d="M13 18l-1.2 1.2a4 4 0 0 1-5.6-5.6L7.4 12${SI}</svg>`,
+  spark: `<svg viewBox="0 0 24 24"><path d="M12 4l1.7 4.7L18 11l-4.3 1.6L12 18l-1.7-5.4L6 11l4.3-2.3z${SI}</svg>`,
+};
 ---
-<section class="bento" aria-label={label}>
+<section class:list={['bento', bleed && 'bento--bleed']} aria-label={label}>
   <div class="bento-inner">
-    {heading && <h2 class="bento-h">{heading}</h2>}
-    {deck && <p class="bento-deck">{deck}</p>}
     <ul class="bento-grid">
       {items.map((it) => (
-        <li class:list={['bento-card', it.size && `bento-card--${it.size}`]}>
-          <div class="bento-visual">
-            {it.image ? (
-              <img
-                class="bento-img"
-                src={it.image}
-                alt={it.imageAlt ?? it.visual ?? it.title}
-                loading="lazy"
-                decoding="async"
-              />
-            ) : (
-              <div class="bento-ph" role="img" aria-label={`Placeholder — ${it.visual ?? it.title}`}>
-                <span class="bento-ph-glyph" set:html={glyph} />
-                {it.visual && <span class="bento-ph-label">{it.visual}</span>}
-              </div>
-            )}
-          </div>
+        <li class:list={['bento-card', it.size && `bento-card--${it.size}`, !it.image && !it.visual && it.icon && 'bento-card--icon']}>
+          {(it.image || it.visual) && (
+            <div class="bento-visual">
+              {it.image ? (
+                <img
+                  class="bento-img"
+                  src={it.image}
+                  alt={it.imageAlt ?? it.visual ?? it.title}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div class="bento-ph" role="img" aria-label={`Placeholder — ${it.visual ?? it.title}`}>
+                  <span class="bento-ph-glyph" set:html={glyph} />
+                  {it.visual && <span class="bento-ph-label">{it.visual}</span>}
+                </div>
+              )}
+            </div>
+          )}
           <div class="bento-text">
+            {!it.image && !it.visual && it.icon && icons[it.icon] && (
+              <span class="bento-iconmark" aria-hidden="true" set:html={icons[it.icon]} />
+            )}
             <h3 class="bento-title">{it.title}</h3>
             {it.body && <p class="bento-body">{it.body}</p>}
           </div>
@@ -71,16 +93,13 @@ const glyph =
      the content width and left-aligns with the reading column. */
   .bento {
     position: relative;
-    width: 100vw;
-    margin-left: calc(-1 * var(--pad-page-x));
-    margin-right: calc(-1 * var(--pad-page-x));
-    margin-block: var(--space-12) var(--space-9);
-  }
-  @media (min-width: 1080px) {
-    .bento {
-      margin-left: calc(var(--max-content) / 2 - var(--pad-page-x) - 50vw);
-      margin-right: calc(var(--max-content) / 2 - var(--pad-page-x) - 50vw);
-    }
+    width: calc(100vw - var(--sbw));
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
+    /* Top margin hugs the preceding heading (the cards float on the page — no tinted
+       band to fill a large gap): ~32px under a SectionH small, and the PartHeader's
+       own 40px bottom margin governs when a bento opens a Part. Bottom keeps section
+       separation. */
+    margin-block: var(--space-7) var(--space-9);
   }
   .bento-inner {
     max-width: var(--max-content);
@@ -88,33 +107,6 @@ const glyph =
     padding-inline: var(--pad-page-x);
   }
 
-  /* Heading + deck (match SectionH / SectionDeck) — now full content width. */
-  .bento-h {
-    font-family: var(--font-display);
-    font-size: 30px;
-    line-height: 1.15;
-    letter-spacing: -0.018em;
-    color: var(--ink-primary);
-    font-weight: 500;
-    margin: 0 0 var(--space-6);
-  }
-  .bento-h::before {
-    content: '';
-    display: block;
-    width: 28px;
-    height: 2px;
-    background: var(--accent);
-    margin-bottom: var(--space-5);
-  }
-  .bento-deck {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 17px;
-    line-height: 1.5;
-    color: var(--ink-tertiary);
-    margin: calc(-1 * var(--space-4)) 0 var(--space-7);
-    max-width: 50ch;
-  }
 
   .bento-grid {
     list-style: none;
@@ -122,7 +114,7 @@ const glyph =
     padding: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 14rem;
+    grid-auto-rows: auto;
     grid-auto-flow: row dense;
     gap: var(--space-4);
   }
@@ -137,30 +129,29 @@ const glyph =
     padding: var(--space-4);
   }
   .bento-card--wide { grid-column: span 2; }
+  /* No colored wash on the hero — its 2×2 scale carries the hierarchy; terracotta
+     stays an accent, not a background. */
   .bento-card--hero {
     grid-column: span 2;
     grid-row: span 2;
-    background: var(--accent-soft);
-    border-color: var(--accent-soft);
     padding: var(--space-5);
   }
 
-  /* The visual fills the space above the text; the placeholder/screenshot covers it. */
   .bento-visual {
-    flex: 1;
-    min-height: 0;
     border-radius: var(--radius);
     overflow: hidden;
   }
+  /* The image fills its cell width at its OWN aspect ratio (height follows) — no crop,
+     no letterbox; the cell sizes to the image. By default the card pads the image (a
+     framed look); pass `bleed` for full-bleed images (see .bento--bleed below). */
   .bento-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
     display: block;
+    width: 100%;
+    height: auto;
   }
   .bento-ph {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 16 / 10;
     display: grid;
     place-items: center;
     align-content: center;
@@ -192,6 +183,17 @@ const glyph =
   .bento-card--hero .bento-ph-label { font-size: 11px; }
 
   .bento-text { flex: none; }
+  /* Icon-led cards (context/feature bento) have no visual slot — a small accent
+     glyph sits above the title; the card breathes from the top. */
+  .bento-iconmark {
+    display: block;
+    width: 26px;
+    height: 26px;
+    color: var(--accent);
+    margin-bottom: var(--space-3);
+  }
+  .bento-iconmark :global(svg) { width: 100%; height: 100%; display: block; }
+  .bento-card--hero .bento-iconmark { width: 34px; height: 34px; margin-bottom: var(--space-4); }
   .bento-title {
     font-family: var(--font-display);
     font-size: 16px;
@@ -210,12 +212,20 @@ const glyph =
   }
   .bento-card--hero .bento-body { font-size: 15px; line-height: 1.55; }
 
-  /* Tablet: 2 columns; cards size to content (visual keeps a 16:10 ratio). */
+  /* Bleed variant — the image runs edge-to-edge to the card border (no padding around
+     it); the card's overflow:hidden + radius clips its top corners, and only the text
+     is padded. For full-bleed illustrations whose own background matches the card. */
+  .bento--bleed .bento-card { gap: 0; padding: 0; }
+  .bento--bleed .bento-card--hero { padding: 0; }
+  .bento--bleed .bento-visual { border-radius: 0; }
+  .bento--bleed .bento-text { padding: var(--space-4); }
+  .bento--bleed .bento-card--hero .bento-text { padding: var(--space-5); }
+
+  /* Tablet: 2 columns. Cards stay content-sized; images keep their natural ratio. */
   @media (max-width: 900px) {
-    .bento-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: auto; }
+    .bento-grid { grid-template-columns: repeat(2, 1fr); }
     .bento-card--hero { grid-column: span 2; grid-row: span 1; }
     .bento-card--wide { grid-column: span 2; }
-    .bento-visual { flex: none; aspect-ratio: 16 / 10; }
   }
   @media (max-width: 560px) {
     .bento-grid { grid-template-columns: 1fr; }

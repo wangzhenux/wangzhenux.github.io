@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 182" width="320" height="182" role="img" aria-label="A result summary stating how many homes were found, with a listing and a clear next-step prompt">
+  <rect width="320" height="182" fill="#FAF5E8"/>
+  <rect x="12" y="12" width="296" height="158" rx="14" fill="#FFFFFF" stroke="#1A1410" stroke-opacity="0.1"/>
+
+  <!-- count header: "12 found" (primary focal) -->
+  <rect x="30" y="30" width="56" height="28" rx="14" fill="#B93A23" fill-opacity="0.12"/>
+  <text x="58" y="51" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-weight="700" fill="#B93A23" text-anchor="middle">12</text>
+  <rect x="98" y="35" width="116" height="9" rx="4.5" fill="#1A1410" fill-opacity="0.24"/>
+  <rect x="98" y="51" width="72" height="7" rx="3.5" fill="#1A1410" fill-opacity="0.11"/>
+
+  <!-- divider -->
+  <rect x="30" y="76" width="260" height="1.5" fill="#1A1410" fill-opacity="0.08"/>
+
+  <!-- one found listing (with a price token) -->
+  <rect x="30" y="90" width="42" height="42" rx="8" fill="#E4DAC6"/>
+  <rect x="84" y="97" width="138" height="8" rx="4" fill="#1A1410" fill-opacity="0.16"/>
+  <rect x="84" y="113" width="92" height="7" rx="3.5" fill="#1A1410" fill-opacity="0.1"/>
+  <rect x="252" y="97" width="30" height="8" rx="4" fill="#1A1410" fill-opacity="0.42"/>
+
+  <!-- next-step chip (secondary) -->
+  <rect x="30" y="146" width="104" height="16" rx="8" fill="#B93A23" fill-opacity="0.1"/>
+  <rect x="42" y="153" width="56" height="6" rx="3" fill="#B93A23" fill-opacity="0.45"/>
+  <path d="M110 154 h10 m-3.5 -3.5 l3.5 3.5 -3.5 3.5" stroke="#B93A23" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

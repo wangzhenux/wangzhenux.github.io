@@ -1,5 +1,6 @@
 ---
 import Container from '../layout/Container.astro';
+import Icon from '../chrome/Icon.astro';
 
 interface ArchiveItem {
   slug: string;
@@ -31,7 +32,7 @@ const {
               {(item.context || item.year) && (
                 <span class="y">{item.context ?? item.year}</span>
               )}
-              <span class="arrow" aria-hidden="true">→</span>
+              <span class="arrow" aria-hidden="true"><Icon name="arrow-right" size={13} /></span>
             </a>
           </li>
         ))}
@@ -89,8 +90,8 @@ const {
     color: var(--ink-quaternary);
   }
   .archive-item .arrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
     color: var(--ink-quaternary);
     opacity: 0;
     transition: opacity 0.2s;

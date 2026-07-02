@@ -63,7 +63,6 @@ export function init(): void {
     (byId.get(t) ?? byId.set(t, []).get(t)!).push(b);
   }
   const ratios = new Map(sections.map((s) => [s.id, 0]));
-  let tocHidden = false;
   // When the user clicks a TOC item we pin that section as active and ignore the
   // spy until they scroll manually again. Without this the smooth click-scroll
   // sweeps the spy through intervening sections (and a full-bleed showcase can
@@ -104,7 +103,7 @@ export function init(): void {
   };
 
   const refresh = () => {
-    if (pinnedId || tocHidden) return;
+    if (pinnedId) return;
     setActive(pickActive(Array.from(ratios, ([id, ratio]) => ({ id, ratio }))));
   };
 
@@ -118,25 +117,9 @@ export function init(): void {
   );
   sections.forEach((s) => spy.observe(s));
 
-  // Showcase fade: hide the TOC (and pause setActive) while a full-bleed showcase
-  // band is on screen (§8.3).
-  const showcases = document.querySelectorAll('.image-showcase, .scar, .bento');
-  if (showcases.length) {
-    const visible = new Set<Element>();
-    const showcaseObserver = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) visible.add(e.target);
-          else visible.delete(e.target);
-        }
-        tocHidden = visible.size > 0;
-        toc?.classList.toggle('hidden', tocHidden);
-        if (!tocHidden) refresh();
-      },
-      { rootMargin: '-15% 0px -15% 0px' }
-    );
-    showcases.forEach((s) => showcaseObserver.observe(s));
-  }
+  // (The sidebar TOC was removed; the top progress bar is always visible, so the
+  // old "fade the sidebar over full-bleed bands" logic is no longer needed — the
+  // section tag keeps updating continuously as the reader scrolls.)
 
   // Click-to-scroll: pin the chosen section active, then smooth-scroll to it. The
   // pin holds the active state through the entire programmatic scroll and is only
@@ -205,6 +188,17 @@ export function init(): void {
     window.addEventListener('scroll', updateProgress, { passive: true });
     window.addEventListener('resize', updateProgress, { passive: true });
     updateProgress();
+  }
+
+  // Reveal the top progress bar only once the hero is scrolled past, so it stays
+  // out of the way over the title/cover and slides in when the case content begins.
+  const hero = document.querySelector<HTMLElement>('.hero');
+  if (hero && progressBar) {
+    const heroObserver = new IntersectionObserver(
+      ([e]) => progressBar.classList.toggle('is-visible', !e.isIntersecting),
+      { threshold: 0 }
+    );
+    heroObserver.observe(hero);
   }
 
   // Seed the initial active item by nearest-section-to-top (do not rely on a
