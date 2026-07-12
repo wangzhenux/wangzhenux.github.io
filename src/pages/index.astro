@@ -7,6 +7,7 @@ import SelectedGrid from '../components/home/SelectedGrid.astro';
 import WritingList from '../components/home/WritingList.astro';
 import Archive from '../components/home/Archive.astro';
 import Container from '../components/layout/Container.astro';
+import Icon from '../components/chrome/Icon.astro';
 import { getFeatured, getSelected, getArchive } from '../lib/cases';
 import type { CaseEntry } from '../lib/cases';
 
@@ -52,14 +53,30 @@ const archiveItems = archive.map((c) => ({
   <main id="main" tabindex="-1">
     <header class="home-hero">
       <Container>
-        <p class="home-hero-eyebrow">Senior Product Designer</p>
-        <h1 class="home-hero-h1">
-          Hi, I'm Zhen, a senior product designer who likes quiet, useful software.
-        </h1>
-        <p class="home-hero-sub">
-          Ten years at Twilio, Tasktop, and Rackspace. Outside work: badminton,
-          ping-pong, calligraphy, and painting.
-        </p>
+        <h1 class="home-hero-h1">Hello,<br />I'm Zhen.</h1>
+        <div class="home-hero-facts">
+          <p>Product designer with <strong>10+ years of experience</strong></p>
+          <p>Currently <strong>Product Design Lead</strong> at Tripalink</p>
+          <p>Shipping AI-native products for fast-growing teams</p>
+        </div>
+        <div class="home-hero-actions">
+          <a class="btn btn-primary" href="mailto:wangzhen614@gmail.com">
+            Contact<Icon name="arrow-up-right" size={14} />
+          </a>
+          <a
+            class="home-hero-linkedin"
+            href="https://www.linkedin.com/in/zhenwang614"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+              <rect x="4" y="9" width="3.5" height="11" rx="1" />
+              <circle cx="5.75" cy="4.5" r="2.25" />
+              <path d="M11.5 9h3.3v1.9h.05c.46-.87 1.6-1.9 3.3-1.9 3.5 0 4.15 2.3 4.15 5.3V20h-3.5v-6.1c0-1.45-.03-3.3-2.02-3.3-2.03 0-2.34 1.58-2.34 3.2V20h-3.5V9z" />
+            </svg>
+          </a>
+        </div>
       </Container>
     </header>
 
@@ -92,29 +109,79 @@ const archiveItems = archive.map((c) => ({
   .home-hero {
     padding-block: var(--space-12) var(--space-11);
   }
-  .home-hero-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--ink-tertiary);
-    margin: 0 0 var(--space-4);
-  }
   .home-hero-h1 {
     font-family: var(--font-display);
     font-size: clamp(32px, 5vw, 46px);
     line-height: 1.12;
     letter-spacing: -0.022em;
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-6);
     font-weight: 500;
     color: var(--ink-primary);
-    max-width: 18ch;
   }
-  .home-hero-sub {
+  .home-hero-facts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .home-hero-facts p {
     font-size: 17px;
-    line-height: 1.6;
+    line-height: 1.5;
     max-width: 580px;
     color: var(--ink-secondary);
     margin: 0;
+  }
+  .home-hero-facts strong {
+    color: var(--ink-primary);
+    font-weight: 600;
+  }
+  .home-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
+  }
+  /* Same .btn/.btn-primary treatment as the About page's resume CTA
+     (CvCallout.astro) — repeated here since Astro scopes styles per file.
+     Explicit height (rather than letting padding drive it) so the square
+     LinkedIn icon button next to it can match exactly. */
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    height: 44px;
+    padding: 0 var(--space-5);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition: opacity 0.2s, background 0.2s, color 0.2s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--ink-on-dark);
+  }
+  .btn-primary:hover,
+  .btn-primary:focus-visible {
+    opacity: 0.92;
+  }
+  .home-hero-linkedin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--ink-primary);
+    color: var(--ink-primary);
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+  }
+  .home-hero-linkedin:hover,
+  .home-hero-linkedin:focus-visible {
+    background: var(--ink-primary);
+    color: var(--bg-primary);
   }
 </style>
