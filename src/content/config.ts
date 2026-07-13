@@ -41,6 +41,10 @@ export const caseSchema = z.object({
   // archive flag drives getArchive(); defaults to false
   archive: z.boolean().default(false),
 
+  // hidden removes a case from the site entirely (no page built, no listing)
+  // while keeping its MDX on disk for future restoration; defaults to false
+  hidden: z.boolean().default(false),
+
   // === OPTIONAL — include only the fields the case actually has ===
   company: z.string().optional(),
   team: z.string().optional(),

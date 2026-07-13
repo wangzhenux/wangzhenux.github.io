@@ -13,10 +13,13 @@ import { getNext } from '../../lib/cases';
 
 export async function getStaticPaths() {
   const cases = await getCollection('cases');
-  return cases.map((entry) => ({
-    params: { slug: entry.data.slug },
-    props: { entry },
-  }));
+  // Hidden cases get no page at all (kept on disk for future restoration).
+  return cases
+    .filter((entry) => !entry.data.hidden)
+    .map((entry) => ({
+      params: { slug: entry.data.slug },
+      props: { entry },
+    }));
 }
 
 const { entry } = Astro.props;

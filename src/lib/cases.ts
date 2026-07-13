@@ -33,7 +33,7 @@ export async function getSelected(): Promise<CaseEntry[]> {
 export async function getArchive(): Promise<CaseEntry[]> {
   const cases = await getCollection('cases');
   return cases
-    .filter((c) => c.data.archive === true)
+    .filter((c) => c.data.archive === true && !c.data.hidden)
     .sort((a, b) => b.data.year - a.data.year || a.data.order - b.data.order);
 }
 
