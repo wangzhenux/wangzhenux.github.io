@@ -38,7 +38,6 @@ import SectionDeck from '../../components/reading/SectionDeck.astro';
 import Pullquote from '../../components/reading/Pullquote.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
 import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
-import ScreenshotPlaceholder from '../../components/showcase/ScreenshotPlaceholder.astro';
 import ShowcaseCarousel from '../../components/showcase/ShowcaseCarousel.astro';
 import Bento from '../../components/showcase/Bento.astro';
 import CardGrid from '../../components/showcase/CardGrid.astro';
@@ -181,6 +180,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     client-only SPA, invisible to search engines and answer engines alike. The fix
     was a harder design problem than a redesign.
   </BodyText>
+  <SectionH small>The problem in three</SectionH>
   <CardGrid
     label="The problem in three"
     items={[
@@ -209,6 +209,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     Before designing the search, I talked to renters about how they actually look
     for a home. Three profiles surfaced — and they want different things.
   </BodyText>
+  <SectionH small>Three kinds of renters</SectionH>
   <PersonaGrid
     label="Three kinds of renters"
     personas={[
@@ -423,6 +424,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     Designing for the answer engine — not just the search engine — is a bet most
     rental sites haven't made.
   </BodyText>
+  <SectionH small>The GEO architecture</SectionH>
   <CardGrid
     label="The GEO architecture"
     items={[
@@ -509,17 +511,24 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
       },
     ]}
   />
-  {/* SWAP: real screenshots — (left) Send-a-Message modal; (right) Schedule-a-Tour modal with the time-slot grid. */}
   <Dual>
-    <ScreenshotPlaceholder
-      label="Send-a-Message (inquire) modal — name + email-or-phone"
-      aspect="3 / 4"
-      kind="phone"
+    <img
+      src="/cases/unitpulse-site/inquire-modal.jpg"
+      alt="The Send-a-Message inquire modal — full name and a single email-or-phone field (either is fine), plus a message box"
+      width={524}
+      height={660}
+      loading="lazy"
+      decoding="async"
+      style="width:100%;height:auto;border-radius:var(--radius-lg)"
     />
-    <ScreenshotPlaceholder
-      label="Schedule-a-Tour modal — date + time-slot grid, with SMS consent"
-      aspect="3 / 4"
-      kind="phone"
+    <img
+      src="/cases/unitpulse-site/tour-modal.jpg"
+      alt="The Schedule-a-Tour modal — contact fields, a preferred-date picker, and a grid of bookable time slots"
+      width={524}
+      height={717}
+      loading="lazy"
+      decoding="async"
+      style="width:100%;height:auto;border-radius:var(--radius-lg)"
     />
   </Dual>
 
@@ -595,7 +604,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
   </Reflection>
 
   <RelatedCases
-    slugs={["unitpulse-platform", "up-insight"]}
+    slugs={["unitpulse-platform", "tour-scheduling"]}
     heading="Related work"
   />
   <BodyText>
