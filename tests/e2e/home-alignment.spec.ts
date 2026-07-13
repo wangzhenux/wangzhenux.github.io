@@ -11,11 +11,12 @@ import { test, expect } from '@playwright/test';
 // gutters, not constrained to the centered frame), so they are deliberately
 // EXCLUDED from this alignment assertion.
 //
-// Reference edge: the hero eyebrow. We assert (within a 2px tolerance) that the
-// hero h1, the Selected-work heading, the Writing heading, the Archive title,
-// and the Featured cover edge all line up with it. The Featured *overlay* title
-// is intentionally inset further (it lives inside the cover composition with
-// its own padding), so we exclude that text but DO assert the cover edge.
+// Reference edge: the hero h1 (the first body content in the shared frame).
+// We assert (within a 2px tolerance) that the hero facts, the Writing heading,
+// the Archive title, and the Featured cover edge all line up with it. The
+// Featured *overlay* title is intentionally inset further (it lives inside the
+// cover composition with its own padding), so we exclude that text but DO
+// assert the cover edge.
 
 const DESKTOP = { width: 1440, height: 900 };
 
@@ -29,16 +30,15 @@ test.describe('homepage horizontal alignment', () => {
   test.use({ viewport: DESKTOP });
 
   test('homepage body sections share one left content edge', async ({ page }) => {
-    await page.setViewportSize(DESKTOP);
     await page.goto('/');
 
     const leftOf = (sel: string) => leftEdge(page.locator(sel).first());
 
-    // Reference: the hero eyebrow (first body content in the shared frame).
-    const ref = await leftOf('.home-hero-eyebrow');
+    // Reference: the hero h1 (first body content in the shared frame).
+    const ref = await leftOf('.home-hero-h1');
 
     const edges: Record<string, number> = {
-      heroH1: await leftOf('.home-hero-h1'),
+      heroFacts: await leftOf('.home-hero-facts p'),
       writing: await leftOf('.writing-header h2, .writing-title, .writing h2'),
       archive: await leftOf('.archive-title'),
       // Featured: the cover frame edge (NOT the inset overlay title).

@@ -1,0 +1,184 @@
+---
+/**
+ * A horizontal carousel of phone screenshots — the mobile-app showcase. All
+ * phones live in one scroll-snap track on the full-bleed dotted band; when they
+ * overflow (they usually do), the reader scrolls/swipes, and prev/next buttons
+ * step the track a phone at a time. Each phone keeps its own rounded corners and
+ * a short caption. Token-only CSS; the small script is component-scoped.
+ *
+ *   <ShowcasePhones phones={[{ src, alt, caption, width, height }]} />
+ */
+interface Phone {
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+}
+interface Props {
+  phones: Phone[];
+  label?: string;
+}
+const { phones, label = 'Mobile app' } = Astro.props;
+---
+<section class="phones" aria-roledescription="carousel" aria-label={label}>
+  <div class="ph-vp">
+    {/* tabindex makes the track keyboard-scrollable (axe: scrollable-region-focusable). */}
+    <ul class="ph-track" tabindex="0" aria-label={`${label} — ${phones.length} screens`}>
+      {phones.map((p) => (
+        <li class="ph-item">
+          <img
+            class="ph-img"
+            src={p.src}
+            alt={p.alt}
+            width={p.width}
+            height={p.height}
+            loading="lazy"
+            decoding="async"
+          />
+          {p.caption && <p class="ph-cap">{p.caption}</p>}
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div class="ph-controls">
+    <button class="ph-btn ph-prev" type="button" aria-label="Previous screens" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="ph-btn ph-next" type="button" aria-label="More screens">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</section>
+<style>
+  .phones {
+    position: relative;
+    width: calc(100vw - var(--sbw));
+    padding-block: var(--space-9);
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
+  }
+  .phones::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--bg-secondary);
+    background-image: radial-gradient(circle, var(--rule) 1px, transparent 1.5px);
+    background-size: 28px 28px;
+    z-index: 0;
+  }
+  /* The scroller spans the FULL band, so phones scroll edge-to-edge and the
+     peeking item is never clipped at the content column. Inline padding aligns
+     the first/last phone with the content column at rest. */
+  .ph-vp {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+  .ph-track {
+    --ph-inset: max(var(--pad-page-x), calc((100vw - var(--sbw)) / 2 - var(--max-content) / 2 + var(--pad-page-x)));
+    list-style: none;
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--ph-inset);
+    display: flex;
+    gap: var(--space-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--ph-inset);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .ph-track::-webkit-scrollbar { display: none; }
+  .ph-item {
+    /* ~208px keeps the 370px-native Figma screenshots close to retina-crisp. */
+    flex: 0 0 208px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .ph-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Keep the phone screenshot's own look — a soft rounded card, no heavy frame. */
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-frame);
+  }
+  .ph-cap {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    color: var(--ink-tertiary);
+    text-align: center;
+    margin: 0;
+  }
+
+  /* Prev / next — step the track a phone at a time (mouse/keyboard; touch swipes). */
+  .ph-controls {
+    position: relative;
+    z-index: 1;
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--pad-page-x);
+    margin-top: var(--space-6);
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+  }
+  .ph-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    color: var(--ink-primary);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  }
+  .ph-btn svg { width: 18px; height: 18px; }
+  .ph-btn:hover { background: var(--bg-secondary); border-color: var(--ink-tertiary); }
+  .ph-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ph-btn:disabled { opacity: 0.35; cursor: default; }
+</style>
+<script>
+  function initPhoneCarousels() {
+    document.querySelectorAll<HTMLElement>('.phones').forEach((root) => {
+      const track = root.querySelector<HTMLElement>('.ph-track');
+      const prev = root.querySelector<HTMLButtonElement>('.ph-prev');
+      const next = root.querySelector<HTMLButtonElement>('.ph-next');
+      const item = root.querySelector<HTMLElement>('.ph-item');
+      if (!track || !prev || !next || !item) return;
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const step = () => {
+        const gap = parseFloat(getComputedStyle(track).columnGap || '0') || 0;
+        return item.getBoundingClientRect().width + gap;
+      };
+      const scrollByStep = (dir: number) =>
+        track.scrollBy({ left: dir * step(), behavior: reduce ? 'auto' : 'smooth' });
+
+      prev.addEventListener('click', () => scrollByStep(-1));
+      next.addEventListener('click', () => scrollByStep(1));
+
+      const sync = () => {
+        const max = track.scrollWidth - track.clientWidth - 1;
+        prev.disabled = track.scrollLeft <= 0;
+        next.disabled = track.scrollLeft >= max;
+        // No overflow → no controls needed.
+        const overflows = track.scrollWidth > track.clientWidth + 1;
+        root.querySelector<HTMLElement>('.ph-controls')!.style.display = overflows ? '' : 'none';
+      };
+      track.addEventListener('scroll', sync, { passive: true });
+      window.addEventListener('resize', sync);
+      sync();
+    });
+  }
+  initPhoneCarousels();
+  document.addEventListener('astro:after-swap', initPhoneCarousels);
+</script>

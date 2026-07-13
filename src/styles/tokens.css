@@ -24,6 +24,10 @@
      where the AA-darkened --accent reads muddy. Matches the dark cover SVGs. */
   --accent-on-dark: #E0573E;
   --highlight: rgba(245, 200, 100, 0.7);
+  /* Deep terracotta for SMALL accent text on tinted grounds (chips, labels on
+     --bg-secondary / --accent-soft): the base --accent falls just under WCAG AA
+     4.5:1 there. Keep --accent for large text, icons, and rules. */
+  --accent-ink: #A2331F;
 
   /* === Rules === */
   --rule: #1A141018;
@@ -37,6 +41,19 @@
   --cover-sheen: rgba(255, 255, 255, 0.18);
   --cover-sheen-soft: rgba(255, 255, 255, 0.12);
   --cover-scrim: rgba(20, 14, 18, 0.65);
+  /* Strong variant: uniform mobile scrim where stacked cover text runs nearly
+     the full cover height (Featured). */
+  --cover-scrim-strong: rgba(20, 14, 18, 0.85);
+  /* Legibility text-shadows for text set directly on cover art:
+     sm = mono eyebrow/meta, lg = large display titles. */
+  --cover-text-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.35);
+  --cover-text-shadow-lg: 0 1px 3px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
+
+  /* === Bento crop tiles (design literals, from the UnitPulse Figma bento) ===
+     Card is a warm near-white sitting lighter than the page; each screenshot
+     fades into it near its bottom edge, just above the title strip. */
+  --bento-card-bg: #FAF9F5;
+  --bento-img-fade: linear-gradient(to bottom, rgba(255, 255, 255, 0) 67%, #FBFAF7 97%);
 
   /* === Border radius === */
   --radius-sm: 4px;

@@ -1,335 +1,460 @@
 ---
-title: "From Three Products to One Platform"
-deck: "The convergence story of UnitPulse — three focused products shipped fast and independently, then merged into one AI-native leasing platform when customers asked for the whole journey, not three tools. My role: design lead helping drive that convergence."
+title: "UnitPulse Platform"
+deck: "An AI-native leasing platform that finds renters, converts them, and measures the funnel. Built from zero in 2026."
 slug: unitpulse-platform
 company: UnitPulse
 year: 2026
-type: "Web app"
+type: "Web platform & mobile app"
 role: "Product Design Lead"
 cover:
   gradient: "linear-gradient(135deg, #33291A 0%, #140F08 100%)"
   image: "/cases/unitpulse-platform/cover.svg"
   width: 1600
   height: 1000
+heroImage: "/cases/unitpulse-platform/hero-cover.png"
+heroAlt: "The UnitPulse platform's For You dashboard — occupancy, tours, applications and leases at a glance, leasing velocity, lead sources, and signed leases, with one sidebar spanning Insight, Leasing, Marketing, and Workspace"
+heroWidth: 5880
+heroHeight: 3692
 order: 1
 featured: true
-team: "Design lead; PMs and engineering across the platform"
-span: "Convergence — late 2025 to 2026"
+team: "PMs & engineering across the platform"
+span: "Since Feb 2026"
 outcome:
-  metric: "3 → 1"
-  context: "three products converged into one AI-native platform (design lead)"
+  metric: "79 accounts"
+  context: "on one platform"
 sections:
-  - { id: s01, num: "01", label: "The deliberate bet" }
-  - { id: s02, num: "02", label: "What customers wanted" }
-  - { id: s03, num: "03", label: "The convergence vision" }
-  - { id: s04, num: "04", label: "How I made it real" }
-  - { id: s05, num: "05", label: "Evidence" }
-  - { id: s06, num: "06", label: "Reflection" }
+  - { id: ctx, num: "00", label: "Context" }
+  - { id: p1, num: "01", label: "Who it serves" }
+  - { id: p2, num: "02", label: "Generate demand" }
+  - { id: p3, num: "03", label: "Convert leads" }
+  - { id: p4, num: "04", label: "Optimize operations" }
+  - { id: p5, num: "05", label: "One platform" }
+  - { id: p6, num: "06", label: "On the go" }
+  - { id: p7, num: "07", label: "Evidence" }
+  - { id: p8, num: "08", label: "Reflection" }
 ---
 
-import Lede from '../../components/reading/Lede.astro';
 import BodyText from '../../components/reading/BodyText.astro';
 import SectionH from '../../components/reading/SectionH.astro';
-import SectionDeck from '../../components/reading/SectionDeck.astro';
+import Pullquote from '../../components/reading/Pullquote.astro';
+import PartHeader from '../../components/showcase/PartHeader.astro';
+import Bento from '../../components/showcase/Bento.astro';
+import CardGrid from '../../components/showcase/CardGrid.astro';
+import PersonaGrid from '../../components/showcase/PersonaGrid.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
 import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+import ShowcaseVideo from '../../components/showcase/ShowcaseVideo.astro';
+import ShowcasePhones from '../../components/showcase/ShowcasePhones.astro';
 import ResearchStats from '../../components/data/ResearchStats.astro';
 import Stat from '../../components/data/Stat.astro';
 import Reflection from '../../components/showcase/Reflection.astro';
 import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
-import ExpandModule from '../../components/showcase/ExpandModule.astro';
-import SelectedStrip from '../../components/showcase/SelectedStrip.astro';
 
 {/*
   ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
-  Claim labels: [REAL] = verifiable (Pendo/PRDs/git), used confidently;
-  [TARGET] = documented goal, phrased as a goal never a result; ‹C› = confirm
-  before publish. Remove this entire block before publishing.
+  Product-led flagship for the UnitPulse platform. The former deep-dive
+  cases (up-insight, crm-copilot) are HIDDEN site-wide (hidden: true — no
+  page built, no listing, files kept on disk); their necessary facts now
+  live inline here. Do NOT link /work/up-insight or /work/crm-copilot.
+
+  ERA MODEL (confirmed by Zhen, 2026-07-11): UnitPulse proper began
+  Feb 2026, from zero; first customer Mar 2026, Marketing product only;
+  three products live by spring; converged by summer. The 2025 CRM
+  (~170 agents, wound down), its CRM Copilot, and the 2023–2025 analytics
+  lineage are a PREDECESSOR era — referenced only as dated lineage. ‹C-era›
+
+  Claim labels: [REAL] verifiable (Pendo / stated by Zhen); ‹C› confirm
+  before publish.
 
   HARD RULES honored in copy:
-  - Framed throughout as a convergence I HELPED DRIVE as design lead — never
-    "I built the platform" or sole authorship of the merge architecture or the
-    shared design system.
-  - Portal is "built & merged, pre-cutover" everywhere — never "launched/in
-    production."
-  - Only the listed [REAL] numbers appear; no invented metrics.
+  - Portal is "built & merged, pre-cutover" — never "launched."
+  - No PR/commit counts; velocity is DATES only (from-zero Feb 2026;
+    mobile app in two weeks).
+  - Insight adoption [REAL] (Pendo, May 2026): 79 accounts, 78 active
+    users, 52 (~66%) core dashboard, ~45 min/user/quarter.
+  - "One sentence instead of fifteen clicks" + 2025 predecessor CRM
+    copilot = lineage fact, dated inline, no link.
+  - Convergence framed as a team effort I helped drive as design lead.
+  - Marketing surfaces: design ownership NOT claimed. ‹C-roles›
 
   CONFIRM before publish:
-  ‹C-why› (Act 0/s01) Align the opener wording with the investor deck's exact
-    framing. NOTE: I could not auto-read the linked slide deck
-    (unitpulse-slides.vercel.app is a client-rendered SPA); this uses the copy
-    from the brief. Paste the deck's slide-2 wording to match it precisely.
-  ‹C-demand› (Act 1/s02) Confirm the customer-demand origin wording — onboarded
-    for UP Marketing, then asked us to handle leasing too.
-  ‹C-split› (Module 2/s04) UX-layer vs merge-architecture credit split — copy
-    says I led the UX layer + canonicalized DS primitives + owned several feature
-    surfaces, and that the absorption architecture was a shared effort (plan doc
-    by another engineer). Adjust if the split was different.
-  ‹C-ds› (Module 2/s04) Which DS primitives I originated vs extended
-    (DSConfirmModal, unified filter-toolbar trigger, CLAUDE.md anti-pattern rules).
-  ‹C-tour-metric› (Act 4/s05) Exact denominator of 17%→10% — see the Tour
-    Scheduling case's own ‹EST-metric› note; keep both pages consistent.
-  ‹C-partner› (Selected work) Confirm Partner page scope.
-  ‹C-appstore› (Selected work) iOS app — say "App Store submission package," not
-    "published," unless confirmed.
-  ‹C-deck› (Selected work) Confirm the investor marketing deck card before publish.
+  ‹C-dates› Feb 2026 kickoff · Mar 2026 first customer (Marketing only) ·
+    spring three-live · summer converged · deck "built from zero in 2026."
+  ‹C-mkt› GBP management [stated]; channels kept generic; numbers pending.
+  ‹C-mobile› Two-week build, feature set, prioritization role [stated
+    2026-07-11]; usage numbers pending.
+  ‹C-personas› Landlord / property manager / leasing-agent archetypes and
+    their pains — confirm they match real accounts. Leasing managers are
+    folded into the PM card; split out if you want a fourth.
+  ‹C-ai-behaviors› Segment-adaptive replies, virtual-first tours,
+    amenity-gap alternatives, engaging emails — confirm shipped/specced.
+  ‹C-split› Portal UX-layer vs absorption-architecture credit split.
 
-  MISSING LINK — there is no standalone "Portal & Design System" case page yet
-  (the brief lists Portal as already built; only the unrelated citportal exists).
-  Module 2 is therefore fully self-contained inline and its "deep dive" link is
-  omitted. Build a standalone Portal case later, then wire the link.
-
-  EXAMPLE VISUALS — every <ImageShowcase> below is a token-built example marked
-  "EXAMPLE VISUAL"; replace with final Figma exports before publish.
+  VISUALS (all real as of 2026-07-12):
+  - REAL: hero-cover.png (hero — the For You dashboard, Figma 1607-21851,
+    Zhen's high-res export 5880×3692, PNG with alpha so the page cream shows
+    behind the dashboard card), platform-nav.png (Part 05 — annotated
+    navigation groups, Figma 1616-23346, high-res export 5308×2748, alpha).
+  - Token-built EXAMPLE diagrams: timeline.svg, portal-merge.svg.
+  - PERSONA HEADSHOTS: AI-generated synthetic faces (gen-platform-personas.mjs
+    via Gemini) — fictional stand-ins for landlord / property manager /
+    leasing agent, not real people. bento/personas/*.jpg.
+  - Context <Bento>: real Figma exports, each composited onto a uniform 4:3
+    cream (#F1E9D5 = bg-secondary) card so the grid aligns — kanban (hero),
+    copilot, marketing, ai-reply, funnel. bento/*.jpg.
+  - PRODUCT VIDEOS: real screen recordings (4K source → 1080p H.264 via
+    avconvert), autoplay muted loop lazily on view: marketing.mp4 (Reach),
+    leasing.mp4 (Convert), insight.mp4 (Measure). video/*.mp4 + *-poster.jpg.
+    NOTE: Figma caps node exports at native res (Copilot node is only 435px
+    wide), so bento/mobile images are shown crop-to-filled to look crisp;
+    true 4K would need Figma 3–4× exports or Cloudinary-hosted originals.
+  - MOBILE: 3 real phone screens (Tours home, tour-recording summary, Copilot)
+    from Figma frame 1604-15941, shown via <ShowcasePhones>. mobile/phone-*.jpg.
+  - ScreenshotPlaceholder slots awaiting Figma exports: marketing post,
+    Google Business Profile, two-renters split answer (the money shot),
+    mobile tour-recording, mobile prospect chat; sankey.svg likewise.
   ═══════════════════════════════════════════════════════════════════════
 */}
 
-<section id="s01" data-reveal>
-  <Lede>
-    UnitPulse set out to make property leasing an AI-native operation — to find
-    renters, convert them, and measure the whole funnel without the manual glue
-    landlords live with today.
-  </Lede>
+<section id="ctx" data-reveal>
+  <PartHeader kicker="Context" title="What UnitPulse is" noRule />
   <BodyText>
-    To move fast and learn, we deliberately shipped three focused products
-    independently: **UP Marketing** to generate demand, **UP Leasing** to convert
-    it with AI, and **UP Insight** to measure everything. Shipping them separately
-    let each move at its own speed and prove its own value. That independence was
-    the right call to start — and it set up the harder, more interesting design
-    problem that came next.
-    {/* ‹C-why› align with the investor deck's exact framing before publish */}
+    An AI-native leasing platform for property owners and their teams. It finds
+    renters, converts them, and measures the funnel. We built it from zero
+    starting February 2026, and the first paying customer signed on a month
+    later.
+    {/* ‹C-dates› */}
   </BodyText>
-
-  {/* EXAMPLE VISUAL — replace with final Figma export */}
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-platform/triptych.svg"
-      alt="Three product tiles of equal weight: UP Marketing finds renters, UP Leasing converts them, UP Insight measures the funnel"
-      width={1600}
-      height={667}
-    />
-  </ImageShowcase>
+  <Bento
+    crop
+    label="The platform's primary capabilities"
+    items={[
+      {
+        size: "hero",
+        image: "/cases/unitpulse-platform/bento/kanban.jpg",
+        imageAlt: "The leasing pipeline board — prospects moving across Inquiry, Tour, Application, Contract, and Signed columns, each card tagged hot/warm/cold",
+        title: "Every lead, inquiry to signed",
+        frame: { w: 195.63, h: 114.56, left: -1.31, top: -9.29 },
+      },
+      {
+        image: "/cases/unitpulse-platform/bento/copilot.jpg",
+        imageAlt: "The Copilot panel — a greeting, suggested questions about leasing performance and drop-offs, and an ask-anything box",
+        title: "Just ask the Copilot",
+        frame: { w: 100, h: 219.36, left: 0, top: 0.14 },
+      },
+      {
+        image: "/cases/unitpulse-platform/bento/marketing.jpg",
+        imageAlt: "The create-post composer — channel picker, a market-analysis panel, AI-drafted copy, and a live social preview",
+        title: "Posts on market data",
+        frame: { w: 135.97, h: 128.01, left: -4.39, top: -1.51 },
+      },
+      {
+        image: "/cases/unitpulse-platform/bento/ai-reply.jpg",
+        imageAlt: "The AI leasing agent answering a prospect over SMS with a specific unit, then offering tour times",
+        title: "AI leasing",
+        frame: { w: 128.75, h: 138.87, left: -28.95, top: -22.72 },
+      },
+      {
+        image: "/cases/unitpulse-platform/bento/funnel.jpg",
+        imageAlt: "The customer-journey Sankey — inquiries flowing through to signed leases, with drop-offs branching at each stage",
+        title: "Look into drop-offs",
+        frame: { w: 185.17, h: 108.07, left: -0.08, top: -0.01 },
+      },
+    ]}
+  />
 </section>
 
-<section id="s02" data-reveal>
-  <SectionH wide>Customers didn't want three tools. They wanted one outcome.</SectionH>
+<section id="p1" data-reveal>
+  <PartHeader num="01" title="Who it serves" />
   <BodyText>
-    The signal came from customers, not a whiteboard. Property managers onboarded
-    for UP Marketing to get leads — and then asked us to handle the leasing too.
-    They didn't think in terms of our product boundaries; they wanted the whole
-    journey taken care of.
-    {/* ‹C-demand› confirm the customer-demand origin wording before publish */}
+    Leasing still runs on spreadsheets, 7 disconnected tools, and messages
+    nobody answered. The platform is built around 3 people.
   </BodyText>
-  <BodyText>
-    Meanwhile three separate apps meant three logins, drifting UI, and AI bots
-    with no shared front door. **The seams between our products had become the
-    product's biggest friction.**
-  </BodyText>
-
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-platform/fragmented.png"
-      alt="Before: three separate UnitPulse products — Marketing, Leasing, and Insight — each with its own login screen, the fragmentation customers had to navigate"
-      width={1920}
-      height={1079}
-    />
-  </ImageShowcase>
+  <SectionH small>3 people, 3 pains</SectionH>
+  {/* Avatars are AI-generated synthetic headshots (fictional persona stand-ins). */}
+  <PersonaGrid
+    label="The people the platform serves"
+    personas={[
+      {
+        image: "/cases/unitpulse-platform/personas/landlord.jpg",
+        name: "The independent landlord",
+        who: "Owns a handful of units; leasing eats evenings and weekends.",
+        traits: ["Spreadsheet reporting", "No analyst", "Every lead counts"],
+        needs: "Answers at a glance, and an AI that follows up overnight.",
+      },
+      {
+        image: "/cases/unitpulse-platform/personas/property-manager.jpg",
+        name: "The property manager",
+        who: "Runs a portfolio across neighborhoods with a small leasing team.",
+        traits: ["7 tools", "Team coordination", "Owner reporting"],
+        needs: "One system of record for marketing, agents, and the funnel.",
+      },
+      {
+        image: "/cases/unitpulse-platform/personas/leasing-agent.jpg",
+        name: "The leasing agent",
+        who: "Between tours all day, while the CRM lives on a desktop.",
+        traits: ["Menu-deep CRM", "Follow-ups pile up", "Always mobile"],
+        needs: "One sentence instead of 15 clicks, with the office in their pocket.",
+      },
+    ]}
+  />
 </section>
 
-<section id="s03" data-reveal>
-  <SectionH wide>One platform, one login, one funnel.</SectionH>
+<section id="p2" data-reveal>
+  <PartHeader num="02" title="Marketing: generate demand" />
   <BodyText>
-    So we converged the three products into a single AI-native leasing platform —
-    one login, one origin, one design language. The funnel became the organizing
-    idea: Marketing finds the lead, Leasing converts it, Insight measures it — and
-    a conversational Copilot becomes the command layer across all of it. My job as
-    design lead was to make that convergence feel like **one coherent product, not
-    three apps in a trench coat.**
+    UP Marketing drafts posts and property content for each channel and each
+    renter segment, and it keeps the Google Business Profile current, because
+    "apartments near me" still lands there first.
+    {/* ‹C-mkt› channels generic; numbers pending */}
+  </BodyText>
+  <ShowcaseVideo
+    src="https://res.cloudinary.com/dcswo1dgj/video/upload/q_auto,w_1920,c_limit/unitpulse-platform/marketing.mp4"
+    poster="/cases/unitpulse-platform/video/marketing-poster.jpg"
+    label="UP Marketing demo — drafting a property post from market analysis, then publishing across channels"
+    width={1920}
+    height={1080}
+  />
+</section>
+
+<section id="p3" data-reveal>
+  <PartHeader num="03" title="Leasing: convert leads" />
+  <BodyText>
+    UP Leasing turns that demand into signed leases. The AI answers every
+    inquiry knowing who's asking, writes follow-ups worth reading, and books
+    the tour.
+    {/* ‹C-ai-behaviors› */}
   </BodyText>
 
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-platform/unified.png"
-      alt="The unified UnitPulse platform: one dashboard spanning Insight, Leasing, and Marketing, with a customer-journey funnel and a conversational Copilot panel"
-      width={1728}
-      height={871}
-    />
-  </ImageShowcase>
+  <ShowcaseVideo
+    src="https://res.cloudinary.com/dcswo1dgj/video/upload/q_auto,w_1920,c_limit/unitpulse-platform/leasing.mp4"
+    poster="/cases/unitpulse-platform/video/leasing-poster.jpg"
+    label="UP Leasing demo — the AI answering a prospect's inquiry with a specific unit and booking a tour"
+    width={1920}
+    height={1080}
+  />
+
+  <SectionH small>The segment playbook</SectionH>
+  <CardGrid
+    label="How the AI adapts per renter"
+    items={[
+      {
+        icon: "pin",
+        title: "Virtual-first for renters abroad",
+        body: "An international student can't tour in person, so the AI leads with a virtual tour and flexible scheduling.",
+      },
+      {
+        icon: "balance",
+        title: "The amenity-gap playbook",
+        body: "“No gym?” doesn't end the conversation. The AI points to the closest one, or leads with what the property does have.",
+      },
+      {
+        icon: "mail",
+        title: "Emails that engage",
+        body: "Follow-ups written to the renter's actual interests, not blasted to a list.",
+      },
+    ]}
+  />
+  <Pullquote>
+    Same question, different renter, different answer.
+  </Pullquote>
+  <BodyText>
+    Agents drive all of it by typing. I first proved the Copilot pattern on a
+    2025 predecessor CRM, where it replaced a 15-click path with one sentence;
+    here it fronts the platform's whole AI suite.
+  </BodyText>
 </section>
 
-<section id="s04" data-reveal>
-  <SectionH wide>How I made the convergence real</SectionH>
-  <SectionDeck>Three pieces of work made the convergence real. Expand each for the detail.</SectionDeck>
+<section id="p4" data-reveal>
+  <PartHeader num="04" title="Insight: optimize operations" />
+  <BodyText>
+    UP Insight closes the loop for owners who aren't analysts: the full funnel,
+    per-prospect attribution, AI alerts, and a plain-language Data Copilot.
+    Attribution shows which segments and channels actually sign leases, which
+    then steers what Marketing writes next.
+  </BodyText>
 
-  <ExpandModule
-    n="1"
-    title="The Copilot: one front door for the AI suite"
-    role="Role: Product Design Lead — interaction prototype + generative-UI container"
-    href="/work/crm-copilot"
-    linkText="Read the full Copilot deep dive →"
-  >
-    {/* EXAMPLE VISUAL — replace with final Figma export */}
-    <ImageShowcase>
-      <ShowcaseImage
-        src="/cases/unitpulse-platform/copilot.svg"
-        alt="The Copilot: a CRM page with a chat sidebar — a typed command, a working-on-it state, and a generated result card"
-        width={1600}
-        height={835}
-      />
-    </ImageShowcase>
-    <BodyText>
-      **The problem.** Agents faced 15-click menu paths and pinged support just to
-      ask whether an action was even possible; the AI bots (Listing, Leasing) had
-      no unified command surface.
-    </BodyText>
-    <BodyText>
-      **My design.** A conversational command center plus an adaptive
-      **generative-UI container** that renders model-produced dashboards, forms,
-      and tables on the fly, with context isolated per browser tab. (PRD §5.4,
-      assigned to me.)
-    </BodyText>
-    <BodyText>
-      **Principles.** Conversational-first; beat-the-menu perceived speed (an
-      instant "working on it" state plus command shortcuts mask model latency);
-      graceful failure; and progressive discoverability that surfaces relevant
-      commands in context.
-    </BodyText>
-    <BodyText>
-      **Targets (goals, not results).** The PRD set these as targets: 10+
-      natural-language operations, a >80% command-success rate, and >75% weekly
-      active usage. Copilot-specific usage was not independently instrumented, so
-      these stay goals. The CRM served **~170 agents at peak** (Pendo).
-    </BodyText>
-  </ExpandModule>
-
-  <ExpandModule
-    n="2"
-    title="The Portal & Design System: making the merge safe"
-    role="Role: Product Design Lead — UX layer, DS primitives, feature surfaces"
-  >
-    {/* EXAMPLE VISUAL — replace with final Figma export */}
-    <ImageShowcase>
-      <ShowcaseImage
-        src="/cases/unitpulse-platform/portal-merge.svg"
-        alt="The merge: three separate login screens collapsing into one authenticated portal shell"
-        width={1600}
-        height={733}
-      />
-    </ImageShowcase>
-    <BodyText>
-      **The merge.** Unify Insight, Marketing, and Messages into one authenticated
-      SPA with namespaced routes — while the legacy apps keep deploying until a
-      phased cutover, so there's no big-bang switchover.
-    </BodyText>
-    <BodyText>
-      **What I owned, honestly.** I led the UX layer, canonicalized the design-
-      system primitives, and owned several feature surfaces. The absorption
-      architecture was a shared effort (the plan doc was written by another
-      engineer). The design system is shared — I introduced and hardened specific
-      primitives (a canonical DSConfirmModal; a unified filter-toolbar trigger) and
-      the CLAUDE.md anti-pattern rulebook that killed recurring UI bugs.
-      {/* ‹C-split› UX-layer vs merge-architecture credit; ‹C-ds› which primitives originated vs extended */}
-    </BodyText>
-    <BodyText>
-      **Velocity, with AI in the loop.** 48 PRs merged in about 7 weeks, with
-      Claude as a pair-author (co-author trailers on 53 commits) and CodeRabbit AI
-      review in the loop that I triaged. The framing matters: AI accelerated
-      execution; the judgment — what to build, what to canonicalize, what to defer,
-      and what to keep honest — was mine.
-    </BodyText>
-    <BodyText>
-      **Status.** Built and merged to main, **pre-cutover**: phases 0–3 done, 4
-      partial, 5 pending. Not yet launched or in production.
-    </BodyText>
-  </ExpandModule>
-
-  <ExpandModule
-    n="3"
-    title="UP Insight: the analytics spine"
-    role="Role: Product Designer — 0-to-1, end-to-end"
-    href="/work/up-insight"
-    linkText="Read the full UP Insight deep dive →"
-  >
-    {/* EXAMPLE VISUAL — replace with final Figma export */}
-    <ImageShowcase>
-      <ShowcaseImage
-        src="/cases/unitpulse-platform/funnel.svg"
-        alt="A leasing funnel: Traffic to Leads to Tours to Applications to Signed, narrowing left to right, with marketing channels feeding the top"
-        width={1600}
-        height={667}
-      />
-    </ImageShowcase>
-    <BodyText>
-      **What it is.** A 0-to-1 leasing-analytics product: full-funnel
-      visualization, per-prospect channel attribution, AI alerts, a
-      natural-language Data Copilot, and automated investor reports.
-    </BodyText>
-    <BodyText>
-      **Adoption (Pendo, as of May 2026).** 79 property-management accounts; the
-      core Analytics dashboard is used by 52 of them (~66%), at roughly 45 minutes
-      per user over the quarter.
-    </BodyText>
-    <BodyText>
-      **A decision I'd feature.** I dropped "Qualified Prospects" because the term
-      wasn't clear to users, and attached a tooltip to each funnel term so a
-      definition travels with the data it explains — designing around a
-      data-accuracy constraint, since the predecessor dashboard had been hidden for
-      being inaccurate.
-    </BodyText>
-  </ExpandModule>
-</section>
-
-<section id="s05" data-reveal>
-  <SectionH wide>The evidence</SectionH>
-  <SectionDeck>What the convergence has to show for it — and what's honestly still ahead.</SectionDeck>
+  <ShowcaseVideo
+    src="https://res.cloudinary.com/dcswo1dgj/video/upload/q_auto,w_1920,c_limit/unitpulse-platform/insight.mp4"
+    poster="/cases/unitpulse-platform/video/insight-poster.jpg"
+    label="UP Insight demo — the full-funnel view, channel attribution, and the natural-language Data Copilot"
+    width={1280}
+    height={720}
+  />
 
   <ResearchStats cols={3}>
-    <Stat num="3 → 1" label="Products into one platform">
-      <span class="item">one login, one design language</span>
-      <span class="item">Copilot as the command layer</span>
+    <Stat num="79" label="Accounts adopted it">
+      <span class="item">78 active users</span>
+      <span class="item">Pendo · May 2026</span>
     </Stat>
-    <Stat num="48 PRs" label="Merged in ~7 weeks">
-      <span class="item">a merge, not a rewrite — AI-assisted</span>
-      <span class="item">built &amp; merged, pre-cutover</span>
+    <Stat num="52" label="On the core dashboard">
+      <span class="item">≈66% of all accounts</span>
+      <span class="item">funnel · attribution · Data Copilot</span>
     </Stat>
-    <Stat num="79" label="Accounts the platform serves">
+    <Stat num="~45 min" label="Per user, per quarter">
+      <span class="item">high engagement for B2B analytics</span>
+    </Stat>
+  </ResearchStats>
+</section>
+
+<section id="p5" data-reveal>
+  <PartHeader num="05" title="3 products to one platform" />
+  <BodyText>
+    Customers came for Marketing, then asked us to run the whole journey. But 3
+    products meant 3 logins, drifting UI, and no shared front door for the AI.
+    So we merged them behind one login and one design system, with the Copilot
+    as the shared command layer. It was a phased merge, not a rewrite.
+    {/* ‹C-dates› spring/summer beats */}
+  </BodyText>
+
+  {/* EXAMPLE VISUAL — token-built timeline; replace with final Figma export */}
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/unitpulse-platform/timeline.svg"
+      alt="Timeline: kickoff from zero in February 2026, first customer on the marketing product in March, three products live by spring, converged into one platform by summer"
+      width={1600}
+      height={533}
+    />
+  </ImageShowcase>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/unitpulse-platform/platform-nav.png"
+      alt="The unified platform's navigation, annotated — one sidebar with 4 groups: Insight (analytics and overview), Leasing (tenants and leads), Marketing (content and campaigns), and Workspace (configuration)"
+      width={5308}
+      height={2748}
+    />
+  </ImageShowcase>
+
+  <SectionH small>What made the merge safe</SectionH>
+  <CardGrid
+    label="What made the merge safe"
+    items={[
+      {
+        icon: "grid",
+        title: "One design language",
+        body: "Canonical primitives replaced each app's local variants, so the merged UI stopped drifting.",
+      },
+      {
+        icon: "shield",
+        title: "Rules that keep it coherent",
+        body: "An anti-pattern rulebook that kills recurring UI bugs instead of re-fixing them.",
+      },
+      {
+        icon: "merge",
+        title: "A merge, not a rewrite",
+        body: "Namespaced routes and a phased cutover. The legacy apps kept shipping, so customers never hit a cliff.",
+      },
+    ]}
+  />
+  <BodyText>
+    I led the UX layer and the design-system primitives; the absorption
+    architecture was a shared effort with engineering. It's built and merged
+    today, but not yet cut over.
+    {/* ‹C-split› */}
+  </BodyText>
+</section>
+
+<section id="p6" data-reveal>
+  <PartHeader num="06" title="On the go — the agent's mobile app" />
+  <BodyText>
+    Leasing happens on foot, so we built the agents' app from scratch in 2
+    weeks, and I decided what went in first. The feature I pushed hardest for
+    was tour recording: it auto-summarizes the visit and sends the prospect a
+    recap, so leasing's highest-signal moment becomes data instead of a fading
+    memory. Around it sit chat and calls, tour scheduling, prospect management,
+    and the Copilot.
+    {/* ‹C-mobile› */}
+  </BodyText>
+  <ShowcasePhones
+    label="The agent's mobile app"
+    phones={[
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-tours.jpg",
+        alt: "The mobile home screen — today's tours with start buttons, tours-completed and minutes-per-tour stats, and upcoming showings",
+        caption: "Today's tours, one tap to start",
+        width: 368,
+        height: 800,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-recording.jpg",
+        alt: "A recorded tour turned into an auto-generated summary — the prospect, a warm-lead score, the units shown, pricing, amenities, and move-in date",
+        caption: "Tour recording → auto-summary",
+        width: 369,
+        height: 800,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-chat.jpg",
+        alt: "The chat inbox — prospect conversations with status tags (tour scheduled, submitted, fully executed) and unread counts",
+        caption: "Every conversation, one inbox",
+        width: 368,
+        height: 800,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-sms.jpg",
+        alt: "An SMS thread with a prospect — scheduling a tour, confirming a time, and a check-in reminder",
+        caption: "Message and call from the field",
+        width: 368,
+        height: 800,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-insights.jpg",
+        alt: "The mobile Insights dashboard — occupancy, tours, applications and leases, leasing velocity by weekday, and lead sources",
+        caption: "The funnel, in your pocket",
+        width: 368,
+        height: 800,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-copilot.jpg",
+        alt: "The Copilot in the mobile app — ask about prospects, analytics, or tasks, with suggested questions",
+        caption: "The Copilot, in a pocket",
+        width: 368,
+        height: 800,
+      },
+    ]}
+  />
+</section>
+
+<section id="p7" data-reveal>
+  <PartHeader num="07" title="What it's done so far — honestly" />
+  <ResearchStats cols={3}>
+    <Stat num="79" label="Accounts on the platform">
       <span class="item">52 on the core dashboard (~66%)</span>
       <span class="item">Pendo · May 2026</span>
     </Stat>
+    <Stat num="Month 2" label="First paying customer">
+      <span class="item">Marketing product · March 2026</span>
+      <span class="item">one month after kickoff</span>
+    </Stat>
+    <Stat num="~45 min" label="Analytics engagement">
+      <span class="item">per user per quarter</span>
+      <span class="item">high for B2B analytics</span>
+    </Stat>
   </ResearchStats>
-
+  {/* ‹C-mkt› ‹C-mobile› add when ready: marketing traffic/leads/GBP views,
+      tours booked via AI, recap-email engagement, mobile usage — each with
+      its measurement window. */}
   <BodyText>
-    The honest framing: the portal is **built and merged, but pre-cutover**, and
-    this convergence is a team effort I helped drive as design lead — not a
-    platform I built alone. What I'd measure at cutover: auth friction removed,
-    cross-product task completion, and whether UI-bug recurrence stays down.
-    {/* ‹C-tour-metric› keep the 17%→10% denominator consistent with the Tour Scheduling page */}
+    The portal is built and merged, but not yet cut over, and the convergence
+    was a team effort I helped drive as design lead. What I'd measure next:
+    funnel lift per segment, how many tours the AI books on its own, and
+    whether the recap emails get opened.
   </BodyText>
 </section>
 
-<section id="s06" data-reveal>
-  <SectionH wide>What I'm proudest of</SectionH>
+<section id="p8" data-reveal>
+  <PartHeader num="08" title="Reflection" />
   <Reflection>
     <ReflectionCard label="On the real problem" heading="The system was the design problem">
-      The interesting problem was never a single screen — it was turning three
-      fast, independent bets into one coherent platform without a rewrite or a
-      quality cliff, because that's what customers were actually asking for.
+      The interesting problem was never one screen. It was turning 3 fast,
+      separate bets into one coherent platform without a rewrite or a drop in
+      quality, because that's what customers were asking for.
     </ReflectionCard>
-    <ReflectionCard label="On the work" heading="Designing the rules that keep it coherent">
-      Designing the system — and the rules that keep it coherent as it grows — is
-      the work I'm proudest of. It's the layer where a product ecosystem either
-      feels like one tool or three.
+    <ReflectionCard label="On the industry" heading="Renters aren't one audience">
+      Renters don't want the same things, so the AI shouldn't hand them the
+      same answer. The segment work is where the product earns trust: a virtual
+      tour for someone across the world, an honest alternative when a box isn't
+      ticked.
     </ReflectionCard>
   </Reflection>
-
-  <SelectedStrip
-    items={[
-      { label: "Tour Scheduling & SMS", detail: "Cut tour no-shows 17% → 10% in month one.", href: "/work/tour-scheduling" },
-      { label: "unitpulse.ai rental site", detail: "AI-native renter site — conversational search, GEO content architecture, lead capture. Live in production.", href: "/work/unitpulse-site" },
-      { label: "Partner page", detail: "Partner / B2B surfaces aligned to the design system." },
-      { label: "Twilio A2P 10DLC compliance", detail: "SMS consent, disclosures, and validation across sites." },
-      { label: "iOS leasing app", detail: "Design-system revamp and App Store submission package." },
-      { label: "Investor marketing deck", detail: "Visual and narrative design for fundraising." },
-    ]}
-  />
 </section>

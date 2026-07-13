@@ -72,9 +72,12 @@ const count = slides.length;
   style={`--scar-dur: ${intervalMs}ms`}
 >
   <div class="scar-vp">
-    <ul class="scar-track">
+    {/* Slides are divs, not list items: role="group" isn't an allowed role on
+        <li> (axe: aria-allowed-role), and overriding it would break the list's
+        own semantics. This is the APG carousel pattern. */}
+    <div class="scar-track">
       {slides.map((s, i) => (
-        <li
+        <div
           class="scar-slide"
           role="group"
           aria-roledescription="slide"
@@ -114,9 +117,9 @@ const count = slides.length;
             <h4 class="scar-title">{s.title}</h4>
             <p class="scar-body">{s.body}</p>
           </div>
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   </div>
 
   <div class="scar-foot">
@@ -197,7 +200,6 @@ const count = slides.length;
     cursor: grab;
   }
   .scar-track {
-    list-style: none;
     margin: 0;
     /* Inset only the FIRST card to the content column; as cards advance, the
        previous one is left peeking in the left gutter (mirroring the right). */

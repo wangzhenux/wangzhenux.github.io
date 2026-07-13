@@ -1,0 +1,123 @@
+---
+/**
+ * A full-bleed video showcase — the moving-picture sibling of <ImageShowcase>.
+ * Same dotted-grid band, same capped/rounded frame. The clip **autoplays muted
+ * and loops when it scrolls into view, and pauses when it leaves** — an ambient,
+ * caption-free loop. It is lazy: the source is only attached (and downloaded)
+ * once the band nears the viewport, so several heavy demo clips can share one
+ * page without weighing down first paint. `prefers-reduced-motion` is honored —
+ * those readers get the poster + controls and press play themselves. Token-only.
+ *
+ *   <ShowcaseVideo src="/cases/…/x.mp4" poster="/cases/…/x-poster.jpg"
+ *                  label="What the clip shows" width={1920} height={1080} />
+ */
+interface Props {
+  /** Video source (H.264 mp4, or a Cloudinary delivery URL). */
+  src: string;
+  /** Poster frame shown before the clip loads. */
+  poster: string;
+  /** Accessible description of what the clip shows. */
+  label: string;
+  /** Intrinsic dimensions, for CLS-free aspect reservation. */
+  width?: number;
+  height?: number;
+}
+const { src, poster, label, width = 1920, height = 1080 } = Astro.props;
+const ratio = `${width} / ${height}`;
+---
+<div class="video-showcase">
+  <div class="vs-inner">
+    {/* src is deferred to data-src; the script attaches it when the band nears
+        the viewport, then autoplays. Controls stay available for manual use. */}
+    <video
+      class="vs-video"
+      data-src={src}
+      poster={poster}
+      controls
+      muted
+      loop
+      playsinline
+      preload="none"
+      aria-label={label}
+      style={`aspect-ratio: ${ratio}`}
+    ></video>
+  </div>
+</div>
+<style>
+  .video-showcase {
+    position: relative;
+    width: calc(100vw - var(--sbw));
+    padding-block: var(--space-9);
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
+  }
+  .video-showcase::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--bg-secondary);
+    background-image: radial-gradient(circle, var(--rule) 1px, transparent 1.5px);
+    background-size: 28px 28px;
+    z-index: 0;
+  }
+  .vs-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: var(--space-12);
+  }
+  @media (max-width: 767px) {
+    .vs-inner { padding-inline: var(--pad-page-x); }
+  }
+  .vs-video {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: var(--ink-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+</style>
+<script>
+  // Lazy autoplay-on-view: attach the source and play when the clip nears the
+  // viewport; pause when it leaves. Reduced-motion readers keep the poster and
+  // press play themselves (controls are always present).
+  function initShowcaseVideos() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const videos = Array.from(document.querySelectorAll<HTMLVideoElement>('.vs-video'));
+    if (videos.length === 0) return;
+
+    const attach = (v: HTMLVideoElement) => {
+      if (!v.src && v.dataset.src) v.src = v.dataset.src;
+    };
+
+    if (!('IntersectionObserver' in window)) {
+      // No observer — attach all so controls work; don't force autoplay.
+      videos.forEach(attach);
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          const v = en.target as HTMLVideoElement;
+          if (en.isIntersecting) {
+            attach(v);
+            if (!reduce) {
+              v.muted = true;
+              const p = v.play();
+              if (p && typeof p.catch === 'function') p.catch(() => {});
+            }
+          } else if (!v.paused) {
+            v.pause();
+          }
+        });
+      },
+      { threshold: 0.35 },
+    );
+    videos.forEach((v) => io.observe(v));
+  }
+
+  initShowcaseVideos();
+  document.addEventListener('astro:after-swap', initShowcaseVideos);
+</script>

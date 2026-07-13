@@ -26,6 +26,14 @@ interface BentoItem {
   /** Icon-led card (no visual slot) — a small accent glyph above the title. Used
    *  for a feature/context bento; ignored when `image` or `visual` is present. */
   icon?: string;
+  /** `crop` mode only: object-position for the cover crop (e.g. "center top",
+   *  "left center"), controlling which region of the screenshot is shown. */
+  pos?: string;
+  /** `crop` mode only: exact Figma-style crop transform — the image is sized
+   *  and offset in PERCENTAGES of the tile (w/h = image size, left/top = image
+   *  offset, negatives shift the image out of frame). Takes precedence over
+   *  `pos`; lets a tile show the precise region a design specifies. */
+  frame?: { w: number; h: number; left: number; top: number };
 }
 interface Props {
   items: BentoItem[];
@@ -35,8 +43,13 @@ interface Props {
   /** Full-bleed images (run to the card edges) instead of the default framed/padded
    *  look. Use for illustrations whose own background matches the card surface. */
   bleed?: boolean;
+  /** Crop-to-fill: each tile gets a fixed aspect and the image covers it (cropped),
+   *  filling the card edge-to-edge — for real product screenshots shown as focused
+   *  crops (à la a high-density feature grid). Per-item `pos` picks the crop region.
+   *  Implies `bleed`. */
+  crop?: boolean;
 }
-const { items, label = 'Highlights', bleed = false } = Astro.props;
+const { items, label = 'Highlights', bleed = false, crop = false } = Astro.props;
 const glyph =
   '<svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="6" y="10" width="36" height="28" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="20" r="3" stroke="currentColor" stroke-width="2"/><path d="M9 35 L20 25 L27 31 L34 25 L39 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
@@ -53,7 +66,7 @@ const icons: Record<string, string> = {
   spark: `<svg viewBox="0 0 24 24"><path d="M12 4l1.7 4.7L18 11l-4.3 1.6L12 18l-1.7-5.4L6 11l4.3-2.3z${SI}</svg>`,
 };
 ---
-<section class:list={['bento', bleed && 'bento--bleed']} aria-label={label}>
+<section class:list={['bento', bleed && 'bento--bleed', crop && 'bento--crop']} aria-label={label}>
   <div class="bento-inner">
     <ul class="bento-grid">
       {items.map((it) => (
@@ -62,11 +75,18 @@ const icons: Record<string, string> = {
             <div class="bento-visual">
               {it.image ? (
                 <img
-                  class="bento-img"
+                  class:list={['bento-img', crop && it.frame && 'bento-img--framed']}
                   src={it.image}
                   alt={it.imageAlt ?? it.visual ?? it.title}
                   loading="lazy"
                   decoding="async"
+                  style={
+                    crop && it.frame
+                      ? `width: ${it.frame.w}%; height: ${it.frame.h}%; left: ${it.frame.left}%; top: ${it.frame.top}%;`
+                      : crop && it.pos
+                        ? `object-position: ${it.pos}`
+                        : undefined
+                  }
                 />
               ) : (
                 <div class="bento-ph" role="img" aria-label={`Placeholder — ${it.visual ?? it.title}`}>
@@ -220,6 +240,58 @@ const icons: Record<string, string> = {
   .bento--bleed .bento-visual { border-radius: 0; }
   .bento--bleed .bento-text { padding: var(--space-4); }
   .bento--bleed .bento-card--hero .bento-text { padding: var(--space-5); }
+
+  /* Crop mode, matching the Figma bento (node 1605-15955) exactly: a warm
+     near-white card (lighter than the page) holds a fixed-aspect image whose
+     bottom FADES into the card via a gradient, with the title in a strip
+     below. Hero image is 1:1; small images ≈1.1:1. Each image is positioned
+     with the design's percent transforms (`frame`) so the visible region is
+     the one the design specifies. */
+  .bento--crop .bento-card {
+    gap: 0;
+    padding: 1px;
+    background: var(--bento-card-bg);
+  }
+  .bento--crop .bento-visual {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 10 / 9;
+    border-radius: 0;
+  }
+  .bento--crop .bento-card--hero .bento-visual { aspect-ratio: 1 / 1; }
+  .bento--crop .bento-card--wide .bento-visual { aspect-ratio: 16 / 9; }
+  .bento--crop .bento-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  /* Figma-framed image: absolutely positioned by the per-item percent
+     transform (inline style); max-width unlocked so w>100% can overflow. */
+  .bento--crop .bento-img--framed {
+    position: absolute;
+    max-width: none;
+    object-fit: fill;
+  }
+  /* The image dissolves into the card surface just above the title strip. */
+  .bento--crop .bento-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bento-img-fade);
+    pointer-events: none;
+  }
+  /* Title strip below the image, on the card surface. */
+  .bento--crop .bento-text { padding: var(--space-4); }
+  .bento--crop .bento-card--hero .bento-text { padding: var(--space-5) var(--space-5) var(--space-7); }
+  .bento--crop .bento-title { font-size: 20px; line-height: 1.4; }
+  .bento--crop .bento-card--hero .bento-title { font-size: 23px; line-height: 1.22; }
+  @media (max-width: 900px) {
+    /* When the hero collapses to 1 row (tablet), widen its crop so it doesn't
+       tower over the small tiles. */
+    .bento--crop .bento-card--hero .bento-visual { aspect-ratio: 16 / 9; }
+  }
 
   /* Tablet: 2 columns. Cards stay content-sized; images keep their natural ratio. */
   @media (max-width: 900px) {
