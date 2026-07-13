@@ -24,23 +24,20 @@ export function pickActive(ratios: Ratio[]): string | null {
 }
 
 export function init(): void {
-  const toc = document.querySelector<HTMLElement>('.toc');
-  // The sidebar TOC and the mobile progress-bar drawer share `.toc-item` buttons
-  // (same data-target), so a single collection drives active-state + click-scroll
-  // for both. The progress bar may exist without the sidebar at <1024px, so the
-  // guard below keys off either.
+  // The section nav is the fixed top progress bar (§9.1 / DESIGN.md §1) at all
+  // widths; its drawer lists the `.toc-item` buttons that this island drives for
+  // active-state + click-to-scroll. (The old sidebar TOC was removed.)
   const items = Array.from(document.querySelectorAll<HTMLButtonElement>('.toc-item'));
   const sections = Array.from(document.querySelectorAll<HTMLElement>('.body section[id]'));
   const progressBar = document.querySelector<HTMLElement>('.progress-bar');
-  const mountEl = toc ?? progressBar;
-  if (!mountEl || !items.length || !sections.length) return;
+  if (!progressBar || !items.length || !sections.length) return;
 
   // Guard against double-mount. CaseInteractions calls run() synchronously AND on
   // `astro:page-load` (which also fires on the initial load), so init() would
   // otherwise wire two sets of listeners + observers to the same DOM — and the
   // second init()'s re-seed could clobber the active item just set by a click.
-  if (mountEl.dataset.spy === 'on') return;
-  mountEl.dataset.spy = 'on';
+  if (progressBar.dataset.spy === 'on') return;
+  progressBar.dataset.spy = 'on';
 
   // aria-live region announcing the active section label (§12.8).
   const live = document.createElement('div');
@@ -48,8 +45,7 @@ export function init(): void {
   live.className = 'visually-hidden';
   document.body.appendChild(live);
 
-  // Progress bar + section tag (§9.1, tablet/mobile). One section may map to
-  // several buttons (sidebar + drawer); the tag mirrors the active section.
+  // Progress bar + section tag (§9.1). The tag mirrors the active section.
   const progressFill = progressBar?.querySelector<HTMLElement>('.progress-fill') ?? null;
   const progressCurrent = progressBar?.querySelector<HTMLElement>('.progress-current') ?? null;
   const progressLabel = progressBar?.querySelector<HTMLElement>('.progress-label') ?? null;
@@ -81,17 +77,10 @@ export function init(): void {
         el.classList.add('active');
         el.setAttribute('aria-current', 'location');
       });
-      // Announce/label from the section's TOC label text. Prefer a button that
-      // carries a dedicated `.toc-label` span (the sidebar); otherwise read the
-      // button text minus its leading `.num` (the drawer markup).
-      const labelled = els.find((el) => el.querySelector('.toc-label'));
-      let label: string;
-      if (labelled) {
-        label = labelled.querySelector('.toc-label')!.textContent ?? '';
-      } else {
-        const btn = els[0];
-        label = (btn.textContent ?? '').replace(btn.querySelector('.num')?.textContent ?? '', '');
-      }
+      // Label/announce from the active drawer button's text, minus its leading
+      // `.num` (the drawer markup is `<span class="num">NN</span>Label`).
+      const btn = els[0];
+      const label = (btn.textContent ?? '').replace(btn.querySelector('.num')?.textContent ?? '', '');
       live.textContent = label;
       // Update the progress section tag ("05 / 07 · A phased approach").
       if (progressCurrent) {
@@ -116,10 +105,6 @@ export function init(): void {
     { rootMargin: '-25% 0px -50% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
   );
   sections.forEach((s) => spy.observe(s));
-
-  // (The sidebar TOC was removed; the top progress bar is always visible, so the
-  // old "fade the sidebar over full-bleed bands" logic is no longer needed — the
-  // section tag keeps updating continuously as the reader scrolls.)
 
   // Click-to-scroll: pin the chosen section active, then smooth-scroll to it. The
   // pin holds the active state through the entire programmatic scroll and is only

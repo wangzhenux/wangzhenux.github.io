@@ -15,29 +15,39 @@ test('home: first Tab reaches the skip link, activating it moves focus into #mai
   expect(focusedId).toBe('main');
 });
 
-test('case page: skip link works and TOC buttons are reachable by keyboard', async ({ page, viewport }) => {
+test('case page: skip link works and the progress-bar section nav is keyboard-operable', async ({ page }) => {
+  // Reduced motion: instant scroll + no bar slide-in transition (§7).
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/work/twilio');
 
-  // Skip link is the first stop and lands focus in #main.
+  // Skip link is the first stop and lands focus in #main. The browser moves focus
+  // a task after the fragment navigation, so poll rather than one-shot-read the
+  // active element — the Tab below must start from #main, not the skip link.
   await page.keyboard.press('Tab');
   await expect(page.locator('a.skip-link')).toBeFocused();
   await page.keyboard.press('Enter');
-  expect(await page.evaluate(() => document.activeElement?.id ?? '')).toBe('main');
+  await expect.poll(() => page.evaluate(() => document.activeElement?.id ?? '')).toBe('main');
 
-  // TOC buttons are real <button>s and focusable. (Sidebar is desktop-only;
-  // on narrow viewports the same buttons live in the progress-bar drawer.)
-  const onDesktop = (viewport?.width ?? 0) >= 1024;
-  if (onDesktop) {
-    const firstToc = page.locator('.toc .toc-item').first();
-    await firstToc.focus();
-    await expect(firstToc).toBeFocused();
-  } else {
-    // Open the drawer, then focus a drawer TOC button.
-    await page.locator('.progress-tag').click();
-    const firstDrawer = page.locator('.toc-item--drawer').first();
-    await firstDrawer.focus();
-    await expect(firstDrawer).toBeFocused();
-  }
+  // The progress bar is the section nav at all widths (§9.1); it slides in once
+  // the hero is scrolled past. Scrolling does not move focus, so #main is still
+  // the tab origin.
+  await page.locator('#s02').evaluate((el) => el.scrollIntoView({ block: 'start' }));
+  await expect(page.locator('.progress-bar')).toHaveClass(/is-visible/);
+
+  // The progress tag is the first tab stop inside #main, and the drawer is a
+  // keyboard-operable disclosure: Enter opens it, Tab reaches the real <button>
+  // section items, Esc closes it and returns focus to the tag.
+  await page.keyboard.press('Tab');
+  const tag = page.locator('.progress-tag');
+  await expect(tag).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(tag).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('#toc-drawer')).toBeVisible();
+  await page.keyboard.press('Tab');
+  await expect(page.locator('.toc-item--drawer').first()).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#toc-drawer')).toBeHidden();
+  await expect(tag).toBeFocused();
 });
 
 test('lightbox traps focus and Esc returns focus to the trigger', async ({ page }) => {
