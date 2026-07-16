@@ -29,7 +29,7 @@ export const taglines: Record<string, string> = {
  * the homepage hero voice), not a per-case thesis. Edit freely; *asterisks*
  * tint a word in accent.
  */
-export const homeTagline = 'Quiet, *useful* software.';
+export const homeTagline = 'Thoughtful products. *Meaningful* outcomes.';
 
 /** Shown on the curtain when opening the About page (consistent with cases). */
 export const aboutTagline = 'Designer, developer, *occasional calligrapher*.';
