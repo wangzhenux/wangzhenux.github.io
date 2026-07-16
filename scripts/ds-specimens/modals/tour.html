@@ -1,0 +1,118 @@
+<!doctype html>
+<!-- Schedule-a-Tour modal, ported verbatim from Figma node 1470-16 (UnitPulse
+     Listing, file Pywka4O25o69ocq2hPovbe) via get_design_context. Tailwind CDN
+     + the design's real fonts (Libre Caslon Text, Hanken Grotesk) reproduce the
+     card exactly; rendered at 3x onto a transparent page for a crisp, no-grey
+     export. Icons load from Figma's asset CDN (7-day links). -->
+<html><head>
+<meta charset="utf-8">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: transparent; }
+  body { font-family: 'Hanken Grotesk', sans-serif; }
+  /* Figma's font-family tokens → the loaded families. */
+  .ff-caslon { font-family: 'Libre Caslon Text', serif; }
+  .ff-grotesk { font-family: 'Hanken Grotesk', sans-serif; }
+  /* A soft card shadow so the modal reads as a floating dialog on the cream page. */
+  #card { box-shadow: 0 24px 60px rgba(26,24,22,0.14); }
+</style>
+</head>
+<body>
+<div class="inline-block p-[40px]">
+  <div id="card" class="bg-white flex flex-col items-start overflow-clip rounded-[24px] w-[448px]">
+    <!-- Header -->
+    <div class="border-[rgba(0,0,0,0.05)] border-b border-solid w-full">
+      <div class="flex items-start justify-between pb-[17px] pt-[24px] px-[24px]">
+        <div class="flex gap-[12px] items-center">
+          <div class="bg-[rgba(26,69,52,0.1)] rounded-[12px] size-[36px] flex items-center justify-center">
+            <img class="size-[17px]" src="https://www.figma.com/api/mcp/asset/b10d20d6-0b93-40a2-a7e3-2f94e1de82b8" alt="">
+          </div>
+          <div class="flex flex-col items-start">
+            <p class="ff-caslon font-medium leading-[28px] text-[#1a4534] text-[20px] whitespace-nowrap">Schedule a Tour</p>
+            <p class="ff-grotesk font-normal leading-[16px] text-[#a3a3a3] text-[12px] whitespace-nowrap">Croft Retreat</p>
+          </div>
+        </div>
+        <div class="rounded-full size-[40px] flex items-center justify-center">
+          <img class="size-[18px]" src="https://www.figma.com/api/mcp/asset/26f3dfa7-6db6-49dc-9ec1-1c8e04da4dfe" alt="">
+        </div>
+      </div>
+    </div>
+    <!-- Body -->
+    <div class="w-full">
+      <div class="flex flex-col items-start px-[24px] py-[20px] w-[448px] box-border">
+        <!-- Full name -->
+        <div class="h-[70px] w-full relative">
+          <p class="absolute ff-grotesk font-medium leading-[16px] left-0 text-[#56544c] text-[12px] top-[5.5px] tracking-[0.6px] uppercase whitespace-nowrap">Full Name</p>
+          <div class="absolute bg-[#fafafa] border border-[#e5e7eb] flex flex-col h-[40px] justify-center left-0 px-[13px] rounded-[12px] top-[30px] w-[396px] box-border">
+            <p class="ff-grotesk text-[#d4d4d4] text-[14px]">Felix Zhou</p>
+          </div>
+        </div>
+        <!-- How to reach you -->
+        <div class="w-[400px] pt-[16px] flex flex-col items-start">
+          <p class="ff-grotesk font-medium leading-[16px] text-[#56544c] text-[12px] tracking-[0.6px] uppercase whitespace-nowrap">How to reach you <span class="text-[#a3a3a3]">(email or phone, either is fine)</span></p>
+          <div class="w-[400px] pt-[8px] flex flex-col items-start">
+            <div class="bg-[#fafafa] border border-[#e5e7eb] flex flex-col h-[40px] justify-center px-[13px] rounded-[12px] w-[396px] box-border">
+              <p class="ff-grotesk text-[#d4d4d4] text-[14px]">you@email.com</p>
+            </div>
+            <div class="pt-[12px] w-[400px] flex flex-col items-start">
+              <div class="bg-[#fafafa] border border-[#e5e7eb] rounded-[12px] w-[396px] box-border">
+                <div class="flex items-center p-px">
+                  <div class="h-[40px] flex gap-[6px] items-center justify-center pl-[10px] pr-[8px]">
+                    <p class="text-[16px]">🇺🇸</p>
+                    <p class="ff-grotesk text-[#171717] text-[14px]">+1</p>
+                    <img class="size-[12px]" src="https://www.figma.com/api/mcp/asset/6e204448-29a1-4c5d-9c52-2e10dbb2ac5d" alt="">
+                  </div>
+                  <div class="px-[4px] flex items-start"><div class="bg-[rgba(0,0,0,0.1)] h-[20px] w-px"></div></div>
+                  <div class="flex-1 h-[40px] flex flex-col justify-center px-[12px]">
+                    <p class="ff-grotesk text-[#d4d4d4] text-[14px]">(555) 000-0000</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Preferred date -->
+        <div class="h-[86px] w-[400px] pt-[16px] flex flex-col items-start">
+          <div class="h-[24px] w-full relative">
+            <p class="absolute ff-grotesk font-medium leading-[16px] left-0 text-[#56544c] text-[12px] top-[5.5px] tracking-[0.6px] uppercase whitespace-nowrap">Preferred Date</p>
+          </div>
+          <div class="w-[400px] pt-[6px] flex flex-col items-start">
+            <div class="bg-[#fafafa] border border-[#e5e7eb] h-[40px] rounded-[12px] w-[396px] box-border flex items-center justify-between px-[13px]">
+              <p class="ff-grotesk leading-[20px] text-[#a3a3a3] text-[14px] whitespace-nowrap">Select a date</p>
+              <img class="size-[15px]" src="https://www.figma.com/api/mcp/asset/6a3318ec-faa8-4347-abf0-26fdab453c00" alt="">
+            </div>
+          </div>
+        </div>
+        <!-- Preferred time -->
+        <div class="w-[400px] pt-[16px] flex flex-col items-start">
+          <div class="h-[24px] w-full relative">
+            <p class="absolute ff-grotesk font-medium leading-[16px] left-0 text-[#56544c] text-[12px] top-[5.5px] tracking-[0.6px] uppercase whitespace-nowrap">Preferred Time</p>
+          </div>
+          <div class="w-full pt-[6px]">
+            <div id="slots" class="grid grid-cols-4 gap-[6px] w-full"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="bg-white border-[rgba(0,0,0,0.05)] border-t w-full">
+        <div class="flex flex-col items-start pb-[16px] pt-[17px] px-[24px]">
+          <div class="pt-[12px]">
+            <div class="bg-[#1a4534] flex h-[44px] items-center justify-center opacity-40 rounded-full w-[400px]">
+              <p class="ff-grotesk font-medium leading-[22.5px] text-[#fcfaf7] text-[15px]">Request Tour</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM'];
+  document.getElementById('slots').innerHTML = times.map(t =>
+    `<div class="bg-[#fafafa] border border-[#e5e7eb] h-[34px] rounded-[8px] flex items-center justify-center"><p class="ff-grotesk font-semibold leading-[16px] text-[#525252] text-[12px]">${t}</p></div>`
+  ).join('');
+</script>
+</body></html>

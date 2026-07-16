@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Components" name="Components · Forms" subtitle="Inputs, combobox, multiselect w/ invert action, date picker w/ icon, range picker w/ working presets" viewport="700x280" -->
+<html lang="en">
+<head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const W=new URLSearchParams(location.search).get("theme");if(W==="light"||W==="dark"){document.documentElement.dataset.theme=W}}{const W=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const V=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(V&&V!=="normal")return;const z=(j)=>{if(!j)return null;const H=getComputedStyle(j).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!H)return null;const F=H[4]==null?1:parseFloat(H[4])/(H[4].endsWith("%")?100:1);if(F<0.99)return null;return[+H[1],+H[2],+H[3]]};const G=z(document.body)||z(document.documentElement);if(!G)return;const K=(j)=>{const H=j/255;return H<=0.04045?H/12.92:((H+0.055)/1.055)**2.4};const D=0.2126*K(G[0])+0.7152*K(G[1])+0.0722*K(G[2]);document.documentElement.style.setProperty("color-scheme",D<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")W();else window.addEventListener("load",W)}var b=["https://claude.ai","https://preview.claude.ai","https://da884f8c-0669-484f-9f29-af2565e52383.claudeusercontent.com"];var p=true;var O=30000;var n=3000;document.addEventListener("DOMContentLoaded",()=>{const W=window.Babel;const V="om-src-id";if(W&&W.registerPlugin&&!(W.availablePlugins&&W.availablePlugins[V])){W.registerPlugin(V,({types:D})=>({visitor:{JSXOpeningElement(j,H){const F=j.node;if(F.name&&F.name.type==="JSXMemberExpression")return;for(let Q=0;Q<F.attributes.length;Q++){const $=F.attributes[Q];if($.type==="JSXAttribute"&&$.name&&$.name.name==="data-om-id")return}const P=H.file&&H.file.opts&&H.file.opts.filename||"?";const R=F.loc&&F.loc.start;const J=`jsx:${P}:${F.start??0}:${R?R.line:0}:${R?R.column+1:0}`;F.attributes.push(D.jsxAttribute(D.jsxIdentifier("data-om-id"),D.stringLiteral(J)))}}}))}const z="om-text-extract";let G=false;if(p&&W&&W.registerPlugin&&!(W.availablePlugins&&W.availablePlugins[z])){const D=window.React;if(D&&D.useSyncExternalStore&&D.createElement){G=true;const j={};const H=new Set;let F=0;window.__omTextO=j;window.__omTextSet=(J)=>{for(const Q in J){const $=J[Q];if($==null)delete j[Q];else j[Q]=$}F++;H.forEach((Q)=>Q())};const P=(J)=>{H.add(J);return()=>H.delete(J)};const R=()=>F;window.__OmT=function J(Q){D.useSyncExternalStore(P,R,R);return D.createElement("span",{"data-om-text":Q.i,className:"__om-t"},Q.i in j?j[Q.i]:Q.children)};W.registerPlugin(z,({types:J})=>{const Q={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const $={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const Y=(q,M)=>J.logicalExpression("??",J.memberExpression(J.logicalExpression("||",J.memberExpression(J.identifier("window"),J.identifier("__omTextO")),J.objectExpression([])),J.stringLiteral(q),true),M);const Z=(q)=>q.file&&q.file.opts&&q.file.opts.filename||"?";const B=(q)=>q.file&&q.file.code||"";const U=(q,M)=>{const L=(X)=>X&&X.start!=null&&X.end!=null&&(X.type==="StringLiteral"||X.type==="TemplateLiteral"&&X.expressions.length===0)?[X.start,X.end]:null;const N=L(M);if(N)return N;if(M&&M.type==="Identifier"){const X=q.scope.getBinding(M.name);if(X&&X.constant&&X.path.node.type==="VariableDeclarator"){return L(X.path.node.init)}}return null};const x=(q,M,L)=>{const N=q.node;let X=false;const f=(w,A)=>{X=true;return J.jsxElement(J.jsxOpeningElement(J.jsxIdentifier("__OmT"),[J.jsxAttribute(J.jsxIdentifier("i"),J.stringLiteral(w))],false),J.jsxClosingElement(J.jsxIdentifier("__OmT")),[A],false)};const C=N.children.map((w)=>{if(w.type==="JSXText"){if(w.start==null||w.end==null)return w;const A=L.slice(w.start,w.end);const k=A.length-A.trimStart().length;const u=A.length-A.trimEnd().length;if(k+u>=A.length)return w;return f(`txt:${M}:${w.start+k}:${w.end-u}`,w)}if(w.type==="JSXExpressionContainer"){const A=U(q,w.expression);if(A)return f(`str:${M}:${A[0]}:${A[1]}`,w)}return w});if(X)N.children=C};return{visitor:{JSXOpeningElement(q,M){const L=q.node;const N=Z(M);const X={};for(let f=0;f<L.attributes.length;f++){const C=L.attributes[f];if(C.type!=="JSXAttribute"||!C.name)continue;const w=C.name.name;if(!$[w])continue;if(!C.value||C.value.type!=="StringLiteral")continue;if(C.value.start==null||C.value.end==null)continue;const A=`txt:${N}:${C.value.start}:${C.value.end}`;X[w]=A;C.value=J.jsxExpressionContainer(Y(A,J.stringLiteral(C.value.value)))}if(Object.keys(X).length){L.attributes.push(J.jsxAttribute(J.jsxIdentifier("data-om-text-attrs"),J.stringLiteral(JSON.stringify(X))))}},JSXElement(q,M){const L=q.node.openingElement;const N=L&&L.name&&L.name.name;if(N==="__OmT")return;if(typeof N==="string"&&Q[N])return;x(q,Z(M),B(M))},JSXFragment(q,M){x(q,Z(M),B(M))}}}})}}const K=G?["transform-react-jsx-source",V,z]:["transform-react-jsx-source",V];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((D,j)=>{const H=D.getAttribute("data-plugins")||"";const F=K.filter((P)=>H.indexOf(P)<0);if(F.length){D.setAttribute("data-plugins",H?`${H},${F.join(",")}`:F.join(","))}if(!D.hasAttribute("data-filename")){D.setAttribute("data-filename",D.getAttribute("src")||`inline-${j}`)}})});var v=window.parent;var g="not editable here — open the project in the Claude Design editor to save";var d=()=>Promise.resolve({persisted:false,noHost:true,reason:g});var S=d;var h="data/storage.json";var i=()=>{try{const W=new URL(document.baseURI);const V=W.pathname.match(/\/projects\/([^/]+)\/serve\//);if(V)return V[1];return W.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var o=()=>{try{const W=new URL(document.baseURI);const V=W.pathname.indexOf("/serve/");if(V>=0)return W.origin+W.pathname.slice(0,V+"/serve/".length)+h}catch{}return"./"+h};var I=null;var _=()=>{if(!I){I=fetch(o(),{cache:"no-store"}).then((W)=>{if(W.ok)return W.text();return W.status===404?"":null}).catch(()=>null).then((W)=>{if(W===null){I=null;return null}const V=new Map;if(!W)return V;let z;try{z=JSON.parse(W)}catch{console.warn("[omelette.storage] "+h+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");I=null;return null}if(z===null||typeof z!=="object"||Array.isArray(z)){console.warn("[omelette.storage] "+h+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");I=null;return null}const G=z;if("data"in G){const K=G.data;if(K===null||typeof K!=="object"||Array.isArray(K)){console.warn("[omelette.storage] "+h+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');I=null;return null}const D=G._meta;const j=D!==null&&typeof D==="object"?D.project:undefined;if(typeof j==="string"&&j!==""&&j!==i())return V;for(const H of Object.keys(K))V.set(H,K[H]);return V}for(const K of Object.keys(G)){if(K!=="_meta")V.set(K,G[K])}return V})}return I};var y=(W)=>S(h,JSON.stringify({_meta:{project:i(),version:1},data:Object.fromEntries(W)},null,2));var m=Promise.resolve();var T=(W)=>{const V=m.then(W);m=V.then(()=>{return},()=>{return});return V};var s=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var a=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var r=(W,V,z)=>{if(s.test(V)||a.test(W)&&typeof z==="string"&&z.length>=8){console.warn('[omelette.storage] the value for "'+W+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var l={persisted:false,reason:"could not load the existing store — not overwriting it"};var c={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var E=new Set;var t={get:(W)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return T(_).then((V)=>{if(V===null){E.add(W);return null}E.delete(W);if(!V.has(W))return null;const z=V.get(W);return z==null?null:JSON.parse(JSON.stringify(z))})},set:(W,V)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let z;try{z=JSON.stringify(V)}catch(K){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(K)+")"))}if(z===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}r(W,z,V);const G=JSON.parse(z);return T(()=>_().then((K)=>{if(K===null)return l;if(E.has(W)){if(K.has(W))return c;E.delete(W)}K.set(W,G);return y(K)}))},delete:(W)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return T(()=>_().then((V)=>{if(V===null)return l;if(E.has(W)){if(V.has(W))return c;E.delete(W)}V.delete(W);return y(V)}))},keys:()=>T(_).then((W)=>W===null?[]:Array.from(W.keys()))};window.omelette={writeFile:(W,V)=>S(W,V).then((z)=>{if(!z.persisted&&!z.noHost){throw new Error(z.reason||"write failed")}}),storage:t};if(v&&v!==window){const W=(J,Q)=>{try{v.postMessage({__omelette_log:true,type:J,data:Q},"*")}catch{}};["log","warn","error"].forEach((J)=>{const Q=console[J];console[J]=(...$)=>{const Y=$.map((Z)=>{try{return typeof Z==="object"?JSON.stringify(Z):String(Z)}catch{try{return String(Z)}catch{return"[unstringifiable]"}}}).join(" ");W(J,Y);Q.apply(console,$)}});window.addEventListener("error",(J)=>{const Q=J.target;if(Q&&Q!==window&&Q.tagName){const $=Q.src||Q.href||"";W("resource_error",`${Q.tagName} failed to load: ${$}`)}else{W("error",`${J.message||"Unknown error"} at ${J.filename||"?"}:${J.lineno||0}:${J.colno||0}`)}},true);window.addEventListener("unhandledrejection",(J)=>{const Q=J.reason;const $=Q instanceof Error?`${Q.message} ${Q.stack}`:String(Q);W("error",`Unhandled rejection: ${$}`)});window.addEventListener("click",(J)=>{if(J.defaultPrevented||J.button!==0)return;if(J.metaKey||J.ctrlKey||J.shiftKey||J.altKey)return;const Q=J.composedPath?J.composedPath():[];const $=["button","input","select","textarea","summary","label"];let Y=null;for(const x of Q){if(!(x instanceof Element))continue;if(x.localName==="a"){if(!(x instanceof HTMLAnchorElement))return;Y=x;break}if($.indexOf(x.localName)!==-1)return}if(!Y)return;if(Y.isContentEditable)return;const Z=Y.closest("[contenteditable]");if(Z&&Z.getAttribute("contenteditable")!=="false")return;const B=(Y.getAttribute("target")||"_self").toLowerCase();if(B!=="_self"&&B!=="_top"&&B!=="_parent")return;let U;try{U=new URL(Y.href)}catch{return}if(U.protocol!=="http:"&&U.protocol!=="https:")return;if(location.origin==="null")return;if(U.origin===location.origin)return;J.preventDefault();window.open(U.href,"_blank","noopener,noreferrer")});const V=()=>{try{v.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(V).observe(document.documentElement);const z=()=>{V();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const J=()=>document.getElementById("root")||document.querySelector("body > div[id]");const Q=J()?.firstElementChild??null;let $=0;const Y=()=>{const Z=J();if(Z&&Z.firstElementChild!==Q||++$>30){V();return}setTimeout(Y,100)};setTimeout(Y,100)};if(document.readyState==="complete")z();else window.addEventListener("load",z);const G={};let K=0;const D=(J)=>new Promise((Q,$)=>{if(!b.length){$(new Error("claude.complete: no parent origin"));return}const Y=`c${++K}`;const Z=()=>setTimeout(()=>{delete G[Y];$(new Error(`claude.complete: no data for ${O/1000}s`))},O);const B=Z();G[Y]={resolve:Q,reject:$,text:"",t:B,arm:Z};try{for(const U of b){v.postMessage({__om_api:true,id:Y,body:J},U)}}catch(U){clearTimeout(B);delete G[Y];$(U)}});const j=8;const H=async(J,Q)=>{if(!Array.isArray(J.messages)){throw new Error("claude.complete: tools require a messages array")}const $=J.messages.slice();const Y={...J,tools:J.tools.map((U)=>{if(U===null||typeof U!=="object")return U;const x={};for(const q of Object.keys(U)){if(typeof U[q]!=="function")x[q]=U[q]}return x})};const Z=Y.tool_choice;const B=Z!=null&&(Z.type==="any"||Z.type==="tool")?{...Y,tool_choice:Z.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:Z.disable_parallel_tool_use}:{type:"auto"}}:Y;for(let U=0;U<j;U++){const x=await D({...U===0?Y:B,messages:$});const q=x.message;const M=q&&Array.isArray(q.content)?q.content:null;const L=M?M.filter((X)=>X?.type==="tool_use"):[];if(q?.stop_reason!=="tool_use"||L.length===0){return x.text}const N=[];for(const X of L){const f=Q.get(X.name);if(!f){N.push({type:"tool_result",tool_use_id:X.id,content:`no handler for tool "${X.name}"`,is_error:true});continue}try{const C=await f(X.input);const w=typeof C==="string"?C:R(C)??"";N.push({type:"tool_result",tool_use_id:X.id,content:w})}catch(C){N.push({type:"tool_result",tool_use_id:X.id,content:String(C?.message??C??"tool handler failed"),is_error:true})}}$.push({role:"assistant",content:M},{role:"user",content:N})}throw new Error(`claude.complete: exceeded ${j} tool turns`)};window.claude={complete(J){const Q=J;if(Q!==null&&typeof Q==="object"&&Array.isArray(Q.tools)&&Q.tools.some(($)=>$!==null&&typeof $==="object"&&typeof $.run==="function")){const $=new Map;for(const Y of Q.tools){if(Y!==null&&typeof Y==="object"&&typeof Y.run==="function"){$.set(String(Y.name),Y.run)}}return H(Q,$)}return D(J).then(($)=>$.text)}};const F={};let P=0;S=(J,Q)=>new Promise(($)=>{if(!b.length){$({persisted:false,noHost:true,reason:g});return}const Y=`f${++P}`;const Z=setTimeout(()=>{delete F[Y];$({persisted:false,noHost:true,reason:g})},n);F[Y]={settle:$,t:Z};try{for(const B of b){v.postMessage({__om_file:true,id:Y,op:"write",path:J,content:Q},B)}}catch{clearTimeout(Z);delete F[Y];$({persisted:false,noHost:true,reason:g})}});const R=(J)=>{try{return JSON.stringify(J)}catch{return JSON.stringify(String(J))}};window.addEventListener("message",(J)=>{if(b.indexOf(J.origin)<0)return;if(J.source!==v)return;const Q=J.data;if(!Q)return;if(Q.type==="omelette-preview-refresh"){if(typeof Q.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(Q.token))return;const Z=Math.max(1,Math.floor((Q.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+Q.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+Z;return}if(Q.__om_file_r){const Z=F[Q.id];if(!Z)return;clearTimeout(Z.t);delete F[Q.id];Z.settle(Q.ok?{persisted:true}:{persisted:false,reason:Q.error||"write failed"});return}if(Q.__om_api_r){const Z=G[Q.id];if(!Z)return;if(Q.error!=null){clearTimeout(Z.t);delete G[Q.id];Z.reject(new Error(Q.error));return}if(Q.chunk!=null){clearTimeout(Z.t);Z.t=Z.arm();Z.text+=Q.chunk;return}if(Q.done){clearTimeout(Z.t);delete G[Q.id];Z.resolve({text:Q.text!=null?Q.text:Z.text,message:Q.message});return}return}if(!Q.__om_eval)return;const $=Q;const Y=(Z)=>{J.source.postMessage({...Z,__om_eval_r:1,id:$.id},J.origin)};try{const Z=(0,eval)($.code);if(Z&&typeof Z.then==="function"){Z.then((B)=>Y({ok:1,v:R(B)}),(B)=>Y({ok:0,e:String(B)}))}else{Y({ok:1,v:R(Z)})}}catch(Z){Y({ok:0,e:String(Z)})}})}})();
+</script>
+
+<meta charset="utf-8">
+<title>Forms — UnitPulse</title>
+<link rel="stylesheet" href="../colors_and_type.css?v=29">
+<link rel="stylesheet" href="../components.css?v=29">
+<style>
+  html, body { margin: 0; padding: 0; background: var(--cream); color: var(--ink); font-family: var(--font-sans); }
+  body { padding: 32px 40px 80px; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+
+  .eyebrow { font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+  h1 { font-family: var(--font-display); font-size: var(--t-hero); font-weight: 600; letter-spacing: -0.028em; margin: 4px 0 6px; }
+  .page-sub { font-size: var(--t-body); color: var(--subtle); max-width: 66ch; margin: 0 0 28px; line-height: 1.55; }
+
+  h2.sec { font-family: var(--font-display); font-size: var(--t-h2); font-weight: 600; letter-spacing: -0.028em; margin: 0 0 4px; }
+  .sec-sub { font-size: var(--t-body-s); color: var(--subtle); margin: 0 0 18px; max-width: 62ch; line-height: 1.55; }
+  .section { border-top: 1px solid var(--hairline); padding-top: 26px; margin-top: 32px; }
+  .section:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-card);
+    padding: 20px 22px;
+    box-sizing: border-box;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  label.field-label {
+    font-size: 0.625rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--faint); display: block; margin-bottom: 6px;
+  }
+
+  .demo-title {
+    font-size: var(--t-mono); font-family: var(--font-mono);
+    color: var(--faint); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .demo-title .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--signal); }
+
+  .demo-meta { font-size: var(--t-mono); color: var(--subtle); margin-top: 12px; font-family: var(--font-mono); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Components · Forms</div>
+    <h1>Form controls</h1>
+    <p class="page-sub">
+      Inputs, selects, toggles, and the specialized widgets that show up once a form grows up — searchable selects with quick-clear,
+      multiselect with an <b>invert</b> action that flips the selection, status-aware helpers (including the often-forgotten <em>warning</em> state),
+      a compact date picker, and a range picker with presets.
+    </p>
+  </header>
+
+  <!-- =========================================================
+       01 · Inputs, selects, textarea — with status variants
+       ========================================================= -->
+  <section class="section">
+    <div class="eyebrow">01 · Fields &amp; status</div>
+    <h2 class="sec">Inputs · selects · textarea</h2>
+    <p class="sec-sub">
+      Borders are faint so filled forms read as content, not chrome. Status tints the border + a 3px soft ring:
+      <b style="color:var(--forest)">focus</b>, <b style="color:var(--warn)">warning</b>, <b style="color:var(--alert)">error</b>, <b style="color:var(--signal)">success</b>.
+      <code class="mono">data-state="warn"</code> is distinct from error (red) — a warning is "check this" rather than "this is wrong".
+    </p>
+
+    <div class="card grid-2">
+      <div>
+        <label class="field-label">Property name *</label>
+        <input class="input" placeholder="e.g., Sunset Heights" />
+        <div class="field-help">Shown to residents and on reports.</div>
+      </div>
+
+      <div>
+        <label class="field-label">Region</label>
+        <select class="input select">
+          <option>San Francisco Bay</option>
+          <option>Seattle metro</option>
+          <option>Portland</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="field-label">Monthly rent — error</label>
+        <input class="input" aria-invalid="true" value="12a" />
+        <div class="field-help is-error">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Enter a whole number.
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label">Market rent — warning</label>
+        <input class="input" data-state="warn" value="$1,850" />
+        <div class="field-help is-warn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          12% below comps in this zip. Worth a second look.
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label">Verified address — success</label>
+        <input class="input" data-state="success" value="215 Sunset Blvd · San Francisco" />
+        <div class="field-help is-success">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Geocoded &amp; matched to parcel.
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label">Notes</label>
+        <textarea class="input" placeholder="Optional context for your team…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       01b · Prefix / suffix affixes — icon or text
+       ========================================================= -->
+  <section class="section">
+    <div class="eyebrow">01b · Affixes</div>
+    <h2 class="sec">Prefix &amp; suffix — icon or text</h2>
+    <p class="sec-sub">
+      Use <code class="mono">.input-affix</code> around an input or combobox trigger. Slot <code class="mono">.affix-prefix</code> or <code class="mono">.affix-suffix</code>
+      with either <code class="mono">.affix-icon</code> (14px stroked SVG) or <code class="mono">.affix-text</code> (monospaced, muted). Use the inline
+      <code class="mono">--affix-prefix-w</code> / <code class="mono">--affix-suffix-w</code> vars when the affix text is wider than the 32px default.
+    </p>
+
+    <div class="card grid-2">
+      <!-- Icon prefix — search -->
+      <div>
+        <label class="field-label">Search — icon prefix</label>
+        <div class="input-affix has-prefix">
+          <span class="affix-prefix"><span class="affix-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span></span>
+          <input class="input" placeholder="Search residents, units, tickets…"/>
+        </div>
+        <div class="field-help">A search affordance without the cruft of a search button.</div>
+      </div>
+
+      <!-- Text prefix — currency -->
+      <div>
+        <label class="field-label">Monthly rent — text prefix</label>
+        <div class="input-affix has-prefix" style="--affix-prefix-w: 28px">
+          <span class="affix-prefix"><span class="affix-text">$</span></span>
+          <input class="input tnum" value="2,450"/>
+        </div>
+        <div class="field-help">Currency lives outside the value, not inside it.</div>
+      </div>
+
+      <!-- Text prefix — protocol -->
+      <div>
+        <label class="field-label">Portal URL — text prefix</label>
+        <div class="input-affix has-prefix" style="--affix-prefix-w: 80px">
+          <span class="affix-prefix"><span class="affix-text">https://</span></span>
+          <input class="input" value="sunset-heights.unitpulse.app"/>
+        </div>
+      </div>
+
+      <!-- Suffix — unit -->
+      <div>
+        <label class="field-label">Unit size — text suffix</label>
+        <div class="input-affix has-suffix" style="--affix-suffix-w: 44px">
+          <input class="input tnum" value="1,120"/>
+          <span class="affix-suffix"><span class="affix-text">sq ft</span></span>
+        </div>
+      </div>
+
+      <!-- Combobox with icon prefix -->
+      <div>
+        <label class="field-label">Assigned to — icon prefix on combobox</label>
+        <div class="input-affix has-prefix">
+          <span class="affix-prefix"><span class="affix-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span></span>
+          <button class="combobox-trigger" type="button">
+            <span class="combobox-value is-placeholder">Pick a teammate…</span>
+            <svg class="combobox-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Both sides — prefix + suffix -->
+      <div>
+        <label class="field-label">Cap rate — prefix &amp; suffix</label>
+        <div class="input-affix has-prefix has-suffix" style="--affix-prefix-w: 40px; --affix-suffix-w: 28px">
+          <span class="affix-prefix"><span class="affix-text">IRR</span></span>
+          <input class="input tnum" value="7.25"/>
+          <span class="affix-suffix"><span class="affix-text">%</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       02 · Toggles, radios, checkboxes
+       ========================================================= -->
+  <section class="section">
+    <div class="eyebrow">02 · Toggles &amp; checkboxes</div>
+    <h2 class="sec">Binary controls</h2>
+    <p class="sec-sub">Switch for on/off of a system behavior, radio for mutually-exclusive choices, checkbox for multi-select of items.</p>
+
+    <div class="card" style="display:flex;gap:32px;align-items:center;flex-wrap:wrap">
+      <label style="display:flex;align-items:center;gap:8px;font-size:var(--t-body-s);font-weight:500">
+        <input type="checkbox" class="checkbox" checked /> Enable AI leasing agent
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:var(--t-body-s);font-weight:500">
+        <input type="radio" class="radio" name="r" checked /> Active
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:var(--t-body-s);font-weight:500">
+        <input type="radio" class="radio" name="r" /> Paused
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:var(--t-body-s);font-weight:500">
+        <input type="checkbox" class="toggle" checked /> Auto-reply
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:var(--t-body-s);font-weight:500">
+        <input type="checkbox" class="toggle" /> Weekend tours
+      </label>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       03 · Searchable single select (combobox)
+       ========================================================= -->
+  <section class="section">
+    <div class="eyebrow">03 · Combobox</div>
+    <h2 class="sec">Searchable select</h2>
+    <p class="sec-sub">
+      Whenever the list is longer than ~8 items, upgrade the native select to a combobox with type-to-filter and a quick-clear.
+      Trigger looks like an input; popover menu opens directly under it.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="demo-title"><span class="dot"></span>Single-select · searchable</div>
+        <label class="field-label">Assigned property</label>
+        <div class="combobox" id="cb-single" data-selected="sunset">
+          <div class="combobox-trigger" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
+            <span class="combobox-value">Sunset Heights</span>
+            <button type="button" class="combobox-clear" aria-label="Clear" data-clear>×</button>
+            <svg class="combobox-caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+          <div class="combobox-menu" role="listbox">
+            <div class="combobox-search">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search properties…" data-search/>
+            </div>
+            <div class="combobox-list" data-list>
+              <div class="combobox-group">San Francisco Bay</div>
+              <div class="combobox-option is-selected" data-value="sunset" data-label="Sunset Heights">
+                <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Sunset Heights <span class="opt-meta">124u</span>
+              </div>
+              <div class="combobox-option" data-value="marina" data-label="Marina Pointe">
+                <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Marina Pointe <span class="opt-meta">88u</span>
+              </div>
+              <div class="combobox-option" data-value="oakpine" data-label="Oak & Pine">
+                <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Oak &amp; Pine <span class="opt-meta">72u</span>
+              </div>
+              <div class="combobox-group">Seattle metro</div>
+              <div class="combobox-option" data-value="ridge" data-label="Ridgeview">
+                <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Ridgeview <span class="opt-meta">156u</span>
+              </div>
+              <div class="combobox-option" data-value="ballard" data-label="Ballard Commons">
+                <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Ballard Commons <span class="opt-meta">94u</span>
+              </div>
+              <div class="combobox-option" data-value="denny" data-label="Denny Tower">
+                <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Denny Tower <span class="opt-meta">210u</span>
+              </div>
+              <div class="combobox-empty" style="display:none">No matches</div>
+            </div>
+          </div>
+        </div>
+        <div class="field-help">Type to filter · ✕ to clear · click away to dismiss.</div>
+      </div>
+
+      <div class="card">
+        <div class="demo-title"><span class="dot"></span>Single-select · with meta</div>
+        <label class="field-label">Assigned agent</label>
+        <div class="combobox" id="cb-agent">
+          <div class="combobox-trigger" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
+            <span class="combobox-value is-placeholder">Pick an agent…</span>
+            <button type="button" class="combobox-clear" aria-label="Clear" data-clear>×</button>
+            <svg class="combobox-caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+          <div class="combobox-menu" role="listbox">
+            <div class="combobox-search">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search agents…" data-search/>
+            </div>
+            <div class="combobox-list" data-list>
+              <div class="combobox-option" data-value="kai" data-label="Kai Alvarez">
+                <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Kai Alvarez <span class="opt-meta">28 leases</span>
+              </div>
+              <div class="combobox-option" data-value="riley" data-label="Riley Chen">
+                <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Riley Chen <span class="opt-meta">22 leases</span>
+              </div>
+              <div class="combobox-option" data-value="sam" data-label="Sam Okafor">
+                <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Sam Okafor <span class="opt-meta">19 leases</span>
+              </div>
+              <div class="combobox-option" data-value="jules" data-label="Jules Park">
+                <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Jules Park <span class="opt-meta">15 leases</span>
+              </div>
+              <div class="combobox-empty" style="display:none">No matches</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       04 · Multiselect · with invert action
+       ========================================================= -->
+  <section class="section">
+    <div class="eyebrow">04 · Multiselect</div>
+    <h2 class="sec">Multiselect · with invert action</h2>
+    <p class="sec-sub">
+      Selected items stack into tokens inside the trigger. The footer <b>Invert</b> action flips the selection in one click —
+      everything you <em>didn't</em> pick becomes picked. Handy when you realize "actually, it's everyone except these two".
+    </p>
+
+    <div class="card" style="max-width: 540px">
+      <div class="demo-title"><span class="dot"></span>Multi · searchable</div>
+      <label class="field-label">Properties in scope</label>
+      <div class="combobox combobox-multi" id="cb-multi">
+        <div class="combobox-trigger" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
+          <span class="token-wrap" data-tokens></span>
+          <button type="button" class="combobox-clear" aria-label="Clear all" data-clear>×</button>
+          <svg class="combobox-caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="combobox-menu" role="listbox">
+          <div class="combobox-search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search properties…" data-search/>
+          </div>
+          <div class="combobox-list" data-list>
+            <div class="combobox-option is-selected" data-value="sunset"  data-label="Sunset Heights">
+              <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Sunset Heights <span class="opt-meta">124u</span>
+            </div>
+            <div class="combobox-option is-selected" data-value="marina"  data-label="Marina Pointe">
+              <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Marina Pointe <span class="opt-meta">88u</span>
+            </div>
+            <div class="combobox-option" data-value="oakpine" data-label="Oak & Pine">
+              <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Oak &amp; Pine <span class="opt-meta">72u</span>
+            </div>
+            <div class="combobox-option" data-value="ridge" data-label="Ridgeview">
+              <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Ridgeview <span class="opt-meta">156u</span>
+            </div>
+            <div class="combobox-option" data-value="ballard" data-label="Ballard Commons">
+              <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Ballard Commons <span class="opt-meta">94u</span>
+            </div>
+            <div class="combobox-option" data-value="denny" data-label="Denny Tower">
+              <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Denny Tower <span class="opt-meta">210u</span>
+            </div>
+            <div class="combobox-empty" style="display:none">No matches</div>
+          </div>
+          <div class="combobox-footer">
+            <button type="button" class="invert-action" data-invert>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4-4 4"/><path d="M21 7H4"/><path d="M7 21l-4-4 4-4"/><path d="M3 17h17"/></svg>
+              Invert selection
+            </button>
+            <span data-count>2 of 6</span>
+          </div>
+        </div>
+      </div>
+      <div class="demo-meta" data-summary>Selected: Sunset Heights, Marina Pointe.</div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       05 · Date pickers
+       ========================================================= -->
+  <section class="section">
+    <div class="eyebrow">05 · Date</div>
+    <h2 class="sec">Date picker</h2>
+    <p class="sec-sub">
+      Never the browser's default — it drifts from our type scale and varies wildly across platforms.
+      Single-date for one field; range for reporting windows. Both open as popovers directly under the trigger input.
+    </p>
+
+    <div class="grid-2" style="align-items:flex-start">
+      <div class="card">
+        <div class="demo-title"><span class="dot"></span>Single date</div>
+        <label class="field-label">Move-in date</label>
+        <div class="date-popover" id="dp-single-wrap">
+          <div class="input-with-icon">
+            <input class="input" readonly data-trigger value="May 12, 2026" size="14"/>
+            <span class="input-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </span>
+          </div>
+          <div class="date-popover-surface">
+            <div class="datepicker" id="dp-single"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="demo-title"><span class="dot"></span>Range · with presets</div>
+        <label class="field-label">Reporting window</label>
+        <div class="date-popover" id="dp-range-wrap">
+          <div class="input-with-icon">
+            <input class="input" readonly data-trigger data-summary value="Mar 20 – Apr 19, 2026" size="22"/>
+            <span class="input-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </span>
+          </div>
+          <div class="date-popover-surface">
+            <div class="daterange" id="dp-range">
+              <div class="daterange-presets">
+                <button type="button" class="daterange-preset" data-preset="7">Last 7 days</button>
+                <button type="button" class="daterange-preset is-active" data-preset="30">Last 30 days</button>
+                <button type="button" class="daterange-preset" data-preset="90">Last 90 days</button>
+                <button type="button" class="daterange-preset" data-preset="mtd">Month to date</button>
+                <button type="button" class="daterange-preset" data-preset="qtd">Quarter to date</button>
+                <button type="button" class="daterange-preset" data-preset="ytd">Year to date</button>
+                <button type="button" class="daterange-preset" data-preset="custom">Custom…</button>
+              </div>
+              <div class="daterange-body">
+                <div class="daterange-months">
+                  <div class="datepicker" data-month="0"></div>
+                  <div class="datepicker" data-month="1"></div>
+                </div>
+                <div class="daterange-footer">
+                  <div class="daterange-inputs">
+                    <input class="input" data-range-start placeholder="MM/DD/YYYY" value="03/20/2026"/>
+                    <span class="dash">→</span>
+                    <input class="input" data-range-end placeholder="MM/DD/YYYY" value="04/19/2026"/>
+                  </div>
+                  <button class="btn-ghost btn-sm" data-cancel>Cancel</button>
+                  <button class="btn-primary btn-sm" data-apply>Apply</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  /* ==========================================================
+     Combobox controller
+     ========================================================== */
+  (() => {
+    const comboboxes = document.querySelectorAll('.combobox');
+    comboboxes.forEach(cb => {
+      const trigger = cb.querySelector('.combobox-trigger');
+      const search  = cb.querySelector('[data-search]');
+      const list    = cb.querySelector('[data-list]');
+      const empty   = cb.querySelector('.combobox-empty');
+      const value   = cb.querySelector('.combobox-value');
+      const tokens  = cb.querySelector('[data-tokens]');
+      const clear   = cb.querySelector('[data-clear]');
+      const count   = cb.querySelector('[data-count]');
+      const summary = cb.parentElement.querySelector('[data-summary]');
+      const invert  = cb.querySelector('[data-invert]');
+      const isMulti = cb.classList.contains('combobox-multi');
+
+      function syncSelectionClass() {
+        const anySelected = !!cb.querySelector('.combobox-option.is-selected');
+        cb.classList.toggle('has-value', anySelected);
+      }
+
+      function updateSummary() {
+        const selected = [...cb.querySelectorAll('.combobox-option.is-selected')];
+        if (!isMulti) {
+          if (selected[0]) {
+            value.textContent = selected[0].dataset.label;
+            value.classList.remove('is-placeholder');
+          } else {
+            value.textContent = 'Pick one…';
+            value.classList.add('is-placeholder');
+          }
+          return;
+        }
+        tokens.innerHTML = '';
+        const shown = selected.slice(0, 3);
+        const extra = selected.length - shown.length;
+        shown.forEach(opt => {
+          const tok = document.createElement('span');
+          tok.className = 'token';
+          tok.innerHTML = `<span>${opt.dataset.label}</span><button type="button" class="token-x" data-remove="${opt.dataset.value}" aria-label="Remove">×</button>`;
+          tokens.appendChild(tok);
+        });
+        if (extra > 0) {
+          const more = document.createElement('span');
+          more.className = 'token-overflow';
+          more.textContent = `+${extra} more`;
+          tokens.appendChild(more);
+        }
+        if (selected.length === 0) {
+          const ph = document.createElement('span');
+          ph.className = 'combobox-value is-placeholder';
+          ph.textContent = 'Pick properties…';
+          tokens.appendChild(ph);
+        }
+        const total = cb.querySelectorAll('.combobox-option').length;
+        if (count) count.textContent = `${selected.length} of ${total}`;
+        if (summary) {
+          const names = selected.map(o => o.dataset.label).join(', ');
+          summary.innerHTML = selected.length
+            ? `Selected: <b style="color:var(--ink)">${names}</b>.`
+            : `<span style="color:var(--faint)">Nothing selected.</span>`;
+        }
+      }
+
+      function openMenu()  { trigger.setAttribute('aria-expanded', 'true');  cb.classList.add('is-open');  search?.focus(); }
+      function closeMenu() { trigger.setAttribute('aria-expanded', 'false'); cb.classList.remove('is-open'); if (search) search.value = ''; filterList(''); }
+
+      function filterList(q) {
+        const qq = q.toLowerCase().trim();
+        let visible = 0;
+        cb.querySelectorAll('.combobox-option').forEach(opt => {
+          const match = opt.dataset.label.toLowerCase().includes(qq);
+          opt.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+        cb.querySelectorAll('.combobox-group').forEach(g => g.style.display = qq ? 'none' : '');
+        if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
+      }
+
+      trigger.addEventListener('click', (e) => {
+        if (e.target === clear || clear?.contains(e.target)) return;
+        const open = trigger.getAttribute('aria-expanded') === 'true';
+        if (open) closeMenu(); else openMenu();
+      });
+
+      search?.addEventListener('input', (e) => { filterList(e.target.value); setActive(0); });
+      search?.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { closeMenu(); return; }
+        const visible = getVisibleOptions();
+        if (!visible.length) return;
+        const curIdx = visible.findIndex(o => o.classList.contains('is-active'));
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          setActive(curIdx < 0 ? 0 : Math.min(curIdx + 1, visible.length - 1));
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          setActive(curIdx <= 0 ? 0 : curIdx - 1);
+        } else if (e.key === 'Home') {
+          e.preventDefault(); setActive(0);
+        } else if (e.key === 'End') {
+          e.preventDefault(); setActive(visible.length - 1);
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          const target = visible[curIdx >= 0 ? curIdx : 0];
+          if (target) {
+            if (isMulti) {
+              target.classList.toggle('is-selected');
+            } else {
+              cb.querySelectorAll('.combobox-option.is-selected').forEach(o => o.classList.remove('is-selected'));
+              target.classList.add('is-selected');
+              closeMenu();
+            }
+            syncSelectionClass();
+            updateSummary();
+          }
+        }
+      });
+
+      function getVisibleOptions() {
+        return [...cb.querySelectorAll('.combobox-option')].filter(o => o.style.display !== 'none');
+      }
+      function setActive(idx) {
+        const visible = getVisibleOptions();
+        cb.querySelectorAll('.combobox-option.is-active').forEach(o => o.classList.remove('is-active'));
+        const el = visible[idx];
+        if (el) {
+          el.classList.add('is-active');
+          // Manual scroll within the list container — avoid scrollIntoView
+          const listEl = cb.querySelector('[data-list]');
+          if (listEl) {
+            const lr = listEl.getBoundingClientRect();
+            const er = el.getBoundingClientRect();
+            if (er.top < lr.top) listEl.scrollTop -= (lr.top - er.top) + 4;
+            else if (er.bottom > lr.bottom) listEl.scrollTop += (er.bottom - lr.bottom) + 4;
+          }
+        }
+      }
+
+      list.addEventListener('click', (e) => {
+        const opt = e.target.closest('.combobox-option');
+        if (!opt) return;
+        if (isMulti) {
+          opt.classList.toggle('is-selected');
+        } else {
+          cb.querySelectorAll('.combobox-option.is-selected').forEach(o => o.classList.remove('is-selected'));
+          opt.classList.add('is-selected');
+          closeMenu();
+        }
+        syncSelectionClass();
+        updateSummary();
+      });
+
+      clear?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        cb.querySelectorAll('.combobox-option.is-selected').forEach(o => o.classList.remove('is-selected'));
+        syncSelectionClass();
+        updateSummary();
+      });
+
+      tokens?.addEventListener('click', (e) => {
+        const x = e.target.closest('[data-remove]');
+        if (!x) return;
+        e.stopPropagation();
+        const opt = cb.querySelector(`.combobox-option[data-value="${x.dataset.remove}"]`);
+        if (opt) opt.classList.remove('is-selected');
+        syncSelectionClass();
+        updateSummary();
+      });
+
+      // One-shot invert action: every option flips selected ↔ not-selected
+      invert?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        cb.querySelectorAll('.combobox-option').forEach(opt => {
+          opt.classList.toggle('is-selected');
+        });
+        syncSelectionClass();
+        updateSummary();
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!cb.contains(e.target)) closeMenu();
+      });
+
+      syncSelectionClass();
+      updateSummary();
+    });
+  })();
+
+  /* ==========================================================
+     Date-popover open/close — generic wrapper for any trigger
+     that sits above a .date-popover-surface.
+     ========================================================== */
+  function bindDatePopover(root, onOpen) {
+    const trigger = root.querySelector('[data-trigger]');
+    function open()  { root.classList.add('is-open');  onOpen && onOpen(); }
+    function close() { root.classList.remove('is-open'); }
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      root.classList.contains('is-open') ? close() : open();
+    });
+    // Use mousedown (fires before DOM mutations) and composedPath so we
+    // correctly detect clicks on cells that get re-rendered on pick.
+    document.addEventListener('mousedown', (e) => {
+      const path = e.composedPath ? e.composedPath() : [];
+      if (path.includes(root)) return;
+      if (!root.contains(e.target)) close();
+    });
+    return { open, close };
+  }
+
+  /* ==========================================================
+     Date pickers
+     ========================================================== */
+  (() => {
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const SHORT_MO = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const DOW = ['S','M','T','W','T','F','S'];
+
+    function fmt(d) {
+      if (!d) return '';
+      return `${SHORT_MO[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+    }
+    function fmtInput(d) {
+      if (!d) return '';
+      const mm = String(d.getMonth()+1).padStart(2,'0');
+      const dd = String(d.getDate()).padStart(2,'0');
+      return `${mm}/${dd}/${d.getFullYear()}`;
+    }
+    function parseInput(str) {
+      // Accepts MM/DD/YYYY
+      const m = str.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (!m) return null;
+      const d = new Date(+m[3], +m[1]-1, +m[2]);
+      return isNaN(d) ? null : d;
+    }
+    function fmtRange(s, e) {
+      if (!s || !e) return '';
+      const sameYear = s.getFullYear() === e.getFullYear();
+      if (sameYear) {
+        return `${SHORT_MO[s.getMonth()]} ${s.getDate()} – ${SHORT_MO[e.getMonth()]} ${e.getDate()}, ${e.getFullYear()}`;
+      }
+      return `${fmt(s)} – ${fmt(e)}`;
+    }
+
+    function renderMonth(container, year, month, opts) {
+      opts = opts || {};
+      const today = new Date(); today.setHours(0,0,0,0);
+      const first = new Date(year, month, 1);
+      const startDow = first.getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const prevMonthDays = new Date(year, month, 0).getDate();
+
+      const head = document.createElement('div');
+      head.className = 'dp-head';
+      head.innerHTML = `
+        <div class="dp-title">${MONTHS[month]} ${year}</div>
+        <div class="dp-nav">
+          <button type="button" data-nav="prev" aria-label="Previous month">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button type="button" data-nav="next" aria-label="Next month">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      `;
+      const grid = document.createElement('div');
+      grid.className = 'dp-grid';
+      DOW.forEach(d => {
+        const cell = document.createElement('div'); cell.className = 'dp-dow'; cell.textContent = d; grid.appendChild(cell);
+      });
+
+      for (let i = startDow - 1; i >= 0; i--) {
+        const d = prevMonthDays - i;
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'dp-day is-muted'; b.textContent = d; b.disabled = true;
+        grid.appendChild(b);
+      }
+      for (let d = 1; d <= daysInMonth; d++) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'dp-day'; b.textContent = d;
+        const dt = new Date(year, month, d); dt.setHours(0,0,0,0);
+        b.dataset.date = dt.toISOString().slice(0,10);
+        if (+dt === +today) b.classList.add('is-today');
+        if (opts.selected && opts.selected.getTime() === dt.getTime()) b.classList.add('is-selected');
+        if (opts.range) {
+          const s = opts.range.start, e = opts.range.end;
+          if (s && e) {
+            if (+dt === +s) b.classList.add('is-start');
+            if (+dt === +e) b.classList.add('is-end');
+            if (+dt > +s && +dt < +e) b.classList.add('is-in-range');
+          } else if (s && +dt === +s) {
+            b.classList.add('is-selected');
+          }
+        }
+        grid.appendChild(b);
+      }
+      const total = startDow + daysInMonth;
+      const trailing = (7 - (total % 7)) % 7;
+      for (let i = 1; i <= trailing; i++) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'dp-day is-muted'; b.textContent = i; b.disabled = true;
+        grid.appendChild(b);
+      }
+
+      container.innerHTML = '';
+      container.appendChild(head);
+      container.appendChild(grid);
+    }
+
+    // ---- Single-date ----
+    const singleWrap = document.getElementById('dp-single-wrap');
+    const single = document.getElementById('dp-single');
+    if (single && singleWrap) {
+      let y = 2026, m = 4;
+      let selected = new Date(2026, 4, 12);
+      const triggerInput = singleWrap.querySelector('[data-trigger]');
+      function draw() { renderMonth(single, y, m, { selected }); }
+      draw();
+      const popover = bindDatePopover(singleWrap);
+      single.addEventListener('click', e => {
+        if (e.target.closest('[data-nav="prev"]')) { m--; if (m < 0) { m = 11; y--; } draw(); return; }
+        if (e.target.closest('[data-nav="next"]')) { m++; if (m > 11) { m = 0; y++; } draw(); return; }
+        const day = e.target.closest('.dp-day');
+        if (day && day.dataset.date) {
+          selected = new Date(day.dataset.date + 'T00:00:00');
+          triggerInput.value = fmt(selected);
+          draw();
+          popover.close();
+        }
+      });
+    }
+
+    // ---- Range ----
+    const rangeWrap = document.getElementById('dp-range-wrap');
+    const range = document.getElementById('dp-range');
+    if (range && rangeWrap) {
+      const triggerInput = rangeWrap.querySelector('[data-trigger]');
+      let y = 2026, m = 2; // March 2026 left
+      let rangeState = { start: new Date(2026,2,20), end: new Date(2026,3,19) };
+      let draft = { ...rangeState };
+      const leftEl  = range.querySelector('[data-month="0"]');
+      const rightEl = range.querySelector('[data-month="1"]');
+      const startInput = range.querySelector('[data-range-start]');
+      const endInput   = range.querySelector('[data-range-end]');
+
+      function draw() {
+        renderMonth(leftEl,  y, m,     { range: draft });
+        const rm = (m + 1) % 12, ry = m === 11 ? y + 1 : y;
+        renderMonth(rightEl, ry, rm,   { range: draft });
+        startInput.value = fmtInput(draft.start);
+        endInput.value   = fmtInput(draft.end);
+      }
+
+      function applyPreset(key) {
+        const today = new Date(); today.setHours(0,0,0,0);
+        let s, e = today;
+        if (key === '7')       { s = new Date(today); s.setDate(s.getDate() - 6); }
+        else if (key === '30') { s = new Date(today); s.setDate(s.getDate() - 29); }
+        else if (key === '90') { s = new Date(today); s.setDate(s.getDate() - 89); }
+        else if (key === 'mtd'){ s = new Date(today.getFullYear(), today.getMonth(), 1); }
+        else if (key === 'qtd'){ const qm = Math.floor(today.getMonth()/3)*3; s = new Date(today.getFullYear(), qm, 1); }
+        else if (key === 'ytd'){ s = new Date(today.getFullYear(), 0, 1); }
+        else return; // 'custom' — leave as-is
+        draft = { start: s, end: e };
+        // Also move calendar view to land on the start month
+        y = s.getFullYear(); m = s.getMonth();
+        draw();
+      }
+
+      draw();
+
+      // Allow manual entry in MM/DD/YYYY — reflects on calendar on blur/Enter
+      function onInputChange(input, isStart) {
+        const d = parseInput(input.value);
+        if (!d) { input.style.borderColor = 'var(--alert)'; return; }
+        input.style.borderColor = '';
+        range.querySelectorAll('.daterange-preset').forEach(b => b.classList.remove('is-active'));
+        range.querySelector('[data-preset="custom"]').classList.add('is-active');
+        if (isStart) {
+          draft.start = d;
+          if (draft.end && d > draft.end) draft.end = null;
+        } else {
+          draft.end = d;
+          if (draft.start && d < draft.start) draft.start = null;
+        }
+        // Move calendar view to entered date's month
+        y = d.getFullYear(); m = d.getMonth();
+        draw();
+        // restore typed value (draw overwrites it if draft is null)
+        input.value = fmtInput(d);
+      }
+      startInput.addEventListener('change', () => onInputChange(startInput, true));
+      startInput.addEventListener('keydown', e => { if (e.key === 'Enter') onInputChange(startInput, true); });
+      endInput.addEventListener('change',   () => onInputChange(endInput, false));
+      endInput.addEventListener('keydown',  e => { if (e.key === 'Enter') onInputChange(endInput, false); });
+
+      const popover = bindDatePopover(rangeWrap);
+
+      range.addEventListener('click', e => {
+        const prev = e.target.closest('[data-nav="prev"]');
+        const next = e.target.closest('[data-nav="next"]');
+        if (prev) { m--; if (m < 0) { m = 11; y--; } draw(); return; }
+        if (next) { m++; if (m > 11) { m = 0; y++; } draw(); return; }
+
+        const preset = e.target.closest('[data-preset]');
+        if (preset) {
+          range.querySelectorAll('.daterange-preset').forEach(b => b.classList.remove('is-active'));
+          preset.classList.add('is-active');
+          applyPreset(preset.dataset.preset);
+          return;
+        }
+
+        const day = e.target.closest('.dp-day');
+        if (day && day.dataset.date) {
+          // Clicking a day means we're going custom
+          range.querySelectorAll('.daterange-preset').forEach(b => b.classList.remove('is-active'));
+          range.querySelector('[data-preset="custom"]').classList.add('is-active');
+          const clicked = new Date(day.dataset.date + 'T00:00:00');
+          if (!draft.start || (draft.start && draft.end)) {
+            draft = { start: clicked, end: null };
+          } else if (clicked < draft.start) {
+            draft = { start: clicked, end: draft.start };
+          } else {
+            draft.end = clicked;
+          }
+          draw();
+          return;
+        }
+
+        if (e.target.closest('[data-apply]')) {
+          if (draft.start && draft.end) {
+            rangeState = { ...draft };
+            triggerInput.value = fmtRange(rangeState.start, rangeState.end);
+          }
+          popover.close();
+          return;
+        }
+        if (e.target.closest('[data-cancel]')) {
+          draft = { ...rangeState };
+          y = rangeState.start.getFullYear(); m = rangeState.start.getMonth();
+          draw();
+          popover.close();
+          return;
+        }
+      });
+    }
+  })();
+</script>
+</body>
+</html>

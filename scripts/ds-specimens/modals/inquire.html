@@ -1,0 +1,94 @@
+<!doctype html>
+<!-- Send-a-Message modal, ported verbatim from Figma node 1470-148 (UnitPulse
+     Listing, file Pywka4O25o69ocq2hPovbe) via get_design_context. Same render
+     approach as tour.html — Tailwind CDN + real fonts, 3x, transparent. -->
+<html><head>
+<meta charset="utf-8">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: transparent; }
+  body { font-family: 'Hanken Grotesk', sans-serif; }
+  .ff-caslon { font-family: 'Libre Caslon Text', serif; }
+  .ff-grotesk { font-family: 'Hanken Grotesk', sans-serif; }
+  #card { box-shadow: 0 24px 60px rgba(26,24,22,0.14); }
+</style>
+</head>
+<body>
+<div class="inline-block p-[40px]">
+  <div id="card" class="bg-white flex flex-col items-start overflow-clip rounded-[24px] w-[448px]">
+    <!-- Header -->
+    <div class="border-[rgba(0,0,0,0.05)] border-b border-solid w-full">
+      <div class="flex items-start justify-between pb-[17px] pt-[24px] px-[24px]">
+        <div class="flex gap-[12px] items-center">
+          <div class="bg-[rgba(26,69,52,0.1)] rounded-[12px] size-[36px] flex items-center justify-center">
+            <img class="size-[17px]" src="https://www.figma.com/api/mcp/asset/32e40869-15a0-42e8-aebe-419a0c230ef2" alt="">
+          </div>
+          <div class="flex flex-col items-start">
+            <p class="ff-caslon font-medium leading-[28px] text-[#1a4534] text-[20px] whitespace-nowrap">Send a Message</p>
+            <p class="ff-grotesk font-normal leading-[16px] text-[#a3a3a3] text-[12px] whitespace-nowrap">Croft Retreat</p>
+          </div>
+        </div>
+        <div class="rounded-full size-[40px] flex items-center justify-center">
+          <img class="size-[18px]" src="https://www.figma.com/api/mcp/asset/9e6c5e39-852f-4aea-b918-177088fe1ccd" alt="">
+        </div>
+      </div>
+    </div>
+    <!-- Body -->
+    <div class="w-full">
+      <div class="flex flex-col items-start px-[24px] py-[20px] w-[448px] box-border">
+        <!-- Full name -->
+        <div class="h-[70px] w-full relative">
+          <p class="absolute ff-grotesk font-medium leading-[16px] left-0 text-[#56544c] text-[12px] top-[5.5px] tracking-[0.6px] uppercase whitespace-nowrap">Full Name</p>
+          <div class="absolute bg-[#fafafa] border border-[#e5e7eb] flex flex-col h-[40px] justify-center left-0 px-[13px] rounded-[12px] top-[30px] w-[400px] box-border">
+            <p class="ff-grotesk text-[#d4d4d4] text-[14px]">Felix Zhou</p>
+          </div>
+        </div>
+        <!-- How to reach you -->
+        <div class="w-[400px] pt-[16px] flex flex-col items-start">
+          <p class="ff-grotesk font-medium leading-[16px] text-[#56544c] text-[12px] tracking-[0.6px] uppercase whitespace-nowrap">How to reach you <span class="text-[#a3a3a3]">(email or phone, either is fine)</span></p>
+          <div class="w-[400px] pt-[8px] flex flex-col items-start">
+            <div class="bg-[#fafafa] border border-[#e5e7eb] flex flex-col h-[40px] justify-center px-[13px] rounded-[12px] w-[396px] box-border">
+              <p class="ff-grotesk text-[#d4d4d4] text-[14px]">you@email.com</p>
+            </div>
+            <div class="pt-[12px] w-[400px] flex flex-col items-start">
+              <div class="bg-[#fafafa] border border-[#e5e7eb] rounded-[12px] w-[396px] box-border">
+                <div class="flex items-center p-px">
+                  <div class="h-[40px] flex gap-[6px] items-center justify-center pl-[10px] pr-[8px]">
+                    <p class="text-[16px]">🇺🇸</p>
+                    <p class="ff-grotesk text-[#171717] text-[14px]">+1</p>
+                    <img class="size-[12px]" src="https://www.figma.com/api/mcp/asset/37b22bd8-71a2-45b0-8f7e-f96a5f785bdb" alt="">
+                  </div>
+                  <div class="px-[4px] flex items-start"><div class="bg-[rgba(0,0,0,0.1)] h-[20px] w-px"></div></div>
+                  <div class="flex-1 h-[40px] flex flex-col justify-center px-[12px]">
+                    <p class="ff-grotesk text-[#d4d4d4] text-[14px]">(555) 000-0000</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Message -->
+        <div class="w-full pt-[16px] flex flex-col items-start">
+          <div class="h-[149.5px] w-full relative">
+            <p class="absolute ff-grotesk font-medium leading-[16px] left-0 text-[#56544c] text-[12px] top-[5.5px] tracking-[0.6px] uppercase whitespace-nowrap">Message</p>
+            <div class="absolute bg-[#fafafa] border border-[#e5e7eb] h-[113px] left-0 rounded-[12px] top-[30px] w-[400px] box-border"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="bg-white border-[rgba(0,0,0,0.05)] border-t w-full">
+        <div class="flex flex-col items-start pb-[16px] pt-[17px] px-[24px]">
+          <div class="pt-[12px]">
+            <div class="bg-[#1a4534] flex h-[44px] items-center justify-center opacity-40 rounded-full w-[400px]">
+              <p class="ff-grotesk font-medium leading-[22.5px] text-[#fcfaf7] text-[15px]">Send Message</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

@@ -29,9 +29,10 @@ sections:
   - { id: p3, num: "03", label: "Convert leads" }
   - { id: p4, num: "04", label: "Optimize operations" }
   - { id: p5, num: "05", label: "One platform" }
-  - { id: p6, num: "06", label: "On the go" }
-  - { id: p7, num: "07", label: "Evidence" }
-  - { id: p8, num: "08", label: "Reflection" }
+  - { id: ds, num: "06", label: "Design system" }
+  - { id: p6, num: "07", label: "On the go" }
+  - { id: p7, num: "08", label: "Evidence" }
+  - { id: p8, num: "09", label: "Reflection" }
 ---
 
 import BodyText from '../../components/reading/BodyText.astro';
@@ -45,6 +46,7 @@ import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
 import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
 import ShowcaseVideo from '../../components/showcase/ShowcaseVideo.astro';
 import ShowcasePhones from '../../components/showcase/ShowcasePhones.astro';
+import ShowcaseWall from '../../components/showcase/ShowcaseWall.astro';
 import ResearchStats from '../../components/data/ResearchStats.astro';
 import Stat from '../../components/data/Stat.astro';
 import Reflection from '../../components/showcase/Reflection.astro';
@@ -71,7 +73,8 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   - No PR/commit counts; velocity is DATES only (from-zero Feb 2026;
     mobile app in two weeks).
   - Insight adoption [REAL] (Pendo, May 2026): 79 accounts, 78 active
-    users, 52 (~66%) core dashboard, ~45 min/user/quarter.
+    users, 52 (~66%) core dashboard, ~45 min/user/week (‹C› Zhen corrected
+    quarter→week 2026-07-12).
   - "One sentence instead of fifteen clicks" + 2025 predecessor CRM
     copilot = lineage fact, dated inline, no link.
   - Convergence framed as a team effort I helped drive as design lead.
@@ -96,6 +99,11 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     behind the dashboard card), platform-nav.png (Part 05 — annotated
     navigation groups, Figma 1616-23346, high-res export 5308×2748, alpha).
   - Token-built EXAMPLE diagrams: timeline.svg, portal-merge.svg.
+  - DESIGN-SYSTEM SPECIMENS (ds/*.png): 3× Playwright captures of the real
+    system CSS, extracted from Zhen's UnitPulse Design System artifact
+    (claude.ai design da884f8c). Pipeline: scripts/ds-specimens/ (CSS + fonts +
+    preview pages + capture.mjs). Re-run `node scripts/ds-specimens/capture.mjs`
+    to regenerate. ‹C-ds› confirm the system-of-record framing before publish.
   - PERSONA HEADSHOTS: AI-generated synthetic faces (gen-platform-personas.mjs
     via Gemini) — fictional stand-ins for landlord / property manager /
     leasing agent, not real people. bento/personas/*.jpg.
@@ -121,8 +129,8 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <BodyText>
     An AI-native leasing platform for property owners and their teams. It finds
     renters, converts them, and measures the funnel. We built it from zero
-    starting February 2026, and the first paying customer signed on a month
-    later.
+    starting February 2026, and the **first paying customer signed a month
+    later**.
     {/* ‹C-dates› */}
   </BodyText>
   <Bento
@@ -139,7 +147,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       {
         image: "/cases/unitpulse-platform/bento/copilot.jpg",
         imageAlt: "The Copilot panel — a greeting, suggested questions about leasing performance and drop-offs, and an ask-anything box",
-        title: "Just ask the Copilot",
+        title: "Just ask Copilot",
         frame: { w: 100, h: 219.36, left: 0, top: 0.14 },
       },
       {
@@ -168,7 +176,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <PartHeader num="01" title="Who it serves" />
   <BodyText>
     Leasing still runs on spreadsheets, 7 disconnected tools, and messages
-    nobody answered. The platform is built around 3 people.
+    nobody answered. The platform is **built around 3 people**.
   </BodyText>
   <SectionH small>3 people, 3 pains</SectionH>
   {/* Avatars are AI-generated synthetic headshots (fictional persona stand-ins). */}
@@ -205,7 +213,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <BodyText>
     UP Marketing drafts posts and property content for each channel and each
     renter segment, and it keeps the Google Business Profile current, because
-    "apartments near me" still lands there first.
+    **"apartments near me" still lands there first**.
     {/* ‹C-mkt› channels generic; numbers pending */}
   </BodyText>
   <ShowcaseVideo
@@ -221,7 +229,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <PartHeader num="03" title="Leasing: convert leads" />
   <BodyText>
     UP Leasing turns that demand into signed leases. The AI answers every
-    inquiry knowing who's asking, writes follow-ups worth reading, and books
+    inquiry **knowing who's asking**, writes follow-ups worth reading, and books
     the tour.
     {/* ‹C-ai-behaviors› */}
   </BodyText>
@@ -260,7 +268,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   </Pullquote>
   <BodyText>
     Agents drive all of it by typing. I first proved the Copilot pattern on a
-    2025 predecessor CRM, where it replaced a 15-click path with one sentence;
+    2025 predecessor CRM, where it **replaced a 15-click path with one sentence**;
     here it fronts the platform's whole AI suite.
   </BodyText>
 </section>
@@ -270,7 +278,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <BodyText>
     UP Insight closes the loop for owners who aren't analysts: the full funnel,
     per-prospect attribution, AI alerts, and a plain-language Data Copilot.
-    Attribution shows which segments and channels actually sign leases, which
+    Attribution shows **which segments and channels actually sign leases**, which
     then steers what Marketing writes next.
   </BodyText>
 
@@ -291,7 +299,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       <span class="item">≈66% of all accounts</span>
       <span class="item">funnel · attribution · Data Copilot</span>
     </Stat>
-    <Stat num="~45 min" label="Per user, per quarter">
+    <Stat num="~45 min" label="Per user, per week">
       <span class="item">high engagement for B2B analytics</span>
     </Stat>
   </ResearchStats>
@@ -302,7 +310,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <BodyText>
     Customers came for Marketing, then asked us to run the whole journey. But 3
     products meant 3 logins, drifting UI, and no shared front door for the AI.
-    So we merged them behind one login and one design system, with the Copilot
+    So we merged them behind **one login and one design system**, with the Copilot
     as the shared command layer. It was a phased merge, not a rewrite.
     {/* ‹C-dates› spring/summer beats */}
   </BodyText>
@@ -350,16 +358,89 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <BodyText>
     I led the UX layer and the design-system primitives; the absorption
     architecture was a shared effort with engineering. It's built and merged
-    today, but not yet cut over.
+    today, but **not yet cut over**.
     {/* ‹C-split› */}
   </BodyText>
 </section>
 
-<section id="p6" data-reveal>
-  <PartHeader num="06" title="On the go — the agent's mobile app" />
+<section id="ds" data-reveal>
+  <PartHeader num="06" title="The design system" />
   <BodyText>
-    Leasing happens on foot, so we built the agents' app from scratch in 2
-    weeks, and I decided what went in first. The feature I pushed hardest for
+    "One design language" is a claim, so here is the language itself. Warm cream
+    surfaces, 2 greens with strict roles (olive for the brand, signal green for
+    state — they never trade places), tabular numbers everywhere, 3 shadows in
+    the entire system, dark mode built in. It lives as tokens and component CSS
+    that the products build against, so **the UI can't drift apart again**.
+    {/* ‹C-ds› system documented from the product brief; specimens below are
+        3× Playwright captures of the real CSS (scripts/ds-specimens/). */}
+  </BodyText>
+
+  <ShowcaseWall
+    label="Design-system component specimens"
+    items={[
+      { src: "/cases/unitpulse-platform/ds/buttons.png", alt: "Button specimens — primary (olive fill) and ghost variants across default, hover, focus, and loading states", width: 2100, height: 1200 },
+      { src: "/cases/unitpulse-platform/ds/kpi.png", alt: "KPI cards — occupancy 94.8% with trend pill and sparkbars, tours today against target, NOI with an EXCEEDING chip, delinquency", width: 2100, height: 978 },
+      { src: "/cases/unitpulse-platform/ds/forms.png", alt: "Form specimens — inputs and selects across default, error, warning, success, and focus states", width: 2100, height: 1122 },
+      { src: "/cases/unitpulse-platform/ds/chips.png", alt: "Chips and trend pills — hot, warm, cold lead chips; live and alert dots; trend-up and trend-down pills", width: 2100, height: 660 },
+      { src: "/cases/unitpulse-platform/ds/funnel.png", alt: "The leasing funnel bar — forest gradient stages with the bottleneck stage flagged in alert red", width: 2100, height: 822 },
+      { src: "/cases/unitpulse-platform/ds/nav.png", alt: "Sidebar navigation and segmented control — the active item is ink, not green", width: 2100, height: 1047 },
+      { src: "/cases/unitpulse-platform/ds/donut.png", alt: "Donut chart specimens — SVG ring with legend and a KPI readout in the center void", width: 2100, height: 846 },
+      { src: "/cases/unitpulse-platform/ds/table.png", alt: "Data table — cream header row, mono tabular numerics, hover and selected row states", width: 2100, height: 804 },
+      { src: "/cases/unitpulse-platform/ds/empty.png", alt: "Empty state — an editorial mixed-type headline instead of a sad illustration", width: 2100, height: 1038 },
+    ]}
+  />
+
+  <SectionH small>The rules that keep it tight</SectionH>
+  <CardGrid
+    label="The rules that keep it tight"
+    items={[
+      {
+        icon: "palette",
+        title: "2 greens, 2 roles",
+        body: "Olive is the brand: buttons, logo, authority. Signal green is state: trend-up, live, success. They never trade places.",
+      },
+      {
+        icon: "balance",
+        title: "Selected is ink, not green",
+        body: "Active nav and segmented controls use ink. Green would read as branded when the element is just selected.",
+      },
+      {
+        icon: "grid",
+        title: "3 shadows, total",
+        body: "One for cards, one for the phone frame, one for modals. Everything else sits flat on a hairline border.",
+      },
+    ]}
+  />
+
+  <SectionH small>Foundations, light and dark</SectionH>
+  <BodyText>
+    Dark mode is **a token swap, not a second theme** to maintain: the same
+    component CSS reads flipped surface and state values.
+  </BodyText>
+  <ShowcaseWall
+    cols={2}
+    label="Foundations and dark mode"
+    items={[
+      { src: "/cases/unitpulse-platform/ds/colors.png", alt: "The brand palette — forest and forest2 olive, signal green, and the olive data-series family with hex values", width: 2100, height: 708 },
+      { src: "/cases/unitpulse-platform/ds/type-scale.png", alt: "The type scale — 40px KPI crown down through page headings to body, with rem and px values", width: 2100, height: 2340 },
+      { src: "/cases/unitpulse-platform/ds/buttons-dark.png", alt: "The same button specimens in dark mode — olive brightened for dark surfaces", width: 2100, height: 1200 },
+      { src: "/cases/unitpulse-platform/ds/kpi-dark.png", alt: "The same KPI cards in dark mode — warm near-black surfaces, brightened state colors", width: 2100, height: 978 },
+    ]}
+  />
+  <BodyText>
+    I built this system in **Claude Design**, then extracted it to the tokens and
+    component CSS the products compile against. The specimens above are rendered
+    straight from that CSS, so **what you see is what ships**.
+    {/* ‹C-ds› Claude Design = claude.ai/design; system source of truth is
+        the artifact's colors_and_type.css + components.css. */}
+  </BodyText>
+</section>
+
+<section id="p6" data-reveal>
+  <PartHeader num="07" title="On the go — the agent's mobile app" />
+  <BodyText>
+    Leasing happens on foot, so we built the agents' app **from scratch in 2
+    weeks**, and I decided what went in first. The feature I pushed hardest for
     was tour recording: it auto-summarizes the visit and sends the prospect a
     recap, so leasing's highest-signal moment becomes data instead of a fading
     memory. Around it sit chat and calls, tour scheduling, prospect management,
@@ -416,7 +497,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
 </section>
 
 <section id="p7" data-reveal>
-  <PartHeader num="07" title="What it's done so far — honestly" />
+  <PartHeader num="08" title="What it's done so far — honestly" />
   <ResearchStats cols={3}>
     <Stat num="79" label="Accounts on the platform">
       <span class="item">52 on the core dashboard (~66%)</span>
@@ -427,7 +508,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       <span class="item">one month after kickoff</span>
     </Stat>
     <Stat num="~45 min" label="Analytics engagement">
-      <span class="item">per user per quarter</span>
+      <span class="item">per user per week</span>
       <span class="item">high for B2B analytics</span>
     </Stat>
   </ResearchStats>
@@ -436,14 +517,14 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       its measurement window. */}
   <BodyText>
     The portal is built and merged, but not yet cut over, and the convergence
-    was a team effort I helped drive as design lead. What I'd measure next:
+    was **a team effort I helped drive** as design lead. What I'd measure next:
     funnel lift per segment, how many tours the AI books on its own, and
     whether the recap emails get opened.
   </BodyText>
 </section>
 
 <section id="p8" data-reveal>
-  <PartHeader num="08" title="Reflection" />
+  <PartHeader num="09" title="Reflection" />
   <Reflection>
     <ReflectionCard label="On the real problem" heading="The system was the design problem">
       The interesting problem was never one screen. It was turning 3 fast,

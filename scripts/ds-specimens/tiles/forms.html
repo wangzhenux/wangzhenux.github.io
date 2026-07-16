@@ -1,0 +1,75 @@
+<!doctype html>
+<!-- Composed wall tile: form controls with all four status states, lifted from
+     preview/components-forms.html at a fixed 700px tile width so inputs fit
+     cleanly within their columns (the gallery page's card is narrower and
+     clipped the trailing textarea). Token-only colors. -->
+<html><head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  /* The DS's .input is width:100% + padding and relies on a page-level
+     border-box reset (present in the original preview pages) — without it,
+     inputs overflow their grid columns and overlap the neighbor. */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--cream); color: var(--ink); font-family: var(--font-sans); }
+  .tile { padding: 24px 28px; width: 700px; }
+  .card { background: var(--paper); border: 1px solid var(--hairline); border-radius: var(--r-card); padding: 22px 24px; box-sizing: border-box; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+  .field-label { display: block; font-size: 0.625rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); margin: 0 0 6px; }
+  .field-help { display: flex; align-items: flex-start; gap: 5px; font-size: var(--t-body-s); color: var(--subtle); margin-top: 6px; line-height: 1.4; }
+  .field-help svg { margin-top: 1px; flex-shrink: 0; }
+  .field-help.is-error { color: var(--alertDeep); }
+  .field-help.is-warn { color: var(--warn); }
+  .field-help.is-success { color: var(--signal); }
+</style>
+<script>
+  const t = new URLSearchParams(location.search).get('theme');
+  if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+</script>
+</head><body>
+<div class="tile">
+  <div class="card grid-2">
+    <div>
+      <label class="field-label">Property name</label>
+      <input class="input" placeholder="e.g., Sunset Heights" />
+      <div class="field-help">Shown to residents and on reports.</div>
+    </div>
+    <div>
+      <label class="field-label">Region</label>
+      <select class="input select">
+        <option>San Francisco Bay</option>
+      </select>
+    </div>
+    <div>
+      <label class="field-label">Monthly rent · error</label>
+      <input class="input" aria-invalid="true" value="12a" />
+      <div class="field-help is-error">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Enter a whole number.
+      </div>
+    </div>
+    <div>
+      <label class="field-label">Market rent · warning</label>
+      <input class="input" data-state="warn" value="$1,850" />
+      <div class="field-help is-warn">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        12% below comps in this zip.
+      </div>
+    </div>
+    <div>
+      <label class="field-label">Address · success</label>
+      <input class="input" data-state="success" value="215 Sunset Blvd" />
+      <div class="field-help is-success">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        Geocoded &amp; matched to parcel.
+      </div>
+    </div>
+    <div>
+      <label class="field-label">Unit type · focus</label>
+      <input class="input" value="2 bed / 2 bath" style="border-color:var(--forest);box-shadow:0 0 0 3px rgba(61,74,46,0.18)" />
+      <div class="field-help">Ring + border tint mark the active field.</div>
+    </div>
+  </div>
+</div>
+</body></html>

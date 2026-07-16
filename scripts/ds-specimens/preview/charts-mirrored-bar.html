@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Charts" name="Components · Mirrored bar" subtitle="Diverging bar for up/down comparison" -->
+<html lang="en"><head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const W=new URLSearchParams(location.search).get("theme");if(W==="light"||W==="dark"){document.documentElement.dataset.theme=W}}{const W=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const V=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(V&&V!=="normal")return;const z=(j)=>{if(!j)return null;const H=getComputedStyle(j).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!H)return null;const F=H[4]==null?1:parseFloat(H[4])/(H[4].endsWith("%")?100:1);if(F<0.99)return null;return[+H[1],+H[2],+H[3]]};const G=z(document.body)||z(document.documentElement);if(!G)return;const K=(j)=>{const H=j/255;return H<=0.04045?H/12.92:((H+0.055)/1.055)**2.4};const D=0.2126*K(G[0])+0.7152*K(G[1])+0.0722*K(G[2]);document.documentElement.style.setProperty("color-scheme",D<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")W();else window.addEventListener("load",W)}var b=["https://claude.ai","https://preview.claude.ai","https://da884f8c-0669-484f-9f29-af2565e52383.claudeusercontent.com"];var p=true;var O=30000;var n=3000;document.addEventListener("DOMContentLoaded",()=>{const W=window.Babel;const V="om-src-id";if(W&&W.registerPlugin&&!(W.availablePlugins&&W.availablePlugins[V])){W.registerPlugin(V,({types:D})=>({visitor:{JSXOpeningElement(j,H){const F=j.node;if(F.name&&F.name.type==="JSXMemberExpression")return;for(let Q=0;Q<F.attributes.length;Q++){const $=F.attributes[Q];if($.type==="JSXAttribute"&&$.name&&$.name.name==="data-om-id")return}const P=H.file&&H.file.opts&&H.file.opts.filename||"?";const R=F.loc&&F.loc.start;const J=`jsx:${P}:${F.start??0}:${R?R.line:0}:${R?R.column+1:0}`;F.attributes.push(D.jsxAttribute(D.jsxIdentifier("data-om-id"),D.stringLiteral(J)))}}}))}const z="om-text-extract";let G=false;if(p&&W&&W.registerPlugin&&!(W.availablePlugins&&W.availablePlugins[z])){const D=window.React;if(D&&D.useSyncExternalStore&&D.createElement){G=true;const j={};const H=new Set;let F=0;window.__omTextO=j;window.__omTextSet=(J)=>{for(const Q in J){const $=J[Q];if($==null)delete j[Q];else j[Q]=$}F++;H.forEach((Q)=>Q())};const P=(J)=>{H.add(J);return()=>H.delete(J)};const R=()=>F;window.__OmT=function J(Q){D.useSyncExternalStore(P,R,R);return D.createElement("span",{"data-om-text":Q.i,className:"__om-t"},Q.i in j?j[Q.i]:Q.children)};W.registerPlugin(z,({types:J})=>{const Q={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const $={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const Y=(q,M)=>J.logicalExpression("??",J.memberExpression(J.logicalExpression("||",J.memberExpression(J.identifier("window"),J.identifier("__omTextO")),J.objectExpression([])),J.stringLiteral(q),true),M);const Z=(q)=>q.file&&q.file.opts&&q.file.opts.filename||"?";const B=(q)=>q.file&&q.file.code||"";const U=(q,M)=>{const L=(X)=>X&&X.start!=null&&X.end!=null&&(X.type==="StringLiteral"||X.type==="TemplateLiteral"&&X.expressions.length===0)?[X.start,X.end]:null;const N=L(M);if(N)return N;if(M&&M.type==="Identifier"){const X=q.scope.getBinding(M.name);if(X&&X.constant&&X.path.node.type==="VariableDeclarator"){return L(X.path.node.init)}}return null};const x=(q,M,L)=>{const N=q.node;let X=false;const f=(w,A)=>{X=true;return J.jsxElement(J.jsxOpeningElement(J.jsxIdentifier("__OmT"),[J.jsxAttribute(J.jsxIdentifier("i"),J.stringLiteral(w))],false),J.jsxClosingElement(J.jsxIdentifier("__OmT")),[A],false)};const C=N.children.map((w)=>{if(w.type==="JSXText"){if(w.start==null||w.end==null)return w;const A=L.slice(w.start,w.end);const k=A.length-A.trimStart().length;const u=A.length-A.trimEnd().length;if(k+u>=A.length)return w;return f(`txt:${M}:${w.start+k}:${w.end-u}`,w)}if(w.type==="JSXExpressionContainer"){const A=U(q,w.expression);if(A)return f(`str:${M}:${A[0]}:${A[1]}`,w)}return w});if(X)N.children=C};return{visitor:{JSXOpeningElement(q,M){const L=q.node;const N=Z(M);const X={};for(let f=0;f<L.attributes.length;f++){const C=L.attributes[f];if(C.type!=="JSXAttribute"||!C.name)continue;const w=C.name.name;if(!$[w])continue;if(!C.value||C.value.type!=="StringLiteral")continue;if(C.value.start==null||C.value.end==null)continue;const A=`txt:${N}:${C.value.start}:${C.value.end}`;X[w]=A;C.value=J.jsxExpressionContainer(Y(A,J.stringLiteral(C.value.value)))}if(Object.keys(X).length){L.attributes.push(J.jsxAttribute(J.jsxIdentifier("data-om-text-attrs"),J.stringLiteral(JSON.stringify(X))))}},JSXElement(q,M){const L=q.node.openingElement;const N=L&&L.name&&L.name.name;if(N==="__OmT")return;if(typeof N==="string"&&Q[N])return;x(q,Z(M),B(M))},JSXFragment(q,M){x(q,Z(M),B(M))}}}})}}const K=G?["transform-react-jsx-source",V,z]:["transform-react-jsx-source",V];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((D,j)=>{const H=D.getAttribute("data-plugins")||"";const F=K.filter((P)=>H.indexOf(P)<0);if(F.length){D.setAttribute("data-plugins",H?`${H},${F.join(",")}`:F.join(","))}if(!D.hasAttribute("data-filename")){D.setAttribute("data-filename",D.getAttribute("src")||`inline-${j}`)}})});var v=window.parent;var g="not editable here — open the project in the Claude Design editor to save";var d=()=>Promise.resolve({persisted:false,noHost:true,reason:g});var S=d;var h="data/storage.json";var i=()=>{try{const W=new URL(document.baseURI);const V=W.pathname.match(/\/projects\/([^/]+)\/serve\//);if(V)return V[1];return W.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var o=()=>{try{const W=new URL(document.baseURI);const V=W.pathname.indexOf("/serve/");if(V>=0)return W.origin+W.pathname.slice(0,V+"/serve/".length)+h}catch{}return"./"+h};var I=null;var _=()=>{if(!I){I=fetch(o(),{cache:"no-store"}).then((W)=>{if(W.ok)return W.text();return W.status===404?"":null}).catch(()=>null).then((W)=>{if(W===null){I=null;return null}const V=new Map;if(!W)return V;let z;try{z=JSON.parse(W)}catch{console.warn("[omelette.storage] "+h+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");I=null;return null}if(z===null||typeof z!=="object"||Array.isArray(z)){console.warn("[omelette.storage] "+h+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");I=null;return null}const G=z;if("data"in G){const K=G.data;if(K===null||typeof K!=="object"||Array.isArray(K)){console.warn("[omelette.storage] "+h+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');I=null;return null}const D=G._meta;const j=D!==null&&typeof D==="object"?D.project:undefined;if(typeof j==="string"&&j!==""&&j!==i())return V;for(const H of Object.keys(K))V.set(H,K[H]);return V}for(const K of Object.keys(G)){if(K!=="_meta")V.set(K,G[K])}return V})}return I};var y=(W)=>S(h,JSON.stringify({_meta:{project:i(),version:1},data:Object.fromEntries(W)},null,2));var m=Promise.resolve();var T=(W)=>{const V=m.then(W);m=V.then(()=>{return},()=>{return});return V};var s=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var a=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var r=(W,V,z)=>{if(s.test(V)||a.test(W)&&typeof z==="string"&&z.length>=8){console.warn('[omelette.storage] the value for "'+W+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var l={persisted:false,reason:"could not load the existing store — not overwriting it"};var c={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var E=new Set;var t={get:(W)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return T(_).then((V)=>{if(V===null){E.add(W);return null}E.delete(W);if(!V.has(W))return null;const z=V.get(W);return z==null?null:JSON.parse(JSON.stringify(z))})},set:(W,V)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let z;try{z=JSON.stringify(V)}catch(K){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(K)+")"))}if(z===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}r(W,z,V);const G=JSON.parse(z);return T(()=>_().then((K)=>{if(K===null)return l;if(E.has(W)){if(K.has(W))return c;E.delete(W)}K.set(W,G);return y(K)}))},delete:(W)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return T(()=>_().then((V)=>{if(V===null)return l;if(E.has(W)){if(V.has(W))return c;E.delete(W)}V.delete(W);return y(V)}))},keys:()=>T(_).then((W)=>W===null?[]:Array.from(W.keys()))};window.omelette={writeFile:(W,V)=>S(W,V).then((z)=>{if(!z.persisted&&!z.noHost){throw new Error(z.reason||"write failed")}}),storage:t};if(v&&v!==window){const W=(J,Q)=>{try{v.postMessage({__omelette_log:true,type:J,data:Q},"*")}catch{}};["log","warn","error"].forEach((J)=>{const Q=console[J];console[J]=(...$)=>{const Y=$.map((Z)=>{try{return typeof Z==="object"?JSON.stringify(Z):String(Z)}catch{try{return String(Z)}catch{return"[unstringifiable]"}}}).join(" ");W(J,Y);Q.apply(console,$)}});window.addEventListener("error",(J)=>{const Q=J.target;if(Q&&Q!==window&&Q.tagName){const $=Q.src||Q.href||"";W("resource_error",`${Q.tagName} failed to load: ${$}`)}else{W("error",`${J.message||"Unknown error"} at ${J.filename||"?"}:${J.lineno||0}:${J.colno||0}`)}},true);window.addEventListener("unhandledrejection",(J)=>{const Q=J.reason;const $=Q instanceof Error?`${Q.message} ${Q.stack}`:String(Q);W("error",`Unhandled rejection: ${$}`)});window.addEventListener("click",(J)=>{if(J.defaultPrevented||J.button!==0)return;if(J.metaKey||J.ctrlKey||J.shiftKey||J.altKey)return;const Q=J.composedPath?J.composedPath():[];const $=["button","input","select","textarea","summary","label"];let Y=null;for(const x of Q){if(!(x instanceof Element))continue;if(x.localName==="a"){if(!(x instanceof HTMLAnchorElement))return;Y=x;break}if($.indexOf(x.localName)!==-1)return}if(!Y)return;if(Y.isContentEditable)return;const Z=Y.closest("[contenteditable]");if(Z&&Z.getAttribute("contenteditable")!=="false")return;const B=(Y.getAttribute("target")||"_self").toLowerCase();if(B!=="_self"&&B!=="_top"&&B!=="_parent")return;let U;try{U=new URL(Y.href)}catch{return}if(U.protocol!=="http:"&&U.protocol!=="https:")return;if(location.origin==="null")return;if(U.origin===location.origin)return;J.preventDefault();window.open(U.href,"_blank","noopener,noreferrer")});const V=()=>{try{v.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(V).observe(document.documentElement);const z=()=>{V();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const J=()=>document.getElementById("root")||document.querySelector("body > div[id]");const Q=J()?.firstElementChild??null;let $=0;const Y=()=>{const Z=J();if(Z&&Z.firstElementChild!==Q||++$>30){V();return}setTimeout(Y,100)};setTimeout(Y,100)};if(document.readyState==="complete")z();else window.addEventListener("load",z);const G={};let K=0;const D=(J)=>new Promise((Q,$)=>{if(!b.length){$(new Error("claude.complete: no parent origin"));return}const Y=`c${++K}`;const Z=()=>setTimeout(()=>{delete G[Y];$(new Error(`claude.complete: no data for ${O/1000}s`))},O);const B=Z();G[Y]={resolve:Q,reject:$,text:"",t:B,arm:Z};try{for(const U of b){v.postMessage({__om_api:true,id:Y,body:J},U)}}catch(U){clearTimeout(B);delete G[Y];$(U)}});const j=8;const H=async(J,Q)=>{if(!Array.isArray(J.messages)){throw new Error("claude.complete: tools require a messages array")}const $=J.messages.slice();const Y={...J,tools:J.tools.map((U)=>{if(U===null||typeof U!=="object")return U;const x={};for(const q of Object.keys(U)){if(typeof U[q]!=="function")x[q]=U[q]}return x})};const Z=Y.tool_choice;const B=Z!=null&&(Z.type==="any"||Z.type==="tool")?{...Y,tool_choice:Z.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:Z.disable_parallel_tool_use}:{type:"auto"}}:Y;for(let U=0;U<j;U++){const x=await D({...U===0?Y:B,messages:$});const q=x.message;const M=q&&Array.isArray(q.content)?q.content:null;const L=M?M.filter((X)=>X?.type==="tool_use"):[];if(q?.stop_reason!=="tool_use"||L.length===0){return x.text}const N=[];for(const X of L){const f=Q.get(X.name);if(!f){N.push({type:"tool_result",tool_use_id:X.id,content:`no handler for tool "${X.name}"`,is_error:true});continue}try{const C=await f(X.input);const w=typeof C==="string"?C:R(C)??"";N.push({type:"tool_result",tool_use_id:X.id,content:w})}catch(C){N.push({type:"tool_result",tool_use_id:X.id,content:String(C?.message??C??"tool handler failed"),is_error:true})}}$.push({role:"assistant",content:M},{role:"user",content:N})}throw new Error(`claude.complete: exceeded ${j} tool turns`)};window.claude={complete(J){const Q=J;if(Q!==null&&typeof Q==="object"&&Array.isArray(Q.tools)&&Q.tools.some(($)=>$!==null&&typeof $==="object"&&typeof $.run==="function")){const $=new Map;for(const Y of Q.tools){if(Y!==null&&typeof Y==="object"&&typeof Y.run==="function"){$.set(String(Y.name),Y.run)}}return H(Q,$)}return D(J).then(($)=>$.text)}};const F={};let P=0;S=(J,Q)=>new Promise(($)=>{if(!b.length){$({persisted:false,noHost:true,reason:g});return}const Y=`f${++P}`;const Z=setTimeout(()=>{delete F[Y];$({persisted:false,noHost:true,reason:g})},n);F[Y]={settle:$,t:Z};try{for(const B of b){v.postMessage({__om_file:true,id:Y,op:"write",path:J,content:Q},B)}}catch{clearTimeout(Z);delete F[Y];$({persisted:false,noHost:true,reason:g})}});const R=(J)=>{try{return JSON.stringify(J)}catch{return JSON.stringify(String(J))}};window.addEventListener("message",(J)=>{if(b.indexOf(J.origin)<0)return;if(J.source!==v)return;const Q=J.data;if(!Q)return;if(Q.type==="omelette-preview-refresh"){if(typeof Q.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(Q.token))return;const Z=Math.max(1,Math.floor((Q.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+Q.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+Z;return}if(Q.__om_file_r){const Z=F[Q.id];if(!Z)return;clearTimeout(Z.t);delete F[Q.id];Z.settle(Q.ok?{persisted:true}:{persisted:false,reason:Q.error||"write failed"});return}if(Q.__om_api_r){const Z=G[Q.id];if(!Z)return;if(Q.error!=null){clearTimeout(Z.t);delete G[Q.id];Z.reject(new Error(Q.error));return}if(Q.chunk!=null){clearTimeout(Z.t);Z.t=Z.arm();Z.text+=Q.chunk;return}if(Q.done){clearTimeout(Z.t);delete G[Q.id];Z.resolve({text:Q.text!=null?Q.text:Z.text,message:Q.message});return}return}if(!Q.__om_eval)return;const $=Q;const Y=(Z)=>{J.source.postMessage({...Z,__om_eval_r:1,id:$.id},J.origin)};try{const Z=(0,eval)($.code);if(Z&&typeof Z.then==="function"){Z.then((B)=>Y({ok:1,v:R(B)}),(B)=>Y({ok:0,e:String(B)}))}else{Y({ok:1,v:R(Z)})}}catch(Z){Y({ok:0,e:String(Z)})}})}})();
+</script>
+<meta charset="utf-8">
+<title>Mirrored bar — UnitPulse Charts</title>
+<link rel="stylesheet" href="../colors_and_type.css?v=29">
+<link rel="stylesheet" href="../components.css?v=29">
+<style>
+/* Shared chart preview styles — used by each charts-*.html file. */
+html, body { margin: 0; padding: 0; background: var(--cream); color: var(--ink); font-family: var(--font-sans); }
+body { padding: 32px 40px 72px; }
+.wrap { max-width: 1180px; margin: 0 auto; }
+.eyebrow { font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
+.page-head { margin-bottom: 20px; }
+.page-head h1 { font-family: var(--font-display); font-size: var(--t-hero); font-weight: 600; letter-spacing: -0.028em; margin: 4px 0 6px; }
+.page-head .sub { font-size: var(--t-body); color: var(--subtle); max-width: 66ch; margin: 0; line-height: 1.55; }
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid.wide { grid-template-columns: 1.4fr 1fr; }
+.grid.single { grid-template-columns: 1fr; }
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-card);
+  padding: 18px 20px;
+  box-sizing: border-box;
+}
+.card-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+.card-title { font-family: var(--font-display); font-size: var(--t-h3); font-weight: 600; letter-spacing: -0.028em; margin: 0; }
+.card-meta { font-family: var(--font-mono); font-size: var(--t-mono); color: var(--faint); }
+
+.chart-svg { width: 100%; display: block; overflow: visible; }
+.axis-text { font-family: var(--font-mono); font-size: 10px; fill: var(--faint); }
+.axis-line { stroke: var(--hairline); stroke-width: 1; }
+.grid-line { stroke: var(--hairline); stroke-width: 1; stroke-dasharray: 2 3; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; font-size: var(--t-mono); color: var(--subtle); }
+.legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.legend-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.legend-swatch.round { border-radius: 50%; }
+
+.spark-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 16px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--hairline); }
+.spark-row:last-child { border-bottom: none; }
+.spark-label { font-size: var(--t-body-s); font-weight: 500; }
+.spark-value { font-family: var(--font-mono); font-size: var(--t-body-s); font-feature-settings: "tnum"; text-align: right; min-width: 60px; }
+
+.stat-line { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+.stat-line .val { font-family: var(--font-display); font-size: var(--t-kpi-2); font-weight: 700; letter-spacing: -0.02em; font-feature-settings: "tnum"; }
+.stat-line .delta { font-size: var(--t-mono); font-family: var(--font-mono); }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page-head">
+    <div class="eyebrow">Charts · 05</div>
+    <h1>Mirrored bar</h1>
+    <p class="sub">Two counterposed series around a zero axis — most often additions above, subtractions below. Forest up, alert red down; the reader reads net contribution in the asymmetry between columns.</p>
+  </header>
+
+  <div class="grid single">
+    <div class="card">
+      <div class="card-head">
+        <h3 class="card-title">Move-ins vs move-outs · last 12 weeks</h3>
+        <span class="card-meta">Net +38</span>
+      </div>
+      <svg class="chart-svg" viewBox="0 0 1080 220">
+        <line class="axis-line" x1="40" x2="1070" y1="110" y2="110"/>
+        <text class="axis-text" x="34" y="42"  text-anchor="end">+12</text>
+        <text class="axis-text" x="34" y="76"  text-anchor="end">+6</text>
+        <text class="axis-text" x="34" y="114" text-anchor="end">0</text>
+        <text class="axis-text" x="34" y="148" text-anchor="end">−6</text>
+        <text class="axis-text" x="34" y="182" text-anchor="end">−12</text>
+        <g>
+          <rect x="50"  y="72"  width="58" height="38" fill="var(--forest)" rx="1" data-chart-tip="W1 · Move-ins +7"/>
+          <rect x="50"  y="110" width="58" height="25" fill="var(--alert)" rx="1"  data-chart-tip="W1 · Move-outs −5 · Net +2"/>
+          <rect x="132" y="60"  width="58" height="50" fill="var(--forest)" rx="1" data-chart-tip="W2 · Move-ins +9"/>
+          <rect x="132" y="110" width="58" height="31" fill="var(--alert)" rx="1"  data-chart-tip="W2 · Move-outs −6 · Net +3"/>
+          <rect x="214" y="79"  width="58" height="31" fill="var(--forest)" rx="1" data-chart-tip="W3 · Move-ins +6"/>
+          <rect x="214" y="110" width="58" height="44" fill="var(--alert)" rx="1"  data-chart-tip="W3 · Move-outs −8 · Net −2"/>
+          <rect x="296" y="66"  width="58" height="44" fill="var(--forest)" rx="1" data-chart-tip="W4 · Move-ins +8"/>
+          <rect x="296" y="110" width="58" height="19" fill="var(--alert)" rx="1"  data-chart-tip="W4 · Move-outs −4 · Net +4"/>
+          <rect x="378" y="54"  width="58" height="56" fill="var(--forest)" rx="1" data-chart-tip="W5 · Move-ins +10"/>
+          <rect x="378" y="110" width="58" height="25" fill="var(--alert)" rx="1"  data-chart-tip="W5 · Move-outs −5 · Net +5"/>
+          <rect x="460" y="85"  width="58" height="25" fill="var(--forest)" rx="1" data-chart-tip="W6 · Move-ins +5"/>
+          <rect x="460" y="110" width="58" height="50" fill="var(--alert)" rx="1"  data-chart-tip="W6 · Move-outs −9 · Net −4"/>
+          <rect x="542" y="66"  width="58" height="44" fill="var(--forest)" rx="1" data-chart-tip="W7 · Move-ins +8"/>
+          <rect x="542" y="110" width="58" height="31" fill="var(--alert)" rx="1"  data-chart-tip="W7 · Move-outs −6 · Net +2"/>
+          <rect x="624" y="42"  width="58" height="68" fill="var(--forest)" rx="1" data-chart-tip="W8 · Move-ins +12"/>
+          <rect x="624" y="110" width="58" height="25" fill="var(--alert)" rx="1"  data-chart-tip="W8 · Move-outs −5 · Net +7"/>
+          <rect x="706" y="60"  width="58" height="50" fill="var(--forest)" rx="1" data-chart-tip="W9 · Move-ins +9"/>
+          <rect x="706" y="110" width="58" height="38" fill="var(--alert)" rx="1"  data-chart-tip="W9 · Move-outs −7 · Net +2"/>
+          <rect x="788" y="48"  width="58" height="62" fill="var(--forest)" rx="1" data-chart-tip="W10 · Move-ins +11"/>
+          <rect x="788" y="110" width="58" height="19" fill="var(--alert)" rx="1"  data-chart-tip="W10 · Move-outs −4 · Net +7"/>
+          <rect x="870" y="72"  width="58" height="38" fill="var(--forest)" rx="1" data-chart-tip="W11 · Move-ins +7"/>
+          <rect x="870" y="110" width="58" height="56" fill="var(--alert)" rx="1"  data-chart-tip="W11 · Move-outs −10 · Net −3"/>
+          <rect x="952" y="36"  width="58" height="74" fill="var(--forest)" rx="1" data-chart-tip="W12 · Move-ins +13"/>
+          <rect x="952" y="110" width="58" height="25" fill="var(--alert)" rx="1"  data-chart-tip="W12 · Move-outs −5 · Net +8"/>
+        </g>
+        <g class="axis-text" fill="var(--faint)" text-anchor="middle">
+          <text x="79"  y="206">W1</text>
+          <text x="161" y="206">W2</text>
+          <text x="243" y="206">W3</text>
+          <text x="325" y="206">W4</text>
+          <text x="407" y="206">W5</text>
+          <text x="489" y="206">W6</text>
+          <text x="571" y="206">W7</text>
+          <text x="653" y="206">W8</text>
+          <text x="735" y="206">W9</text>
+          <text x="817" y="206">W10</text>
+          <text x="899" y="206">W11</text>
+          <text x="981" y="206">W12</text>
+        </g>
+      </svg>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--forest)"></span>Move-ins</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--alert)"></span>Move-outs</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(()=>{
+  const tip=document.createElement('div');
+  Object.assign(tip.style,{position:'fixed',zIndex:'9999',background:'#1A1816',color:'#FAF9F5',fontFamily:'var(--font-mono)',fontSize:'11px',padding:'7px 10px',borderRadius:'6px',pointerEvents:'none',whiteSpace:'nowrap',opacity:'0',transition:'opacity .1s ease',boxShadow:'0 4px 16px rgba(0,0,0,.28)',lineHeight:'1.55'});
+  document.body.appendChild(tip);
+  function show(html,x,y){tip.innerHTML=html;tip.style.opacity='1';mv(x,y);}
+  function hide(){tip.style.opacity='0';}
+  function mv(x,y){const tw=tip.offsetWidth+16,th=tip.offsetHeight+16,W=innerWidth,H=innerHeight;tip.style.left=(x+14+tw>W?x-tw-4:x+14)+'px';tip.style.top=(y+14+th>H?y-th-4:y+14)+'px';}
+  document.addEventListener('mousemove',e=>{const el=e.target.closest('[data-chart-tip]');if(el){show(el.dataset.chartTip,e.clientX,e.clientY);}else{hide();}});
+  document.addEventListener('mouseleave',hide);
+})();
+</script>
+
+<script>
+/* ---- Chart hover interactions ---- */
+(()=>{
+  /* 1. CSS bar charts (.chart-bars > div) */
+  document.querySelectorAll('.chart-bars').forEach(bars => {
+    const divs = [...bars.querySelectorAll('[data-chart-tip]')];
+    divs.forEach(b => {
+      b.addEventListener('mouseenter', () => {
+        bars.classList.add('cb-hovered');
+        b.classList.add('cb-focus');
+      });
+      b.addEventListener('mouseleave', () => {
+        bars.classList.remove('cb-hovered');
+        b.classList.remove('cb-focus');
+      });
+    });
+  });
+
+  /* 2. SVG elements — universal: dim peer group on hover */
+  document.querySelectorAll('svg').forEach(svg => {
+    const tips = [...svg.querySelectorAll('[data-chart-tip]')];
+    if (!tips.length) return;
+
+    /* For each tip-bearing element, find its peer "sibling set":
+       - rects → all rects that share the same parent <g> or direct SVG parent
+       - circles → all circles in same <g> (same series grouping)
+       - paths (pie slices) → all paths in same <g>
+    */
+    function getPeers(el) {
+      // Walk up until we find a meaningful grouping (<g> or <svg>)
+      const parent = el.parentElement;
+      if (!parent) return [el];
+      // If direct parent has multiple children of same type, use those
+      const same = [...parent.children].filter(c => c.tagName === el.tagName);
+      if (same.length > 1) return same;
+      // Otherwise use all tip-bearing elements in the SVG
+      return tips;
+    }
+
+    // For line/scatter: also add a crosshair line
+    const isLineOrScatter = svg.querySelector('path[stroke-width="2.2"],circle[r="5"],circle[r="6"]');
+    let crosshair = null;
+    if (isLineOrScatter) {
+      crosshair = document.createElementNS('http://www.w3.org/2000/svg','line');
+      crosshair.setAttribute('stroke','var(--hairline)');
+      crosshair.setAttribute('stroke-width','1');
+      crosshair.setAttribute('stroke-dasharray','3 2');
+      crosshair.setAttribute('y1','0');
+      crosshair.setAttribute('y2','99999');
+      crosshair.style.opacity = '0';
+      crosshair.style.transition = 'opacity .1s';
+      crosshair.style.pointerEvents = 'none';
+      svg.appendChild(crosshair);
+    }
+
+    tips.forEach(el => {
+      const origR = el.getAttribute('r');
+      const origStrokeW = el.getAttribute('stroke-width');
+
+      el.addEventListener('mouseenter', () => {
+        const peers = getPeers(el);
+        peers.forEach(p => {
+          if (p !== el) {
+            p.style.opacity = '0.28';
+            p.style.transition = 'opacity .12s ease';
+          }
+        });
+        el.style.opacity = '1';
+        // Circles: enlarge + add ring effect
+        if (el.tagName === 'circle' && origR) {
+          const r = parseFloat(origR);
+          el.setAttribute('r', r + 2.5);
+          el.style.filter = 'brightness(1.12)';
+        }
+        // Crosshair for line/scatter
+        if (crosshair) {
+          const cx = el.getAttribute('cx') || el.getAttribute('x');
+          if (cx) {
+            crosshair.setAttribute('x1', cx);
+            crosshair.setAttribute('x2', cx);
+            crosshair.style.opacity = '1';
+          }
+        }
+      });
+
+      el.addEventListener('mouseleave', () => {
+        const peers = getPeers(el);
+        peers.forEach(p => {
+          p.style.opacity = '';
+          p.style.transition = 'opacity .12s ease';
+        });
+        if (origR) el.setAttribute('r', origR);
+        el.style.filter = '';
+        if (crosshair) crosshair.style.opacity = '0';
+      });
+    });
+  });
+
+  /* 3. Donut SVG rings — arc segments via circle stroke */
+  document.querySelectorAll('.donut-solo svg, .donut-row svg').forEach(svg => {
+    const circles = [...svg.querySelectorAll('circle[stroke-width]')].filter(c => c.getAttribute('data-chart-tip'));
+    circles.forEach(c => {
+      const origSW = c.getAttribute('stroke-width');
+      c.style.transition = 'stroke-width .12s ease, opacity .12s ease';
+      c.addEventListener('mouseenter', () => {
+        c.setAttribute('stroke-width', parseFloat(origSW) + 4);
+        c.style.filter = 'brightness(1.1)';
+        // Dim all sibling circles in same svg
+        svg.querySelectorAll('circle').forEach(s => { if(s!==c) s.style.opacity='0.4'; });
+      });
+      c.addEventListener('mouseleave', () => {
+        c.setAttribute('stroke-width', origSW);
+        c.style.filter = '';
+        svg.querySelectorAll('circle').forEach(s => { s.style.opacity=''; });
+      });
+    });
+  });
+})();
+</script>
+</body></html>

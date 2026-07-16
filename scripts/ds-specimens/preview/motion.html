@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Components" name="Motion & Animation" subtitle="Duration tokens, easing curves, animation primitives, interaction matrix" -->
+<html><head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const W=new URLSearchParams(location.search).get("theme");if(W==="light"||W==="dark"){document.documentElement.dataset.theme=W}}{const W=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const V=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(V&&V!=="normal")return;const z=(j)=>{if(!j)return null;const H=getComputedStyle(j).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!H)return null;const F=H[4]==null?1:parseFloat(H[4])/(H[4].endsWith("%")?100:1);if(F<0.99)return null;return[+H[1],+H[2],+H[3]]};const G=z(document.body)||z(document.documentElement);if(!G)return;const K=(j)=>{const H=j/255;return H<=0.04045?H/12.92:((H+0.055)/1.055)**2.4};const D=0.2126*K(G[0])+0.7152*K(G[1])+0.0722*K(G[2]);document.documentElement.style.setProperty("color-scheme",D<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")W();else window.addEventListener("load",W)}var b=["https://claude.ai","https://preview.claude.ai","https://da884f8c-0669-484f-9f29-af2565e52383.claudeusercontent.com"];var p=true;var O=30000;var n=3000;document.addEventListener("DOMContentLoaded",()=>{const W=window.Babel;const V="om-src-id";if(W&&W.registerPlugin&&!(W.availablePlugins&&W.availablePlugins[V])){W.registerPlugin(V,({types:D})=>({visitor:{JSXOpeningElement(j,H){const F=j.node;if(F.name&&F.name.type==="JSXMemberExpression")return;for(let Q=0;Q<F.attributes.length;Q++){const $=F.attributes[Q];if($.type==="JSXAttribute"&&$.name&&$.name.name==="data-om-id")return}const P=H.file&&H.file.opts&&H.file.opts.filename||"?";const R=F.loc&&F.loc.start;const J=`jsx:${P}:${F.start??0}:${R?R.line:0}:${R?R.column+1:0}`;F.attributes.push(D.jsxAttribute(D.jsxIdentifier("data-om-id"),D.stringLiteral(J)))}}}))}const z="om-text-extract";let G=false;if(p&&W&&W.registerPlugin&&!(W.availablePlugins&&W.availablePlugins[z])){const D=window.React;if(D&&D.useSyncExternalStore&&D.createElement){G=true;const j={};const H=new Set;let F=0;window.__omTextO=j;window.__omTextSet=(J)=>{for(const Q in J){const $=J[Q];if($==null)delete j[Q];else j[Q]=$}F++;H.forEach((Q)=>Q())};const P=(J)=>{H.add(J);return()=>H.delete(J)};const R=()=>F;window.__OmT=function J(Q){D.useSyncExternalStore(P,R,R);return D.createElement("span",{"data-om-text":Q.i,className:"__om-t"},Q.i in j?j[Q.i]:Q.children)};W.registerPlugin(z,({types:J})=>{const Q={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const $={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const Y=(q,M)=>J.logicalExpression("??",J.memberExpression(J.logicalExpression("||",J.memberExpression(J.identifier("window"),J.identifier("__omTextO")),J.objectExpression([])),J.stringLiteral(q),true),M);const Z=(q)=>q.file&&q.file.opts&&q.file.opts.filename||"?";const B=(q)=>q.file&&q.file.code||"";const U=(q,M)=>{const L=(X)=>X&&X.start!=null&&X.end!=null&&(X.type==="StringLiteral"||X.type==="TemplateLiteral"&&X.expressions.length===0)?[X.start,X.end]:null;const N=L(M);if(N)return N;if(M&&M.type==="Identifier"){const X=q.scope.getBinding(M.name);if(X&&X.constant&&X.path.node.type==="VariableDeclarator"){return L(X.path.node.init)}}return null};const x=(q,M,L)=>{const N=q.node;let X=false;const f=(w,A)=>{X=true;return J.jsxElement(J.jsxOpeningElement(J.jsxIdentifier("__OmT"),[J.jsxAttribute(J.jsxIdentifier("i"),J.stringLiteral(w))],false),J.jsxClosingElement(J.jsxIdentifier("__OmT")),[A],false)};const C=N.children.map((w)=>{if(w.type==="JSXText"){if(w.start==null||w.end==null)return w;const A=L.slice(w.start,w.end);const k=A.length-A.trimStart().length;const u=A.length-A.trimEnd().length;if(k+u>=A.length)return w;return f(`txt:${M}:${w.start+k}:${w.end-u}`,w)}if(w.type==="JSXExpressionContainer"){const A=U(q,w.expression);if(A)return f(`str:${M}:${A[0]}:${A[1]}`,w)}return w});if(X)N.children=C};return{visitor:{JSXOpeningElement(q,M){const L=q.node;const N=Z(M);const X={};for(let f=0;f<L.attributes.length;f++){const C=L.attributes[f];if(C.type!=="JSXAttribute"||!C.name)continue;const w=C.name.name;if(!$[w])continue;if(!C.value||C.value.type!=="StringLiteral")continue;if(C.value.start==null||C.value.end==null)continue;const A=`txt:${N}:${C.value.start}:${C.value.end}`;X[w]=A;C.value=J.jsxExpressionContainer(Y(A,J.stringLiteral(C.value.value)))}if(Object.keys(X).length){L.attributes.push(J.jsxAttribute(J.jsxIdentifier("data-om-text-attrs"),J.stringLiteral(JSON.stringify(X))))}},JSXElement(q,M){const L=q.node.openingElement;const N=L&&L.name&&L.name.name;if(N==="__OmT")return;if(typeof N==="string"&&Q[N])return;x(q,Z(M),B(M))},JSXFragment(q,M){x(q,Z(M),B(M))}}}})}}const K=G?["transform-react-jsx-source",V,z]:["transform-react-jsx-source",V];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((D,j)=>{const H=D.getAttribute("data-plugins")||"";const F=K.filter((P)=>H.indexOf(P)<0);if(F.length){D.setAttribute("data-plugins",H?`${H},${F.join(",")}`:F.join(","))}if(!D.hasAttribute("data-filename")){D.setAttribute("data-filename",D.getAttribute("src")||`inline-${j}`)}})});var v=window.parent;var g="not editable here — open the project in the Claude Design editor to save";var d=()=>Promise.resolve({persisted:false,noHost:true,reason:g});var S=d;var h="data/storage.json";var i=()=>{try{const W=new URL(document.baseURI);const V=W.pathname.match(/\/projects\/([^/]+)\/serve\//);if(V)return V[1];return W.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var o=()=>{try{const W=new URL(document.baseURI);const V=W.pathname.indexOf("/serve/");if(V>=0)return W.origin+W.pathname.slice(0,V+"/serve/".length)+h}catch{}return"./"+h};var I=null;var _=()=>{if(!I){I=fetch(o(),{cache:"no-store"}).then((W)=>{if(W.ok)return W.text();return W.status===404?"":null}).catch(()=>null).then((W)=>{if(W===null){I=null;return null}const V=new Map;if(!W)return V;let z;try{z=JSON.parse(W)}catch{console.warn("[omelette.storage] "+h+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");I=null;return null}if(z===null||typeof z!=="object"||Array.isArray(z)){console.warn("[omelette.storage] "+h+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");I=null;return null}const G=z;if("data"in G){const K=G.data;if(K===null||typeof K!=="object"||Array.isArray(K)){console.warn("[omelette.storage] "+h+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');I=null;return null}const D=G._meta;const j=D!==null&&typeof D==="object"?D.project:undefined;if(typeof j==="string"&&j!==""&&j!==i())return V;for(const H of Object.keys(K))V.set(H,K[H]);return V}for(const K of Object.keys(G)){if(K!=="_meta")V.set(K,G[K])}return V})}return I};var y=(W)=>S(h,JSON.stringify({_meta:{project:i(),version:1},data:Object.fromEntries(W)},null,2));var m=Promise.resolve();var T=(W)=>{const V=m.then(W);m=V.then(()=>{return},()=>{return});return V};var s=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var a=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var r=(W,V,z)=>{if(s.test(V)||a.test(W)&&typeof z==="string"&&z.length>=8){console.warn('[omelette.storage] the value for "'+W+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var l={persisted:false,reason:"could not load the existing store — not overwriting it"};var c={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var E=new Set;var t={get:(W)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return T(_).then((V)=>{if(V===null){E.add(W);return null}E.delete(W);if(!V.has(W))return null;const z=V.get(W);return z==null?null:JSON.parse(JSON.stringify(z))})},set:(W,V)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let z;try{z=JSON.stringify(V)}catch(K){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(K)+")"))}if(z===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}r(W,z,V);const G=JSON.parse(z);return T(()=>_().then((K)=>{if(K===null)return l;if(E.has(W)){if(K.has(W))return c;E.delete(W)}K.set(W,G);return y(K)}))},delete:(W)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return T(()=>_().then((V)=>{if(V===null)return l;if(E.has(W)){if(V.has(W))return c;E.delete(W)}V.delete(W);return y(V)}))},keys:()=>T(_).then((W)=>W===null?[]:Array.from(W.keys()))};window.omelette={writeFile:(W,V)=>S(W,V).then((z)=>{if(!z.persisted&&!z.noHost){throw new Error(z.reason||"write failed")}}),storage:t};if(v&&v!==window){const W=(J,Q)=>{try{v.postMessage({__omelette_log:true,type:J,data:Q},"*")}catch{}};["log","warn","error"].forEach((J)=>{const Q=console[J];console[J]=(...$)=>{const Y=$.map((Z)=>{try{return typeof Z==="object"?JSON.stringify(Z):String(Z)}catch{try{return String(Z)}catch{return"[unstringifiable]"}}}).join(" ");W(J,Y);Q.apply(console,$)}});window.addEventListener("error",(J)=>{const Q=J.target;if(Q&&Q!==window&&Q.tagName){const $=Q.src||Q.href||"";W("resource_error",`${Q.tagName} failed to load: ${$}`)}else{W("error",`${J.message||"Unknown error"} at ${J.filename||"?"}:${J.lineno||0}:${J.colno||0}`)}},true);window.addEventListener("unhandledrejection",(J)=>{const Q=J.reason;const $=Q instanceof Error?`${Q.message} ${Q.stack}`:String(Q);W("error",`Unhandled rejection: ${$}`)});window.addEventListener("click",(J)=>{if(J.defaultPrevented||J.button!==0)return;if(J.metaKey||J.ctrlKey||J.shiftKey||J.altKey)return;const Q=J.composedPath?J.composedPath():[];const $=["button","input","select","textarea","summary","label"];let Y=null;for(const x of Q){if(!(x instanceof Element))continue;if(x.localName==="a"){if(!(x instanceof HTMLAnchorElement))return;Y=x;break}if($.indexOf(x.localName)!==-1)return}if(!Y)return;if(Y.isContentEditable)return;const Z=Y.closest("[contenteditable]");if(Z&&Z.getAttribute("contenteditable")!=="false")return;const B=(Y.getAttribute("target")||"_self").toLowerCase();if(B!=="_self"&&B!=="_top"&&B!=="_parent")return;let U;try{U=new URL(Y.href)}catch{return}if(U.protocol!=="http:"&&U.protocol!=="https:")return;if(location.origin==="null")return;if(U.origin===location.origin)return;J.preventDefault();window.open(U.href,"_blank","noopener,noreferrer")});const V=()=>{try{v.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(V).observe(document.documentElement);const z=()=>{V();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const J=()=>document.getElementById("root")||document.querySelector("body > div[id]");const Q=J()?.firstElementChild??null;let $=0;const Y=()=>{const Z=J();if(Z&&Z.firstElementChild!==Q||++$>30){V();return}setTimeout(Y,100)};setTimeout(Y,100)};if(document.readyState==="complete")z();else window.addEventListener("load",z);const G={};let K=0;const D=(J)=>new Promise((Q,$)=>{if(!b.length){$(new Error("claude.complete: no parent origin"));return}const Y=`c${++K}`;const Z=()=>setTimeout(()=>{delete G[Y];$(new Error(`claude.complete: no data for ${O/1000}s`))},O);const B=Z();G[Y]={resolve:Q,reject:$,text:"",t:B,arm:Z};try{for(const U of b){v.postMessage({__om_api:true,id:Y,body:J},U)}}catch(U){clearTimeout(B);delete G[Y];$(U)}});const j=8;const H=async(J,Q)=>{if(!Array.isArray(J.messages)){throw new Error("claude.complete: tools require a messages array")}const $=J.messages.slice();const Y={...J,tools:J.tools.map((U)=>{if(U===null||typeof U!=="object")return U;const x={};for(const q of Object.keys(U)){if(typeof U[q]!=="function")x[q]=U[q]}return x})};const Z=Y.tool_choice;const B=Z!=null&&(Z.type==="any"||Z.type==="tool")?{...Y,tool_choice:Z.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:Z.disable_parallel_tool_use}:{type:"auto"}}:Y;for(let U=0;U<j;U++){const x=await D({...U===0?Y:B,messages:$});const q=x.message;const M=q&&Array.isArray(q.content)?q.content:null;const L=M?M.filter((X)=>X?.type==="tool_use"):[];if(q?.stop_reason!=="tool_use"||L.length===0){return x.text}const N=[];for(const X of L){const f=Q.get(X.name);if(!f){N.push({type:"tool_result",tool_use_id:X.id,content:`no handler for tool "${X.name}"`,is_error:true});continue}try{const C=await f(X.input);const w=typeof C==="string"?C:R(C)??"";N.push({type:"tool_result",tool_use_id:X.id,content:w})}catch(C){N.push({type:"tool_result",tool_use_id:X.id,content:String(C?.message??C??"tool handler failed"),is_error:true})}}$.push({role:"assistant",content:M},{role:"user",content:N})}throw new Error(`claude.complete: exceeded ${j} tool turns`)};window.claude={complete(J){const Q=J;if(Q!==null&&typeof Q==="object"&&Array.isArray(Q.tools)&&Q.tools.some(($)=>$!==null&&typeof $==="object"&&typeof $.run==="function")){const $=new Map;for(const Y of Q.tools){if(Y!==null&&typeof Y==="object"&&typeof Y.run==="function"){$.set(String(Y.name),Y.run)}}return H(Q,$)}return D(J).then(($)=>$.text)}};const F={};let P=0;S=(J,Q)=>new Promise(($)=>{if(!b.length){$({persisted:false,noHost:true,reason:g});return}const Y=`f${++P}`;const Z=setTimeout(()=>{delete F[Y];$({persisted:false,noHost:true,reason:g})},n);F[Y]={settle:$,t:Z};try{for(const B of b){v.postMessage({__om_file:true,id:Y,op:"write",path:J,content:Q},B)}}catch{clearTimeout(Z);delete F[Y];$({persisted:false,noHost:true,reason:g})}});const R=(J)=>{try{return JSON.stringify(J)}catch{return JSON.stringify(String(J))}};window.addEventListener("message",(J)=>{if(b.indexOf(J.origin)<0)return;if(J.source!==v)return;const Q=J.data;if(!Q)return;if(Q.type==="omelette-preview-refresh"){if(typeof Q.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(Q.token))return;const Z=Math.max(1,Math.floor((Q.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+Q.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+Z;return}if(Q.__om_file_r){const Z=F[Q.id];if(!Z)return;clearTimeout(Z.t);delete F[Q.id];Z.settle(Q.ok?{persisted:true}:{persisted:false,reason:Q.error||"write failed"});return}if(Q.__om_api_r){const Z=G[Q.id];if(!Z)return;if(Q.error!=null){clearTimeout(Z.t);delete G[Q.id];Z.reject(new Error(Q.error));return}if(Q.chunk!=null){clearTimeout(Z.t);Z.t=Z.arm();Z.text+=Q.chunk;return}if(Q.done){clearTimeout(Z.t);delete G[Q.id];Z.resolve({text:Q.text!=null?Q.text:Z.text,message:Q.message});return}return}if(!Q.__om_eval)return;const $=Q;const Y=(Z)=>{J.source.postMessage({...Z,__om_eval_r:1,id:$.id},J.origin)};try{const Z=(0,eval)($.code);if(Z&&typeof Z.then==="function"){Z.then((B)=>Y({ok:1,v:R(B)}),(B)=>Y({ok:0,e:String(B)}))}else{Y({ok:1,v:R(Z)})}}catch(Z){Y({ok:0,e:String(Z)})}})}})();
+</script>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css?v=30">
+<link rel="stylesheet" href="../components.css?v=30">
+<style>
+  html, body { margin: 0; padding: 0; background: var(--cream); }
+  .card { padding: 24px 28px; width: 760px; box-sizing: border-box; }
+
+  /* ---- shared preview chrome ---- */
+  .label-sm {
+    font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--faint);
+    margin: 26px 0 12px;
+  }
+  .label-sm:first-of-type { margin-top: 0; }
+  .sep { border: none; border-top: 1px solid var(--hairline); margin: 22px 0 0; }
+  .note {
+    font-size: var(--t-body-s); color: var(--subtle);
+    margin-top: 8px; line-height: 1.5;
+  }
+  .note code {
+    font-family: var(--font-mono); font-size: 0.725rem;
+    background: var(--cream2); padding: 1px 5px;
+    border-radius: 3px; color: var(--ink);
+  }
+  .col-label {
+    font-family: var(--font-mono); font-size: var(--t-eyebrow);
+    color: var(--faint); width: 112px; flex-shrink: 0; line-height: 1.4;
+  }
+  .row { display: flex; align-items: flex-start; gap: 14px; padding: 6px 0; }
+
+  /* ---- token table ---- */
+  .token-table {
+    width: 100%; border-collapse: collapse;
+    font-size: var(--t-body-s);
+  }
+  .token-table th {
+    font-size: var(--t-eyebrow); font-weight: 600;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--faint); text-align: left;
+    padding: 0 10px 8px 0; border-bottom: 1px solid var(--hairline);
+  }
+  .token-table td {
+    padding: 9px 10px 9px 0;
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: middle;
+    color: var(--ink);
+  }
+  .token-table tr:last-child td { border-bottom: none; }
+  .token-table .t-name {
+    font-family: var(--font-mono); font-size: var(--t-mono);
+    color: var(--forest);
+  }
+  .token-table .t-val {
+    font-family: var(--font-mono); font-size: var(--t-mono);
+    color: var(--subtle);
+  }
+  .token-table .t-use { color: var(--subtle); font-size: var(--t-body-s); }
+
+  /* ---- duration swatch bars ---- */
+  .dur-bar-wrap { display: flex; align-items: flex-end; gap: 10px; }
+  .dur-bar {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .dur-bar-track {
+    width: 28px; background: var(--cream2);
+    border-radius: 3px; position: relative; overflow: hidden;
+    height: 56px; display: flex; align-items: flex-end;
+  }
+  .dur-bar-fill {
+    width: 100%; background: var(--forest);
+    border-radius: 3px; transition: height 0s;
+  }
+  .dur-bar-val {
+    font-family: var(--font-mono); font-size: 0.6rem;
+    color: var(--faint); text-align: center; white-space: nowrap;
+  }
+  .dur-bar-label {
+    font-size: 0.6rem; font-weight: 600; color: var(--subtle);
+    text-align: center; letter-spacing: 0.04em;
+  }
+
+  /* ---- easing curve previews ---- */
+  .ease-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  }
+  .ease-card {
+    background: var(--paper); border: 1px solid var(--hairline);
+    border-radius: var(--r-card); padding: 14px;
+  }
+  .ease-card svg { display: block; }
+  .ease-card-name {
+    font-family: var(--font-mono); font-size: var(--t-mono);
+    color: var(--forest); margin-bottom: 4px;
+  }
+  .ease-card-val {
+    font-family: var(--font-mono); font-size: 0.6rem;
+    color: var(--faint); margin-top: 6px; line-height: 1.45;
+  }
+  .ease-card-use {
+    font-size: var(--t-eyebrow); color: var(--subtle);
+    margin-top: 5px; line-height: 1.4;
+  }
+
+  /* ---- live demo stage ---- */
+  .demo-stage {
+    background: var(--cream2); border-radius: var(--r-card);
+    padding: 20px; display: flex; align-items: center; justify-content: center;
+    min-height: 80px; position: relative; overflow: hidden;
+  }
+  .demo-trigger {
+    font-size: var(--t-body-s); color: var(--subtle);
+    font-weight: 500; cursor: pointer;
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: var(--r-btn); padding: 6px 12px;
+    font-family: var(--font-sans);
+    transition: border-color var(--dur-brisk);
+    user-select: none;
+  }
+  .demo-trigger:hover { border-color: var(--forest); color: var(--ink); }
+  .demo-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .demo-cell {
+    background: var(--paper); border: 1px solid var(--hairline);
+    border-radius: var(--r-card); padding: 14px 16px;
+  }
+  .demo-cell-label {
+    font-size: var(--t-eyebrow); font-weight: 600;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--faint); margin-bottom: 12px;
+  }
+  .demo-cell .demo-stage { min-height: 64px; }
+
+  /* animated target elements */
+  .demo-box {
+    width: 44px; height: 44px; background: var(--forest);
+    border-radius: var(--r-card); opacity: 0;
+  }
+  .demo-chip-row { display: flex; gap: 8px; }
+  .demo-number {
+    font-family: var(--font-display); font-size: 2rem;
+    font-weight: 700; color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+  }
+  .demo-kpi-card {
+    background: var(--paper); border: 1px solid var(--hairline);
+    border-radius: var(--r-card); padding: 12px 16px;
+    width: 140px; opacity: 0;
+  }
+  .demo-kpi-label {
+    font-size: var(--t-eyebrow); font-weight: 600;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--faint); margin-bottom: 6px;
+  }
+  .demo-kpi-val {
+    font-family: var(--font-display); font-size: 1.6rem;
+    font-weight: 700; color: var(--ink);
+    letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- interaction matrix ---- */
+  .matrix-table {
+    width: 100%; border-collapse: collapse;
+    font-size: var(--t-body-s);
+  }
+  .matrix-table th {
+    font-size: var(--t-eyebrow); font-weight: 600;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--faint); text-align: left;
+    padding: 0 12px 8px 0; border-bottom: 1px solid var(--hairline);
+  }
+  .matrix-table td {
+    padding: 9px 12px 9px 0;
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: top; color: var(--ink);
+  }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table .m-trigger {
+    font-weight: 600; width: 140px;
+  }
+  .matrix-table .m-dur {
+    font-family: var(--font-mono); font-size: var(--t-mono);
+    color: var(--forest); white-space: nowrap; width: 80px;
+  }
+  .matrix-table .m-ease {
+    font-family: var(--font-mono); font-size: var(--t-mono);
+    color: var(--subtle); width: 80px;
+  }
+  .matrix-table .m-props {
+    font-family: var(--font-mono); font-size: var(--t-mono);
+    color: var(--subtle);
+  }
+
+  /* ---- do / don't ---- */
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .do-card, .dont-card {
+    border-radius: var(--r-card); padding: 14px 16px;
+    border: 1px solid var(--hairline);
+  }
+  .do-card   { background: var(--successSoft); border-color: var(--signal); }
+  .dont-card { background: var(--alertSoft);   border-color: var(--alertDeep); }
+  .do-label {
+    font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--successDeep); margin-bottom: 8px;
+  }
+  .dont-label {
+    font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--alertDeep); margin-bottom: 8px;
+  }
+  .do-card ul, .dont-card ul {
+    margin: 0; padding: 0 0 0 14px;
+    font-size: var(--t-body-s); color: var(--ink); line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- ================================================================
+       SECTION 1 · Duration tokens
+       ================================================================ -->
+  <div class="label-sm">Duration tokens</div>
+
+  <div class="dur-bar-wrap" id="durBars" style="margin-bottom: 14px;">
+    <!-- bars rendered by JS below -->
+  </div>
+
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th style="width:130px">Token</th>
+        <th style="width:70px">Value</th>
+        <th>When to use</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="t-name">--dur-snap</td>
+        <td class="t-val">80ms</td>
+        <td class="t-use">Below perception threshold. Color swaps on hover (button fills, nav items, table rows). Never use for positional motion.</td>
+      </tr>
+      <tr>
+        <td class="t-name">--dur-brisk</td>
+        <td class="t-val">120ms</td>
+        <td class="t-use">Micro-interactions. Focus ring fade-in, toggle thumb travel, chip/badge appearance. The workhorse for small elements.</td>
+      </tr>
+      <tr>
+        <td class="t-name">--dur-standard</td>
+        <td class="t-val">200ms</td>
+        <td class="t-use">General UI transitions. Popovers, combobox menus, tooltip reveal, skeleton-to-content, card entrance animations.</td>
+      </tr>
+      <tr>
+        <td class="t-name">--dur-enter</td>
+        <td class="t-val">280ms</td>
+        <td class="t-use">Overlays arriving on screen. Drawers, modals, toasts. Long enough to feel intentional; short enough to not block.</td>
+      </tr>
+      <tr>
+        <td class="t-name">--dur-deliberate</td>
+        <td class="t-val">400ms</td>
+        <td class="t-use">Reserved. Page-level reveals or orchestrated sequences (e.g. KPI dashboard loading in stages). Use sparingly.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================
+       SECTION 2 · Easing curves
+       ================================================================ -->
+  <hr class="sep">
+  <div class="label-sm">Easing curves</div>
+
+  <div class="ease-grid">
+
+    <div class="ease-card">
+      <div class="ease-card-name">--ease-snap</div>
+      <svg width="100%" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="80" height="60" rx="4" fill="var(--cream2)"/>
+        <!-- linear: straight diagonal -->
+        <line x1="8" y1="52" x2="72" y2="8" stroke="var(--forest)" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="8"  cy="52" r="3" fill="var(--forest)"/>
+        <circle cx="72" cy="8"  r="3" fill="var(--forest)"/>
+      </svg>
+      <div class="ease-card-val">linear</div>
+      <div class="ease-card-use">Color & opacity swaps at hover speed</div>
+    </div>
+
+    <div class="ease-card">
+      <div class="ease-card-name">--ease-standard</div>
+      <svg width="100%" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="80" height="60" rx="4" fill="var(--cream2)"/>
+        <!-- ease: slow-fast-slow -->
+        <path d="M8 52 C18 52 22 8 72 8" stroke="var(--forest)" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <circle cx="8"  cy="52" r="3" fill="var(--forest)"/>
+        <circle cx="72" cy="8"  r="3" fill="var(--forest)"/>
+      </svg>
+      <div class="ease-card-val">ease</div>
+      <div class="ease-card-use">Symmetric transitions, general purpose</div>
+    </div>
+
+    <div class="ease-card">
+      <div class="ease-card-name">--ease-enter</div>
+      <svg width="100%" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="80" height="60" rx="4" fill="var(--cream2)"/>
+        <!-- cubic-bezier(.22,.61,.36,1): fast start, decelerate in -->
+        <path d="M8 52 C20 10 40 8 72 8" stroke="var(--forest)" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <circle cx="8"  cy="52" r="3" fill="var(--forest)"/>
+        <circle cx="72" cy="8"  r="3" fill="var(--forest)"/>
+      </svg>
+      <div class="ease-card-val">cubic-bezier(.22,.61,.36,1)</div>
+      <div class="ease-card-use">Overlays, drawers, modals entering</div>
+    </div>
+
+    <div class="ease-card">
+      <div class="ease-card-name">--ease-exit</div>
+      <svg width="100%" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="80" height="60" rx="4" fill="var(--cream2)"/>
+        <!-- cubic-bezier(.4,0,1,1): slow start, accelerate out -->
+        <path d="M8 52 C8 50 50 8 72 8" stroke="var(--forest)" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <circle cx="8"  cy="52" r="3" fill="var(--forest)"/>
+        <circle cx="72" cy="8"  r="3" fill="var(--forest)"/>
+      </svg>
+      <div class="ease-card-val">cubic-bezier(.4,0,1,1)</div>
+      <div class="ease-card-use">Elements leaving the screen</div>
+    </div>
+
+  </div>
+
+  <!-- ================================================================
+       SECTION 3 · Named primitives
+       ================================================================ -->
+  <hr class="sep">
+  <div class="label-sm">Named primitives · live demo</div>
+
+  <div class="demo-row" id="demoGrid">
+
+    <div class="demo-cell">
+      <div class="demo-cell-label">Fade in · <code style="font-size:0.625rem;font-family:var(--font-mono);color:var(--forest);background:var(--cream2);padding:1px 4px;border-radius:2px">.anim-fade-in</code></div>
+      <div class="demo-stage" id="stageFade">
+        <div class="demo-box" id="boxFade" style="border-radius:50%"></div>
+      </div>
+      <button class="demo-trigger" onclick="replay('fade')" style="margin-top:10px;width:100%">Replay</button>
+    </div>
+
+    <div class="demo-cell">
+      <div class="demo-cell-label">Slide up · <code style="font-size:0.625rem;font-family:var(--font-mono);color:var(--forest);background:var(--cream2);padding:1px 4px;border-radius:2px">.anim-slide-up</code></div>
+      <div class="demo-stage" id="stageSlide">
+        <div class="demo-box" id="boxSlide"></div>
+      </div>
+      <button class="demo-trigger" onclick="replay('slide')" style="margin-top:10px;width:100%">Replay</button>
+    </div>
+
+    <div class="demo-cell">
+      <div class="demo-cell-label">Stagger · <code style="font-size:0.625rem;font-family:var(--font-mono);color:var(--forest);background:var(--cream2);padding:1px 4px;border-radius:2px">.anim-stagger</code></div>
+      <div class="demo-stage" id="stageStagger">
+        <div class="demo-chip-row anim-stagger" id="staggerRow">
+          <span class="chip" style="opacity:0">Hawthorne</span>
+          <span class="chip chip-live" style="opacity:0">LIVE</span>
+          <span class="chip chip-warm" style="opacity:0">Tour</span>
+          <span class="chip chip-hot" style="opacity:0">Hot</span>
+        </div>
+      </div>
+      <button class="demo-trigger" onclick="replay('stagger')" style="margin-top:10px;width:100%">Replay</button>
+    </div>
+
+    <div class="demo-cell">
+      <div class="demo-cell-label">KPI enter · <code style="font-size:0.625rem;font-family:var(--font-mono);color:var(--forest);background:var(--cream2);padding:1px 4px;border-radius:2px">--dur-deliberate</code></div>
+      <div class="demo-stage" id="stageKpi">
+        <div class="demo-kpi-card" id="boxKpi">
+          <div class="demo-kpi-label">Occupancy</div>
+          <div class="demo-kpi-val tnum" id="kpiNum">—</div>
+        </div>
+      </div>
+      <button class="demo-trigger" onclick="replay('kpi')" style="margin-top:10px;width:100%">Replay</button>
+    </div>
+
+  </div>
+
+  <!-- ================================================================
+       SECTION 4 · Existing system animations
+       ================================================================ -->
+  <hr class="sep">
+  <div class="label-sm">System animations · always on</div>
+  <div class="note" style="margin-bottom:14px">Three animations ship as permanent infrastructure. They are not opt-in — they run wherever their component is used. All respect <code>prefers-reduced-motion</code>.</div>
+
+  <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">
+
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="live-dot"></span>
+        <span style="font-size:var(--t-body-s);color:var(--ink);font-weight:500">Live dot · <code style="font-family:var(--font-mono);font-size:0.7rem;background:var(--cream2);padding:1px 4px;border-radius:2px;color:var(--forest)">.live-dot</code></span>
+      </div>
+      <div style="font-size:var(--t-body-s);color:var(--subtle);">2s · cubic-bezier(0,0,.2,1) · infinite<br>ring scale 1→2, opacity 0.32→0</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="spinner spinner-dark"></span>
+        <span style="font-size:var(--t-body-s);color:var(--ink);font-weight:500">Spinner · <code style="font-family:var(--font-mono);font-size:0.7rem;background:var(--cream2);padding:1px 4px;border-radius:2px;color:var(--forest)">.spinner</code></span>
+      </div>
+      <div style="font-size:var(--t-body-s);color:var(--subtle);">0.7s · linear · infinite<br>border-top rotates 360°</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+      <div style="display:flex;align-items:flex-start;gap:10px">
+        <div style="width:120px">
+          <div class="sk sk-line" style="margin-bottom:6px;width:80px"></div>
+          <div class="sk sk-line sk-sm" style="width:120px"></div>
+        </div>
+        <span style="font-size:var(--t-body-s);color:var(--ink);font-weight:500">Skeleton · <code style="font-family:var(--font-mono);font-size:0.7rem;background:var(--cream2);padding:1px 4px;border-radius:2px;color:var(--forest)">.sk</code></span>
+      </div>
+      <div style="font-size:var(--t-body-s);color:var(--subtle);">1.6s · ease-in-out · infinite<br>200% gradient sweep left→right</div>
+    </div>
+
+  </div>
+
+  <!-- ================================================================
+       SECTION 5 · Interaction matrix
+       ================================================================ -->
+  <hr class="sep">
+  <div class="label-sm">Interaction matrix</div>
+  <div class="note" style="margin-bottom:14px">Every interactive element has a canonical transition spec. These map directly to <code>transition:</code> declarations in components.css.</div>
+
+  <table class="matrix-table">
+    <thead>
+      <tr>
+        <th>Trigger</th>
+        <th>Duration</th>
+        <th>Easing</th>
+        <th>Properties animated</th>
+        <th>Components</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="m-trigger">Hover</td>
+        <td class="m-dur">120ms</td>
+        <td class="m-ease">linear</td>
+        <td class="m-props">background, border-color, color</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Buttons, nav items, table rows, popover items, chips</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Focus</td>
+        <td class="m-dur">150ms</td>
+        <td class="m-ease">ease-out</td>
+        <td class="m-props">box-shadow, border-color</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Inputs, combobox triggers, buttons, checkboxes</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Toggle on/off</td>
+        <td class="m-dur">150ms</td>
+        <td class="m-ease">ease-enter</td>
+        <td class="m-props">transform (thumb), background</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Toggle switch</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Popover open</td>
+        <td class="m-dur">140ms</td>
+        <td class="m-ease">ease-enter</td>
+        <td class="m-props">opacity, transform (Y −4px→0, scale 0.98→1)</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Popovers, combobox menus, date pickers, tooltips</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Drawer open</td>
+        <td class="m-dur">280ms</td>
+        <td class="m-ease">ease-enter</td>
+        <td class="m-props">transform (translateX 100%→0)</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Drawer (right &amp; left)</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Modal open</td>
+        <td class="m-dur">200ms</td>
+        <td class="m-ease">ease-enter</td>
+        <td class="m-props">opacity, transform (scale 0.96→1, Y −48%→−50%)</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Modal, confirm dialog</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Scrim open</td>
+        <td class="m-dur">200ms</td>
+        <td class="m-ease">ease-out</td>
+        <td class="m-props">opacity 0→1</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Scrim (shared by drawer + modal)</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Toast enter</td>
+        <td class="m-dur">220ms</td>
+        <td class="m-ease">ease-enter</td>
+        <td class="m-props">opacity, transform (Y −12px→0, scale 0.97→1)</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Toast</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Toast exit</td>
+        <td class="m-dur">200ms</td>
+        <td class="m-ease">ease-exit</td>
+        <td class="m-props">opacity, transform, max-height 0</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Toast</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Combobox caret</td>
+        <td class="m-dur">150ms</td>
+        <td class="m-ease">standard</td>
+        <td class="m-props">transform (rotate 0→180°)</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Combobox trigger</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Chart bar hover</td>
+        <td class="m-dur">120ms</td>
+        <td class="m-ease">standard</td>
+        <td class="m-props">opacity, filter (brightness)</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Chart bars (.chart-bars)</td>
+      </tr>
+      <tr>
+        <td class="m-trigger">Skeleton shimmer</td>
+        <td class="m-dur">1600ms</td>
+        <td class="m-ease">ease-in-out</td>
+        <td class="m-props">background-position (200%→−200%)</td>
+        <td style="font-size:var(--t-body-s);color:var(--subtle)">Skeleton (.sk, .sk-line, .sk-block)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================
+       SECTION 6 · Do / Don't
+       ================================================================ -->
+  <hr class="sep">
+  <div class="label-sm">Principles</div>
+
+  <div class="do-dont">
+    <div class="do-card">
+      <div class="do-label">Do</div>
+      <ul>
+        <li>Use <code style="font-family:var(--font-mono);font-size:0.7rem">transition</code> for state changes; <code style="font-family:var(--font-mono);font-size:0.7rem">animation</code> only for entrances and continuous loops.</li>
+        <li>Keep duration proportional to distance — small element, short time.</li>
+        <li>Always declare <code style="font-family:var(--font-mono);font-size:0.7rem">prefers-reduced-motion</code> fallbacks for any animation class.</li>
+        <li>Use <code style="font-family:var(--font-mono);font-size:0.7rem">--anim-delay</code> to stagger siblings rather than duplicating keyframes.</li>
+        <li>Animate <code style="font-family:var(--font-mono);font-size:0.7rem">opacity</code> + <code style="font-family:var(--font-mono);font-size:0.7rem">transform</code> together — GPU-composited, no layout thrash.</li>
+      </ul>
+    </div>
+    <div class="dont-card">
+      <div class="dont-label">Don't</div>
+      <ul>
+        <li>No skeleton shimmer on data that loads in under 300ms — flash is worse than nothing.</li>
+        <li>No page transitions or route-change animations.</li>
+        <li>No card-entrance waterfalls on every page load — reserve for first-paint async reveals.</li>
+        <li>No bouncy spring / elastic easing — this product reads like a newspaper, not a game.</li>
+        <li>Never animate <code style="font-family:var(--font-mono);font-size:0.7rem">width</code>, <code style="font-family:var(--font-mono);font-size:0.7rem">height</code>, or <code style="font-family:var(--font-mono);font-size:0.7rem">top/left</code> — use <code style="font-family:var(--font-mono);font-size:0.7rem">transform</code> instead.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:14px">
+    The system intentionally ships with <strong>no page transitions, no card entrances on navigation, and no skeleton shimmers for fast responses</strong>.
+    Motion is information about <em>state change</em> — not decoration. Every animation should answer the question
+    "what just happened?" and then get out of the way.
+  </div>
+
+</div>
+
+<script>
+  /* ---- Duration bar chart ---- */
+  const durs = [
+    { label: 'snap',       val: 80,   pct: 80/400 },
+    { label: 'brisk',      val: 120,  pct: 120/400 },
+    { label: 'standard',   val: 200,  pct: 200/400 },
+    { label: 'enter',      val: 280,  pct: 280/400 },
+    { label: 'deliberate', val: 400,  pct: 400/400 },
+  ];
+  const wrap = document.getElementById('durBars');
+  durs.forEach(d => {
+    const h = Math.round(d.pct * 52) + 4;
+    wrap.innerHTML += `
+      <div class="dur-bar">
+        <div class="dur-bar-track">
+          <div class="dur-bar-fill" style="height:${h}px"></div>
+        </div>
+        <div class="dur-bar-val">${d.val}ms</div>
+        <div class="dur-bar-label">${d.label}</div>
+      </div>`;
+  });
+
+  /* ---- KPI counter ---- */
+  function countUp(el, target, duration) {
+    const start = performance.now();
+    function frame(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(ease * target) + '%';
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---- Replay helpers ---- */
+  function resetAnim(el) {
+    el.style.animation = 'none';
+    el.style.opacity = '0';
+    void el.offsetWidth; // reflow
+    el.style.animation = '';
+  }
+
+  function replay(name) {
+    if (name === 'fade') {
+      const b = document.getElementById('boxFade');
+      resetAnim(b);
+      b.classList.remove('anim-fade-in');
+      void b.offsetWidth;
+      b.classList.add('anim-fade-in');
+      b.style.setProperty('--anim-dur', 'var(--dur-standard)');
+    }
+    if (name === 'slide') {
+      const b = document.getElementById('boxSlide');
+      resetAnim(b);
+      b.classList.remove('anim-slide-up');
+      void b.offsetWidth;
+      b.classList.add('anim-slide-up');
+      b.style.setProperty('--anim-dur', 'var(--dur-standard)');
+    }
+    if (name === 'stagger') {
+      const row = document.getElementById('staggerRow');
+      const chips = row.querySelectorAll('.chip');
+      chips.forEach(c => {
+        c.style.animation = 'none';
+        c.style.opacity = '0';
+      });
+      void row.offsetWidth;
+      chips.forEach(c => {
+        c.style.animation = '';
+        c.classList.remove('anim-slide-up');
+      });
+      void row.offsetWidth;
+      row.classList.remove('anim-stagger');
+      void row.offsetWidth;
+      chips.forEach((c, i) => {
+        c.style.setProperty('--anim-delay', (i * 60) + 'ms');
+        c.classList.add('anim-slide-up');
+        c.style.opacity = '';
+      });
+    }
+    if (name === 'kpi') {
+      const card = document.getElementById('boxKpi');
+      const num  = document.getElementById('kpiNum');
+      num.textContent = '—';
+      resetAnim(card);
+      card.classList.remove('anim-slide-up');
+      void card.offsetWidth;
+      card.classList.add('anim-slide-up');
+      card.style.setProperty('--anim-dur', 'var(--dur-enter)');
+      setTimeout(() => countUp(num, 94.8, 600), 80);
+    }
+  }
+
+  /* Auto-play all on load */
+  window.addEventListener('load', () => {
+    ['fade','slide','stagger','kpi'].forEach((n, i) =>
+      setTimeout(() => replay(n), i * 120)
+    );
+  });
+</script>
+</body></html>

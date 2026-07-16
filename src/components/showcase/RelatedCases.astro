@@ -14,7 +14,9 @@ const { slugs, heading = 'Related work' } = Astro.props;
 const all = await getCollection('cases');
 const cases = slugs
   .map((slug) => all.find((c) => c.data.slug === slug))
-  .filter((c): c is (typeof all)[number] => Boolean(c));
+  // Skip unknown slugs AND hidden cases — a hidden case builds no page, so
+  // linking it would be a dead link.
+  .filter((c): c is (typeof all)[number] => Boolean(c) && !c!.data.hidden);
 ---
 {cases.length > 0 && (
   <section class="related" aria-labelledby="related-heading">

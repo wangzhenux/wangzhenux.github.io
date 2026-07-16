@@ -13,15 +13,19 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
   await expect(page.locator('.hero-cover img')).toHaveAttribute('src', /hero-cover\.png/);
   await expect(page.locator('.meta-strip')).toContainText('79 accounts');
 
-  // The spine: Context + Parts 01–08 (nine PartHeaders), with the funnel
+  // The spine: Context + Parts 01–09 (ten PartHeaders), with the funnel
   // chapters — generate demand → convert leads → optimize operations — in
-  // order, then the convergence.
+  // order, then the convergence and the design system that made it hold.
   const parts = page.locator('.part-title');
-  await expect(parts).toHaveCount(9);
+  await expect(parts).toHaveCount(10);
   await expect(parts.nth(2)).toContainText('Marketing: generate demand');
   await expect(parts.nth(3)).toContainText('Leasing: convert leads');
   await expect(parts.nth(4)).toContainText('Insight: optimize operations');
   await expect(parts.nth(5)).toContainText('3 products to one platform');
+  await expect(parts.nth(6)).toContainText('The design system');
+
+  // The specimen wall renders its high-res tiles.
+  await expect(page.locator('.wall-tile img[src*="ds/buttons.png"]')).toBeAttached();
 
   // The Feb→summer 2026 timeline (the one bespoke artifact) is present.
   await expect(page.locator('img[src*="timeline.svg"]')).toBeVisible();

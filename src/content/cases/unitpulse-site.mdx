@@ -1,6 +1,6 @@
 ---
 title: "Built to Be Found — by Humans and AI"
-deck: "Rebuilding UnitPulse's renter site around a conversational search grounded on real inventory — and a content architecture citable by AI answer engines, not just Google. Shipped to production in ~6 weeks, and tested like a system."
+deck: "Rebuilding UnitPulse's renter site around conversational search on real inventory — with content built to be cited by AI answer engines, not just Google. Shipped in ~6 weeks."
 slug: unitpulse-site
 company: UnitPulse
 year: 2026
@@ -155,7 +155,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
   <SectionH small>What I owned</SectionH>
   <BodyText>
     Engineering owned the server-rendered scaffold and data layer; I built the renter
-    surface **on top of** it — and never claim it.
+    surface on top of it — and **never claim it**.
   </BodyText>
   <RoleChips
     mine={[
@@ -175,8 +175,8 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 <section id="p1" data-reveal>
   <PartHeader num="01" title="The problem" />
   <BodyText>
-    A renter's search no longer starts in Google — it starts in a chat, often
-    answered before anyone clicks. The old site couldn't be found in either place: a
+    A renter's search no longer starts in Google — it starts in a chat, **often
+    answered before anyone clicks**. The old site couldn't be found in either place: a
     client-only SPA, invisible to search engines and answer engines alike. The fix
     was a harder design problem than a redesign.
   </BodyText>
@@ -207,7 +207,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
   <PartHeader num="02" title="Talking to renters" />
   <BodyText>
     Before designing the search, I talked to renters about how they actually look
-    for a home. Three profiles surfaced — and they want different things.
+    for a home. Three profiles surfaced — and **they want different things**.
   </BodyText>
   <SectionH small>Three kinds of renters</SectionH>
   <PersonaGrid
@@ -242,7 +242,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 
   <SectionH small>How rental search works today</SectionH>
   <BodyText>
-    By the time I shipped, conversational search had become table stakes — Zillow,
+    By the time I shipped, conversational search had become **table stakes** — Zillow,
     Apartments.com, and Redfin all launched it in 2025–26. So I evaluated each on the
     three axes this rebuild competes on.
   </BodyText>
@@ -280,7 +280,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
   <BodyText>
     The key finding: AI chat is everywhere now, but it's mostly bolted on as a
     chat-only Q&A — renters lose the fast, structured control they rely on. No one
-    fuses conversation and filters on one shared state, and no one structures their
+    **fuses conversation and filters on one shared state**, and no one structures their
     pages to be cited by answer engines. That's the opening this rebuild is built for.
   </BodyText>
   <Pullquote>
@@ -293,8 +293,8 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
   <PartHeader num="03" title="One search, two modes" />
   <BodyText>
     So I designed the two models as one. Conversational handles intent; faceted
-    handles precision; both write to a single shared state, so they can never drift
-    apart or contradict each other.
+    handles precision; both write to a single shared state, so they can
+    **never drift apart or contradict** each other.
   </BodyText>
 
   <SectionH small>The renter journey I designed for</SectionH>
@@ -421,8 +421,8 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 <section id="p4" data-reveal>
   <PartHeader num="04" title="Designed to be found" />
   <BodyText>
-    Designing for the answer engine — not just the search engine — is a bet most
-    rental sites haven't made.
+    Designing for the answer engine — not just the search engine — is
+    **a bet most rental sites haven't made**.
   </BodyText>
   <SectionH small>The GEO architecture</SectionH>
   <CardGrid
@@ -462,7 +462,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 
   <BodyText>
     To be precise: this is architecture and intent designed *for* citation, not a
-    measured count of AI citations. Classic indexing is the part I can measure today.
+    measured count of AI citations. Classic indexing is **the part I can measure today**.
   </BodyText>
 </section>
 
@@ -512,23 +512,26 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     ]}
   />
   <Dual>
+    {/* Transparent PNGs rendered at 3× from Figma nodes 1470-148 / 1470-16
+        (see scripts/ds-specimens/modals/). The rounded card + soft shadow are
+        baked in, so no container radius/background is applied. */}
     <img
-      src="/cases/unitpulse-site/inquire-modal.jpg"
+      src="/cases/unitpulse-site/inquire-modal.png"
       alt="The Send-a-Message inquire modal — full name and a single email-or-phone field (either is fine), plus a message box"
-      width={524}
-      height={660}
+      width={1584}
+      height={2004}
       loading="lazy"
       decoding="async"
-      style="width:100%;height:auto;border-radius:var(--radius-lg)"
+      style="width:100%;height:auto"
     />
     <img
-      src="/cases/unitpulse-site/tour-modal.jpg"
+      src="/cases/unitpulse-site/tour-modal.png"
       alt="The Schedule-a-Tour modal — contact fields, a preferred-date picker, and a grid of bookable time slots"
-      width={524}
-      height={717}
+      width={1584}
+      height={2484}
       loading="lazy"
       decoding="async"
-      style="width:100%;height:auto;border-radius:var(--radius-lg)"
+      style="width:100%;height:auto"
     />
   </Dual>
 
@@ -584,10 +587,10 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 
   <BodyText>
     The honest framing: these are early numbers for a six-week rebuild. The point
-    isn't the magnitudes — it's that the architecture is **live**, indexing is
-    **climbing from zero**, the funnel is **converting real leads**, and the GEO bet
-    is designed to compound. Applications aren't flowing yet (**0** in the window),
-    and I'd rather say that than dress it up.
+    isn't the magnitudes — it's that the architecture is live, indexing is climbing
+    from zero, the funnel is converting real leads, and the GEO bet is designed to
+    compound. Applications aren't flowing yet (0 in the window), and
+    **I'd rather say that than dress it up**.
   </BodyText>
 
   <Reflection>
@@ -604,11 +607,11 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
   </Reflection>
 
   <RelatedCases
-    slugs={["unitpulse-platform", "tour-scheduling"]}
+    slugs={["unitpulse-platform"]}
     heading="Related work"
   />
   <BodyText>
-    This renter site is the acquisition surface of the broader UnitPulse platform
+    This renter site is **the acquisition surface** of the broader UnitPulse platform
     above. (Separately, the earlier `tripalink.com` growth story is a *different,
     legacy* marketing site — not this rebuild.)
   </BodyText>

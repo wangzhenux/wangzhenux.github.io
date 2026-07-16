@@ -1,0 +1,85 @@
+---
+/**
+ * A masonry wall of design-system specimens — the shadcn-homepage pattern. Tiles
+ * are high-res (3×) Playwright captures of the real component CSS, laid in CSS
+ * columns on the full-bleed dotted band. Each tile is lightbox-zoomable via the
+ * global [data-zoomable] island (§8.4).
+ *
+ *   <ShowcaseWall label="…" items={[{ src, alt, width, height }]} />
+ */
+interface Tile {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+interface Props {
+  items: Tile[];
+  label?: string;
+  /** Column count at desktop (default 3; use 2 for wider foundation tiles). */
+  cols?: 2 | 3;
+}
+const { items, label = 'Design-system specimens', cols = 3 } = Astro.props;
+---
+<section class:list={['wall', cols === 2 && 'wall--2']} aria-label={label}>
+  <div class="wall-inner">
+    {items.map((t) => (
+      <figure class="wall-tile" data-zoomable>
+        <img src={t.src} alt={t.alt} width={t.width} height={t.height} loading="lazy" decoding="async" />
+      </figure>
+    ))}
+  </div>
+</section>
+<style>
+  .wall {
+    position: relative;
+    width: calc(100vw - var(--sbw));
+    padding-block: var(--space-9);
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
+  }
+  .wall::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--bg-secondary);
+    background-image: radial-gradient(circle, var(--rule) 1px, transparent 1.5px);
+    background-size: 28px 28px;
+  }
+  .wall-inner {
+    position: relative;
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--pad-page-x);
+    columns: 3;
+    column-gap: var(--space-6);
+  }
+  .wall--2 .wall-inner {
+    columns: 2;
+  }
+  .wall-tile {
+    margin: 0 0 var(--space-6);
+    break-inside: avoid;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bento-card-bg);
+    cursor: zoom-in;
+  }
+  .wall-tile img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 1023px) {
+    .wall-inner,
+    .wall--2 .wall-inner {
+      columns: 2;
+    }
+  }
+  @media (max-width: 639px) {
+    .wall-inner,
+    .wall--2 .wall-inner {
+      columns: 1;
+    }
+  }
+</style>

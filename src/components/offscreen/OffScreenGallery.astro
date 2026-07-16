@@ -100,14 +100,16 @@ import { gallery, filters, imgUrl } from '../../lib/offscreen';
   .tile--wide {
     grid-column: span 2;
   }
-  /* Portrait pieces (hanging scrolls) stand upright across two rows. They're
-     shown whole (object-fit: contain) on a soft mat so the calligraphy is never
-     clipped — the photos around them stay edge-to-edge. */
   .tile--tall {
     grid-row: span 2;
+  }
+  /* Ink pieces (calligraphy + paintings) read as one set: each is shown whole
+     (contain) on a uniform cream mat, so the different paper tones blend into a
+     single ground and the group looks consistent. Photos stay edge-to-edge. */
+  .tile[data-cat='ink'] {
     background: var(--bg-secondary);
   }
-  .tile--tall img {
+  .tile[data-cat='ink'] img {
     object-fit: contain;
   }
   .tile:hover img {

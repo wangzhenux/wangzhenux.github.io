@@ -19,10 +19,10 @@ test('unitpulse-site case: card-forward structure renders, no axe violations', a
   await expect(parts.nth(1)).toContainText('The problem');
   await expect(parts.nth(6)).toContainText('Early traction');
 
-  // Related work links to the featured UnitPulse siblings (CaseCard renders a
-  // cover link and a title link per case, so match the first of each).
+  // Related work links to the flagship (tour-scheduling is hidden site-wide,
+  // so it must NOT appear here).
   await expect(page.locator('.related a[href="/work/unitpulse-platform"]').first()).toBeVisible();
-  await expect(page.locator('.related a[href="/work/tour-scheduling"]').first()).toBeVisible();
+  await expect(page.locator('.related a[href="/work/tour-scheduling"]')).toHaveCount(0);
 
   const r = await new AxeBuilder({ page }).analyze();
   expect(r.violations, JSON.stringify(r.violations.map((v) => v.id))).toEqual([]);

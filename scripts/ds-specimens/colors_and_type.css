@@ -1,0 +1,463 @@
+/* =========================================================================
+   UnitPulse — Foundation tokens (colors + type)
+   Import into any UnitPulse design HTML as:
+     <link rel="stylesheet" href="colors_and_type.css">
+   All three families are self-hosted from fonts/ — no external CDN.
+   ========================================================================= */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('fonts/Inter-VariableFont_opsz_wght.ttf') format('truetype-variations'),
+       url('fonts/Inter-VariableFont_opsz_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('fonts/Inter-Italic-VariableFont_opsz_wght.ttf') format('truetype-variations'),
+       url('fonts/Inter-Italic-VariableFont_opsz_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('fonts/Manrope-VariableFont_wght.ttf') format('truetype-variations'),
+       url('fonts/Manrope-VariableFont_wght.ttf') format('truetype');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('fonts/IBMPlexMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('fonts/IBMPlexMono-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('fonts/IBMPlexMono-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---- Base color scales ---- */
+  --cream:     #FAF9F5;   /* page bg */
+  --cream2:    #F0EEE6;   /* sidebar / hover / table header */
+  --cream3:    #E8E5DC;   /* hairline-on-cream, idle chart bars */
+  --paper:     #FFFFFF;   /* cards, inputs */
+
+  --ink:       #1A1816;   /* primary text (warm near-black) */
+  --subtle:    #5F5C55;   /* secondary text */
+  --faint:     #8C877E;   /* tertiary / metadata */
+
+  --hairline:  #EBE8DF;   /* default card border */
+  --line:      #DCD8CE;   /* stronger border (buttons, inputs) */
+
+  /* Brand & state — olive split (two roles, same hue family)
+     --forest: dark olive for interactive (buttons, focus, active rail) — ~8:1 on white
+     --signal: saturated green for state (success, trend-up, live-dot) **/
+  --forest:    #3D4A2E;   /* BRAND — primary buttons, logo, authority */
+  --forest2:   #2E3822;   /* forest hover / gradient deep end */
+  --signal:    #3D7A3A;   /* STATE — live-dot, trend-up, success */
+
+  /* Olive family — data-series only */
+  --moss:      #4E5E34;
+  --sage:      #6E7D52;
+  --mintRing:  #C4C9A0;   /* olive mid-tint — chart series */
+  --mint:      #E0E4CC;   /* olive soft — chart fill */
+  --mintWash:  #EEF0E3;   /* olive wash — hover/bg */
+
+  /* Semantic */
+  --alert:     #B23A3A;
+  --alertSoft: #F5DADA;
+  --alertDeep: #8F2A24;
+  --warn:      #B47A1F;
+  --warnSoft:  #F5E4C7;
+  --hot:       #C84A3E;
+  --hotSoft:   #FBDFD9;
+
+  /* Success semantic — parallel to alert/warn structure */
+  --success:     var(--signal);  /* #3D7A3A — foreground / icon */
+  --successSoft: #D4EAD4;        /* background tint (= --mint) */
+  --successDeep: #2A5A28;        /* text on soft tint, WCAG AA */
+
+  /* AI — agent-authored content, auto-insights, proposed replies.
+     Slate-ink: quiet, intelligent, maximally distinct from warn/alert; avoids the AI-violet cliché. */
+  --ai:        #3D3A52;
+  --aiSoft:    #E6E4EE;
+  --aiDeep:    #26243A;
+
+  /* Chart-only tertiaries */
+  --cobalt:    #2F4B7C;
+  --clay:      #B5663B;
+
+  /* ---- Semantic foreground / background aliases ---- */
+  --fg-1: var(--ink);
+  --fg-2: var(--subtle);
+  --fg-3: var(--faint);
+  --bg-1: var(--cream);
+  --bg-2: var(--cream2);
+  --bg-card: var(--paper);
+  --border-1: var(--hairline);
+  --border-2: var(--line);
+
+  /* ---- Typography ---- */
+  --font-sans:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Manrope', 'Inter', sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Type scale — rem-based for accessibility.
+     Anchored to html { font-size: 16px } below; users' browser zoom scales everything.
+     Sans ladder: 10, 12, 13, 14, 16, 18, 22, 28. KPI crown at 40. */
+  --t-hero:    1.75rem;    /* 28px — H1 page hero (quiet; data is the hero) */
+  --t-h2:      1.375rem;   /* 22px — modal / empty-state headline */
+  --t-h3:      1.125rem;   /* 18px — section / card title, tertiary metric */
+  --t-kpi:     2.5rem;     /* 40px — primary metric (the page's visual crown) */
+  --t-kpi-2:   1.75rem;    /* 28px — secondary metric */
+  --t-body-lg: 1rem;       /* 16px — emphasized body, callout lead */
+  --t-body:    0.875rem;   /* 14px — workhorse body */
+  --t-body-s:  0.8125rem;  /* 13px — dense body, table cells */
+  --t-label:   0.75rem;    /* 12px — form labels */
+  --t-eyebrow: 0.625rem;   /* 10px — uppercase eyebrow */
+  --t-chip:    0.625rem;   /* 10px — chip text */
+  --t-mono:    0.75rem;    /* 12px — inline numeric/meta, optically matches 13px sans */
+
+  /* ---- Spacing, radius, shadow ---- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+
+  --r-chip:   3px;
+  --r-btn:    6px;
+  --r-card:   8px;
+  --r-card-m: 12px;
+  --r-lg:     16px;
+  --r-2xl:    24px;
+
+  --shadow-card:  0 12px 50px rgba(26,24,22,0.06);
+  --shadow-phone: 0 24px 60px rgba(26,24,22,0.12);
+  --shadow-modal: 0 24px 60px rgba(26,24,22,0.18);
+  --shadow-focus: 0 0 0 3px rgba(61,74,46,0.22);
+
+  /* ---- Motion ---- */
+  /* Duration — five steps anchored to perceivable thresholds.
+     Snap: below perception (~80ms). Brisk: micro-interactions (120ms).
+     Standard: most UI transitions (200ms). Enter: overlays sliding in (280ms).
+     Deliberate: page-level reveals, hero moments (400ms). */
+  --dur-snap:       80ms;  /* @kind other */
+  --dur-brisk:      120ms; /* @kind other */
+  --dur-standard:   200ms; /* @kind other */
+  --dur-enter:      280ms; /* @kind other */
+  --dur-deliberate: 400ms; /* @kind other */
+
+  /* Easing — four named curves.
+     snap:     linear — instant color/opacity swaps (hover fills, live-dot).
+     standard: ease — symmetric; general-purpose transitions.
+     enter:    cubic-bezier(.22,.61,.36,1) — decelerate in; overlays, drawers, modals.
+     exit:     cubic-bezier(.4,0,1,1) — accelerate out; elements leaving the screen. */
+  --ease-snap:     linear;                        /* @kind other */
+  --ease-standard: ease;                          /* @kind other */
+  --ease-enter:    cubic-bezier(.22, .61, .36, 1); /* @kind other */
+  --ease-exit:     cubic-bezier(.4,  0,   1,   1);  /* @kind other */
+}
+
+/* -------------------------------------------------------------------------
+   Base element styles — semantic defaults
+   ------------------------------------------------------------------------- */
+
+html {
+  /* Anchor — overrides user-agent default to give us a stable rem base.
+     Users' browser zoom (Cmd+/-) still scales relative to this. */
+  font-size: 16px;
+}
+
+html, body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11", "tnum";
+  letter-spacing: -0.005em;
+  line-height: 1.5;
+}
+
+/* Body-sized default for text content. Scoped to <body> so it doesn't
+   override the html{font-size:16px} rem anchor above. */
+body {
+  font-size: var(--t-body);
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-size: var(--t-hero);
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+h2, .h2 {
+  font-family: var(--font-display);
+  font-size: var(--t-h2);
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+h3, .h3 {
+  font-family: var(--font-display);
+  font-size: var(--t-h3);
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+p, .p {
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+small, .caption {
+  font-size: var(--t-label);
+  color: var(--faint);
+}
+
+code, kbd, samp, .mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "zero";
+  font-size: 0.92em;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--t-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.font-display  { font-family: var(--font-display); letter-spacing: -0.028em; font-feature-settings: "ss01"; }
+.font-mono     { font-family: var(--font-mono); font-feature-settings: "zero"; }
+.tnum          { font-variant-numeric: tabular-nums; }
+
+.fg-1 { color: var(--ink); }
+.fg-2 { color: var(--subtle); }
+.fg-3 { color: var(--faint); }
+.fg-brand { color: var(--forest); }
+.fg-signal { color: var(--signal); }
+
+.bg-cream  { background: var(--cream); }
+.bg-cream2 { background: var(--cream2); }
+.bg-paper  { background: var(--paper); }
+.bg-forest { background: var(--forest); color: #fff; }
+
+.hairline { border-color: var(--hairline); }
+
+/* =========================================================================
+   Dark mode tokens
+   Activated two ways:
+   1. Automatic — @media (prefers-color-scheme: dark)
+   2. Manual    — add data-theme="dark" to <html> (overrides system preference)
+
+   Design choices:
+   · All surfaces stay warm (brown-black, not blue-gray).
+   · --forest shifts from #1B3A2A → #7A9158 (olive family) so buttons are readable on dark.
+   · --signal, alert, warn brighten +10% for dark-bg contrast.
+   · Soft tints invert — e.g. --alertSoft becomes a dark red wash, not pink.
+   · Shadows deepen (rgba black, not rgba ink).
+   · Scrollbar thumb shifts to warm dark ash.
+   ========================================================================= */
+:root[data-theme="dark"],
+.dark {
+  /* Surfaces */
+  --cream:     #131210;   /* page bg */
+  --cream2:    #1A1917;   /* sidebar / hover / table header */
+  --cream3:    #222019;   /* idle chart bars */
+  --paper:     #1D1C1A;   /* cards, inputs */
+
+  /* Text */
+  --ink:       #F0EDE6;   /* primary — warm off-white */
+  --subtle:    #9B9489;   /* secondary */
+  --faint:     #635E57;   /* tertiary / metadata */
+
+  /* Borders */
+  --hairline:  #282522;
+  --line:      #312E2A;
+
+  /* Brand — olive family, brightened for dark surfaces */
+  --forest:    #7A9158;   /* BRAND — primary buttons on dark */
+  --forest2:   #5E7040;   /* forest hover on dark */
+  --signal:    #5C9E5A;   /* STATE — brighter on dark bg */
+
+  /* Olive family — data-series */
+  --moss:      #6B8045;
+  --sage:      #8A9E65;
+  --mintRing:  #4A5030;
+  --mint:      #333822;
+  --mintWash:  #262B1A;
+
+  /* Semantic */
+  --alert:     #E05555;
+  --alertSoft: #2A1515;
+  --alertDeep: #F08080;
+  --warn:      #D4922A;
+  --warnSoft:  #2A1E0A;
+  --hot:       #E55A4E;
+  --hotSoft:   #2A1210;
+  --success:     var(--signal);  /* uses dark-mode signal */
+  --successSoft: #1A331A;        /* dark green wash */
+  --successDeep: #8DC88B;        /* text on dark soft */
+
+  /* AI */
+  --ai:        #6B6888;
+  --aiSoft:    #1E1D28;
+  --aiDeep:    #B0AECC;
+
+  /* Chart tertiaries */
+  --cobalt:    #4A6FAF;
+  --clay:      #C97A4E;
+
+  /* Aliases (auto-update from above) */
+  --fg-1: var(--ink);
+  --fg-2: var(--subtle);
+  --fg-3: var(--faint);
+  --bg-1: var(--cream);
+  --bg-2: var(--cream2);
+  --bg-card: var(--paper);
+  --border-1: var(--hairline);
+  --border-2: var(--line);
+
+  /* Shadows deepen on dark */
+  --shadow-card:  0 12px 50px rgba(0,0,0,0.35);
+  --shadow-phone: 0 24px 60px rgba(0,0,0,0.55);
+  --shadow-modal: 0 24px 60px rgba(0,0,0,0.65);
+  --shadow-focus: 0 0 0 3px rgba(46,125,82,0.38);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Surfaces */
+    --cream:     #131210;
+    --cream2:    #1A1917;
+    --cream3:    #222019;
+    --paper:     #1D1C1A;
+    /* Text */
+    --ink:       #F0EDE6;
+    --subtle:    #9B9489;
+    --faint:     #635E57;
+    /* Borders */
+    --hairline:  #282522;
+    --line:      #312E2A;
+    /* Brand — olive family */
+    --forest:    #7A9158;
+    --forest2:   #5E7040;
+    --signal:    #5C9E5A;
+    /* Olive family */
+    --moss:      #6B8045;
+    --sage:      #8A9E65;
+    --mintRing:  #4A5030;
+    --mint:      #333822;
+    --mintWash:  #262B1A;
+    /* Semantic */
+    --alert:     #E05555;
+    --alertSoft: #2A1515;
+    --alertDeep: #F08080;
+    --warn:      #D4922A;
+    --warnSoft:  #2A1E0A;
+    --hot:       #E55A4E;
+    --hotSoft:   #2A1210;
+    --success:     var(--signal);
+    --successSoft: #1A331A;
+    --successDeep: #8DC88B;
+    /* AI */
+    --ai:        #6B6888;
+    --aiSoft:    #1E1D28;
+    --aiDeep:    #B0AECC;
+    /* Charts */
+    --cobalt:    #4A6FAF;
+    --clay:      #C97A4E;
+    /* Shadows */
+    --shadow-card:  0 12px 50px rgba(0,0,0,0.35);
+    --shadow-phone: 0 24px 60px rgba(0,0,0,0.55);
+    --shadow-modal: 0 24px 60px rgba(0,0,0,0.65);
+    --shadow-focus: 0 0 0 3px rgba(46,125,82,0.38);
+  }
+}
+
+/* Dark scrollbar */
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb,
+.dark ::-webkit-scrollbar-thumb { background: #3A3630; }
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+.dark ::-webkit-scrollbar-thumb:hover { background: #4E4840; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) ::-webkit-scrollbar-thumb { background: #3A3630; }
+  :root:not([data-theme="light"]) ::-webkit-scrollbar-thumb:hover { background: #4E4840; }
+  :root:not([data-theme="light"]) { scrollbar-color: #3A3630 transparent; }
+}
+
+
+/* =========================================================================
+   Scrollbars — thin, warm-neutral, matches the cream palette.
+   Apply globally; use .scrollbar-invert on dark surfaces.
+   ========================================================================= */
+
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #C4BFB2 transparent;
+}
+
+/* WebKit / Blink */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #C4BFB2;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A39E90;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Dark-surface override (forest sidebars, dark cards) */
+.scrollbar-invert {
+  scrollbar-color: rgba(255,255,255,0.22) transparent;
+}
+.scrollbar-invert::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.22);
+}
+.scrollbar-invert::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.36);
+}

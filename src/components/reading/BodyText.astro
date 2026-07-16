@@ -1,9 +1,15 @@
 ---
 ---
-<p class="body-text"><slot /></p>
+<div class="body-text"><slot /></div>
 <style>
   /* ported from case-study-twilio.html .body-text, tokenized.
-     Fills the body column for unified left+right edges. */
+     Fills the body column for unified left+right edges.
+
+     Block container (div, not p): MDX wraps a formatted paragraph — anything
+     with **strong**, a link, etc. — in its own <p>, and a <p> can't nest in a
+     <p> (the browser would split them into siblings, orphaning the content
+     from this class and killing the <strong> marker below). A <div> lets that
+     inner <p> nest validly so the descendant rules actually match. */
   .body-text {
     font-family: var(--font-body);
     font-size: 16px;
@@ -12,6 +18,10 @@
     max-width: none;
     margin: var(--space-5) 0;
   }
+  /* Flatten MDX's inner paragraph(s): the wrapper owns the outer spacing, and
+     stacked paragraphs breathe via the adjacent-sibling rule. */
+  .body-text :global(p) { margin: 0; }
+  .body-text :global(p + p) { margin-top: var(--space-4); }
   /* Marker-pen highlight on <strong> (§8.1). Default: thin amber underline.
      On hover: fills upward to a marker-style highlight. Reduced-motion is
      handled globally (kills the transition + shows the full marker). */

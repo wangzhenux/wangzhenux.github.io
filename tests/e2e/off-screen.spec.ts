@@ -4,9 +4,9 @@ import AxeBuilder from '@axe-core/playwright';
 test('off-screen gallery: renders, filters, zooms, and has no axe issues', async ({ page }) => {
   await page.goto('/off-screen');
 
-  // All sixteen pieces are present.
+  // All the pieces are present (6 ink · 4 creatures · 15 places).
   const tiles = page.locator('.tile');
-  await expect(tiles).toHaveCount(16);
+  await expect(tiles).toHaveCount(25);
 
   // Category filter narrows the wall and keeps the chip state in sync.
   // (exact: true — "All" is otherwise a substring of the "mallard" tile's label.)
@@ -14,9 +14,11 @@ test('off-screen gallery: renders, filters, zooms, and has no axe issues', async
   await expect(page.locator('.tile:visible')).toHaveCount(6);
   await page.getByRole('button', { name: 'Creatures', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Creatures', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('.tile:visible')).toHaveCount(7);
+  await expect(page.locator('.tile:visible')).toHaveCount(4);
+  await page.getByRole('button', { name: 'Places', exact: true }).click();
+  await expect(page.locator('.tile:visible')).toHaveCount(15);
   await page.getByRole('button', { name: 'All', exact: true }).click();
-  await expect(page.locator('.tile:visible')).toHaveCount(16);
+  await expect(page.locator('.tile:visible')).toHaveCount(25);
 
   // Clicking a tile opens the lightbox; Esc closes it.
   await page.locator('.tile').first().click();
