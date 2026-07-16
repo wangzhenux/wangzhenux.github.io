@@ -268,11 +268,15 @@ const icons: Record<string, string> = {
     object-position: center;
   }
   /* Figma-framed image: absolutely positioned by the per-item percent
-     transform (inline style); max-width unlocked so w>100% can overflow. */
+     transform (inline style); max-width unlocked so w>100% can overflow.
+     `cover` (not `fill`) keeps the image's own aspect ratio, so when a card's
+     aspect changes responsively — e.g. the hero flips to 16/9 below 900px — the
+     screenshot crops instead of stretching. The frame percentages are authored
+     so the box matches the image aspect at the design size, where cover ≡ fill. */
   .bento--crop .bento-img--framed {
     position: absolute;
     max-width: none;
-    object-fit: fill;
+    object-fit: cover;
   }
   /* The image dissolves into the card surface just above the title strip. */
   .bento--crop .bento-visual::after {
