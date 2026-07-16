@@ -1,5 +1,4 @@
 ---
-import MetaStrip from '../hero/MetaStrip.astro';
 import Container from '../layout/Container.astro';
 import Icon from '../chrome/Icon.astro';
 
@@ -12,9 +11,10 @@ interface Props {
   cover?: string;
   image?: string;
   summary?: string;
+  /** Accepted for compatibility; no longer rendered on the home cover. */
   metaFields?: MetaField[];
 }
-const { slug, title, company, year, cover, image, summary, metaFields = [] } = Astro.props;
+const { slug, title, company, year, cover, image, summary } = Astro.props;
 const eyebrow = ['Featured', year, company].filter(Boolean).join(' · ');
 const href = `/work/${slug}`;
 ---
@@ -27,12 +27,11 @@ const href = `/work/${slug}`;
         <span class="featured-cover-text">
           <span class="featured-meta">{eyebrow}</span>
           <span class="featured-title" id="featured-heading">{title}</span>
+          {summary && <span class="featured-cover-lead">{summary}</span>}
         </span>
         <span class="featured-cta">Read the story <Icon name="arrow-right" size={14} /></span>
       </span>
     </a>
-    {summary && <p class="featured-lead">{summary}</p>}
-    {metaFields.length > 0 && <MetaStrip fields={metaFields} />}
   </Container>
 </section>
 <style>
@@ -66,7 +65,9 @@ const href = `/work/${slug}`;
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, var(--cover-scrim) 0%, var(--cover-scrim) 40%, transparent 82%);
+    /* Reaches higher than before — the overlaid lead sits above the title, so
+       the scrim has to keep more of the cover legible. */
+    background: linear-gradient(to top, var(--cover-scrim) 0%, var(--cover-scrim) 58%, transparent 92%);
   }
   .featured-cover-content {
     position: absolute;
@@ -103,6 +104,16 @@ const href = `/work/${slug}`;
     max-width: 22ch;
     text-shadow: var(--cover-text-shadow-lg);
   }
+  /* The case deck, overlaid on the cover just under the title. */
+  .featured-cover-lead {
+    display: block;
+    margin-top: var(--space-3);
+    max-width: 52ch;
+    font-size: 15px;
+    line-height: 1.55;
+    opacity: 0.92;
+    text-shadow: var(--cover-text-shadow-sm);
+  }
   .featured-cta {
     display: inline-flex;
     align-items: center;
@@ -114,13 +125,6 @@ const href = `/work/${slug}`;
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
     white-space: nowrap;
-  }
-  .featured-lead {
-    font-size: 18px;
-    line-height: 1.6;
-    color: var(--ink-secondary);
-    max-width: 60ch;
-    margin: 0 0 var(--space-6);
   }
   @media (max-width: 767px) {
     .featured-cover-content {

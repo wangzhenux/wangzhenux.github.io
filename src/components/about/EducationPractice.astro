@@ -4,13 +4,16 @@ interface EducationItem {
   primary: string;
   /** Supporting detail — institution · year. */
   detail?: string;
-  /** Optional monochrome institution logo, right-aligned. Falls back to text. */
+  /** Optional institution logo, right-aligned. Falls back to text. */
   logo?: string;
+  /** Optical size nudge (× base height) to level uneven logo heights. */
+  logoScale?: number;
 }
 interface Props {
   education: EducationItem[];
 }
 const { education } = Astro.props;
+import ToolsCollage from './ToolsCollage.astro';
 ---
 <section class="section" aria-labelledby="edu-heading">
   <h2 class="section-h2" id="edu-heading">Education</h2>
@@ -22,7 +25,15 @@ const { education } = Astro.props;
           {e.detail && <span class="edu-detail">{e.detail}</span>}
         </div>
         {e.logo && (
-          <img class="edu-logo" src={e.logo} alt="" aria-hidden="true" height="30" loading="lazy" decoding="async" />
+          <img
+            class="edu-logo"
+            src={e.logo}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            style={e.logoScale ? `--edu-scale:${e.logoScale}` : undefined}
+          />
         )}
       </li>
     ))}
@@ -31,16 +42,23 @@ const { education } = Astro.props;
 
 <section class="section" aria-labelledby="approach-heading">
   <h2 class="section-h2" id="approach-heading">How I work</h2>
-  <p class="approach">
-    My work sits where design meets engineering. I design and systematize in
-    Figma, move fast from concept to interface with AI tools like Google Stitch,
-    and prototype in real, working code with Claude Code — so what I propose is
-    grounded in what's actually buildable, not just a static mock. Most of my
-    decade has been on dense, expert software — developer tools, enterprise
-    platforms, and increasingly AI-assisted products — where the work is making
-    complexity feel obvious. When the team needs ground truth I run usability
-    sessions; when an idea is hard to explain, I draw it.
-  </p>
+  <div class="approach-grid">
+    <p class="approach">
+      My work sits <strong class="highlight">where design meets engineering</strong>.
+      I design and systematize in Figma, move fast from concept to interface with
+      AI tools like Google Stitch, and <strong class="highlight">prototype in real,
+      working code</strong> with Claude Code — so what I propose is grounded in
+      what's actually buildable, not just a static mock. Most of my decade has
+      been on dense, expert software — developer tools, enterprise platforms, and
+      increasingly AI-assisted products — where the work is
+      <strong class="highlight">making complexity feel obvious</strong>. When the
+      team needs ground truth I run usability sessions; when an idea is hard to
+      explain, I draw it.
+    </p>
+    <div class="approach-aside">
+      <ToolsCollage />
+    </div>
+  </div>
 </section>
 <style>
   .section {
@@ -95,23 +113,40 @@ const { education } = Astro.props;
     font-size: 14px;
     color: var(--ink-secondary);
   }
-  /* Institution mark as a quiet right-aligned accent, knocked back to one ink tone. */
+  /* Institution mark, right-aligned, in its real brand color. One shared height;
+     --edu-scale trims the taller UT Austin shield so the two read level. */
   .edu-logo {
-    height: 30px;
+    height: calc(28px * var(--edu-scale, 1));
     width: auto;
-    max-width: 150px;
+    max-width: 160px;
     object-fit: contain;
     object-position: right center;
-    filter: brightness(0);
-    opacity: 0.6;
+    opacity: 0.9;
     flex-shrink: 0;
+  }
+  .approach-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-10);
+    align-items: center;
   }
   .approach {
     font-size: 16px;
     line-height: 1.7;
     color: var(--ink-secondary);
-    max-width: 62ch;
+    max-width: 60ch;
     margin: 0;
+  }
+  .approach-aside {
+    align-self: stretch;
+    min-height: 220px;
+  }
+  @media (max-width: 767px) {
+    .approach-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+    .approach-aside { min-height: 0; }
   }
   @media (max-width: 767px) {
     .section {

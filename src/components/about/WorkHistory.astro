@@ -2,10 +2,14 @@
 interface Company {
   /** Employer, e.g. "Twilio". */
   company: string;
-  /** Role(s) held there, e.g. "Design Lead · Senior UX Designer". */
+  /** Role(s) held there, e.g. "Senior UX Designer". */
   title: string;
-  /** Optional monochrome logo served from /public. Falls back to text only. */
+  /** Optional brand logo served from /public. Falls back to text only. */
   logo?: string;
+  /** Knock a white/light mark down to ink so it reads on cream. */
+  logoDark?: boolean;
+  /** Optical size nudge (× base height) to balance uneven logo padding. */
+  logoScale?: number;
 }
 interface Props {
   companies: Company[];
@@ -23,7 +27,15 @@ const { companies, heading = "Where I've been" } = Astro.props;
           <span class="history-role">{c.title}</span>
         </div>
         {c.logo && (
-          <img class="history-logo" src={c.logo} alt="" aria-hidden="true" height="24" loading="lazy" decoding="async" />
+          <img
+            class:list={['history-logo', c.logoDark && 'history-logo--dark']}
+            src={c.logo}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            style={c.logoScale ? `--logo-scale:${c.logoScale}` : undefined}
+          />
         )}
       </li>
     ))}
@@ -73,17 +85,22 @@ const { companies, heading = "Where I've been" } = Astro.props;
     gap: var(--space-1);
     min-width: 0;
   }
-  /* Employer wordmark as a quiet right-aligned accent, knocked back to one ink
-     tone (which also rescues the light Rackspace mark on the cream surface). */
+  /* Employer wordmark, right-aligned, in its real brand color. Height controls
+     the size so every mark shares one visual height (no width cap throttling
+     the wide ones); --logo-scale optically balances uneven padding. */
   .history-logo {
-    height: 24px;
+    height: calc(23px * var(--logo-scale, 1));
     width: auto;
-    max-width: 150px;
+    max-width: 220px;
     object-fit: contain;
     object-position: right center;
-    filter: brightness(0);
-    opacity: 0.65;
+    opacity: 0.92;
     flex-shrink: 0;
+  }
+  /* White/light marks (Rackspace) → ink, so they don't vanish on cream. */
+  .history-logo--dark {
+    filter: brightness(0);
+    opacity: 0.72;
   }
   .history-company {
     font-family: var(--font-display);

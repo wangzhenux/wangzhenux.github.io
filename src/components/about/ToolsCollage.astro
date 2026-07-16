@@ -1,0 +1,63 @@
+---
+/**
+ * A small cluster of the tools I reach for — a label-free logo collage beside
+ * "How I work". The Figma mark is inline (brand-accurate); Claude, Gemini, and
+ * ChatGPT are the official SVGs in public/logos.
+ */
+---
+<div class="collage" role="img" aria-label="Tools I work with: Figma, Claude, Gemini, and ChatGPT">
+  <span class="tool-tile tool-tile--0">
+    <svg viewBox="0 0 38 57" width="24" height="36" aria-hidden="true">
+      <path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0Z"/>
+      <path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0Z"/>
+      <path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19Z"/>
+      <path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5Z"/>
+      <path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5Z"/>
+    </svg>
+  </span>
+  <span class="tool-tile tool-tile--1">
+    <img src="/logos/claude.svg" alt="" width="32" height="32" loading="lazy" decoding="async" />
+  </span>
+  <span class="tool-tile tool-tile--2">
+    <img src="/logos/gemini.svg" alt="" width="30" height="30" loading="lazy" decoding="async" />
+  </span>
+  <span class="tool-tile tool-tile--3">
+    <img class="chatgpt" src="/logos/chatgpt.svg" alt="" width="32" height="32" loading="lazy" decoding="async" />
+  </span>
+</div>
+<style>
+  .collage {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    gap: var(--space-5);
+    place-content: center;
+    height: 100%;
+  }
+  .tool-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 74px;
+    height: 74px;
+    background: var(--bg-primary);
+    border: 1px solid var(--rule);
+    border-radius: 18px;
+    box-shadow: var(--shadow-frame);
+    justify-self: center;
+  }
+  /* Loose collage: each tile nudged a touch off-axis. */
+  .tool-tile--0 { transform: rotate(-5deg); }
+  .tool-tile--1 { transform: rotate(4deg); }
+  .tool-tile--2 { transform: rotate(3deg); }
+  .tool-tile--3 { transform: rotate(-4deg); }
+  /* The ChatGPT mark is a black knockout — soften to the ink tone on cream. */
+  .chatgpt { opacity: 0.88; }
+  @media (max-width: 767px) {
+    .collage {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-3);
+    }
+    .tool-tile { transform: none; }
+  }
+</style>

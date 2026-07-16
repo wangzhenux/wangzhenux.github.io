@@ -47,11 +47,10 @@ const { fields } = Astro.props;
     margin: var(--space-1) 0 0;
   }
 
-  /* Responsive column collapse (§9.1). min() caps the columns at the breakpoint
-     ceiling while never exceeding the actual field count (--meta-cols). */
-  @media (max-width: 1279px) {
-    .meta-strip { grid-template-columns: repeat(min(var(--meta-cols), 3), 1fr); }
-  }
+  /* Responsive column collapse: 4-up on desktop → 2×2 on tablet → one per row
+     on mobile. min() never exceeds the actual field count (--meta-cols), so a
+     2- or 3-field strip degrades cleanly too. No 3-across step — it left an
+     awkward orphan in the last column. */
   @media (max-width: 1023px) {
     .meta-strip {
       grid-template-columns: repeat(min(var(--meta-cols), 2), 1fr);

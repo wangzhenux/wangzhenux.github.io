@@ -2,31 +2,30 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/chrome/Nav.astro';
 import Footer from '../components/chrome/Footer.astro';
-import Seal from '../components/about/Seal.astro';
 import CvCallout from '../components/about/CvCallout.astro';
 import WorkHistory from '../components/about/WorkHistory.astro';
 import EducationPractice from '../components/about/EducationPractice.astro';
 import ReachMe from '../components/about/ReachMe.astro';
-
-// Seal SVG is uploaded later; gate the real <img> on its presence and fall back
-// to a styled "Z" wordmark otherwise (§15.4 / Task 7.2).
-const hasSeal = Object.keys(import.meta.glob('/public/seal.svg')).length > 0;
 
 // Real work history, grouped by company, most recent first. Titles are verbatim
 // from prior roles; the two Tasktop roles are combined into one entry. Dates are
 // intentionally omitted (they live in the PDF résumé). `logo` is added once the
 // file lands in /public/logos — the component shows text only until then.
 const companies = [
-  { company: 'Tripalink', title: 'Founding Product Designer', logo: '/tripalink/Logo.png' },
-  { company: 'Twilio', title: 'Senior Product Designer', logo: '/twilio/Twilio-logo-red.png' },
-  { company: 'Tasktop', title: 'Design Lead · Senior UX Designer', logo: '/tasktop/tasktop_logo.png' },
-  { company: 'Rackspace', title: 'Senior Designer', logo: '/rackspace/rackspace-logo.png' },
+  { company: 'Tripalink', title: 'Lead Product Designer', logo: '/tripalink/Logo.png' },
+  { company: 'Twilio', title: 'Product Designer', logo: '/twilio/Twilio-logo-red.png' },
+  { company: 'Tasktop', title: 'Senior UX Designer', logo: '/tasktop/tasktop_logo.png' },
+  // Rackspace's mark is a white knockout, so it needs an ink treatment to read
+  // on cream; the others keep their real brand colors.
+  { company: 'Rackspace', title: 'UX Designer', logo: '/rackspace/rackspace-logo.png', logoDark: true, logoScale: 1.25 },
 ];
 
 // Education: confirmed by Zhen. Two real degrees, formatted degree ·
 // institution · year. No GPAs, honors, or dates beyond the two years given.
 const education = [
-  { primary: 'MS, Information Studies', detail: 'University of Texas at Austin · 2016', logo: '/logos/ut-austin.svg' },
+  // UT Austin's shield stacks taller than Nebraska's wordmark, so trim it a
+  // touch to level the two visually.
+  { primary: 'MS, Information Studies', detail: 'University of Texas at Austin · 2016', logo: '/logos/ut-austin.svg', logoScale: 0.86 },
   { primary: 'BS, Computer Engineering', detail: 'University of Nebraska–Lincoln · 2014', logo: '/logos/nebraska.svg' },
 ];
 ---
@@ -41,25 +40,32 @@ const education = [
         <p class="hero-eyebrow">About · Curriculum vitae</p>
         <h1 class="hero-h1">Hi, I'm Zhen.</h1>
         <p class="hero-bio">
-          I'm a user experience designer and developer with a passion for making
-          things functional and intuitive to use. A background in computer
-          engineering with a focus on front-end development lets me hold both
-          sides of a problem at once — the visual and the technical — which has
-          been useful across the kind of dense, expert software I've spent most
-          of my career on.
+          I'm a product designer and developer, and I like
+          <strong class="highlight">making dense, complicated software feel simple</strong>.
+          I studied computer engineering and still write front-end code, so I can
+          <strong class="highlight">hold both sides of a problem</strong> — the visual
+          and the technical. That's helped across the expert software I've built
+          over the past decade.
         </p>
         <p class="hero-bio">
-          Outside work I like to travel and play sports, especially table tennis
-          and badminton. I also love traditional Chinese calligraphy and
-          painting — the slow stuff balances out the screens.
+          Outside work I travel and play a lot of table tennis and badminton. I
+          also do Chinese calligraphy and painting — the slow stuff balances out
+          the screens.
         </p>
       </div>
-      <div class="hero-seal">
-        <Seal hasSeal={hasSeal} />
+      <div class="hero-portrait">
+        <img
+          src="/about/portrait.png"
+          alt="A line-art portrait of Zhen Wang, resting his chin on his hand"
+          width="1200"
+          height="1200"
+          loading="eager"
+          decoding="async"
+        />
       </div>
     </header>
 
-    <CvCallout lastUpdated="June 2026" />
+    <CvCallout lastUpdated="July 2026" />
     <WorkHistory companies={companies} />
     <EducationPractice education={education} />
     <ReachMe />
@@ -104,13 +110,16 @@ const education = [
   .hero-bio:last-of-type {
     margin-bottom: 0;
   }
-  .hero-seal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 4 / 5;
-    background: linear-gradient(135deg, var(--accent-soft), transparent), var(--bg-secondary);
-    border-radius: 6px;
+  /* Line-art portrait on a transparent ground — no frame or background, so the
+     illustration sits directly on the page. */
+  .hero-portrait {
+    aspect-ratio: 1 / 1;
+  }
+  .hero-portrait img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
   @media (max-width: 767px) {
     .hero {
@@ -118,10 +127,10 @@ const education = [
       padding: var(--space-11) var(--pad-page-x) var(--space-10);
       gap: var(--space-7);
     }
-    .hero-seal {
-      aspect-ratio: auto;
-      padding: var(--space-9) 0;
+    .hero-portrait {
       order: -1;
+      max-width: 300px;
+      margin-inline: auto;
     }
   }
 </style>

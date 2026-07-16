@@ -53,29 +53,44 @@ const archiveItems = archive.map((c) => ({
   <main id="main" tabindex="-1">
     <header class="home-hero">
       <Container>
-        <h1 class="home-hero-h1">Hello,<br />I'm Zhen.</h1>
-        <div class="home-hero-facts">
-          <p>Product designer with <strong>10+ years of experience</strong></p>
-          <p>Currently <strong>Product Design Lead</strong> at Tripalink</p>
-          <p>Shipping AI-native products for fast-growing teams</p>
-        </div>
-        <div class="home-hero-actions">
-          <a class="btn btn-primary" href="mailto:wangzhen614@gmail.com">
-            Contact<Icon name="arrow-up-right" size={14} />
-          </a>
-          <a
-            class="home-hero-linkedin"
-            href="https://www.linkedin.com/in/zhenwang614"
-            target="_blank"
-            rel="noopener"
-            aria-label="LinkedIn"
-          >
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
-              <rect x="4" y="9" width="3.5" height="11" rx="1" />
-              <circle cx="5.75" cy="4.5" r="2.25" />
-              <path d="M11.5 9h3.3v1.9h.05c.46-.87 1.6-1.9 3.3-1.9 3.5 0 4.15 2.3 4.15 5.3V20h-3.5v-6.1c0-1.45-.03-3.3-2.02-3.3-2.03 0-2.34 1.58-2.34 3.2V20h-3.5V9z" />
-            </svg>
-          </a>
+        <div class="home-hero-inner">
+          <div class="home-hero-text">
+            <h1 class="home-hero-h1">Hello,<br />I'm Zhen.</h1>
+            <div class="home-hero-facts">
+              <p>Product designer with <strong>10+ years of experience</strong></p>
+              <p>Currently <strong>Product Design Lead</strong> at Tripalink</p>
+              <p>Shipping AI-native products for fast-growing teams</p>
+            </div>
+            <div class="home-hero-actions">
+              <a class="btn btn-primary" href="mailto:wangzhen614@gmail.com">
+                Contact<Icon name="arrow-up-right" size={14} />
+              </a>
+              <a
+                class="home-hero-linkedin"
+                href="https://www.linkedin.com/in/zhenwang614"
+                target="_blank"
+                rel="noopener"
+                aria-label="LinkedIn"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                  <rect x="4" y="9" width="3.5" height="11" rx="1" />
+                  <circle cx="5.75" cy="4.5" r="2.25" />
+                  <path d="M11.5 9h3.3v1.9h.05c.46-.87 1.6-1.9 3.3-1.9 3.5 0 4.15 2.3 4.15 5.3V20h-3.5v-6.1c0-1.45-.03-3.3-2.02-3.3-2.03 0-2.34 1.58-2.34 3.2V20h-3.5V9z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="home-hero-portrait">
+            <img
+              src="/about/portrait.png"
+              alt="A line-art portrait of Zhen Wang, resting his chin on his hand"
+              width="1200"
+              height="1200"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
         </div>
       </Container>
     </header>
@@ -106,8 +121,41 @@ const archiveItems = archive.map((c) => ({
      Container (max-content, centered, page gutter) so its left edge aligns with
      the nav and every section below; the section itself carries only vertical
      rhythm. The text keeps a tighter reading column via the inner max-widths. */
+  /* Full-height hero: fills the viewport below the nav so the featured work
+     starts just below the fold. Text and portrait sit side by side, centered. */
+  /* Grid (not flex) so the inner Container stays full-width and its margin-auto
+     content frame keeps the shared left edge; align-content centers vertically. */
   .home-hero {
-    padding-block: var(--space-12) var(--space-11);
+    min-height: calc(100svh - 64px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    padding-block: var(--space-9);
+  }
+  /* As a grid item, the Container's margin-inline:auto would shrink it to its
+     content and re-center — shifting the left edge off the shared frame. An
+     explicit full width keeps it stretching to max-content like every other
+     section, so the content edge stays aligned. */
+  .home-hero > :global(.container) {
+    width: 100%;
+  }
+  .home-hero-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: var(--space-10);
+    width: 100%;
+  }
+  .home-hero-portrait {
+    aspect-ratio: 1 / 1;
+    max-width: 440px;
+    margin-left: auto;
+  }
+  .home-hero-portrait img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
   .home-hero-h1 {
     font-family: var(--font-display);
@@ -183,5 +231,20 @@ const archiveItems = archive.map((c) => ({
   .home-hero-linkedin:focus-visible {
     background: var(--ink-primary);
     color: var(--bg-primary);
+  }
+  @media (max-width: 767px) {
+    .home-hero {
+      min-height: 0;
+      padding-block: var(--space-11) var(--space-10);
+    }
+    .home-hero-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+    .home-hero-portrait {
+      order: -1;
+      max-width: 280px;
+      margin-inline: auto;
+    }
   }
 </style>
