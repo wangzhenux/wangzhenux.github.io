@@ -33,6 +33,24 @@ const ogImageUrl = ogImage
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
+    {/* Google Analytics (GA4). send_page_view is off in the initial config
+        because astro:page-load fires on the first load too (not just later
+        transitions), so relying on it alone covers every navigation once
+        without double-counting the first one. */}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MK7VQ4DMYC"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-MK7VQ4DMYC', { send_page_view: false });
+      document.addEventListener('astro:page-load', () => {
+        gtag('event', 'page_view', {
+          page_title: document.title,
+          page_location: location.href,
+        });
+      });
+    </script>
+
     {/* Favicon: the browser picks between two fixed-color SVGs via `media`
         (an in-SVG @media query is unreliable in Chrome's favicon decoder —
         see favicon-light.svg for why), falling back to a raster .ico for
