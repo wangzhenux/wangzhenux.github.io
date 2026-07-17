@@ -41,9 +41,9 @@ export interface GalleryItem {
 /** Filter chips, in display order. `all` shows everything. */
 export const filters: { key: 'all' | GalleryCategory; label: string }[] = [
   { key: 'all', label: 'All' },
-  { key: 'ink', label: 'Ink' },
   { key: 'creatures', label: 'Creatures' },
   { key: 'places', label: 'Places' },
+  { key: 'ink', label: 'Ink' },
 ];
 
 /**
@@ -53,8 +53,10 @@ export const filters: { key: 'all' | GalleryCategory; label: string }[] = [
  * locations or facts are asserted beyond what the image shows.
  */
 export const gallery: GalleryItem[] = [
-  // Open on a few photographs, then a grouped ink section (calligraphy +
-  // paintings, all matted on one cream ground), then the rest of the photos.
+  // Photographs first, then the ink section (calligraphy + paintings, all
+  // matted on one cream ground) grouped at the bottom — the same contiguous
+  // block the "Ink" filter chip shows, just trailing the photos instead of
+  // interrupting them.
   { file: 'terraced_valley.jpg', w: 1650, h: 2200, cat: 'places', tall: true,
     alt: 'Terraced paddies stepping down a misty mountain valley toward a village' },
   { file: 'fuji_reeds.jpg', w: 2200, h: 1650, cat: 'places', wide: true,
@@ -67,20 +69,6 @@ export const gallery: GalleryItem[] = [
     alt: 'A fox squirrel on a tree branch, facing the camera' },
   { file: 'duck.jpg', w: 1920, h: 1280, cat: 'creatures',
     alt: 'A mallard drake standing on rocks at the water’s edge' },
-  // — Ink section —
-  { file: 'caligraphy.jpeg', w: 3416, h: 1113, cat: 'ink', wide: true,
-    alt: 'Chinese calligraphy reading 海纳百川 (“the sea holds a hundred rivers”)' },
-  { file: 'bainian.jpg', w: 2048, h: 3641, cat: 'ink', tall: true,
-    alt: 'Chinese calligraphy reading 百年好合 (“a hundred years of harmonious union”)' },
-  { file: 'shrimp.jpg', w: 4032, h: 2268, cat: 'ink',
-    alt: 'Ink painting of two shrimp among reeds' },
-  { file: 'libai.jpg', w: 2268, h: 4032, cat: 'ink', tall: true,
-    alt: 'Chinese calligraphy of Li Bai’s lines 人生得意须尽欢，莫使金樽空对月 in running script' },
-  { file: 'eagle.jpeg', w: 1246, h: 465, cat: 'ink', wide: true,
-    alt: 'Chinese ink painting of an eagle in flight, inscribed 鹏程万里' },
-  { file: 'branch.jpg', w: 4032, h: 2268, cat: 'ink',
-    alt: 'Ink painting of a leafy branch' },
-  // — Photographs —
   { file: 'great_wall.jpg', w: 1650, h: 2200, cat: 'places', tall: true,
     alt: 'The Great Wall of China winding along forested mountain ridges' },
   { file: 'cedar_path.jpg', w: 1649, h: 2200, cat: 'places', tall: true,
@@ -107,4 +95,18 @@ export const gallery: GalleryItem[] = [
     alt: 'A stream winding through steep green hills' },
   { file: 'IMG_4044.jpg', w: 2048, h: 1365, cat: 'places',
     alt: 'A marina at blue hour, boats reflected on still water' },
+  // — Ink section — the calligraphy + eagle scroll are kept adjacent (both
+  // are 王震 pieces with a matching red seal, so they read as a pair).
+  { file: 'caligraphy4.jpg', w: 3386, h: 1096, cat: 'ink', wide: true,
+    alt: 'Chinese calligraphy reading 海纳百川 (“the sea holds a hundred rivers”)' },
+  { file: 'eagle3.jpg', w: 1232, h: 438, cat: 'ink', wide: true,
+    alt: 'Chinese ink painting of an eagle swooping toward a fish, with a red seal at left' },
+  { file: 'bainian.jpg', w: 2048, h: 3641, cat: 'ink', tall: true,
+    alt: 'Chinese calligraphy reading 百年好合 (“a hundred years of harmonious union”)' },
+  { file: 'shrimp.jpg', w: 4032, h: 2268, cat: 'ink',
+    alt: 'Ink painting of two shrimp among reeds' },
+  { file: 'libai.jpg', w: 2268, h: 4032, cat: 'ink', tall: true,
+    alt: 'Chinese calligraphy of Li Bai’s lines 人生得意须尽欢，莫使金樽空对月 in running script' },
+  { file: 'branch.jpg', w: 4032, h: 2268, cat: 'ink',
+    alt: 'Ink painting of a leafy branch' },
 ];

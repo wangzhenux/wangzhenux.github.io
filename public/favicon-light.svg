@@ -1,9 +1,11 @@
 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zhen Wang">
-  <!-- Zhen Wang's mark: an abstract Z of ink diagonal bands with a terracotta
-       corner accent, on a transparent ground. This is the NAV lockup —
-       always on the site's fixed light-cream background, so colors are
-       fixed (no dark-mode swap; see /favicon.svg for the tab-icon variant,
-       which needs to react to the browser's own color scheme). -->
+  <!-- Tab-icon variant of the ZW mark, LIGHT scheme (near-black ink). Paired
+       with favicon-dark.svg via a <link media="prefers-color-scheme"> pair in
+       BaseLayout — a media query INSIDE the SVG's own <style> is unreliable in
+       Chrome's favicon decoder (confirmed: works when the SVG is embedded as
+       normal content, not when loaded as the tab icon), so the browser picks
+       between two fixed-color files at the <link> level instead. Transparent
+       ground; the red accent is the same in both files. -->
   <path fill-rule="evenodd" clip-rule="evenodd" d="M18.1071 0.292893C18.2946 0.105356 18.549 0 18.8142 0H23C23.5523 0 24 0.447715 24 1V5.14579C24 5.411 23.8946 5.66536 23.7071 5.85289L5.85289 23.7071C5.66536 23.8946 5.411 24 5.14579 24H1C0.447716 24 0 23.5523 0 23V18.8142C0 18.549 0.105357 18.2946 0.292893 18.1071L18.1071 0.292893ZM8.77289 1.70711C9.40286 1.07714 8.95669 0 8.06579 0H0.999999C0.447714 0 0 0.447715 0 1V8.06579C0 8.95669 1.07714 9.40286 1.70711 8.77289L8.77289 1.70711Z" fill="#1A1614"/>
   <path d="M22.2934 15.2677L15.2677 22.2934C14.6377 22.9234 15.0839 24.0005 15.9748 24.0005H23.0005C23.5528 24.0005 24.0005 23.5528 24.0005 23.0005V15.9748C24.0005 15.0839 22.9234 14.6377 22.2934 15.2677Z" fill="#B93A23"/>
 </svg>

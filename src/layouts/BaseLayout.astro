@@ -33,8 +33,12 @@ const ogImageUrl = ogImage
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
-    {/* Favicon: the ZW mark (SVG), with a raster .ico fallback. */}
-    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    {/* Favicon: the browser picks between two fixed-color SVGs via `media`
+        (an in-SVG @media query is unreliable in Chrome's favicon decoder —
+        see favicon-light.svg for why), falling back to a raster .ico for
+        browsers that don't support SVG favicons at all. */}
+    <link rel="icon" href="/favicon-light.svg" type="image/svg+xml" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="manifest" href="/manifest.json" />
 
