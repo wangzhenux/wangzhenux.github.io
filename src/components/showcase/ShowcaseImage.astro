@@ -46,6 +46,7 @@ const isImported = typeof src !== 'string';
       loading="lazy"
       decoding="async"
       data-loading
+      style={width ? `max-width: ${width}px` : undefined}
     />
   ) : (
     <img
@@ -56,6 +57,7 @@ const isImported = typeof src !== 'string';
       loading="lazy"
       decoding="async"
       data-loading
+      style={width ? `max-width: ${width}px` : undefined}
     />
   )}
 </div>
@@ -63,10 +65,15 @@ const isImported = typeof src !== 'string';
   .showcase-image {
     cursor: zoom-in;
   }
+  /* `max-width` (set inline from the `width` prop) caps a low-resolution
+     source at its native pixel width rather than stretching it to fill the
+     showcase slot — the fix for archival screenshots rendering soft/blurry.
+     Centered when the cap kicks in; a no-op for already-high-res images. */
   .showcase-image :global(img) {
     width: 100%;
     height: auto;
     display: block;
+    margin-inline: auto;
   }
 </style>
 <script>

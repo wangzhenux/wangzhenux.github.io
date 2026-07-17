@@ -41,8 +41,8 @@ test.describe('homepage horizontal alignment', () => {
       heroFacts: await leftOf('.home-hero-facts p'),
       writing: await leftOf('.writing-header h2, .writing-title, .writing h2'),
       archive: await leftOf('.archive-title'),
-      // Featured: the cover frame edge (NOT the inset overlay title).
-      featuredCover: await leftOf('.featured-cover'),
+      // Featured: the card frame edge.
+      featuredCover: await leftOf('.fcard'),
     };
 
     // Selected work is conditionally rendered (only when >0 selected cases).

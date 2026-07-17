@@ -11,38 +11,55 @@ const sampleCase = {
   year: 2024,
   role: 'Senior Product Designer',
   cover: 'linear-gradient(135deg, #F22F46, #6B1F2E)',
-  summary: 'How a US-only developer platform learned to feel global.',
+  lead: 'How a US-only developer platform learned to feel global.',
 };
 
-test('CaseCard renders cover + mono meta line + h3 title link + summary', async () => {
+test('CaseCard renders header (company fallback) + title + lead + gradient cover fallback', async () => {
   const c = await AstroContainer.create();
   const html = await c.renderToString(CaseCard, { props: sampleCase });
-  // cover
-  expect(html).toContain('case-cover');
-  // mono meta line: company · year · role
-  expect(html).toMatch(/class="case-meta"/);
-  expect(html).toContain('Twilio');
-  expect(html).toContain('2024');
-  expect(html).toContain('Senior Product Designer');
-  // h3 title links to /work/<slug>
-  expect(html).toMatch(/<h3[^>]*class="case-title"/);
-  expect(html).toContain("Onboarding Twilio's first international tier");
-  expect(html).toContain('href="/work/twilio"');
-  // summary
-  expect(html).toMatch(/class="case-summary"/);
+  // whole card is one link to the case
+  expect(html).toMatch(/class="ccard"[^>]*href="\/work\/twilio"/);
+  // header: no logo given -> company name fallback
+  expect(html).toMatch(/class="ccard-co"[^>]*>Twilio/);
+  // title + lead (from `lead` prop)
+  expect(html).toMatch(/class="ccard-title"/);
+  expect(html).toContain("Onboarding Twilio&#39;s first international tier");
+  expect(html).toMatch(/class="ccard-lead"/);
   expect(html).toContain('learned to feel global');
+  // no shot -> gradient cover fallback fills the shot area
+  expect(html).toMatch(/class="ccard-cover"/);
 });
 
-test('CaseCard renders an image cover when given an image', async () => {
+test('CaseCard renders logo, tag pills, brand flood var, and framed shot when given', async () => {
   const c = await AstroContainer.create();
   const html = await c.renderToString(CaseCard, {
-    props: { ...sampleCase, cover: undefined, image: '/cases/twilio/cover.png' },
+    props: {
+      ...sampleCase,
+      lead: 'Teaching a US-only platform to feel global.',
+      tags: ['UX design', 'Onboarding'],
+      brand: '#7E1D2B',
+      logo: '/logos/twilio.svg',
+      logoAlt: 'Twilio',
+      shot: '/cases/twilio/onboarding_cover.png',
+      frame: 'browser',
+    },
   });
-  expect(html).toContain('case-cover');
-  expect(html).toMatch(/<img[^>]+src="\/cases\/twilio\/cover\.png"/);
+  expect(html).toMatch(/class="ccard-logo"[^>]*src="\/logos\/twilio\.svg"/);
+  expect((html.match(/class="pill"/g) || []).length).toBe(2);
+  expect(html).toContain('--card-brand: #7E1D2B');
+  expect(html).toMatch(/pframe--browser/);
+  expect(html).toMatch(/<img[^>]+src="\/cases\/twilio\/onboarding_cover\.png"/);
 });
 
-test('SelectedGrid lays out N case cards in the asymmetric grid', async () => {
+test('CaseCard falls back to the illustration cover image when there is no shot', async () => {
+  const c = await AstroContainer.create();
+  const html = await c.renderToString(CaseCard, {
+    props: { ...sampleCase, cover: undefined, coverImage: '/cases/twilio/cover.png' },
+  });
+  expect(html).toMatch(/class="ccard-cover-img"[^>]*src="\/cases\/twilio\/cover\.png"/);
+});
+
+test('SelectedGrid lays out N equal-width case cards', async () => {
   const c = await AstroContainer.create();
   const cases = [
     { ...sampleCase, slug: 'a', title: 'A' },

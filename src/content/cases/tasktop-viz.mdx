@@ -17,6 +17,14 @@ heroWidth: 4376
 heroHeight: 2880
 order: 9
 featured: true
+card:
+  title: "Tasktop Viz"
+  lead: "A flow-metrics tool, built from zero."
+  tags: ["0 → 1", "Data viz"]
+  brand: "#1E4B63"
+  logo: "/logos/tasktop.svg"
+  logoAlt: "Tasktop"
+  frame: browser
 sections:
   - { id: s01, num: "01", label: "The product" }
   - { id: s02, num: "02", label: "Background" }
@@ -35,6 +43,7 @@ import CardRow from '../../components/data/CardRow.astro';
 import PainCard from '../../components/data/PainCard.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
 import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+import ConceptSketches from '../../components/showcase/ConceptSketches.astro';
 
 <section id="s01">
   <Lede>
@@ -42,15 +51,6 @@ import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
     streams, and actionable insight into the obstacles impeding business value
     delivery.
   </Lede>
-
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/tasktop-viz/viz_header_image.png"
-      alt="Tasktop Viz dashboard surfacing flow metrics for a product value stream"
-      width={4376}
-      height={2880}
-    />
-  </ImageShowcase>
 
   <SectionH>How features get designed</SectionH>
   <SectionDeck>The general feature design process I followed at Tasktop.</SectionDeck>
@@ -85,6 +85,8 @@ import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
     src="/cases/tasktop-viz/p2p.png"
     alt="Project to Product book and the Flow Framework™"
     caption="Project to Product + the Flow Framework™."
+    width={686}
+    height={516}
   />
 </section>
 
@@ -139,14 +141,14 @@ import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
     excited to see it.
   </BodyText>
 
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/tasktop-viz/viz_data_visualizations.png"
-      alt="Early data-visualization experiments, from Sankey diagrams to a solar-system concept"
-      width={711}
-      height={465}
-    />
-  </ImageShowcase>
+  <ConceptSketches
+    eyebrow="Visualization directions we explored"
+    items={[
+      { kind: 'sankey', label: 'Sankey flow', note: 'Flow volume between value-stream stages, shown as width.' },
+      { kind: 'orbital', label: 'Orbital ("solar system")', note: 'Artifacts orbiting a central value stream, by distance.' },
+      { kind: 'network', label: 'Force-directed network', note: 'Nodes positioned by connection, not hierarchy.' },
+    ]}
+  />
 </section>
 
 <section id="s05">
@@ -225,6 +227,20 @@ import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
       alt="Viz design iteration 2"
       width={1364}
       height={575}
+    />
+  </ImageShowcase>
+
+  <SectionH small>The final deliverable</SectionH>
+  <BodyText>
+    The iterations converged on the version we shipped — the flow-metrics
+    dashboard live in production.
+  </BodyText>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/tasktop-viz/viz_header_image.png"
+      alt="Tasktop Viz dashboard surfacing flow metrics for a product value stream"
+      width={4376}
+      height={2880}
     />
   </ImageShowcase>
 </section>

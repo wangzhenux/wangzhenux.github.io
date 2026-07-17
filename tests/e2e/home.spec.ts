@@ -10,7 +10,7 @@ test('home shows featured + writing + (optional) selected, no axe issues', async
   // transient duplicate h1s.
   await expect(page.locator('.home-hero-h1')).toBeVisible();
   await expect(page.locator('.featured')).toBeVisible();
-  await expect(page.locator('.featured-cover')).toHaveAttribute('href', '/work/unitpulse-platform');
+  await expect(page.locator('.fcard')).toHaveAttribute('href', '/work/unitpulse-platform');
 
   // Writing section renders (graceful even when the Medium feed is empty).
   await expect(page.locator('.writing')).toBeVisible();

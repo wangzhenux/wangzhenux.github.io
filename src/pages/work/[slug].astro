@@ -61,6 +61,9 @@ const cover = {
   width: data.heroWidth ?? data.cover.width,
   height: data.heroHeight ?? data.cover.height,
   alt: data.heroAlt ?? `${data.title} cover`,
+  // Real product screenshots keep the same device chrome as their home card;
+  // illustration/gradient covers render plain.
+  frame: data.heroImage ? (data.card?.frame ?? 'browser') : undefined,
 };
 
 const next = await getNext(data.slug);

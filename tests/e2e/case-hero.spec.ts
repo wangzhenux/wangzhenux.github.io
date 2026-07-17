@@ -17,7 +17,9 @@ test('case hero: text + cover are contained, aligned with the body, cover rounde
 
   const eyebrow = await boxOf(page, '.hero-eyebrow');
   const bodyText = await boxOf(page, '.body .lede, .body .body-text, .body p');
-  const cover = await boxOf(page, '.hero .cover');
+  // The hero renders either a plain .cover (illustration/gradient) or a
+  // device-chromed .pframe (real product screenshot) — same containment rules.
+  const cover = await boxOf(page, '.hero .cover, .hero .pframe');
 
   // Text is inset (not touching the edge) and aligned with the body column.
   expect(eyebrow.x, 'hero text inset from edge').toBeGreaterThan(24);
@@ -29,7 +31,7 @@ test('case hero: text + cover are contained, aligned with the body, cover rounde
 
   // Cover has rounded corners.
   const radius = await page
-    .locator('.hero .cover')
+    .locator('.hero .cover, .hero .pframe')
     .first()
     .evaluate((el) => parseFloat(getComputedStyle(el).borderTopLeftRadius));
   expect(radius, 'cover is rounded').toBeGreaterThan(0);

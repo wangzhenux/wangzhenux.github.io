@@ -1,142 +1,316 @@
 ---
 import Container from '../layout/Container.astro';
-import Icon from '../chrome/Icon.astro';
+import ProductFrame from './ProductFrame.astro';
 
-interface MetaField { label: string; value: string; }
+/**
+ * The featured (XL) case card: company logo top-left, tag pills top-right,
+ * short title + one-line lead, and a bottom-cropped product shot in device
+ * chrome. On hover/focus the card floods with the case's own brand color
+ * (`--card-brand`) while the shot lifts — pointer devices only, and motion
+ * respects prefers-reduced-motion. Text flips to --ink-on-dark for contrast.
+ */
 interface Props {
   slug: string;
   title: string;
-  company?: string;
-  year?: number | string;
+  lead?: string;
+  tags?: string[];
+  brand?: string;
+  logo?: string;
+  logoAlt?: string;
+  /** Optical size correction for wide/short lockups (default 1). */
+  logoScale?: number;
+  frame?: 'laptop' | 'browser';
+  shot?: string;
+  /** Legacy gradient cover — fallback when a case has no product shot. */
   cover?: string;
-  image?: string;
-  summary?: string;
-  /** Accepted for compatibility; no longer rendered on the home cover. */
-  metaFields?: MetaField[];
+  company?: string;
 }
-const { slug, title, company, year, cover, image, summary } = Astro.props;
-const eyebrow = ['Featured', year, company].filter(Boolean).join(' · ');
+const {
+  slug, title, lead, tags = [], brand, logo, logoAlt, logoScale,
+  frame = 'laptop', shot, cover, company,
+} = Astro.props;
 const href = `/work/${slug}`;
 ---
 <section class="featured" aria-labelledby="featured-heading">
   <Container>
-    <a class="featured-cover" href={href}
-       style={!image ? `--case-cover: ${cover}` : undefined}>
-      {image && <img class="featured-cover-image" src={image} alt="" />}
-      <span class="featured-cover-content">
-        <span class="featured-cover-text">
-          <span class="featured-meta">{eyebrow}</span>
-          <span class="featured-title" id="featured-heading">{title}</span>
-          {summary && <span class="featured-cover-lead">{summary}</span>}
-        </span>
-        <span class="featured-cta">Read the story <Icon name="arrow-right" size={14} /></span>
+    <a class="fcard" href={href} style={brand ? `--card-brand: ${brand}` : undefined}>
+      <span class="fcard-hdr">
+        {logo ? (
+          <img class="fcard-logo" src={logo} alt={logoAlt ?? company ?? ''}
+            style={logoScale ? `--logo-scale: ${logoScale}` : undefined} />
+        ) : (
+          <span class="fcard-co">{company}</span>
+        )}
+        {tags.length > 0 && (
+          <span class="fcard-pills">{tags.map((t) => <span class="pill">{t}</span>)}</span>
+        )}
+      </span>
+      <span class="fcard-title" id="featured-heading">{title}</span>
+      {lead && <span class="fcard-lead">{lead}</span>}
+      <span class="fcard-shot">
+        {/* Hover fx (matches the Figma hover comp exactly): two white 10%
+            circles anchored to the device frame — the big one cresting just
+            above it, the small one cresting just below its top edge. Both
+            rise and "stand up" from lying flat (rotateX) TOGETHER, but settle
+            at different final tilts — the big one keeps a slight recede (a
+            background plane), the small one comes fully upright (foreground),
+            for real depth instead of two identical flat discs. */}
+        <i class="fx-c fx-c--big" aria-hidden="true"></i>
+        <i class="fx-c fx-c--small" aria-hidden="true"></i>
+        {shot ? (
+          <ProductFrame src={shot} frame={frame} />
+        ) : (
+          <span class="fcard-cover" style={`--case-cover: ${cover}`} aria-hidden="true"></span>
+        )}
       </span>
     </a>
   </Container>
 </section>
 <style>
-  /* ported from homepage.html .featured / .featured-cover / .featured-meta /
-     .featured-title / .featured-cta / .featured-lead, tokenized.
-     The cover is the link; meta strip reuses the hero MetaStrip below it. */
   .featured {
     padding-block: var(--space-4) var(--space-11);
   }
-  .featured-cover {
-    display: block;
+  .fcard {
+    --card-brand: var(--bg-inverse);
     position: relative;
-    aspect-ratio: 16 / 9;
+    display: flex;
+    flex-direction: column;
+    background: var(--bento-card-bg);
+    border: 1px solid var(--rule);
     border-radius: var(--radius-lg);
+    padding: var(--space-7) var(--space-8) 0;
     overflow: hidden;
-    color: var(--ink-on-dark);
-    margin-bottom: var(--space-7);
+    text-decoration: none;
+    color: var(--ink-primary);
+    transition: background 0.35s ease, border-color 0.35s ease;
+  }
+  /* Hover circles — 1:1 from the Figma hover comp (node 1507-1488): two flat
+     white-at-10% circles centered on the card axis, sized/anchored relative
+     to the device frame (Figma: figure 744w; big ellipse 1168×1125 cresting
+     43.8px above the figure top; small circle 808 cresting 63.2px below it).
+     Converted to shot-relative %s so the ratios hold at every viewport. The
+     small one paints above the big one, so their overlap steps to ~19%. */
+  .fcard-shot .fx-c {
+    position: absolute;
+    left: 50%;
+    translate: -50% 0;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    background: color-mix(in srgb, var(--ink-on-dark) 10%, transparent);
+  }
+  /* Gently tipped-back rest state (NOT a near-90° edge-on sliver — kept
+     modest so this motion reads as a companion to the product frame's own
+     10-14px lift, not a bigger flourish). Both start standing up on the SAME
+     schedule — the big circle stands up all the way (flat/upright,
+     foreground), the small one keeps a slight residual tilt (background). */
+  .fcard-shot .fx-c--big {
+    width: 131.87%;
+    aspect-ratio: 1168 / 1125;
+    top: -9.89%;
+    transform: perspective(600px) rotateX(32deg) translateY(18px);
+    transition:
+      opacity 0.6s ease 0.1s,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+  }
+  .fcard-shot .fx-c--small {
+    width: 91.22%;
+    aspect-ratio: 1;
+    top: 14.27%;
+    transform: perspective(600px) rotateX(32deg) translateY(22px);
+    transition:
+      opacity 0.6s ease 0.1s,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+  }
+  /* Stacking: everything is positioned; text sits above the fx circles (which
+     extend upward out of the shot area behind the title). */
+  .fcard > * {
+    position: relative;
+    z-index: 1;
+  }
+  .fcard-hdr,
+  .fcard-title,
+  .fcard-lead {
+    z-index: 2;
+  }
+  .fcard-hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  /* Logos render monochrome ink so mixed brand colors read as one system;
+     on the flood they flip to cream via invert. */
+  .fcard-logo {
+    height: calc(22px * var(--logo-scale, 1));
+    width: auto;
+    filter: brightness(0);
+    opacity: 0.85;
+    transition: filter 0.35s ease, opacity 0.35s ease;
+  }
+  .fcard-co {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .fcard-pills {
+    display: flex;
+    gap: var(--space-2);
+  }
+  .pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    padding: var(--space-1) var(--space-3);
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    color: var(--ink-secondary);
+    background: var(--bg-primary);
+    white-space: nowrap;
+    transition: color 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+  }
+  .fcard-title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.4vw, 34px);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    font-weight: 500;
+    margin-top: var(--space-6);
+    transition: color 0.35s ease;
+  }
+  .fcard-lead {
+    display: block;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+    margin-top: var(--space-2);
+    max-width: 60ch;
+    transition: color 0.35s ease, opacity 0.35s ease;
+  }
+  /* The shot area crops the device frame at the card's bottom edge; the fixed
+     aspect keeps card heights steady across screenshot ratios. */
+  .fcard-shot {
+    position: relative;
+    margin-top: var(--space-7);
+    aspect-ratio: 16 / 8;
+  }
+  .fcard-shot :global(.pframe) {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 84%;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .fcard-cover {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius) var(--radius) 0 0;
     background:
       radial-gradient(at 30% 20%, var(--cover-sheen), transparent 50%),
       var(--case-cover);
-    text-decoration: none;
   }
-  .featured-cover-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .featured-cover::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    /* Reaches higher than before — the overlaid lead sits above the title, so
-       the scrim has to keep more of the cover legible. */
-    background: linear-gradient(to top, var(--cover-scrim) 0%, var(--cover-scrim) 58%, transparent 92%);
-  }
-  .featured-cover-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: var(--space-8) var(--space-8);
-    z-index: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: var(--space-6);
-  }
-  .featured-cover-text {
-    display: block;
-  }
-  .featured-meta {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    opacity: 0.85;
-    margin-bottom: var(--space-2);
-    text-shadow: var(--cover-text-shadow-sm);
-  }
-  .featured-title {
-    display: block;
-    font-family: var(--font-display);
-    font-size: clamp(26px, 4vw, 38px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    font-weight: 500;
-    max-width: 22ch;
-    text-shadow: var(--cover-text-shadow-lg);
-  }
-  /* The case deck, overlaid on the cover just under the title. */
-  .featured-cover-lead {
-    display: block;
-    margin-top: var(--space-3);
-    max-width: 52ch;
-    font-size: 15px;
-    line-height: 1.55;
-    opacity: 0.92;
-    text-shadow: var(--cover-text-shadow-sm);
-  }
-  .featured-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    background: var(--bg-primary);
-    color: var(--ink-primary);
-    padding: var(--space-2) var(--space-3);
-    border-radius: var(--radius-sm);
-    white-space: nowrap;
-  }
-  @media (max-width: 767px) {
-    .featured-cover-content {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: var(--space-6) var(--space-5);
+
+  /* Hover flood — pointer devices only; keyboard focus gets the same state. */
+  @media (hover: hover) {
+    .fcard:hover {
+      background: var(--card-brand);
+      border-color: var(--card-brand);
     }
-    /* Stacked eyebrow + title + CTA runs nearly the full cover height on
-       narrow screens, so the bottom-weighted gradient can't keep it clear
-       of the art underneath — flatten to a uniform, stronger scrim instead. */
-    .featured-cover::after {
-      background: var(--cover-scrim-strong);
+    .fcard:hover .fcard-title,
+    .fcard:hover .fcard-co {
+      color: var(--ink-on-dark);
+    }
+    .fcard:hover .fcard-lead {
+      color: var(--ink-on-dark);
+      opacity: 0.82;
+    }
+    .fcard:hover .fcard-logo {
+      filter: brightness(0) invert(1);
+      opacity: 1;
+    }
+    .fcard:hover .pill {
+      color: var(--ink-on-dark);
+      border-color: color-mix(in srgb, var(--ink-on-dark) 40%, transparent);
+      background: color-mix(in srgb, var(--ink-on-dark) 8%, transparent);
+    }
+    .fcard:hover .fcard-shot :global(.pframe) {
+      transform: translateX(-50%) translateY(-14px);
+    }
+    .fcard:hover .fx-c--big {
+      opacity: 1;
+      transform: none;
+    }
+    .fcard:hover .fx-c--small {
+      opacity: 1;
+      transform: perspective(600px) rotateX(14deg);
+    }
+  }
+  .fcard:focus-visible {
+    background: var(--card-brand);
+    border-color: var(--card-brand);
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .fcard:focus-visible .fcard-title,
+  .fcard:focus-visible .fcard-co {
+    color: var(--ink-on-dark);
+  }
+  .fcard:focus-visible .fcard-lead {
+    color: var(--ink-on-dark);
+    opacity: 0.82;
+  }
+  .fcard:focus-visible .fcard-logo {
+    filter: brightness(0) invert(1);
+    opacity: 1;
+  }
+  .fcard:focus-visible .pill {
+    color: var(--ink-on-dark);
+    border-color: color-mix(in srgb, var(--ink-on-dark) 40%, transparent);
+    background: color-mix(in srgb, var(--ink-on-dark) 8%, transparent);
+  }
+  .fcard:focus-visible .fx-c--big {
+    opacity: 1;
+    transform: none;
+  }
+  .fcard:focus-visible .fx-c--small {
+    opacity: 1;
+    transform: perspective(600px) rotateX(14deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fcard,
+    .fcard .pill,
+    .fcard .fcard-logo,
+    .fcard .fcard-title,
+    .fcard .fcard-lead,
+    .fcard .fcard-shot :global(.pframe),
+    .fcard .fx-c {
+      transition: none;
+    }
+    .fcard .fx-c {
+      transform: none;
+    }
+    .fcard:hover .fcard-shot :global(.pframe) {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .fcard {
+      padding: var(--space-5) var(--space-5) 0;
+    }
+    .fcard-shot {
+      aspect-ratio: 16 / 10;
+      margin-top: var(--space-5);
+    }
+    .fcard-shot :global(.pframe) {
+      width: 94%;
+    }
+    .fcard-hdr {
+      flex-wrap: wrap;
     }
   }
 </style>

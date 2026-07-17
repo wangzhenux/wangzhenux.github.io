@@ -4,7 +4,7 @@ import MetaStrip from './MetaStrip.astro';
 import Container from '../layout/Container.astro';
 
 interface MetaField { label: string; value: string; }
-interface CoverProps { caseCover?: string; image?: string; alt: string; width?: number; height?: number; }
+interface CoverProps { caseCover?: string; image?: string; alt: string; width?: number; height?: number; frame?: 'laptop' | 'browser'; }
 interface Props {
   eyebrow: string;
   title: string;

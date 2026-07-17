@@ -15,28 +15,27 @@ const featured = await getFeatured();
 const selected = await getSelected();
 const archive = await getArchive();
 
-/** Map a case collection entry to the home-component card shape. */
+/** Map a case collection entry to the home card shape: short card copy (with
+ *  title/deck fallbacks), tag pills, brand flood color, logo, and the framed
+ *  product shot (falls back to heroImage, then the legacy gradient cover). */
 function toCard(c: CaseEntry) {
+  const card = c.data.card ?? {};
   return {
     slug: c.data.slug,
-    title: c.data.title,
-    company: c.data.company,
-    year: c.data.year,
-    role: c.data.role,
+    title: card.title ?? c.data.title,
+    lead: card.lead ?? c.data.deck,
+    tags: card.tags,
+    brand: card.brand,
+    logo: card.logo,
+    logoAlt: card.logoAlt ?? c.data.company,
+    logoScale: card.logoScale,
+    frame: card.frame,
+    shot: card.shot ?? c.data.heroImage,
     cover: c.data.cover.gradient,
-    image: c.data.cover.image,
-    summary: c.data.deck,
+    coverImage: c.data.cover.image,
+    company: c.data.company,
   };
 }
-
-const featuredMeta = featured
-  ? [
-      { label: 'Role', value: featured.data.role },
-      featured.data.team ? { label: 'Team', value: featured.data.team } : null,
-      featured.data.span ? { label: 'Span', value: featured.data.span } : null,
-      featured.data.outcome ? { label: 'Outcome', value: featured.data.outcome.metric } : null,
-    ].filter((f): f is { label: string; value: string } => f !== null)
-  : [];
 
 const selectedCards = selected.map(toCard);
 const archiveItems = archive.map((c) => ({
@@ -95,18 +94,7 @@ const archiveItems = archive.map((c) => ({
       </Container>
     </header>
 
-    {featured && (
-      <Featured
-        slug={featured.data.slug}
-        title={featured.data.title}
-        company={featured.data.company}
-        year={featured.data.year}
-        cover={featured.data.cover.gradient}
-        image={featured.data.cover.image}
-        summary={featured.data.deck}
-        metaFields={featuredMeta}
-      />
-    )}
+    {featured && <Featured {...toCard(featured)} frame={featured.data.card?.frame ?? 'laptop'} />}
 
     <SelectedGrid cases={selectedCards} />
 

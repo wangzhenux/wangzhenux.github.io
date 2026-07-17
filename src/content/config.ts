@@ -71,6 +71,30 @@ export const caseSchema = z.object({
   collaborators: z.array(z.string()).optional(),
   status: z.enum(['shipped', 'in-design', 'planned']).optional(),
   liveUrl: z.string().optional(),
+  // Homepage case-card presentation (logo ↖ / tag pills ↗ / short copy / framed
+  // product shot; hover floods the card with the case's brand color). Every
+  // field is optional — cards fall back to title/deck/cover when absent.
+  card: z
+    .object({
+      /** Short display title for the card; falls back to `title`. */
+      title: z.string().optional(),
+      /** One-line description for the card; falls back to `deck`. */
+      lead: z.string().optional(),
+      /** 1–2 short tag pills (the `type` field is too wordy for pills). */
+      tags: z.array(z.string()).max(2).optional(),
+      /** Hover flood color (deep, cream-text-safe — e.g. "#3D4A2E"). */
+      brand: z.string().optional(),
+      /** Company logo lockup (public path); rendered monochrome via CSS. */
+      logo: z.string().optional(),
+      logoAlt: z.string().optional(),
+      /** Optical size correction for wide/short lockups (default 1). */
+      logoScale: z.number().optional(),
+      /** Chrome around the product shot. Default: browser. */
+      frame: z.enum(['laptop', 'browser']).optional(),
+      /** Product screenshot for the card; falls back to `heroImage`. */
+      shot: z.string().optional(),
+    })
+    .optional(),
 });
 
 const cases = defineCollection({

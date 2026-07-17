@@ -5,12 +5,16 @@ import Container from '../layout/Container.astro';
 interface CaseInput {
   slug: string;
   title: string;
-  company?: string;
-  year?: number | string;
-  role?: string;
+  lead?: string;
+  tags?: string[];
+  brand?: string;
+  logo?: string;
+  logoAlt?: string;
+  frame?: 'laptop' | 'browser';
+  shot?: string;
   cover?: string;
-  image?: string;
-  summary?: string;
+  coverImage?: string;
+  company?: string;
 }
 interface Props {
   cases: CaseInput[];
@@ -28,8 +32,8 @@ const countLabel = String(count).padStart(2, '0');
         <span class="selected-count">{countLabel} {count === 1 ? 'case' : 'cases'}</span>
       </div>
       <div class="selected-grid">
-        {cases.map((c, i) => (
-          <CaseCard {...c} large={i === 0} />
+        {cases.map((c) => (
+          <CaseCard {...c} />
         ))}
       </div>
     </Container>
@@ -37,9 +41,7 @@ const countLabel = String(count).padStart(2, '0');
 )}
 <style>
   /* ported from homepage.html .selected / .selected-grid, tokenized.
-     Asymmetric grid: 1.5fr lead slot + 1fr followers. The lead card
-     (first entry) is rendered with `large` so its cover and title render
-     larger (the cover keeps the authored 16:10 ratio, like every card). */
+     Two equal columns — every card renders at the same width. */
   .selected {
     padding-block: var(--space-10) var(--space-11);
     border-top: 1px solid var(--rule);
@@ -67,7 +69,7 @@ const countLabel = String(count).padStart(2, '0');
   }
   .selected-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-8) var(--space-6);
   }
   @media (max-width: 767px) {

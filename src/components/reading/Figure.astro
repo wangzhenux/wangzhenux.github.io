@@ -19,6 +19,7 @@ const { src, alt, caption, width, height, split = false } = Astro.props;
     height={height}
     loading="lazy"
     decoding="async"
+    style={width ? `max-width: ${width}px` : undefined}
   />
   <figcaption class="figure-caption">{caption}</figcaption>
 </figure>
@@ -28,11 +29,17 @@ const { src, alt, caption, width, height, split = false } = Astro.props;
   .figure {
     margin: var(--space-9) 0;
   }
-  /* Show the figure at its natural ratio — never cropped. */
+  /* Show the figure at its natural ratio — never cropped. `max-width` (set
+     inline from the `width` prop) caps a low-resolution source at its native
+     pixel width instead of stretching it to fill the column, which is what
+     was causing archival screenshots to look soft/blurry; centered via
+     margin-inline when that cap kicks in. Properly high-res figures already
+     exceed the column width, so the cap is a no-op for them. */
   .figure-image {
     display: block;
     width: 100%;
     height: auto;
+    margin-inline: auto;
     border-radius: var(--radius-sm);
     margin-bottom: var(--space-3);
   }

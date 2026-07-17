@@ -1,0 +1,102 @@
+---
+/**
+ * Device chrome around a product screenshot: `browser` — a window with a
+ * traffic-light title bar; `laptop` — a MacBook-style bezel with a notch.
+ *
+ * Two renditions: the default is bottom-cropped by a card's shot area (the
+ * card clips overflow and controls the hover lift); `full` renders standalone
+ * and closes the chrome on all sides — used for the case-page hero.
+ */
+interface Props {
+  src: string;
+  alt?: string;
+  frame?: 'laptop' | 'browser';
+  /** Standalone, uncropped rendering (e.g. the case-page hero). */
+  full?: boolean;
+  /** Intrinsic dimensions — reserve layout space (no CLS) for `full` heroes. */
+  width?: number;
+  height?: number;
+  /** Eager-load (above-the-fold hero); default lazy for cards. */
+  eager?: boolean;
+}
+const { src, alt = '', frame = 'browser', full = false, width, height, eager = false } = Astro.props;
+---
+<figure class:list={['pframe', `pframe--${frame}`, full && 'pframe--full']}>
+  {frame === 'browser' ? (
+    <span class="pf-chrome" aria-hidden="true"><i></i><i></i><i></i></span>
+  ) : (
+    <span class="pf-notch" aria-hidden="true"></span>
+  )}
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : undefined}
+    decoding="async"
+  />
+</figure>
+<style>
+  .pframe {
+    display: block;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-inverse);
+    box-shadow: var(--shadow-card);
+  }
+  .pframe img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Light backdrop so lazy-loading and transparent screenshots never read as
+       an ink void inside the chrome. */
+    background: var(--bg-primary);
+  }
+
+  /* Browser window: slim ink title bar with traffic lights. */
+  .pframe--browser {
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .pf-chrome {
+    display: flex;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    background: var(--bg-inverse);
+  }
+  .pf-chrome i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ink-on-dark);
+    opacity: 0.25;
+  }
+
+  /* Laptop: MacBook-style bezel + notch (base is cropped by the card edge). */
+  .pframe--laptop {
+    border: 10px solid var(--bg-inverse);
+    border-bottom: none;
+    border-radius: 16px 16px 0 0;
+  }
+  .pf-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 64px;
+    height: 10px;
+    background: var(--bg-inverse);
+    border-radius: 0 0 8px 8px;
+    z-index: 2;
+  }
+
+  /* Standalone (case-page hero): the chrome closes on all sides. */
+  .pframe--full.pframe--browser {
+    border-radius: var(--radius-lg);
+  }
+  .pframe--full.pframe--laptop {
+    border: 10px solid var(--bg-inverse);
+    border-radius: 18px;
+  }
+</style>

@@ -1,14 +1,21 @@
 ---
+import ProductFrame from '../home/ProductFrame.astro';
+
 interface Props {
   caseCover?: string;
   image?: string;
   alt: string;
   width?: number;
   height?: number;
+  /** Device chrome around a real product screenshot (matches the home card's
+   *  frame). Absent for illustration/gradient covers, which render plain. */
+  frame?: 'laptop' | 'browser';
 }
-const { caseCover, image, alt, width, height } = Astro.props;
+const { caseCover, image, alt, width, height, frame } = Astro.props;
 ---
-{image ? (
+{image && frame ? (
+  <ProductFrame src={image} alt={alt} frame={frame} full width={width} height={height} eager />
+) : image ? (
   <img
     class="cover cover-image"
     src={image}
