@@ -15,7 +15,10 @@ const isActive = (href: string) =>
       decorative; the link carries the accessible "Zhen Wang" name. */}
   <a class="nav-name" href="/">
     <img class="nav-mark" src="/logo.svg" alt="" aria-hidden="true" width="28" height="28" />
-    Zhen Wang
+    {/* On narrow screens the wordmark drops (the mark alone still links home)
+        so the four nav links never wrap mid-word — kept in the DOM (just
+        visually hidden) so the accessible name is unchanged. */}
+    <span class="nav-name-text">Zhen Wang</span>
   </a>
   <ul class="nav-links">
     {links.map((l) => (
@@ -26,21 +29,41 @@ const isActive = (href: string) =>
 <style>
   /* Full-width bar: brand lockup near the left gutter, links near the right. */
   .nav {
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; flex-wrap: nowrap; justify-content: space-between; align-items: center;
     padding: var(--space-5) var(--pad-page-x);
     border-bottom: 1px solid var(--rule);
   }
   .nav-name {
     display: inline-flex; align-items: center; gap: var(--space-3);
     font-family: var(--font-display); font-size: 18px; font-weight: 500; text-decoration: none;
+    flex-shrink: 0;
   }
-  .nav-mark { display: block; width: 28px; height: 28px; }
-  .nav-links { display: flex; gap: var(--space-7); list-style: none; margin: 0; padding: 0; font-size: 13px; }
+  .nav-name-text { white-space: nowrap; }
+  .nav-mark { display: block; width: 28px; height: 28px; flex-shrink: 0; }
+  .nav-links {
+    display: flex; gap: var(--space-7); list-style: none; margin: 0; padding: 0; font-size: 13px;
+    flex-wrap: nowrap;
+  }
+  .nav-links li { white-space: nowrap; }
   .nav-links a { text-decoration: none; color: var(--ink-primary); }
   .nav-links a:hover { color: var(--accent); }
   .nav-links a[aria-current="page"] { color: var(--accent); }
   @media (max-width: 767px) {
     .nav-links { gap: var(--space-4); }
     .nav-mark { width: 24px; height: 24px; }
+  }
+  /* Below phone width, "Zhen Wang" + all 4 links no longer fit on one line —
+     drop the wordmark (the mark alone still links home) and tighten the
+     links so the bar stays a single row instead of wrapping mid-word. */
+  @media (max-width: 480px) {
+    .nav { padding-inline: var(--space-4); }
+    .nav-name-text {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%);
+      border: 0;
+    }
+    .nav-links { gap: var(--space-3); font-size: 12px; }
   }
 </style>
