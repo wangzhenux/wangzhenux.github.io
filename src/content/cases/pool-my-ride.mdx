@@ -1,6 +1,6 @@
 ---
 title: "T.E.A.M. Carpool"
-deck: "An iOS carpool app helping University of Texas at Austin students find a carpooler — and take advantage of UT's shared parking-permit policy."
+deck: "An iOS app that helps UT Austin students find a carpooler — and unlock the university's shared parking-permit policy most of them never knew existed."
 slug: pool-my-ride
 company: University of Texas at Austin
 class: "Graduate academic project · MS in Information Studies"
@@ -9,87 +9,285 @@ type: "Mobile app"
 role: User Researcher · Interaction Designer
 cover:
   gradient: "linear-gradient(135deg, #F46C41 0%, #E1F366 100%)"
-  image: "/cases/pool-my-ride/cover.svg"
-  width: 1600
-  height: 1000
-order: 92
+  image: "/cases/pool-my-ride/hero.jpg"
+  width: 2000
+  height: 1250
+order: 91
 featured: false
 archive: true
 sections:
   - { id: s01, num: "01", label: "The opportunity" }
   - { id: s02, num: "02", label: "User research" }
-  - { id: s03, num: "03", label: "Iterative design" }
+  - { id: s03, num: "03", label: "Findings" }
+  - { id: s04, num: "04", label: "Iterative design" }
+  - { id: s05, num: "05", label: "Behind the scenes" }
 ---
 
 import Lede from '../../components/reading/Lede.astro';
 import BodyText from '../../components/reading/BodyText.astro';
 import SectionH from '../../components/reading/SectionH.astro';
+import SectionDeck from '../../components/reading/SectionDeck.astro';
+import Figure from '../../components/reading/Figure.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
 import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+import ShowcaseCarousel from '../../components/showcase/ShowcaseCarousel.astro';
+import ResearchStats from '../../components/data/ResearchStats.astro';
+import Stat from '../../components/data/Stat.astro';
+import Competitors from '../../components/data/Competitors.astro';
+import Competitor from '../../components/data/Competitor.astro';
 
 <section id="s01">
   <Lede>
-    T.E.A.M. (Together Everyone Achieves More) Carpool is an iOS app built to help
-    University of Texas at Austin students find a carpooler.
+    T.E.A.M. (Together Everyone Achieves More) Carpool is an iOS app that helps
+    UT Austin students find a carpooler.
   </Lede>
 
   <BodyText>
-    Based on UT's 2014 Parking Strategies Committee Report, the campus had about
-    52,000 students, 17,279 faculty and staff, and 5,000 visitors against only
-    15,800 parking spaces — a potential user-to-space ratio of 4.8:1. To ease the
-    crunch, UT lets up to four members share a parking permit and carpool to
-    campus. But few students knew the policy existed, and the hard part was simply
-    finding a carpooler. T.E.A.M. set out to make that fast and easy while
-    surfacing the permit policy.
+    UT's 2014 Parking Strategies Committee Report counted roughly 52,000
+    students, 17,279 faculty and staff, and 5,000 visitors against 15,800
+    parking spaces — a potential 4.8:1 ratio of people to spots. To take some
+    pressure off, the university lets up to 4 people share a single parking
+    permit and carpool in.
   </BodyText>
+
+  <BodyText>
+    The trouble was that almost no one knew the policy existed, and even for
+    those who did, the real friction came earlier: finding someone to carpool
+    with. T.E.A.M. Carpool set out to make that match fast and easy, and to
+    surface the permit benefit along the way — good for students' time and
+    money, and for the university's parking crunch.
+  </BodyText>
+
+  <Figure
+    src="/cases/pool-my-ride/statistics_report.png"
+    alt="UT Austin parking statistics from the 2014 Parking Strategies Committee Report"
+    caption="UT's 2014 Parking Strategies Committee Report: about 15,800 spaces for a campus of 52,000 students, plus faculty, staff, and visitors."
+    width={1319}
+    height={852}
+  />
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/pool-my-ride/team_process.png"
+      alt="Our process, from user research through iterative design and usability testing"
+      width={1494}
+      height={765}
+    />
+  </ImageShowcase>
 </section>
 
 <section id="s02">
   <SectionH>User research</SectionH>
+  <SectionDeck>A survey, two rounds of interviews, and a look at what already existed.</SectionDeck>
+
   <BodyText>
-    We ran a survey and two rounds of interviews, plus a competitive analysis of
-    Uber, Zimride, and Pool My Ride to learn from their strengths and weaknesses.
-    The survey drew 43 responses across five topics — demographics, ways to find a
-    carpooler, carpooler type, reward, and difficulty finding a carpooler. After
-    the initial round we narrowed scope to UT students and folded UT's carpool
-    policy benefits into the system: reserved carpool parking, reduced permit
-    fees, and an extra UT shuttle pass.
+    We opened with a survey and a round of interviews, gathering both the
+    numbers and the stories — how students think about carpooling, how likely
+    they are to try it, and which features would actually earn their use.
+  </BodyText>
+
+  <ResearchStats cols={4}>
+    <Stat num="43" label="Survey responses">across the first round</Stat>
+    <Stat num="5" label="Survey topics">demographics to difficulty</Stat>
+    <Stat num="3" label="Competitors">Uber, Pool My Ride, Zimride</Stat>
+    <Stat num="2" label="Interview rounds">broad first, then UT-focused</Stat>
+  </ResearchStats>
+
+  <SectionH small>Learning from what exists</SectionH>
+  <BodyText>
+    Before designing anything, we studied three apps in the space for their
+    features, structure, and design. Each had something worth borrowing and
+    something worth avoiding.
+  </BodyText>
+
+  <Competitors>
+    <Competitor
+      name="Uber"
+      logo="/cases/pool-my-ride/uber.png"
+      strength="Real-time tracking, clear city-rate pricing, and several payment options — Google Wallet, PayPal, a scanned card — plus driver ratings."
+      gap="You can't choose your driver before booking, and it's city-bound, not cross-state."
+    />
+    <Competitor
+      name="Pool My Ride"
+      logo="/cases/pool-my-ride/pool_my_ride.png"
+      strength="Built-in messaging, Facebook friends and profiles, and an easy view of the route."
+      gap="Profile-view bugs, and it leans too hard on a required Facebook login."
+    />
+    <Competitor
+      name="Zimride"
+      logo="/cases/pool-my-ride/zimride.png"
+      strength="Mutual friends and reviews let you vet a rider before sharing, and new messages surface to the top."
+      gap="Inconsistent ride posting, thin ride and user info, non-customizable profiles, and a map that kicks out to the Google Maps app."
+    />
+  </Competitors>
+
+  <SectionH small>What the survey turned up</SectionH>
+  <BodyText>
+    43 students answered across 5 topics. The charts below summarize what they
+    told us — who they are, how they'd carpool, and where it gets hard.
+  </BodyText>
+
+  <ShowcaseCarousel slides={[
+    { eyebrow: "01", title: "Demographics", body: "Who answered — a cross-section of UT students and their commutes.", image: "/cases/pool-my-ride/survey_r1.png", imageAlt: "Survey results: respondent demographics", width: 1010, height: 480 },
+    { eyebrow: "02", title: "Carpooler type", body: "Whether people would rather drive, ride along, or do both.", image: "/cases/pool-my-ride/survey_r2.png", imageAlt: "Survey results: carpooler type", width: 1010, height: 480 },
+    { eyebrow: "03", title: "Way to find a carpooler", body: "How students line up a ride today, from group chats to word of mouth.", image: "/cases/pool-my-ride/survey_r3.png", imageAlt: "Survey results: how students find a carpooler", width: 1010, height: 480 },
+    { eyebrow: "04", title: "Reward wanted", body: "What makes sharing worth it — gas splits, parking, or a simple thank-you.", image: "/cases/pool-my-ride/survey_r4.png", imageAlt: "Survey results: reward wanted", width: 1010, height: 480 },
+    { eyebrow: "05", title: "Difficulty finding a carpooler", body: "How hard it actually is to find someone headed your way.", image: "/cases/pool-my-ride/survey_r5.png", imageAlt: "Survey results: difficulty finding a carpooler", width: 1010, height: 480 },
+  ]} />
+
+  <SectionH small>Narrowing the scope</SectionH>
+  <BodyText>
+    After the first round we focused on UT students specifically, and folded the
+    university's carpool benefits into the concept — reserved carpool parking,
+    reduced permit fees, and an extra UT shuttle pass.
+  </BodyText>
+
+  <SectionH small>A second, sharper round</SectionH>
+  <BodyText>
+    A follow-up interview zeroed in on UT students and the tasks that mattered
+    most: what they spend commuting, how willing they are to give or take a
+    ride, how they'd split or reward gas, and how they'd want to find a
+    carpooler or a driver.
+  </BodyText>
+</section>
+
+<section id="s03">
+  <SectionH>Findings</SectionH>
+
+  <BodyText>
+    We distilled the research into three artifacts, each pointing the design in
+    a clearer direction.
+  </BodyText>
+
+  <SectionH small>User needs</SectionH>
+  <BodyText>
+    First, the needs themselves — the jobs the app had to do well for a match to
+    feel worth the effort.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/pool-my-ride/user_needs.png"
+      alt="User needs synthesized from the carpool research"
+      width={1716}
+      height={698}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Personas</SectionH>
+  <BodyText>
+    Then personas, so we designed for specific people instead of an average.
   </BodyText>
 
   <ImageShowcase>
     <ShowcaseImage
       src="/cases/pool-my-ride/personas.png"
-      alt="Personas synthesized from the carpool user research"
+      alt="Personas built from the carpool user research"
       width={2378}
       height={652}
     />
   </ImageShowcase>
-</section>
 
-<section id="s03">
-  <SectionH>Iterative design</SectionH>
+  <SectionH small>Storyboard</SectionH>
   <BodyText>
-    We started from paper prototypes of the chosen design and iterated four rounds
-    — from early sketches to high-fidelity mockups — refining each round on
-    feedback from usability testing, while settling the content mapping and
-    controlled vocabulary alongside the design.
+    And a storyboard, walking through a day where finding a carpooler actually
+    works.
   </BodyText>
 
   <ImageShowcase>
     <ShowcaseImage
-      src="/cases/pool-my-ride/sketch_design.png"
-      alt="Paper sketches of the T.E.A.M. carpool app"
-      width={2014}
-      height={2286}
+      src="/cases/pool-my-ride/storyboard.png"
+      alt="Storyboard of a student finding a carpooler with the app"
+      width={2318}
+      height={734}
     />
   </ImageShowcase>
+</section>
+
+<section id="s04">
+  <SectionH>Iterative design</SectionH>
+  <SectionDeck>From paper to pixels, one testable round at a time.</SectionDeck>
+
+  <BodyText>
+    We set the blueprint first, then started rough — paper prototypes of the
+    main flow. Across 4 rounds, from sketch to high fidelity, we tested each
+    version and refined it, settling the content mapping and a controlled
+    vocabulary as we went.
+  </BodyText>
+
+  <SectionH small>Early wireframes — Balsamiq</SectionH>
+  <BodyText>
+    We blocked out the main flow in Balsamiq before committing to any detail.
+  </BodyText>
+
+  <Figure
+    src="/cases/pool-my-ride/early_stage_design.png"
+    alt="Early-stage wireframes of the T.E.A.M. Carpool app in Balsamiq"
+    caption="Early wireframes in Balsamiq — the main flow blocked out before any visual detail."
+    width={1214}
+    height={1423}
+  />
+
+  <SectionH small>Paper sketches</SectionH>
+  <BodyText>
+    Paper let us try layouts and interactions cheaply, then tear them up and
+    redo them.
+  </BodyText>
+
+  <Figure
+    src="/cases/pool-my-ride/sketch_design.png"
+    alt="Paper sketches of the T.E.A.M. Carpool screens"
+    caption="Paper sketches — fast, disposable passes at layout and interaction."
+    width={2014}
+    height={2286}
+  />
+
+  <SectionH small>Medium fidelity — Axure</SectionH>
+  <BodyText>
+    In Axure we tightened the structure and made the flow clickable enough to
+    put in front of people.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/pool-my-ride/medium_fi.png"
+      alt="Medium-fidelity screens of the T.E.A.M. Carpool app built in Axure"
+      width={2011}
+      height={1402}
+    />
+  </ImageShowcase>
+
+  <SectionH small>High-fidelity mockups</SectionH>
+  <BodyText>
+    The final round brought the visual design together — the screens as students
+    would actually see them.
+  </BodyText>
 
   <ImageShowcase>
     <ShowcaseImage
       src="/cases/pool-my-ride/hi_fi.png"
-      alt="High-fidelity mockups of the T.E.A.M. carpool app"
+      alt="High-fidelity mockups of the T.E.A.M. Carpool app"
       width={1878}
       height={1728}
     />
   </ImageShowcase>
+</section>
+
+<section id="s05">
+  <SectionH>Behind the scenes</SectionH>
+
+  <BodyText>
+    T.E.A.M. Carpool was a team project for our MS in Information Studies, built
+    over a semester of research, design, and testing. The name says the point:
+    together everyone achieves more — and a carpool app only earns that if it
+    makes the first match easy.
+  </BodyText>
+
+  <Figure
+    src="/cases/pool-my-ride/behind_scene.png"
+    alt="The team behind T.E.A.M. Carpool at work"
+    caption="The team behind T.E.A.M. Carpool."
+    width={1199}
+    height={885}
+  />
 </section>

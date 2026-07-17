@@ -1,6 +1,6 @@
 ---
 title: "TechScene"
-deck: "An online event site dedicated to tech-industry listings for Austin, Texas — a central place to find events, meetups, and learning opportunities."
+deck: "An event site built for one job: surface Austin's tech meetups, classes, and networking in a single place — no wading through five general listings sites."
 slug: techscene
 company: University of Texas at Austin
 class: "Graduate academic project · MS in Information Studies"
@@ -12,85 +12,285 @@ cover:
   image: "/cases/techscene/cover.svg"
   width: 1600
   height: 1000
-order: 93
+heroImage: "/cases/techscene/hero.jpg"
+heroAlt: "The TechScene homepage — a search bar over a blurred conference photo, then a Trending Events grid of Learn / Play / Network tiles and Austin event cards."
+heroWidth: 2000
+heroHeight: 1422
+order: 90
 featured: false
 archive: true
 sections:
   - { id: s01, num: "01", label: "The concept" }
   - { id: s02, num: "02", label: "User research" }
-  - { id: s03, num: "03", label: "Iterative design" }
+  - { id: s03, num: "03", label: "Concept & IA" }
+  - { id: s04, num: "04", label: "Iterative design" }
 ---
 
 import Lede from '../../components/reading/Lede.astro';
 import BodyText from '../../components/reading/BodyText.astro';
 import SectionH from '../../components/reading/SectionH.astro';
+import SectionDeck from '../../components/reading/SectionDeck.astro';
+import Figure from '../../components/reading/Figure.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
 import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
+import QuoteRow from '../../components/data/QuoteRow.astro';
+import QuoteCard from '../../components/data/QuoteCard.astro';
+import ResearchStats from '../../components/data/ResearchStats.astro';
+import Stat from '../../components/data/Stat.astro';
 
 <section id="s01">
   <Lede>
-    TechScene is an online event site dedicated to providing event listings
-    specific to technology and the tech industry of Austin, Texas.
+    TechScene is an event site dedicated to Austin's technology scene — meetups,
+    classes, talks, and networking, gathered in one place.
   </Lede>
 
   <BodyText>
-    Other Austin event sites were broadly focused. The creators of TechScene grew
-    tired of wading through multiple meetup and event sites to find centrally
-    focused listings of events, classes, and networking get-togethers they wanted
-    to attend. The idea: a single manageable place listing happenings and
-    opportunities to connect, network, learn, collaborate, play, and socialize —
-    without the extraneous listings that did not serve students, enthusiasts, and
+    Austin already had event sites, but they cast a wide net. We got tired of
+    wading through general listings just to find the tech gatherings worth
+    showing up to. So we built one central place for Austin's tech events,
+    classes, and networking — somewhere to learn, play, and network — and cut
+    the clutter that never served students, enthusiasts, or working
     professionals.
   </BodyText>
+
+  <BodyText>
+    The path from that itch to a finished design ran through research,
+    synthesis, and 5 rounds of iterative design. Here's the whole arc.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/process_flow_chart.png"
+      alt="TechScene's end-to-end process, from research and synthesis through 5 rounds of iterative design."
+      width={2064}
+      height={686}
+    />
+  </ImageShowcase>
 </section>
 
 <section id="s02">
   <SectionH>User research</SectionH>
+  <SectionDeck>
+    We listened in 4 passes: 2 rounds of interviews, a competitive teardown, and
+    a Qualtrics survey.
+  </SectionDeck>
+
+  <ResearchStats cols={4}>
+    <Stat num="6" label="Interviews">Phase one, ages 22–35</Stat>
+    <Stat num="6" label="Sites analyzed">Competitive teardown</Stat>
+    <Stat num="4" label="Interviews">Phase two, ages 22–60</Stat>
+    <Stat num="13" label="Question survey">Fielded in Qualtrics</Stat>
+  </ResearchStats>
+
   <BodyText>
-    We interviewed six people aged 22 to 35 in a first phase, then ran a
-    competitive analysis of six sites identified by interviewees — including
-    Meetup, Eventbrite, Do512, SXSW, and Technical.ly — assessing their design,
-    search, and event categorization. A second interview phase with four
-    participants balanced the gender mix, and a 13-question Qualtrics survey
-    (shared through the iSchool's Insider and the team's tech-industry contacts)
-    gathered demographics, event experience, and desired content.
+    In the first phase we sat down with 6 people, ages 22 to 35. We asked how
+    they experienced tech events, how they searched for them today, and what
+    they'd want from a site built just for tech.
+  </BodyText>
+
+  <BodyText>
+    Next we looked at 6 sites our interviewees and team kept naming — among them
+    Meetup, Eventbrite, Do512, SXSW, and Technical.ly. For each, we weighed the
+    design, the search, and how events were categorized, noting what worked and
+    what didn't, then kept and improved the pieces worth carrying over.
   </BodyText>
 
   <ImageShowcase>
     <ShowcaseImage
       src="/cases/techscene/competitive_analysis.png"
-      alt="TechScene competitive analysis of existing event sites"
+      alt="Competitive analysis of 6 existing event sites, comparing design, search, and event categorization."
       width={1994}
       height={656}
+    />
+  </ImageShowcase>
+
+  <BodyText>
+    Round one skewed female and student-heavy, so for the second phase we
+    recruited 4 people, ages 22 to 60, to balance it out — an instructor, a
+    professor, and 2 people working in tech.
+  </BodyText>
+
+  <QuoteRow>
+    <QuoteCard
+      label="University student"
+      heading="Wants to go with friends"
+      quote="What I care about is when it's happening and how I'll get there. And I want to go with friends — before I commit, I ask if anyone else wants to come."
+    />
+    <QuoteCard
+      label="University professor"
+      heading="Bridging school and industry"
+      quote="I want to meet people in my field from both the university and industry, compare how we each teach, and find internships and jobs for my students."
+    />
+    <QuoteCard
+      label="Works in tech"
+      heading="Relevance and calendar sync"
+      quote="I want events tied to my work — who's speaking, what the topic is, how it's run, and who's hosting. And I want to sync it straight into my own calendar."
+    />
+  </QuoteRow>
+
+  <BodyText>
+    Last, we ran a 13-question survey in Qualtrics and shared it through the
+    iSchool's Insider newsletter and our own contacts in the tech industry. It
+    asked about demographics, how much experience people had with tech events,
+    and what they wanted a site like this to hold.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/survey_results.png"
+      alt="Results from the 13-question Qualtrics survey on demographics, event experience, and desired content."
+      width={2054}
+      height={804}
     />
   </ImageShowcase>
 </section>
 
 <section id="s03">
-  <SectionH>Iterative design</SectionH>
+  <SectionH>Concept & IA</SectionH>
+
   <BodyText>
-    From an affinity diagram we identified the site's areas, then moved through
-    personas, storyboards, and wireframes in Balsamiq and Axure. We iterated five
-    rounds from paper to high fidelity, running usability testing on each — 15
-    participants across 25 sessions in total — and refined the pages that most
-    affected the user's experience.
+    We sorted what we'd heard with an affinity diagram. Each of us read back
+    through the interviews and survey, wrote one sticky per candidate area of the
+    site, and grouped them our own way — then we merged the groupings into a
+    shared map.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/affinity_diagram.png"
+      alt="Affinity diagram grouping interview and survey findings into candidate areas of the site."
+      width={2054}
+      height={577}
+    />
+  </ImageShowcase>
+
+  <BodyText>
+    From that map we built personas and storyboards, and a first-cut structure —
+    the categories, global navigation, homepage, event-detail page, settings,
+    and the event-creation flow.
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/personas.png"
+      alt="Personas synthesized from the interviews and survey, spanning students, enthusiasts, and working professionals."
+      width={2054}
+      height={1080}
+    />
+  </ImageShowcase>
+
+  <Figure
+    src="/cases/techscene/information_architecture_initial_ideation.png"
+    alt="Initial information-architecture diagram for TechScene: categories, global navigation, and the core page set."
+    caption="The initial information architecture — categories, global nav, and the core page set, mapped before we touched a single screen."
+    width={2054}
+    height={349}
+  />
+</section>
+
+<section id="s04">
+  <SectionH>Iterative design</SectionH>
+  <SectionDeck>5 rounds, paper to hi-fi, tested at every step.</SectionDeck>
+
+  <BodyText>
+    We set the blueprint, then started rough — paper prototypes of the main flow.
+    Across 5 rounds, from paper sketch to hi-fi, we tested each version and
+    refined it, settling the content mapping and controlled vocabulary alongside
+    the visual design.
+  </BodyText>
+
+  <BodyText>
+    We built the wireframes in Balsamiq and Axure — homepage, search results,
+    event detail, account, and the create-event flow. Both were quick to
+    prototype, which let us test the information architecture before we committed
+    to it.
+  </BodyText>
+
+  <SectionH small>Usability testing</SectionH>
+  <BodyText>
+    We ran usability testing on every prototype — 15 participants across 25
+    sessions in total. Each round's feedback pointed us at the pages that
+    mattered most to the experience, and that's where the next round's changes
+    went.
   </BodyText>
 
   <ImageShowcase>
     <ShowcaseImage
       src="/cases/techscene/usability_testing.png"
-      alt="TechScene usability testing"
+      alt="Usability testing across rounds, with findings feeding the next round of changes."
       width={2050}
       height={836}
     />
   </ImageShowcase>
 
+  <SectionH small>A shared brand reference</SectionH>
+  <BodyText>
+    For hi-fi we pinned down TechScene's brand — color, typography, imagery,
+    icons, grid, and interaction standards — so designers and developers worked
+    from one shared reference, not their own separate interpretations.
+  </BodyText>
+
+  <Figure
+    src="/cases/techscene/hi_fidelity_mockup.png"
+    alt="High-fidelity style tile for TechScene showing the color palette, typography, icon set, and layout grid."
+    caption="The hi-fi style tile — color, type, imagery, icons, and grid, gathered as one reference for designers and developers."
+    width={994}
+    height={561}
+  />
+
+  <SectionH small>Design iterations</SectionH>
+  <BodyText>
+    Here's how each core page evolved across the rounds — from the first rough
+    sketch to the final layout.
+  </BodyText>
+
+  <SectionH small>Homepage</SectionH>
   <ImageShowcase>
     <ShowcaseImage
-      src="/cases/techscene/hi_fidelity_mockup.png"
-      alt="TechScene high-fidelity mockup"
-      width={994}
-      height={561}
+      src="/cases/techscene/homepage_design_iteration.png"
+      alt="Homepage design iterations for TechScene, from early wireframe to final layout."
+      width={2600}
+      height={1713}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Search results</SectionH>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/search_result_page_design_iteration.png"
+      alt="Search-results page iterations for TechScene, from wireframe to final layout."
+      width={2600}
+      height={1934}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Event detail</SectionH>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/event_detail_page_design_iteration.png"
+      alt="Event-detail page iterations for TechScene, from wireframe to final layout."
+      width={2600}
+      height={2079}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Create event</SectionH>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/create_event_page_design_iteration.png"
+      alt="Create-event flow iterations for TechScene, from wireframe to final layout."
+      width={2600}
+      height={2608}
+    />
+  </ImageShowcase>
+
+  <SectionH small>Account</SectionH>
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/techscene/account_page_design_iteration.png"
+      alt="Account page iterations for TechScene, from wireframe to final layout."
+      width={2600}
+      height={1278}
     />
   </ImageShowcase>
 </section>

@@ -29,12 +29,13 @@ export async function getSelected(): Promise<CaseEntry[]> {
   return featured.slice(1);
 }
 
-/** Archived cases, sorted by year descending (most recent first); `order` breaks ties. */
+/** Archived cases in curated `order` (ascending); the two academic flagships —
+ *  TechScene, then T.E.A.M. Carpool — lead. Year breaks any tie. */
 export async function getArchive(): Promise<CaseEntry[]> {
   const cases = await getCollection('cases');
   return cases
     .filter((c) => c.data.archive === true && !c.data.hidden)
-    .sort((a, b) => b.data.year - a.data.year || a.data.order - b.data.order);
+    .sort((a, b) => a.data.order - b.data.order || b.data.year - a.data.year);
 }
 
 /**
