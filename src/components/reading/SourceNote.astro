@@ -1,0 +1,28 @@
+---
+/* A small citation line for stats and claims — same monospace/tertiary
+   treatment as Figure's caption, but sits under a block instead of an image. */
+---
+{/* div, not p: MDX wraps slotted text in its own <p>, which can't nest inside one. */}
+<div class="source-note"><slot /></div>
+<style>
+  .source-note {
+    margin: calc(var(--space-4) * -1) 0 var(--space-7);
+  }
+  .source-note :global(p) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .source-note :global(a) {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--ink-quaternary);
+    text-underline-offset: 2px;
+  }
+  .source-note :global(a:hover) {
+    color: var(--ink-secondary);
+    text-decoration-color: currentColor;
+  }
+</style>

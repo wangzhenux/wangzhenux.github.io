@@ -37,3 +37,6 @@ yarn-error.log*
 
 # brainstorming session artifacts (visual companion mockups, server state)
 .superpowers/
+
+# codex session id (gstack /codex skill)
+.context/

@@ -28,8 +28,8 @@ card:
 team: "PMs & engineering across the platform"
 span: "Since Feb 2026"
 outcome:
-  metric: "79 accounts"
-  context: "on one platform"
+  metric: "821 → 400 → 59"
+  context: "one traceable cohort: leads, tours, signed leases at a 93-unit property over 2 months"
 sections:
   - { id: ctx, num: "00", label: "Context" }
   - { id: p1, num: "01", label: "Who it serves" }
@@ -45,6 +45,7 @@ sections:
 
 import BodyText from '../../components/reading/BodyText.astro';
 import SectionH from '../../components/reading/SectionH.astro';
+import SourceNote from '../../components/reading/SourceNote.astro';
 import Pullquote from '../../components/reading/Pullquote.astro';
 import PartHeader from '../../components/showcase/PartHeader.astro';
 import Bento from '../../components/showcase/Bento.astro';
@@ -82,7 +83,35 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     mobile app in two weeks).
   - Insight adoption [REAL] (Pendo, May 2026): 79 accounts, 78 active
     users, 52 (~66%) core dashboard, ~45 min/user/week (‹C› Zhen corrected
-    quarter→week 2026-07-12).
+    quarter→week 2026-07-12; re-confirmed per-week 2026-08-02).
+  - ACCOUNT SEMANTICS (Zhen, 2026-08-02): "79 accounts" = accounts on UP
+    Insight analytics. Platform partners = 7 (owners/operators leasing
+    through the platform). Never say "79 accounts on the platform."
+  - FUNNEL EXAMPLE [REAL] (Zhen, 2026-08-02; Superset): 1 property, 93
+    units, 3 agents, 2 months — 821 leads, 400 tours (48.7% lead→tour),
+    59 signed (7% lead→lease). The 7% miss is explained by unit-level
+    blockers (no parking; bedroom windows facing stairwell/elevator)
+    surfaced via mobile tour recordings.
+  - BASELINES SOURCED (2026-08-02, replacing an unsourced AI answer):
+    · lead→tour 25% = RentViewer inquiry-to-showing benchmark, via Leasey.AI.
+    · lead→lease 8.7% avg / 16.5% top performers = ResMan analysis of 1.5M
+      leads across 4,300 properties, 2024 peak leasing season.
+    · CAVEAT: Respage argues no universal benchmark exists (lead definitions
+      vary; cited range 4%–10%+).
+  - AFTER CODEX REVIEW (2026-08-02) — claims deliberately NOT made here:
+    · The 25% comparison is REMOVED. 48.7% is tours SCHEDULED; the benchmark
+      counts COMPLETED showings. Restore only with a completed-tour count for
+      this property, labeled "vendor-reported," never "industry."
+    · No causal-uplift claim. UnitPulse is a new product with no clean
+      pre-product baseline; seasonality/pricing/inventory are uncontrolled.
+      Copy claims traceability and operational insight only.
+    · Tour-recording objections are a SIGNAL, not a proven cause of the gap.
+    · 7.19% is labeled "observed to date" — the cohort is right-censored, so
+      it is a floor. TODO worth pulling: median lead-to-sign cycle time and
+      how many leads were younger than that median at cutoff.
+    · Do NOT manufacture a before/after baseline: differing lead definitions,
+      missing historical instrumentation, and leasing seasonality would make
+      it weaker than showing none.
   - "One sentence instead of fifteen clicks" + 2025 predecessor CRM
     copilot = lineage fact, dated inline, no link.
   - Convergence framed as a team effort I helped drive as design lead.
@@ -302,10 +331,13 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
 <section id="p5" data-reveal>
   <PartHeader num="05" title="3 products to one platform" />
   <BodyText>
-    Customers came for Marketing, then asked us to run the whole journey. But 3
-    products meant 3 logins, drifting UI, and no shared front door for the AI.
-    So we merged them behind **one login and one design system**, with the Copilot
-    as the shared command layer. It was a phased merge, not a rewrite.
+    Customers came for Marketing, then asked us to run the whole journey. But
+    the 3 products didn't talk to each other — **even though they consumed the
+    same backend**. 3 logins, 3 user-management systems, no shared front door
+    for the AI. So we merged them behind one login and one design system, with
+    the Copilot as the shared command layer — and rebuilt the IA so each
+    persona sees what's theirs without wading through everyone else's. A
+    phased merge, not a rewrite.
     {/* ‹C-dates› spring/summer beats */}
   </BodyText>
 
@@ -359,6 +391,13 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
 
 <section id="ds" data-reveal>
   <PartHeader num="06" title="The design system" />
+  <BodyText>
+    The 3 products were built fast, with **AI writing Tailwind before AI was
+    good at it** — no maintained library, every screen its own local dialect,
+    debt compounding quietly. Consolidating that was the real job: define the
+    language once, build it as reusable components, then migrate the scattered
+    UI onto it.
+  </BodyText>
   <BodyText>
     "One design language" is a claim, so here is the language itself. Warm cream
     surfaces, 2 greens with strict roles (olive for the brand, signal green for
@@ -492,14 +531,48 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
 
 <section id="p7" data-reveal>
   <PartHeader num="08" title="What it's done so far — honestly" />
+  <BodyText>
+    The sharpest evidence is one property that ran entirely on the merged
+    platform: **93 units, 3 leasing agents, 2 months**. Every one of these
+    leads entered in that window, and every signed lease came from that same
+    group, so it's one funnel I can follow end to end.
+    {/* ‹C-funnel› numbers from Zhen 2026-08-02, Superset dashboard.
+        Cohort confirmed clean (all leads in-window, all leases from them);
+        property ran the MERGED platform during the window. */}
+  </BodyText>
   <ResearchStats cols={3}>
-    <Stat num="79" label="Accounts on the platform">
+    <Stat num="821" label="Leads in">
+      <span class="item">2 months · 1 property · 93 units</span>
+      <span class="item">Superset dashboard</span>
+    </Stat>
+    <Stat num="48.7%" label="Lead → tour">
+      <span class="item">400 tours scheduled</span>
+    </Stat>
+    <Stat num="59" label="Leases signed">
+      <span class="item">7.19% observed to date</span>
+    </Stat>
+  </ResearchStats>
+  <SourceNote>
+    Superset dashboard. Observed at the measurement cutoff, so the cohort is still maturing: leads from the final weeks hadn't had time to convert. For reference, the average lead-to-lease across 1.5M leads and 4,300 properties is 8.7% (<a href="https://www.myresman.com/blog/maximizing-lease-conversions-data-insights-from-the-leasing-funnel/" target="_blank" rel="noopener">ResMan, 2024</a>), though operators define a "lead" differently enough that cross-company comparison is directional at best.
+  </SourceNote>
+  <BodyText>
+    The recordings are what made the drop-off legible. The same objections
+    kept coming back: no parking, bedrooms with windows facing the stairwell
+    or the elevator. I can't say those cost us every lost lease, and I'm not
+    claiming the platform caused a lift, there's no clean baseline for that.
+    What it did was run the whole funnel and show me where it leaked.
+  </BodyText>
+  {/* ‹C-completed-tours› 48.7% is tours SCHEDULED. The commonly cited 25%
+      inquiry-to-showing benchmark (RentViewer via Leasey.AI) counts COMPLETED
+      showings, so it is deliberately NOT compared here. Restore only with a
+      completed-tour count for this property, labeled "vendor-reported." */}
+  <ResearchStats cols={3}>
+    <Stat num="7" label="Partner accounts">
+      <span class="item">owners &amp; operators leasing through the platform</span>
+    </Stat>
+    <Stat num="79" label="Accounts on UP Insight">
       <span class="item">52 on the core dashboard (~66%)</span>
       <span class="item">Pendo · May 2026</span>
-    </Stat>
-    <Stat num="Month 2" label="First paying customer">
-      <span class="item">Marketing product · March 2026</span>
-      <span class="item">one month after kickoff</span>
     </Stat>
     <Stat num="~45 min" label="Analytics engagement">
       <span class="item">per user per week</span>
@@ -530,6 +603,13 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       same answer. The segment work is where the product earns trust: a virtual
       tour for someone across the world, an honest alternative when a box isn't
       ticked.
+    </ReflectionCard>
+    <ReflectionCard label="On what I got wrong" heading="Spec first, then let AI build">
+      Early on I handed AI coding an underspecified design language and took
+      the speed. The drift and rework that followed taught me the order:
+      write the system down first — a design.md, tokens, tested components —
+      then let AI build against it. Slower first week, faster every week
+      after.
     </ReflectionCard>
   </Reflection>
 </section>
