@@ -12,7 +12,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "resume": "node resume/build-resume.mjs",
-    "lhci": "lhci autorun"
+    "lhci": "npx --yes @lhci/cli autorun"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",
@@ -21,10 +21,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",
-    "@lhci/cli": "^0.14.0",
     "@playwright/test": "^1.48.0",
-    "fast-xml-parser": "^4.5.0",
-    "linkedom": "^0.18.0",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.6"
   }
 }
