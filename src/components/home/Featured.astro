@@ -190,7 +190,12 @@ const href = `/work/${slug}`;
     transition: color 0.35s ease, opacity 0.35s ease;
   }
   /* The shot area crops the device frame at the card's bottom edge; the fixed
-     aspect keeps card heights steady across screenshot ratios. */
+     aspect keeps the card silhouette steady across screenshot ratios.
+     Like the grid cards, the box is kept SHORTER than the framed shot so the
+     frame always reaches the bottom edge and crops there — no cream gap under
+     the device. That holds while `box aspect x frame width` >= the screenshot's
+     own aspect: 2 x 0.84 = 1.68 here, and 1.882 x 0.90 = 1.69 on mobile, so both
+     breakpoints carry the same ~1.68 ceiling (today's hero shot is 1.59). */
   .fcard-shot {
     position: relative;
     margin-top: var(--space-7);
@@ -300,14 +305,18 @@ const href = `/work/${slug}`;
 
   @media (max-width: 767px) {
     .fcard {
-      padding: var(--space-5) var(--space-5) 0;
+      padding: var(--space-6) var(--space-6) 0;
     }
+    /* Taller box than desktop so the screenshot reads bigger on a phone, but
+       still short enough to keep the bottom crop (see the ceiling above). The
+       frame matches the grid cards' 90%, so the gutter beside the device is
+       the same on both card types. */
     .fcard-shot {
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 16 / 8.5;
       margin-top: var(--space-5);
     }
     .fcard-shot :global(.pframe) {
-      width: 94%;
+      width: 90%;
     }
     .fcard-hdr {
       flex-wrap: wrap;
