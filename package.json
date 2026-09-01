@@ -15,9 +15,9 @@
     "lhci": "npx --yes @lhci/cli autorun"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.0.0",
-    "@astrojs/sitemap": "^3.0.0",
-    "astro": "^5.0.0"
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^6.4.8"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",

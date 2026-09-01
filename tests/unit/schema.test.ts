@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { caseSchema } from '../../src/content/config';
+import { caseSchema } from '../../src/content.config';
 
 const SECTIONS = [{ id: 's01', num: '01', label: 'The problem' }];
 
