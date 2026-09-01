@@ -15,13 +15,13 @@
     "lhci": "npx --yes @lhci/cli autorun"
   },
   "dependencies": {
-    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/mdx": "^8.0.0",
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^6.4.8"
+    "astro": "^7.2.10"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",
     "@playwright/test": "^1.48.0",
-    "vitest": "^3.2.6"
+    "vitest": "^4.1.11"
   }
 }
