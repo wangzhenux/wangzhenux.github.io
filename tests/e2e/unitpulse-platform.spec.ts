@@ -11,7 +11,7 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
 
   // The 10-second layer: a real product hero + the user-oriented outcome.
   await expect(page.locator('.hero-cover img')).toHaveAttribute('src', /hero-cover\.png/);
-  await expect(page.locator('.meta-strip')).toContainText('79 accounts');
+  await expect(page.locator('.meta-strip')).toContainText('821 → 400 → 59');
 
   // The spine: Context + Parts 01–09 (ten PartHeaders), with the funnel
   // chapters — generate demand → convert leads → optimize operations — in
