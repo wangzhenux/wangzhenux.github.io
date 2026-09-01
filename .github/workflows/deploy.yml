@@ -36,6 +36,15 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Both Playwright projects are chromium at two viewports, so that is the
+      # only browser worth downloading. Runs after the build because the e2e
+      # webServer is `astro preview`, which serves the dist/ produced above.
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: npm run test:e2e
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
