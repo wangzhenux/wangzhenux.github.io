@@ -134,7 +134,9 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   - REAL: hero-cover.png (hero — the For You dashboard, Figma 1607-21851,
     Zhen's high-res export 5880×3692, PNG with alpha so the page cream shows
     behind the dashboard card), platform-nav.png (Part 05 — annotated
-    navigation groups, Figma 1629-151, high-res export 5716×3024, alpha).
+    navigation groups, Figma 1629-151 — the frame's own raster source at its
+    native 2858×1512, kept transparent so the band shows through; the 2× frame
+    export was a pure upscale of it, flattened onto gray).
   - Token-built EXAMPLE diagrams: timeline.svg, portal-merge.svg.
   - DESIGN-SYSTEM SPECIMENS (ds/*.png): 3× Playwright captures of the real
     system CSS, extracted from Zhen's UnitPulse Design System artifact
@@ -355,8 +357,8 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     <ShowcaseImage
       src="/cases/unitpulse-platform/platform-nav.png"
       alt="The unified platform's navigation, annotated — one sidebar with 4 groups: Insight (analytics and overview), Leasing (tenants and leads), Marketing (content and campaigns), and Workspace (configuration)"
-      width={5716}
-      height={3024}
+      width={2858}
+      height={1512}
     />
   </ImageShowcase>
 
