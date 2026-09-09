@@ -8,34 +8,11 @@ import WritingList from '../components/home/WritingList.astro';
 import Archive from '../components/home/Archive.astro';
 import Container from '../components/layout/Container.astro';
 import Icon from '../components/chrome/Icon.astro';
-import { getFeatured, getSelected, getArchive } from '../lib/cases';
-import type { CaseEntry } from '../lib/cases';
+import { getFeatured, getSelected, getArchive, toCard } from '../lib/cases';
 
 const featured = await getFeatured();
 const selected = await getSelected();
 const archive = await getArchive();
-
-/** Map a case collection entry to the home card shape: short card copy (with
- *  title/deck fallbacks), tag pills, brand flood color, logo, and the framed
- *  product shot (falls back to heroImage, then the legacy gradient cover). */
-function toCard(c: CaseEntry) {
-  const card = c.data.card ?? {};
-  return {
-    slug: c.data.slug,
-    title: card.title ?? c.data.title,
-    lead: card.lead ?? c.data.deck,
-    tags: card.tags,
-    brand: card.brand,
-    logo: card.logo,
-    logoAlt: card.logoAlt ?? c.data.company,
-    logoScale: card.logoScale,
-    frame: card.frame,
-    shot: card.shot ?? c.data.heroImage,
-    cover: c.data.cover.gradient,
-    coverImage: c.data.cover.image,
-    company: c.data.company,
-  };
-}
 
 const selectedCards = selected.map(toCard);
 const archiveItems = archive.map((c) => ({

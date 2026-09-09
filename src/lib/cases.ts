@@ -49,3 +49,27 @@ export async function getNext(slug: string): Promise<CaseEntry | undefined> {
   if (idx === -1) return cases[0];
   return cases[(idx + 1) % cases.length];
 }
+
+/** Map a case collection entry to the CaseCard prop shape: short card copy
+ *  (with title/deck fallbacks), tag pills, brand flood color, logo, and the
+ *  framed product shot (falls back to heroImage, then the legacy gradient
+ *  cover). Shared by every place that renders a CaseCard from a CaseEntry, so
+ *  the mapping can't drift out of sync between them. */
+export function toCard(c: CaseEntry) {
+  const card = c.data.card ?? {};
+  return {
+    slug: c.data.slug,
+    title: card.title ?? c.data.title,
+    lead: card.lead ?? c.data.deck,
+    tags: card.tags,
+    brand: card.brand,
+    logo: card.logo,
+    logoAlt: card.logoAlt ?? c.data.company,
+    logoScale: card.logoScale,
+    frame: card.frame,
+    shot: card.shot ?? c.data.heroImage,
+    cover: c.data.cover.gradient,
+    coverImage: c.data.cover.image,
+    company: c.data.company,
+  };
+}
