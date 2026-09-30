@@ -51,6 +51,9 @@ Never use a spacing token (`--space-*`) for `border-radius`.
 - `--pad-page-x` — horizontal page padding.
 - Body owns the full content frame; there is **no sidebar TOC** (the bottom progress bar is
   the section nav at all widths).
+- Case-study heroes center the eyebrow, title, and summary with balanced wrapping.
+  Summaries are capped at `55ch`; below 768px they align left for reading. Back links,
+  metadata, and article text stay left-aligned.
 
 ---
 
