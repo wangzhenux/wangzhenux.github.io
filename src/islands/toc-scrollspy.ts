@@ -159,10 +159,19 @@ export function init(): void {
     })
   );
 
+  // Keep the bar within the story: after the hero, before Next case or the footer.
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const afterCase = document.querySelector<HTMLElement>('.next-case-wrap, .footer');
+
   // Progress bar fill: percentage of the article scrolled through (§9.1).
   // Measured from the first to last section so the bar reads 0% at the start of
   // the body and 100% at the end of the final section.
   const updateProgress = () => {
+    const visible = (!hero || hero.getBoundingClientRect().bottom <= 0)
+      && (!afterCase || afterCase.getBoundingClientRect().top >= window.innerHeight);
+    progressBar.classList.toggle('is-visible', visible);
+    if (!visible) setDrawer(false);
+
     if (!progressFill) return;
     const first = sections[0];
     const last = sections[total - 1];
@@ -172,25 +181,13 @@ export function init(): void {
     const pct = Math.min(100, Math.max(0, ((window.scrollY - startY) / span) * 100));
     progressFill.style.width = `${pct}%`;
   };
-  if (progressFill) {
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress, { passive: true });
-    updateProgress();
-  }
-
-  // Reveal the bottom progress bar only once the hero is scrolled past, so it stays
-  // out of the way over the title/cover and slides in when the case content begins.
-  const hero = document.querySelector<HTMLElement>('.hero');
-  if (hero && progressBar) {
-    const heroObserver = new IntersectionObserver(
-      ([e]) => {
-        progressBar.classList.toggle('is-visible', !e.isIntersecting);
-        if (e.isIntersecting) setDrawer(false);
-      },
-      { threshold: 0 }
-    );
-    heroObserver.observe(hero);
-  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress, { passive: true });
+  updateProgress();
+  document.addEventListener('astro:before-swap', () => {
+    window.removeEventListener('scroll', updateProgress);
+    window.removeEventListener('resize', updateProgress);
+  }, { once: true });
 
   // Seed the initial active item by nearest-section-to-top (do not rely on a
   // hardcoded `.active`, §12.7).

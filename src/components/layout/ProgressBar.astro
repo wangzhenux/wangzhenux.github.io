@@ -43,9 +43,8 @@ const total = String(sections.length).padStart(2, '0');
   </div>
 </div>
 <style>
-  /* Fixed at the bottom, but hidden over the hero — the scrollspy island adds
-     .is-visible once the hero is scrolled past, so the bar slides in only when the
-     case content begins (never competing with the title/cover). */
+  /* Fixed at the bottom while reading the case, hidden over the hero and once
+     Next case or the footer enters the viewport. Driven by toc-scrollspy.ts. */
   .progress-bar {
     position: fixed;
     bottom: 0;

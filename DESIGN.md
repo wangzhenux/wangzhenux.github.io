@@ -144,7 +144,8 @@ One inline line-icon family — **no text-glyph or emoji icons** (no `←`, `▾
   explicit `width`/`height` so `object-fit` is deterministic cross-browser. Palette is
   hardcoded (external SVGs can't read CSS vars; light-theme only) but matches the tokens.
 - **Progress bar:** fixed bottom bar, hidden over the hero, slides in once the hero is
-  scrolled past (`.is-visible` toggled in `toc-scrollspy.ts`). The section drawer opens
+  scrolled past and hides when Next case or the footer enters the viewport, closing
+  any open drawer (`.is-visible` toggled in `toc-scrollspy.ts`). The section drawer opens
   upward and reads down the left column, then the right; phones use one column.
   The top navigation returns on upward scroll on the homepage and case studies.
 - **Section headings — one hierarchy, two components (keep consistent!):**

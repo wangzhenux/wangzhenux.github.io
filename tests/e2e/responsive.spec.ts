@@ -122,7 +122,7 @@ test('short mobile drawer scrolls to the last section and restores focus', async
   await expect(page.locator('#p8')).toBeInViewport();
 });
 
-test('case navigation returns above the story and the bottom bar leaves footer links clear', async ({ page }) => {
+test('case navigation returns above the story and the bottom bar stops before Next case', async ({ page }) => {
   await page.goto('/work/unitpulse-platform');
   await revealProgressBar(page);
   const nav = page.getByRole('navigation', { name: 'Primary' });
@@ -131,9 +131,28 @@ test('case navigation returns above the story and the bottom bar leaves footer l
   await expect.poll(() => nav.evaluate(el => el.getBoundingClientRect().top)).toBe(0);
   await expect(page.locator('.progress-tag')).toBeInViewport();
 
+  // An open drawer closes as soon as the next case enters the viewport.
+  const tag = page.locator('.progress-tag');
+  await tag.click();
+  await expect(page.locator('#toc-drawer')).toBeVisible();
+  await page.locator('.next-case-wrap').evaluate(el => {
+    scrollTo({ top: scrollY + el.getBoundingClientRect().top - innerHeight + 24, behavior: 'instant' });
+  });
+  await expect(page.locator('.next-case')).toBeInViewport();
+  await expect(tag).toBeHidden();
+  await expect(page.locator('#toc-drawer')).toBeHidden();
+  await expect(tag).toHaveAttribute('aria-expanded', 'false');
+
+  // Scrolling back into the story restores the bar with the drawer closed.
+  await revealProgressBar(page);
+  await expect(tag).toBeVisible();
+  await expect(page.locator('#toc-drawer')).toBeHidden();
+
+  // A direct jump to the footer also hides it, even if it skips the boundary.
   await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
   await expect(page.locator('.footer-socials')).toBeInViewport();
-  const footer = await page.locator('.footer-socials').boundingBox();
-  const bar = await page.locator('.progress-bar').boundingBox();
-  expect(footer!.y + footer!.height).toBeLessThan(bar!.y);
+  await expect(tag).toBeHidden();
+
+  await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+  await expect(tag).toBeHidden();
 });
