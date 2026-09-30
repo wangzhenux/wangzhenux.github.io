@@ -44,6 +44,7 @@ test('reduced motion keeps the poster still and the film remains playable', asyn
   await page.goto('/');
   await expect(page.locator('[data-specimen-hero]')).toHaveAttribute('data-ready', 'true');
   await expect(page.locator('.film-teaser')).not.toHaveAttribute('src', /.+/);
+  await expect(page.getByRole('button', { name: 'Pause preview' })).toBeHidden();
   expect(await page.locator('.film-shell').evaluate(el => getComputedStyle(el).transform)).toBe('none');
   await page.locator('[data-play-film]').click();
   await expect(page.getByRole('dialog')).toBeVisible();
@@ -51,14 +52,21 @@ test('reduced motion keeps the poster still and the film remains playable', asyn
   await expect(page.getByRole('dialog')).not.toBeVisible();
 });
 
-test('manual preview pause survives scrolling out and back into view', async ({ page }, testInfo) => {
+test('overlay pause and resume stay independent from opening the film', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === 'mobile', 'Mobile uses a static poster.');
   await page.goto('/');
   await page.getByRole('button', { name: 'Pause preview', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Resume preview', exact: true })).toBeVisible();
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await expect(page.locator('.film-full')).not.toHaveAttribute('src', /.+/);
   await page.locator('.writing').scrollIntoViewIfNeeded();
   await page.locator('.film-frame').scrollIntoViewIfNeeded();
   expect(await page.locator('.film-teaser').evaluate((v: HTMLVideoElement) => v.paused)).toBe(true);
+  await page.getByRole('button', { name: 'Resume preview', exact: true }).press('Enter');
+  await expect.poll(() => page.locator('.film-teaser').evaluate((v: HTMLVideoElement) => !v.paused)).toBe(true);
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await page.getByRole('link', { name: 'Play my story — 1 minute 16 seconds' }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
 });
 
 test('film ending offers a path to selected work', async ({ page }) => {

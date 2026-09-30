@@ -49,6 +49,7 @@ export function initSpecimenHero() {
     userPaused = !userPaused;
     const label = userPaused ? 'Resume preview' : 'Pause preview';
     toggle.setAttribute('aria-label', label);
+    toggle.classList.toggle('is-paused', userPaused);
     toggle.querySelector('span')!.textContent = label;
     syncPreview();
   }, { signal });

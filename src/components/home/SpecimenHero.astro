@@ -17,10 +17,12 @@ const poster = '/video/specimen-poster.jpg';
       <a class="film-frame" href={film} aria-label="Play my story — 1 minute 16 seconds" aria-haspopup="dialog">
         <img class="film-poster" src={poster} alt="Zhen Wang — a specimen of a senior product designer" width="1920" height="1080" fetchpriority="high" decoding="async" />
         <video class="film-teaser" data-src="/video/specimen-teaser.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-        <span class="frame-play" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="m9 5 11 7-11 7Z" fill="currentColor" /></svg>
-        </span>
       </a>
+      <button class="teaser-toggle" type="button" aria-label="Pause preview" hidden>
+        <svg class="pause-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true"><path d="M9 6v12M15 6v12" stroke="currentColor" stroke-width="2" /></svg>
+        <svg class="resume-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg>
+        <span>Pause preview</span>
+      </button>
     </div>
 
     <div class="stage-footer">
@@ -28,10 +30,6 @@ const poster = '/video/specimen-poster.jpg';
         <svg class="watch-play" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="15" stroke="currentColor" /><path d="m13 10 9 6-9 6Z" fill="currentColor" /></svg>
         Watch my story <span class="film-duration">1:16</span>
       </a>
-      <button class="teaser-toggle" type="button" aria-label="Pause preview" hidden>
-        <svg class="pause-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true"><path d="M9 6v12M15 6v12" stroke="currentColor" stroke-width="2" /></svg>
-        <span>Pause preview</span>
-      </button>
       <a class="explore-work" href="#selected-work">Explore my work <Icon name="arrow-down" size={15} /></a>
     </div>
   </section>
@@ -134,17 +132,16 @@ const poster = '/video/specimen-poster.jpg';
   .film-poster, .film-teaser { display: block; width: 100%; height: 100%; object-fit: contain; }
   .film-teaser { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
   .film-teaser.is-playing { opacity: 1; }
-  .frame-play { position: absolute; right: var(--space-6); bottom: var(--space-6); display: grid; place-items: center; width: 52px; height: 52px; border: 1px solid color-mix(in srgb, var(--ink-on-dark) 50%, transparent); border-radius: 50%; background: var(--cover-scrim); transition: background 0.2s, transform 0.3s; }
-  .film-frame:hover .frame-play, .film-frame:focus-visible .frame-play { background: var(--accent); transform: scale(1.1); }
-  .stage-footer { width: 100%; gap: var(--space-6); margin-top: var(--space-6); padding: var(--space-4) var(--space-6) var(--space-6); background: var(--bg-primary); color: var(--ink-primary); }
-  .stage-footer button, .stage-footer a { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: 44px; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; text-decoration: none; border: none; background: transparent; padding: 0; cursor: pointer; }
-  .stage-footer button[hidden] { display: none; }
-  .stage-footer .watch-film { white-space: nowrap; transition: color 0.2s; }
-  .stage-footer .watch-film:hover, .stage-footer .watch-film:focus-visible { color: var(--accent-ink); }
+  .teaser-toggle { position: absolute; right: var(--space-6); bottom: var(--space-6); display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-4); border: 1px solid color-mix(in srgb, var(--ink-on-dark) 50%, transparent); border-radius: 999px; background: var(--cover-scrim); color: var(--ink-on-dark); font: 10px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+  .teaser-toggle:hover, .teaser-toggle:focus-visible { background: var(--cover-scrim-strong); }
+  .teaser-toggle[hidden], .teaser-toggle .resume-icon, .teaser-toggle.is-paused .pause-icon { display: none; }
+  .teaser-toggle.is-paused .resume-icon { display: block; }
+  .stage-footer { width: 100%; justify-content: center; flex-wrap: wrap; gap: var(--space-9); margin-top: var(--space-6); padding: var(--space-4) var(--space-6) var(--space-6); background: var(--bg-primary); color: var(--ink-primary); }
+  .stage-footer a { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: 44px; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; text-decoration: none; border: none; background: transparent; padding: 0; cursor: pointer; white-space: nowrap; transition: color 0.2s; }
+  .stage-footer .watch-film { color: var(--ink-tertiary); }
+  .stage-footer a:hover, .stage-footer a:focus-visible { color: var(--accent-ink); }
   .watch-play { flex-shrink: 0; }
   .film-duration { color: var(--ink-tertiary); margin-left: var(--space-2); }
-  .teaser-toggle { opacity: 0.75; }
-  .stage-footer .explore-work { margin-left: auto; }
   .explore-work :global(svg) { transition: transform 0.2s; }
   .explore-work:hover :global(svg) { transform: translateY(3px); }
   .home-intro { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: var(--space-10); padding-block: var(--space-12) var(--space-13); }
@@ -262,9 +259,8 @@ const poster = '/video/specimen-poster.jpg';
     .specimen-number { font-size: 8px; }
     .film-shell { width: calc(100% - var(--space-7)); }
     .film-frame { border-radius: var(--radius); }
-    .frame-play { width: 38px; height: 38px; right: var(--space-3); bottom: var(--space-3); }
-    .stage-footer { font-size: 9px; gap: var(--space-3); padding: var(--space-4); letter-spacing: 0.03em; }
-    .stage-footer button, .stage-footer a { gap: var(--space-2); }
+    .stage-footer { font-size: 9px; gap: var(--space-6); padding: var(--space-4); letter-spacing: 0.03em; }
+    .stage-footer a { gap: var(--space-2); }
     .film-duration { margin: 0; }
     .home-intro { grid-template-columns: 1fr; gap: var(--space-8); padding-block: var(--space-10); }
     .home-hero-portrait { order: -1; max-width: 280px; margin-inline: auto; }
