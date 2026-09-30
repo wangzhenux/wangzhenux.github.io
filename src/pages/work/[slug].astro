@@ -93,10 +93,15 @@ const mainStyle = data.cover.gradient
       </div>
     )}
   </main>
-  <Footer />
+  <div class="case-footer"><Footer /></div>
   <CaseInteractions />
 </BaseLayout>
 <style>
+  /* Keep the final links reachable above the fixed case navigation. */
+  .case-footer {
+    padding-bottom: calc(var(--space-11) + env(safe-area-inset-bottom, 0px));
+    background: var(--bg-inverse);
+  }
   /* Bound the next-case footer link to the body column width. */
   .next-case-wrap {
     max-width: var(--max-content);

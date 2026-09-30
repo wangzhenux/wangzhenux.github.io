@@ -10,7 +10,7 @@ const links = [
 const isActive = (href: string) =>
   href === '/' ? currentPath === '/' : currentPath.startsWith(href);
 ---
-<nav class="nav" aria-label="Primary" data-scroll-reveal={currentPath === '/' ? '' : undefined}>
+<nav class="nav" aria-label="Primary" data-scroll-reveal={currentPath === '/' || currentPath.startsWith('/work/') ? '' : undefined}>
   {/* Brand lockup in the top-left: the ZW mark + wordmark. The mark art is
       decorative; the link carries the accessible "Zhen Wang" name. */}
   <a class="nav-name" href="/">

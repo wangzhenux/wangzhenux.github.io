@@ -1,7 +1,7 @@
 ---
-// Top progress bar + current-section tag + TOC drawer (§9.1).
+// Bottom progress bar + current-section tag + upward-opening TOC drawer (§9.1).
 // Shown at ALL widths now — the sidebar TOC was removed so the body owns the full
-// content width, and this sticky top bar is the case study's section nav. The thin
+// content width, and this bottom bar is the case study's section nav. The thin
 // accent bar reflects scroll % of the article; the section tag ("03 / 07 · One
 // search, two modes") and the drawer list are driven by the active-section logic in
 // toc-scrollspy.ts. The drawer is a disclosure: the tag carries aria-expanded and
@@ -30,7 +30,7 @@ const total = String(sections.length).padStart(2, '0');
       <span class="progress-chevron" aria-hidden="true"><Icon name="chevron-down" size={12} /></span>
     </button>
     <div id="toc-drawer" class="progress-drawer" hidden>
-      <ul class="progress-drawer-list">
+      <ul class="progress-drawer-list" style={`--toc-rows: ${Math.ceil(sections.length / 2)}`}>
         {sections.map((s) => (
           <li>
             <button type="button" class="toc-item toc-item--drawer" data-target={s.id}>
@@ -43,22 +43,22 @@ const total = String(sections.length).padStart(2, '0');
   </div>
 </div>
 <style>
-  /* Fixed at the top, but hidden over the hero — the scrollspy island adds
+  /* Fixed at the bottom, but hidden over the hero — the scrollspy island adds
      .is-visible once the hero is scrolled past, so the bar slides in only when the
      case content begins (never competing with the title/cover). */
   .progress-bar {
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
     z-index: 50;
     background: var(--bg-primary);
-    border-bottom: 1px solid var(--rule);
-    padding: var(--space-2) 0 var(--space-3);
-    transform: translateY(-100%);
-    transition: transform 0.28s ease;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    visibility: hidden;
+    transform: translateY(100%);
+    transition: transform 0.28s ease, visibility 0.28s;
   }
-  .progress-bar.is-visible { transform: translateY(0); }
+  .progress-bar.is-visible { visibility: visible; transform: translateY(0); }
   @media (prefers-reduced-motion: reduce) {
     .progress-bar { transition: none; }
   }
@@ -66,7 +66,7 @@ const total = String(sections.length).padStart(2, '0');
     height: 2px;
     background: var(--rule);
     position: relative;
-    margin: 0 0 var(--space-2);
+    margin: 0;
     overflow: hidden;
   }
   .progress-fill {
@@ -85,12 +85,13 @@ const total = String(sections.length).padStart(2, '0');
   }
   .progress-tag {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: var(--space-2);
     width: 100%;
+    min-height: 48px;
     background: none;
     border: none;
-    padding: var(--space-1) 0;
+    padding: var(--space-2) 0;
     margin: 0;
     cursor: pointer;
     text-align: left;
@@ -116,22 +117,33 @@ const total = String(sections.length).padStart(2, '0');
     margin-left: auto;
     flex-shrink: 0;
     color: var(--ink-tertiary);
+    transform: rotate(180deg);
     transition: transform 0.2s ease;
   }
-  .progress-tag[aria-expanded="true"] .progress-chevron { transform: rotate(180deg); }
+  .progress-tag[aria-expanded="true"] .progress-chevron { transform: rotate(0); }
 
   .progress-drawer {
-    margin-top: var(--space-3);
-    padding-top: var(--space-3);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    max-height: min(60svh, 480px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-block: var(--space-4);
+    background: var(--bg-primary);
     border-top: 1px solid var(--rule);
   }
   .progress-drawer[hidden] { display: none; }
   .progress-drawer-list {
     list-style: none;
-    margin: 0;
-    padding: 0;
+    max-width: var(--max-content);
+    margin: 0 auto;
+    padding: 0 var(--pad-page-x);
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(var(--toc-rows), auto);
+    grid-auto-flow: column;
     gap: var(--space-1) var(--space-7);
   }
   .toc-item--drawer {
@@ -139,6 +151,7 @@ const total = String(sections.length).padStart(2, '0');
     align-items: baseline;
     gap: var(--space-3);
     width: 100%;
+    min-height: 44px;
     background: none;
     border: none;
     padding: var(--space-2) 0;
@@ -165,6 +178,6 @@ const total = String(sections.length).padStart(2, '0');
   .toc-item--drawer.active .num { color: var(--accent); }
 
   @media (max-width: 700px) {
-    .progress-drawer-list { grid-template-columns: 1fr; }
+    .progress-drawer-list { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; }
   }
 </style>

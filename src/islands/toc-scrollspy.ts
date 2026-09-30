@@ -24,7 +24,7 @@ export function pickActive(ratios: Ratio[]): string | null {
 }
 
 export function init(): void {
-  // The section nav is the fixed top progress bar (§9.1 / DESIGN.md §1) at all
+  // The section nav is the fixed bottom progress bar (§9.1 / DESIGN.md §1) at all
   // widths; its drawer lists the `.toc-item` buttons that this island drives for
   // active-state + click-to-scroll. (The old sidebar TOC was removed.)
   const items = Array.from(document.querySelectorAll<HTMLButtonElement>('.toc-item'));
@@ -135,10 +135,10 @@ export function init(): void {
       setDrawer(tagBtn.getAttribute('aria-expanded') !== 'true')
     );
     // Esc closes the drawer and returns focus to the tag button.
-    drawer.addEventListener('keydown', (e) => {
+    progressBar.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         setDrawer(false);
-        tagBtn.focus();
+        tagBtn.focus({ preventScroll: true });
       }
     });
   }
@@ -151,12 +151,15 @@ export function init(): void {
       pinnedId = id;
       setActive(id);
       // A drawer item navigates then collapses the drawer.
-      if (btn.classList.contains('toc-item--drawer')) setDrawer(false);
+      if (btn.classList.contains('toc-item--drawer')) {
+        setDrawer(false);
+        tagBtn?.focus({ preventScroll: true });
+      }
       target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
     })
   );
 
-  // Top progress bar fill: percentage of the article scrolled through (§9.1).
+  // Progress bar fill: percentage of the article scrolled through (§9.1).
   // Measured from the first to last section so the bar reads 0% at the start of
   // the body and 100% at the end of the final section.
   const updateProgress = () => {
@@ -175,12 +178,15 @@ export function init(): void {
     updateProgress();
   }
 
-  // Reveal the top progress bar only once the hero is scrolled past, so it stays
+  // Reveal the bottom progress bar only once the hero is scrolled past, so it stays
   // out of the way over the title/cover and slides in when the case content begins.
   const hero = document.querySelector<HTMLElement>('.hero');
   if (hero && progressBar) {
     const heroObserver = new IntersectionObserver(
-      ([e]) => progressBar.classList.toggle('is-visible', !e.isIntersecting),
+      ([e]) => {
+        progressBar.classList.toggle('is-visible', !e.isIntersecting);
+        if (e.isIntersecting) setDrawer(false);
+      },
       { threshold: 0 }
     );
     heroObserver.observe(hero);
