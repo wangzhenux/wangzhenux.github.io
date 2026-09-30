@@ -5,6 +5,8 @@ export function initSpecimenHero() {
   hero.dataset.ready = 'true';
   const wash = hero.querySelector<HTMLElement>('.stage-wash')!;
   const shell = hero.querySelector<HTMLElement>('.film-shell')!;
+  const portrait = hero.querySelector<HTMLElement>('.home-hero-portrait')!;
+  const portraitImage = portrait.querySelector('img')!;
   const frame = hero.querySelector<HTMLAnchorElement>('.film-frame')!;
   const teaser = hero.querySelector<HTMLVideoElement>('.film-teaser')!;
   const toggle = hero.querySelector<HTMLButtonElement>('.teaser-toggle')!;
@@ -57,6 +59,11 @@ export function initSpecimenHero() {
     wash.style.clipPath = `inset(0 0 ${p * 100}% 0)`;
     shell.style.transform = `translateY(${p * (mobile.matches ? 6 : 24)}px) scale(${1 - p * (mobile.matches ? 0.025 : 0.14)})`;
     frame.style.borderRadius = `${p * 12}px`;
+    // The original illustration settles into view as the film recedes above it.
+    const portraitBounds = portrait.getBoundingClientRect();
+    const reveal = reduce.matches ? 1 : Math.max(0, Math.min(1, (innerHeight - portraitBounds.top) / (portraitBounds.height * 0.8)));
+    portraitImage.style.transform = `translateY(${(1 - reveal) * (mobile.matches ? 12 : 28)}px) scale(${0.96 + reveal * 0.04})`;
+    portraitImage.style.opacity = String(0.55 + reveal * 0.45);
   };
   const onScroll = () => { if (!scrollFrame) scrollFrame = requestAnimationFrame(paintScroll); };
   window.addEventListener('scroll', onScroll, { passive: true, signal });
