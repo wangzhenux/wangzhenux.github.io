@@ -5,11 +5,11 @@ const film = '/video/zhen-wang-specimen.mp4';
 const poster = '/video/specimen-poster.jpg';
 ---
 <header class="home-hero" data-specimen-hero>
-  <section class="film-stage" aria-label="A personal film by Zhen Wang">
+  <section class="film-stage" aria-label="Zhen Wang — 10 years in 76 seconds">
     <div class="stage-wash" aria-hidden="true"></div>
     <div class="stage-heading">
       <span><i aria-hidden="true"></i> Design × Engineering</span>
-      <span class="specimen-number">A personal film / 001</span>
+      <span class="specimen-number">10 years in 76 seconds</span>
       <span class="stage-rule" aria-hidden="true"></span>
     </div>
 
@@ -80,13 +80,13 @@ const poster = '/video/specimen-poster.jpg';
   <dialog class="film-theater" aria-labelledby="film-title">
     <div class="theater-panel">
       <div class="theater-heading">
-        <h2 id="film-title">Zhen Wang <span>/ A personal film</span></h2>
+        <h2 id="film-title">Zhen Wang <span>/ 10 years in 76 seconds</span></h2>
         <button class="theater-close" type="button" aria-label="Close film" autofocus>
           <span>Close</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
         </button>
       </div>
       <div class="theater-picture">
-        <video class="film-full" data-src={film} poster={poster} controls playsinline preload="none" aria-label="Zhen Wang — a personal film"></video>
+        <video class="film-full" data-src={film} poster={poster} controls playsinline preload="none" aria-label="Zhen Wang — 10 years in 76 seconds"></video>
         <img class="theater-snapshot" src={poster} alt="" aria-hidden="true" width="1920" height="1080" />
         <div class="film-ended" hidden>
           <p>Let's get into the work.</p>
@@ -139,8 +139,9 @@ const poster = '/video/specimen-poster.jpg';
   .stage-footer { width: 100%; gap: var(--space-6); margin-top: var(--space-6); padding: var(--space-4) var(--space-6) var(--space-6); background: var(--bg-primary); color: var(--ink-primary); }
   .stage-footer button, .stage-footer a { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: 44px; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; text-decoration: none; border: none; background: transparent; padding: 0; cursor: pointer; }
   .stage-footer button[hidden] { display: none; }
-  .stage-footer .watch-film { border-bottom: 1px solid var(--accent-on-dark); }
-  .film-duration { opacity: 0.65; margin-left: var(--space-2); }
+  .stage-footer .watch-film { padding-inline: var(--space-5); border: 1px solid var(--accent); border-radius: var(--radius-sm); background: var(--accent); color: var(--ink-on-dark); white-space: nowrap; transition: background 0.2s, border-color 0.2s; }
+  .stage-footer .watch-film:hover, .stage-footer .watch-film:focus-visible { background: var(--accent-ink); border-color: var(--accent-ink); }
+  .film-duration { margin-left: var(--space-2); }
   .teaser-toggle { opacity: 0.75; }
   .stage-footer .explore-work { margin-left: auto; }
   .explore-work :global(svg) { transition: transform 0.2s; }
@@ -263,6 +264,7 @@ const poster = '/video/specimen-poster.jpg';
     .frame-play { width: 38px; height: 38px; right: var(--space-3); bottom: var(--space-3); }
     .stage-footer { font-size: 9px; gap: var(--space-3); padding: var(--space-4); letter-spacing: 0.03em; }
     .stage-footer button, .stage-footer a { gap: var(--space-2); }
+    .stage-footer .watch-film { padding-inline: var(--space-3); }
     .film-duration { margin: 0; }
     .home-intro { grid-template-columns: 1fr; gap: var(--space-8); padding-block: var(--space-10); }
     .home-hero-portrait { order: -1; max-width: 280px; margin-inline: auto; }
