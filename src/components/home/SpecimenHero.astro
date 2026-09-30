@@ -1,0 +1,187 @@
+---
+import Container from '../layout/Container.astro';
+import Icon from '../chrome/Icon.astro';
+const film = '/video/zhen-wang-specimen.mp4';
+const poster = '/video/specimen-poster.jpg';
+---
+<header class="home-hero" data-specimen-hero>
+  <section class="film-stage" aria-label="A personal film by Zhen Wang">
+    <div class="stage-wash" aria-hidden="true"></div>
+    <div class="stage-heading">
+      <span><i aria-hidden="true"></i> Design × Engineering</span>
+      <span class="specimen-number">A personal film / 001</span>
+      <span class="stage-rule" aria-hidden="true"></span>
+    </div>
+
+    <div class="film-shell">
+      <a class="film-frame" href={film} aria-label="Play my story — 1 minute 16 seconds" aria-haspopup="dialog">
+        <img class="film-poster" src={poster} alt="Zhen Wang — a specimen of a senior product designer" width="1920" height="1080" fetchpriority="high" decoding="async" />
+        <video class="film-teaser" data-src="/video/specimen-teaser.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+        <span class="frame-play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="m9 5 11 7-11 7Z" fill="currentColor" /></svg>
+        </span>
+      </a>
+    </div>
+
+    <div class="stage-footer">
+      <a class="watch-film" href={film} data-play-film aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg>
+        Watch my story <span class="film-duration">01:16</span>
+      </a>
+      <button class="teaser-toggle" type="button" aria-label="Pause preview" hidden>
+        <svg class="pause-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true"><path d="M9 6v12M15 6v12" stroke="currentColor" stroke-width="2" /></svg>
+        <span>Pause preview</span>
+      </button>
+      <a class="explore-work" href="#selected-work">Explore my work <Icon name="arrow-down" size={15} /></a>
+    </div>
+  </section>
+
+  <Container>
+    <div class="home-intro">
+      <div>
+        <p class="intro-eyebrow">The person behind the pixels</p>
+        <h1 class="home-hero-h1">Hello,<br />I'm Zhen.</h1>
+        <div class="home-hero-facts">
+          <p>Product designer with <strong>10+ years of experience</strong></p>
+          <p>Currently <strong>Product Design Lead</strong> at Tripalink</p>
+          <p>Shipping AI-native products for fast-growing teams</p>
+        </div>
+        <div class="intro-actions">
+          <a href="mailto:wangzhen614@gmail.com">Let's talk <Icon name="arrow-up-right" size={16} /></a>
+          <a href="https://www.linkedin.com/in/zhenwang614" target="_blank" rel="noopener">LinkedIn <Icon name="arrow-up-right" size={14} /></a>
+        </div>
+      </div>
+      <p class="intro-note">Thoughtful products.<br /><em>Meaningful outcomes.</em></p>
+    </div>
+  </Container>
+
+  <dialog class="film-theater" aria-labelledby="film-title">
+    <div class="theater-panel">
+      <div class="theater-heading">
+        <h2 id="film-title">Zhen Wang <span>/ A personal film</span></h2>
+        <button class="theater-close" type="button" aria-label="Close film" autofocus>
+          <span>Close</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+        </button>
+      </div>
+      <div class="theater-picture">
+        <video class="film-full" data-src={film} poster={poster} controls playsinline preload="none" aria-label="Zhen Wang — a personal film"></video>
+        <img class="theater-snapshot" src={poster} alt="" aria-hidden="true" width="1920" height="1080" />
+        <div class="film-ended" hidden>
+          <p>Let's get into the work.</p>
+          <button type="button" data-film-work>Explore selected work <Icon name="arrow-down" size={16} /></button>
+          <button type="button" data-film-replay>Watch again</button>
+        </div>
+      </div>
+      <div class="theater-footer">
+        <p class="film-status" role="status">Design. Engineering. A little of everything in between.</p>
+        <span>01:16</span>
+      </div>
+    </div>
+  </dialog>
+</header>
+
+<style>
+  .film-stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100svh - 69px);
+    padding: var(--space-7) 0 0;
+    color: var(--ink-on-dark);
+  }
+  .stage-wash { position: absolute; inset: 0; background: var(--bg-inverse); pointer-events: none; }
+  .stage-heading, .stage-footer {
+    position: relative;
+    width: min(calc(100% - var(--space-9)), 1360px);
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+  .stage-heading { justify-content: space-between; padding-bottom: var(--space-5); }
+  .stage-heading > span:first-child { display: flex; align-items: center; gap: var(--space-3); }
+  .stage-heading i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-on-dark); }
+  .stage-rule { position: absolute; left: 0; bottom: var(--space-3); width: var(--space-12); height: 1px; background: var(--accent-on-dark); transform-origin: left; }
+  .specimen-number { opacity: 0.7; }
+  .film-shell { position: relative; width: min(calc(100% - var(--space-9)), 1360px, calc((100svh - 240px) * 16 / 9)); transform-origin: center top; }
+  .film-frame { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg-inverse); color: var(--ink-on-dark); isolation: isolate; }
+  .film-poster, .film-teaser { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .film-teaser { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
+  .film-teaser.is-playing { opacity: 1; }
+  .frame-play { position: absolute; right: var(--space-6); bottom: var(--space-6); display: grid; place-items: center; width: 52px; height: 52px; border: 1px solid color-mix(in srgb, var(--ink-on-dark) 50%, transparent); border-radius: 50%; background: var(--cover-scrim); transition: background 0.2s, transform 0.3s; }
+  .film-frame:hover .frame-play, .film-frame:focus-visible .frame-play { background: var(--accent); transform: scale(1.1); }
+  .stage-footer { width: 100%; gap: var(--space-6); margin-top: var(--space-6); padding: var(--space-4) var(--space-6) var(--space-6); background: var(--bg-primary); color: var(--ink-primary); }
+  .stage-footer button, .stage-footer a { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: 44px; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; text-decoration: none; border: none; background: transparent; padding: 0; cursor: pointer; }
+  .stage-footer button[hidden] { display: none; }
+  .stage-footer .watch-film { border-bottom: 1px solid var(--accent-on-dark); }
+  .film-duration { opacity: 0.65; margin-left: var(--space-2); }
+  .teaser-toggle { opacity: 0.75; }
+  .stage-footer .explore-work { margin-left: auto; }
+  .explore-work :global(svg) { transition: transform 0.2s; }
+  .explore-work:hover :global(svg) { transform: translateY(3px); }
+  .home-intro { display: grid; grid-template-columns: 1.5fr 1fr; align-items: center; gap: var(--space-10); padding-block: var(--space-12) var(--space-13); }
+  .intro-eyebrow { margin: 0 0 var(--space-5); color: var(--accent); font: 11px var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; }
+  .home-hero-h1 { font-size: clamp(38px, 5vw, 64px); line-height: 1.08; margin: 0 0 var(--space-6); }
+  .home-hero-facts p { font-size: 16px; line-height: 1.6; color: var(--ink-secondary); margin: 0 0 var(--space-1); }
+  .home-hero-facts strong { color: var(--ink-primary); font-weight: 600; }
+  .intro-actions { display: flex; gap: var(--space-6); margin-top: var(--space-6); }
+  .intro-actions a { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; font-size: 13px; text-underline-offset: 5px; text-decoration-color: var(--rule); }
+  .intro-actions a:first-child { color: var(--accent); }
+  .intro-note { margin: 0; font: clamp(22px, 2.7vw, 34px)/1.45 var(--font-display); letter-spacing: -0.025em; color: var(--ink-tertiary); }
+  .intro-note em { color: var(--accent); }
+
+  .film-theater { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: var(--space-6); border: 0; overflow: auto; background: transparent; color: var(--ink-on-dark); }
+  .film-theater[open] { display: grid; place-items: center; }
+  .film-theater::backdrop { background: color-mix(in srgb, var(--bg-inverse) 97%, transparent); }
+  .theater-panel { width: min(100%, 1600px, calc((100svh - 180px) * 16 / 9)); transform-origin: top left; }
+  .theater-heading, .theater-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+  .theater-heading { margin-bottom: var(--space-4); }
+  .theater-heading h2 { font: 16px var(--font-display); }
+  .theater-heading h2 span { font: 10px var(--font-mono); letter-spacing: 0.05em; margin-left: var(--space-3); opacity: 0.65; }
+  .theater-close { display: inline-flex; align-items: center; gap: var(--space-3); min-height: 44px; padding: 0; border: none; color: inherit; background: transparent; cursor: pointer; }
+  .theater-close span { font: 10px var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; }
+  .theater-picture { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: var(--bg-inverse); }
+  .film-full, .theater-snapshot { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .theater-snapshot { position: absolute; inset: 0; pointer-events: none; transition: opacity 0.2s; }
+  .theater-panel.is-opened.is-playing .theater-snapshot { opacity: 0; }
+  .theater-footer { margin-top: var(--space-4); font: 10px/1.6 var(--font-mono); letter-spacing: 0.03em; opacity: 0.75; }
+  .film-status { margin: 0; }
+  .film-ended { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-5); background: var(--cover-scrim-strong); }
+  .film-ended[hidden] { display: none; }
+  .film-ended p { font: clamp(20px, 3vw, 38px) var(--font-display); margin: 0; }
+  .film-ended button { display: inline-flex; align-items: center; gap: var(--space-3); border: none; background: var(--accent); color: var(--ink-on-dark); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-5); cursor: pointer; min-height: 44px; }
+  .film-ended [data-film-replay] { background: transparent; padding: 0; }
+  @media (max-width: 767px) {
+    .film-stage { min-height: 0; padding: var(--space-7) 0 0; }
+    .stage-heading { width: calc(100% - var(--space-7)); font-size: 9px; letter-spacing: 0.05em; padding-bottom: var(--space-6); }
+    .specimen-number { font-size: 8px; }
+    .film-shell { width: calc(100% - var(--space-7)); }
+    .film-frame { border-radius: var(--radius); }
+    .frame-play { width: 38px; height: 38px; right: var(--space-3); bottom: var(--space-3); }
+    .stage-footer { font-size: 9px; gap: var(--space-3); padding: var(--space-4); letter-spacing: 0.03em; }
+    .stage-footer button, .stage-footer a { gap: var(--space-2); }
+    .film-duration { margin: 0; }
+    .home-intro { grid-template-columns: 1fr; gap: var(--space-8); padding-block: var(--space-10); }
+    .home-hero-h1 { font-size: 42px; }
+    .intro-note { font-size: 25px; padding-top: var(--space-6); border-top: 1px solid var(--rule); }
+    .film-theater { padding: var(--space-3); }
+    .theater-panel { width: 100%; }
+    .theater-heading h2 span { display: none; }
+    .theater-footer { font-size: 9px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .film-shell { transform: none !important; }
+    .stage-wash { clip-path: inset(0) !important; }
+    .film-stage { color: var(--ink-on-dark) !important; }
+  }
+</style>
+
+<script>
+  import { initSpecimenHero } from '../../lib/specimen-hero';
+  initSpecimenHero();
+  document.addEventListener('astro:page-load', initSpecimenHero);
+</script>
