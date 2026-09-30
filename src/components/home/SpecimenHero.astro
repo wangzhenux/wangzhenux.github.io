@@ -25,8 +25,8 @@ const poster = '/video/specimen-poster.jpg';
 
     <div class="stage-footer">
       <a class="watch-film" href={film} data-play-film aria-haspopup="dialog">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg>
-        Watch my story <span class="film-duration">01:16</span>
+        <svg class="watch-play" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="15" stroke="currentColor" /><path d="m13 10 9 6-9 6Z" fill="currentColor" /></svg>
+        Watch my story <span class="film-duration">1:16</span>
       </a>
       <button class="teaser-toggle" type="button" aria-label="Pause preview" hidden>
         <svg class="pause-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true"><path d="M9 6v12M15 6v12" stroke="currentColor" stroke-width="2" /></svg>
@@ -139,9 +139,10 @@ const poster = '/video/specimen-poster.jpg';
   .stage-footer { width: 100%; gap: var(--space-6); margin-top: var(--space-6); padding: var(--space-4) var(--space-6) var(--space-6); background: var(--bg-primary); color: var(--ink-primary); }
   .stage-footer button, .stage-footer a { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: 44px; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; text-decoration: none; border: none; background: transparent; padding: 0; cursor: pointer; }
   .stage-footer button[hidden] { display: none; }
-  .stage-footer .watch-film { padding-inline: var(--space-5); border: 1px solid var(--accent); border-radius: var(--radius-sm); background: var(--accent); color: var(--ink-on-dark); white-space: nowrap; transition: background 0.2s, border-color 0.2s; }
-  .stage-footer .watch-film:hover, .stage-footer .watch-film:focus-visible { background: var(--accent-ink); border-color: var(--accent-ink); }
-  .film-duration { margin-left: var(--space-2); }
+  .stage-footer .watch-film { white-space: nowrap; transition: color 0.2s; }
+  .stage-footer .watch-film:hover, .stage-footer .watch-film:focus-visible { color: var(--accent-ink); }
+  .watch-play { flex-shrink: 0; }
+  .film-duration { color: var(--ink-tertiary); margin-left: var(--space-2); }
   .teaser-toggle { opacity: 0.75; }
   .stage-footer .explore-work { margin-left: auto; }
   .explore-work :global(svg) { transition: transform 0.2s; }
@@ -264,7 +265,6 @@ const poster = '/video/specimen-poster.jpg';
     .frame-play { width: 38px; height: 38px; right: var(--space-3); bottom: var(--space-3); }
     .stage-footer { font-size: 9px; gap: var(--space-3); padding: var(--space-4); letter-spacing: 0.03em; }
     .stage-footer button, .stage-footer a { gap: var(--space-2); }
-    .stage-footer .watch-film { padding-inline: var(--space-3); }
     .film-duration { margin: 0; }
     .home-intro { grid-template-columns: 1fr; gap: var(--space-8); padding-block: var(--space-10); }
     .home-hero-portrait { order: -1; max-width: 280px; margin-inline: auto; }
