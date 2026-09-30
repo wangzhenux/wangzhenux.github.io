@@ -7,7 +7,7 @@ test('unitpulse-site case: card-forward structure renders, no axe violations', a
   // a11y scan runs against the instant-reveal experience.
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/work/unitpulse-site');
-  await expect(page.locator('.hero-title')).toContainText('Built to Be Found');
+  await expect(page.locator('.hero-title')).toContainText('Home Search, in Your Own Words');
 
   // Real product hero + honest outcome in the meta strip.
   await expect(page.locator('.hero-cover img')).toHaveAttribute('src', /welcome-hero\.jpg/);
