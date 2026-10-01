@@ -31,6 +31,48 @@ export function initSpecimenHero() {
   let savedOverflow = '';
   let savedGutter = '';
   let savedScroll = 0;
+  let videoSource = 'preview';
+  let videoStarted = false;
+  let videoCompleted = false;
+  let previousPercent = 0;
+  const milestones = new Set<number>();
+
+  // Track only the full film, never the silent looping teaser. Resuming playback
+  // doesn't count as another start; opening or replaying begins a new viewing.
+  const trackVideo = (name: string, percent = Math.round(player.currentTime / player.duration * 100) || 0) => {
+    const analytics = (window as Window & { gtag?: (command: string, event: string, parameters: Record<string, unknown>) => void }).gtag;
+    analytics?.('event', name, {
+      video_title: player.getAttribute('aria-label'),
+      video_url: new URL(player.dataset.src!, location.origin).href,
+      video_provider: 'html5',
+      video_current_time: Math.round(player.currentTime) || 0,
+      video_duration: Math.round(player.duration) || 0,
+      video_percent: percent,
+      video_source: videoSource,
+      visible: dialog.open && !document.hidden,
+    });
+  };
+  const resetVideoTracking = (source: string) => {
+    videoSource = source;
+    videoStarted = false;
+    videoCompleted = false;
+    previousPercent = 0;
+    milestones.clear();
+  };
+  player.addEventListener('seeking', () => {
+    previousPercent = player.currentTime / player.duration * 100;
+  }, { signal });
+  player.addEventListener('timeupdate', () => {
+    if (!dialog.open || !videoStarted || player.seeking || player.paused) return;
+    const percent = player.currentTime / player.duration * 100;
+    for (const milestone of [10, 25, 50, 75]) {
+      if (previousPercent < milestone && percent >= milestone && !milestones.has(milestone)) {
+        milestones.add(milestone);
+        trackVideo('video_progress', milestone);
+      }
+    }
+    previousPercent = percent;
+  }, { signal });
 
   const syncPreview = () => {
     const allowed = !reduce.matches && !mobile.matches;
@@ -133,6 +175,8 @@ export function initSpecimenHero() {
     if (!player.src) player.src = player.dataset.src!;
     player.currentTime = 0;
     player.muted = false;
+    resetVideoTracking(trigger === frame ? 'preview' : 'watch_button');
+    trackVideo('video_open', 0);
     status.textContent = 'Loading the film…';
     // Call play during the click, before awaiting animation, to retain sound permission.
     player.play().catch(() => {
@@ -147,6 +191,10 @@ export function initSpecimenHero() {
   frame.addEventListener('click', openFilm, { signal });
   hero.querySelector('[data-play-film]')!.addEventListener('click', openFilm, { signal });
   player.addEventListener('playing', () => {
+    if (dialog.open && !videoStarted) {
+      videoStarted = true;
+      trackVideo('video_start', 0);
+    }
     panel.classList.add('is-playing');
     status.textContent = 'Design. Engineering. A little of everything in between.';
   }, { signal });
@@ -154,7 +202,13 @@ export function initSpecimenHero() {
     panel.classList.add('is-playing');
     status.textContent = 'The film could not load. Close and try again.';
   }, { signal });
-  player.addEventListener('ended', () => { ended.hidden = false; }, { signal });
+  player.addEventListener('ended', () => {
+    ended.hidden = false;
+    if (dialog.open && videoStarted && !videoCompleted) {
+      videoCompleted = true;
+      trackVideo('video_complete', 100);
+    }
+  }, { signal });
 
   const closeFilm = async () => {
     if (!dialog.open || closing) return;
@@ -183,6 +237,7 @@ export function initSpecimenHero() {
   hero.querySelector('[data-film-replay]')!.addEventListener('click', () => {
     ended.hidden = true;
     player.currentTime = 0;
+    resetVideoTracking('replay');
     void player.play();
   }, { signal });
 

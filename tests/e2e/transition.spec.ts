@@ -14,7 +14,7 @@ test('thesis curtain still navigates into the case', async ({ page }) => {
 test('curtain also plays on case -> home and lands home', async ({ page }) => {
   await page.goto('/work/unitpulse-site');
   await page.locator('a.back').click();
-  await expect(page).toHaveURL(/:4321\/?$/, { timeout: 6000 });
+  await expect(page).toHaveURL(url => url.pathname === '/', { timeout: 6000 });
   await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/, { timeout: 4000 });
 });
 
