@@ -30,6 +30,12 @@ const { eyebrow, title, deck, cover, metaFields } = Astro.props;
   .hero {
     padding-top: var(--space-8);
   }
+  .hero-eyebrow,
+  .hero-title,
+  .hero-deck {
+    text-align: center;
+    text-wrap: balance;
+  }
   .hero-eyebrow {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -43,9 +49,9 @@ const { eyebrow, title, deck, cover, metaFields } = Astro.props;
     font-size: clamp(32px, 6vw, 56px);
     line-height: 1.05;
     letter-spacing: -0.025em;
-    margin: 0 0 var(--space-5);
+    margin: 0 auto var(--space-5);
     font-weight: 500;
-    max-width: 18ch;
+    max-width: 24ch;
   }
   .hero-deck {
     font-family: var(--font-display);
@@ -53,12 +59,19 @@ const { eyebrow, title, deck, cover, metaFields } = Astro.props;
     font-size: 21px;
     line-height: 1.4;
     color: var(--ink-secondary);
-    max-width: 50ch;
-    margin: 0 0 var(--space-8);
+    max-width: 55ch;
+    margin: 0 auto var(--space-10);
   }
   /* Full-width cover (the .hero is full-width, so width:100% = viewport width),
      with breathing room before the meta strip. */
   .hero-cover {
     margin-bottom: var(--space-8);
+  }
+  @media (max-width: 767px) {
+    .hero-deck {
+      text-align: left;
+      text-wrap: pretty;
+      margin-bottom: var(--space-8);
+    }
   }
 </style>

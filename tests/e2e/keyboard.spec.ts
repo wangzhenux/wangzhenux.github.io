@@ -33,6 +33,7 @@ test('case page: skip link works and the progress-bar section nav is keyboard-op
   // the tab origin.
   await page.locator('#s02').evaluate((el) => el.scrollIntoView({ block: 'start' }));
   await expect(page.locator('.progress-bar')).toHaveClass(/is-visible/);
+  await expect(page.locator('.progress-tag')).toBeVisible();
 
   // The progress tag is the first tab stop inside #main, and the drawer is a
   // keyboard-operable disclosure: Enter opens it, Tab reaches the real <button>

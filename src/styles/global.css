@@ -35,10 +35,8 @@ img { max-width: 100%; display: block; }
   .highlight { background-size: 100% 88%; transition: none; }
 }
 
-/* Anchor jumps + scrollspy click-scroll land cleanly past the nav / sticky
-   progress bar (§8.5). Larger offset below 1024px where the progress bar sticks. */
-.body section[id] { scroll-margin-top: var(--space-11); }
-@media (max-width: 1023px) { .body section[id] { scroll-margin-top: var(--space-13); } }
+/* Section jumps leave room for the top navigation returning on upward scroll. */
+.body section[id] { scroll-margin-top: var(--space-13); }
 
 /* Visible focus ring on every interactive element */
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible, dialog:focus-visible {

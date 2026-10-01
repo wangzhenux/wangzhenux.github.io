@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-// The top progress bar is the section nav at all widths (§9.1 / DESIGN.md §1), so
+// The bottom progress bar is the section nav at all widths (§9.1 / DESIGN.md §1), so
 // the scrollspy contract is now: scrolling updates the bar's "NN / NN · label" tag
 // and marks the matching drawer item current; clicking a drawer item jumps to that
 // section and pins it active. Runs on both projects — no desktop-only skip.

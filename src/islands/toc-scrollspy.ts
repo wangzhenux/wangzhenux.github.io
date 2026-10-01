@@ -24,7 +24,7 @@ export function pickActive(ratios: Ratio[]): string | null {
 }
 
 export function init(): void {
-  // The section nav is the fixed top progress bar (§9.1 / DESIGN.md §1) at all
+  // The section nav is the fixed bottom progress bar (§9.1 / DESIGN.md §1) at all
   // widths; its drawer lists the `.toc-item` buttons that this island drives for
   // active-state + click-to-scroll. (The old sidebar TOC was removed.)
   const items = Array.from(document.querySelectorAll<HTMLButtonElement>('.toc-item'));
@@ -135,10 +135,10 @@ export function init(): void {
       setDrawer(tagBtn.getAttribute('aria-expanded') !== 'true')
     );
     // Esc closes the drawer and returns focus to the tag button.
-    drawer.addEventListener('keydown', (e) => {
+    progressBar.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         setDrawer(false);
-        tagBtn.focus();
+        tagBtn.focus({ preventScroll: true });
       }
     });
   }
@@ -151,15 +151,27 @@ export function init(): void {
       pinnedId = id;
       setActive(id);
       // A drawer item navigates then collapses the drawer.
-      if (btn.classList.contains('toc-item--drawer')) setDrawer(false);
+      if (btn.classList.contains('toc-item--drawer')) {
+        setDrawer(false);
+        tagBtn?.focus({ preventScroll: true });
+      }
       target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
     })
   );
 
-  // Top progress bar fill: percentage of the article scrolled through (§9.1).
+  // Keep the bar within the story: after the hero, before Next case or the footer.
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const afterCase = document.querySelector<HTMLElement>('.next-case-wrap, .footer');
+
+  // Progress bar fill: percentage of the article scrolled through (§9.1).
   // Measured from the first to last section so the bar reads 0% at the start of
   // the body and 100% at the end of the final section.
   const updateProgress = () => {
+    const visible = (!hero || hero.getBoundingClientRect().bottom <= 0)
+      && (!afterCase || afterCase.getBoundingClientRect().top >= window.innerHeight);
+    progressBar.classList.toggle('is-visible', visible);
+    if (!visible) setDrawer(false);
+
     if (!progressFill) return;
     const first = sections[0];
     const last = sections[total - 1];
@@ -169,22 +181,13 @@ export function init(): void {
     const pct = Math.min(100, Math.max(0, ((window.scrollY - startY) / span) * 100));
     progressFill.style.width = `${pct}%`;
   };
-  if (progressFill) {
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress, { passive: true });
-    updateProgress();
-  }
-
-  // Reveal the top progress bar only once the hero is scrolled past, so it stays
-  // out of the way over the title/cover and slides in when the case content begins.
-  const hero = document.querySelector<HTMLElement>('.hero');
-  if (hero && progressBar) {
-    const heroObserver = new IntersectionObserver(
-      ([e]) => progressBar.classList.toggle('is-visible', !e.isIntersecting),
-      { threshold: 0 }
-    );
-    heroObserver.observe(hero);
-  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress, { passive: true });
+  updateProgress();
+  document.addEventListener('astro:before-swap', () => {
+    window.removeEventListener('scroll', updateProgress);
+    window.removeEventListener('resize', updateProgress);
+  }, { once: true });
 
   // Seed the initial active item by nearest-section-to-top (do not rely on a
   // hardcoded `.active`, §12.7).

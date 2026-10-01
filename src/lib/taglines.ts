@@ -6,7 +6,7 @@
  */
 export const taglines: Record<string, string> = {
   'unitpulse-platform': 'Find, convert, measure — *one platform*.',
-  'unitpulse-site': 'Built to be found — by humans *and AI*.',
+  'unitpulse-site': 'From your own words to *real listings*.',
   'up-insight': 'From scattered spreadsheets to one *source of truth*.',
   'crm-copilot': 'Fifteen clicks, or *one sentence*.',
   'tour-scheduling': 'A reminder you can answer in *one tap* — fewer no-shows.',

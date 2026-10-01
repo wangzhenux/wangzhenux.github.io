@@ -49,8 +49,11 @@ Never use a spacing token (`--space-*`) for `border-radius`.
 ### Layout
 - `--max-content` `1080px` (the content frame), `--max-body` `880px` (reading column cap).
 - `--pad-page-x` — horizontal page padding.
-- Body owns the full content frame; there is **no sidebar TOC** (the top progress bar is
+- Body owns the full content frame; there is **no sidebar TOC** (the bottom progress bar is
   the section nav at all widths).
+- Case-study heroes center the eyebrow, title, and summary with balanced wrapping.
+  Summaries are capped at `55ch`; below 768px they align left for reading. Back links,
+  metadata, and article text stay left-aligned.
 
 ---
 
@@ -140,9 +143,11 @@ One inline line-icon family — **no text-glyph or emoji icons** (no `←`, `▾
   Set the SVG `viewBox` ratio to the card's visual ratio (no letterbox) and include
   explicit `width`/`height` so `object-fit` is deterministic cross-browser. Palette is
   hardcoded (external SVGs can't read CSS vars; light-theme only) but matches the tokens.
-- **Progress bar:** fixed top bar, hidden over the hero, slides in once the hero is
-  scrolled past (`.is-visible` toggled in `toc-scrollspy.ts`); a 2-column drawer is the
-  section nav.
+- **Progress bar:** fixed bottom bar, hidden over the hero, slides in once the hero is
+  scrolled past and hides when Next case or the footer enters the viewport, closing
+  any open drawer (`.is-visible` toggled in `toc-scrollspy.ts`). The section drawer opens
+  upward and reads down the left column, then the right; phones use one column.
+  The top navigation returns on upward scroll on the homepage and case studies.
 - **Section headings — one hierarchy, two components (keep consistent!):**
   | Level | Component | Renders | Use |
   |---|---|---|---|

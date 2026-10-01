@@ -10,7 +10,7 @@ const links = [
 const isActive = (href: string) =>
   href === '/' ? currentPath === '/' : currentPath.startsWith(href);
 ---
-<nav class="nav" aria-label="Primary">
+<nav class="nav" aria-label="Primary" data-scroll-reveal={currentPath === '/' || currentPath.startsWith('/work/') ? '' : undefined}>
   {/* Brand lockup in the top-left: the ZW mark + wordmark. The mark art is
       decorative; the link carries the accessible "Zhen Wang" name. */}
   <a class="nav-name" href="/">
@@ -32,6 +32,16 @@ const isActive = (href: string) =>
     display: flex; flex-wrap: nowrap; justify-content: space-between; align-items: center;
     padding: var(--space-5) var(--pad-page-x);
     border-bottom: 1px solid var(--rule);
+  }
+  .nav[data-scroll-reveal] {
+    position: sticky; top: 0; z-index: 60;
+    background: var(--bg-primary);
+    transition: transform 0.2s ease;
+  }
+  .nav[data-scroll-reveal].is-hidden:not(:focus-within) { transform: translateY(-100%); }
+  .nav[data-scroll-reveal]:focus-within { transition: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .nav[data-scroll-reveal] { transition: none; }
   }
   .nav-name {
     display: inline-flex; align-items: center; gap: var(--space-3);
@@ -67,3 +77,36 @@ const isActive = (href: string) =>
     .nav-links { gap: var(--space-3); font-size: 12px; }
   }
 </style>
+
+<script>
+  function initScrollNav() {
+    const nav = document.querySelector<HTMLElement>('.nav[data-scroll-reveal]');
+    if (!nav || nav.dataset.ready) return;
+    nav.dataset.ready = 'true';
+    const events = new AbortController();
+    let lastY = Math.max(0, window.scrollY);
+    let travel = 0;
+
+    window.addEventListener('scroll', () => {
+      const y = Math.max(0, window.scrollY);
+      const delta = y - lastY;
+      lastY = y;
+      if (y <= nav.offsetHeight) {
+        nav.classList.remove('is-hidden');
+        travel = 0;
+        return;
+      }
+      // Require a deliberate movement in one direction to avoid flickering.
+      if (Math.sign(delta) !== Math.sign(travel)) travel = 0;
+      travel += delta;
+      if (Math.abs(travel) >= 12) {
+        nav.classList.toggle('is-hidden', travel > 0);
+        travel = 0;
+      }
+    }, { passive: true, signal: events.signal });
+
+    document.addEventListener('astro:before-swap', () => events.abort(), { once: true, signal: events.signal });
+  }
+  initScrollNav();
+  document.addEventListener('astro:page-load', initScrollNav);
+</script>

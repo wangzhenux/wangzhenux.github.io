@@ -14,6 +14,12 @@
       "runtimeArgs": ["run", "preview"],
       "port": 4321,
       "autoPort": true
+    },
+    {
+      "name": "deck",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["/Users/zhenwang/career-ops/interview-prep/deck/tools/serve.mjs", "4400"],
+      "port": 4400
     }
   ]
 }
