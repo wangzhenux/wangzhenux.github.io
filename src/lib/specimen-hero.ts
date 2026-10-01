@@ -129,7 +129,6 @@ export function initSpecimenHero() {
         { clipPath: 'inset(100% 0 0 0)', opacity: 0.7, transform: 'translateY(18px)' },
         { clipPath: 'inset(0 0 0 0)', opacity: 1, transform: 'translateY(0)' },
       ], { duration: 750, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-      hero.querySelector('.stage-rule')!.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: 800, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
     }
     sessionStorage.setItem('specimen-intro-seen', 'true');
   } catch { /* Storage may be unavailable; the film is still fully usable. */ }

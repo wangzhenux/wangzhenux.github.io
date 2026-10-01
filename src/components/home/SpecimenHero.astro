@@ -10,7 +10,6 @@ const poster = '/video/specimen-poster.jpg';
     <div class="stage-heading">
       <span><i aria-hidden="true"></i> Design × Engineering</span>
       <span class="specimen-number">10 years in 76 seconds</span>
-      <span class="stage-rule" aria-hidden="true"></span>
     </div>
 
     <div class="film-shell">
@@ -125,7 +124,6 @@ const poster = '/video/specimen-poster.jpg';
   .stage-heading { justify-content: space-between; padding-bottom: var(--space-5); }
   .stage-heading > span:first-child { display: flex; align-items: center; gap: var(--space-3); }
   .stage-heading i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-on-dark); }
-  .stage-rule { position: absolute; left: 0; bottom: var(--space-3); width: var(--space-12); height: 1px; background: var(--accent-on-dark); transform-origin: left; }
   .specimen-number { opacity: 0.7; }
   .film-shell { position: relative; width: min(calc(100% - var(--space-9)), 1360px, calc((100svh - 240px) * 16 / 9)); transform-origin: center top; }
   .film-frame { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg-inverse); color: var(--ink-on-dark); isolation: isolate; }
