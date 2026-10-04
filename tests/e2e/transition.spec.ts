@@ -1,5 +1,36 @@
 import { test, expect } from '@playwright/test';
 
+test('Work and Writing navigation plays the curtain in both directions', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Writing', exact: true }).click();
+  await expect(page.locator('#case-curtain')).toHaveClass(/is-sweeping/, { timeout: 2000 });
+  await expect(page.locator('.case-curtain-thesis')).toContainText('work in between');
+  await expect(page).toHaveURL(/\/writing\/?$/, { timeout: 6000 });
+  await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/, { timeout: 4000 });
+  await expect(page.getByRole('heading', { name: 'Writing', exact: true })).toBeVisible();
+
+  await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Work', exact: true }).click();
+  await expect(page.locator('#case-curtain')).toHaveClass(/is-sweeping/, { timeout: 2000 });
+  await expect(page.locator('.case-curtain-thesis')).toContainText('Meaningful');
+  await expect(page).toHaveURL(url => url.pathname === '/', { timeout: 6000 });
+  await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/, { timeout: 4000 });
+  await expect(page.getByRole('heading', { name: "Hello, I'm Zhen." })).toBeVisible();
+});
+
+test('Work and Writing remain reachable without a curtain for reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Writing', exact: true }).click();
+  await expect(page).toHaveURL(/\/writing\/?$/);
+  await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/);
+  await expect(page.locator('#case-curtain')).toBeHidden();
+
+  await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Work', exact: true }).click();
+  await expect(page).toHaveURL(url => url.pathname === '/');
+  await expect(page.locator('#case-curtain')).not.toHaveClass(/is-/);
+  await expect(page.locator('#case-curtain')).toBeHidden();
+});
+
 // The thesis curtain intercepts case-link clicks and delays the swap; verify it
 // still completes the navigation (and doesn't trap the user on the homepage).
 test('thesis curtain still navigates into the case', async ({ page }) => {
