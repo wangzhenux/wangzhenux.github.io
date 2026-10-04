@@ -36,3 +36,6 @@ export const aboutTagline = 'Designer, developer, *occasional calligrapher*.';
 
 /** Shown on the curtain when opening the Off-screen gallery. */
 export const offscreenTagline = 'The slow craft that *balances out the screens*.';
+
+/** Shown on the curtain when opening Writing, drawn from the page introduction. */
+export const writingTagline = 'Design, front-end craft, and *the work in between*.';
