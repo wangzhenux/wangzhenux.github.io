@@ -94,6 +94,9 @@ const kindText: Record<Kind, string> = { person: 'Person', ai: 'AI', fallback: '
     margin: 0;
     padding: 0;
     position: relative;
+    /* Fit the row so the call pulse ends at the last node, not the column edge. */
+    width: fit-content;
+    max-width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-6);
