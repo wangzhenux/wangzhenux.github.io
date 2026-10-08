@@ -118,7 +118,8 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     bento-tour.png were PULLED 2026-10-08 (real property name / street addresses).
     listing-map.jpg (results split-view) remains available for reuse.
   - Part 04 "How the conversation works" (2026-10-08): live captures from
-    rental.unitpulse.ai (chat/*.jpg, Oct 8 2026, listing names blurred), plus
+    rental.unitpulse.ai (chat/*.jpg, Oct 8 2026, unblurred: listing names, photos and
+    addresses are public listing data), plus
     ChatMock "before" states reconstructed from each fix. The old 7-principle
     SVG bento was retired into Google's vocabulary.
   - <ShowcaseCarousel> carries five real demo clips; <ScreenshotPlaceholder> marks
@@ -430,7 +431,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         quote: "Can you go $200 higher on my budget?",
         happened: "Mid-search, the renter nudges one thing instead of starting over.",
         designed: "The model reads the change, code adds it to the saved budget, and the chat, chips and map move together.",
-        image: { src: "/cases/unitpulse-site/chat/context.jpg", alt: "The live copilot after the renter asks to go $200 higher: the summary now reads Budget under $3,200, the filter chips update, and the map shows the matching homes", width: 2160, height: 1350 },
+        image: { src: "/cases/unitpulse-site/chat/context.jpg", alt: "The live copilot after the renter asks to go $200 higher: the summary now reads Budget under $3,200, the filter chips update, and the map shows the matching homes", width: 2880, height: 1800 },
       },
       {
         principle: "Listen between the lines",
@@ -454,7 +455,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         quote: "Can I see this one on Saturday?",
         happened: "Asking for a date, a time and contact details one turn at a time drags on.",
         designed: "A tour card opens in the chat for that home. The renter picks a time, and the leasing office confirms.",
-        image: { src: "/cases/unitpulse-site/chat/turn.jpg", alt: "The live copilot opening a tour request card in the chat, with date and time choices", width: 1422, height: 1800 },
+        image: { src: "/cases/unitpulse-site/chat/turn.jpg", alt: "The live copilot opening a Schedule a Tour card for the home in view, with a button to pick a time", width: 1422, height: 1800 },
       },
     ]}
   />
@@ -537,9 +538,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
           { from: "renter", text: "Remove bedroom filter" },
           { from: "ai", text: "Here are 2-bedroom homes in Los Angeles.", flag: "bad", chips: ["2 beds ×"] },
         ],
-        after: { src: "/cases/unitpulse-site/chat/relaxed.jpg", alt: "After tapping Remove bedroom filter, the bedroom chip is gone; the copilot asks once more how many bedrooms, then shows 20 homes", width: 1422, height: 1300 },
+        after: { src: "/cases/unitpulse-site/chat/relaxed.jpg", alt: "After tapping Remove bedroom filter, the bedroom filter is gone and the copilot shows 20 homes in Los Angeles under $1,200", width: 1422, height: 1590 },
         happened: "Tapping “Remove bedroom filter” left the filter in place.",
-        changed: "The page now clears the filter before the message goes out. One rough edge is left: the copilot still asks about bedrooms once more.",
+        changed: "The page now clears the filter before the message goes out. One rough edge: the copilot can still ask about bedrooms once more.",
       },
       {
         principle: "Listen between the lines",
@@ -549,7 +550,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
           { from: "renter", text: "Can I keep a cat?" },
           { from: "ai", text: "Yes, cats are welcome here.", chips: ["Pet friendly ×"], flag: "bad" },
         ],
-        after: { src: "/cases/unitpulse-site/chat/cat.jpg", alt: "Asked about cats while viewing a home, the copilot answers from that home's pet policy, and a Pet friendly filter appears in the composer", width: 1422, height: 1220 },
+        after: { src: "/cases/unitpulse-site/chat/cat.jpg", alt: "Asked about cats while viewing a home, the copilot answers from that home's pet policy, and a Pet friendly filter appears in the composer", width: 1422, height: 1372 },
         happened: "An earlier version turned a policy question into a Pet friendly filter. We fixed that.",
         changed: "The current flow saves it again while you view a home. Whether a question should set a filter is still open.",
       },
