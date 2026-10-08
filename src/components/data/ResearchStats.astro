@@ -2,7 +2,7 @@
 interface Props { cols?: number; }
 const { cols = 3 } = Astro.props;
 ---
-<div class="research-stats" style={`--cols: ${cols}`}><slot /></div>
+<div class="research-stats" style={`--cols: ${cols}; --cols-phone: ${Math.min(cols, 2)}`}><slot /></div>
 <style>
   /* ported from case-study-twilio.html .research-stats, tokenized.
      Column count is variable via --cols (default 3). */
@@ -14,5 +14,10 @@ const { cols = 3 } = Astro.props;
     padding: var(--space-6);
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
+  }
+  /* At most two columns on mobile; minmax(0, 1fr) lets long labels wrap
+     instead of widening the page. */
+  @media (max-width: 767px) {
+    .research-stats { grid-template-columns: repeat(var(--cols-phone), minmax(0, 1fr)); }
   }
 </style>
