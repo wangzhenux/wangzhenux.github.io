@@ -1,0 +1,175 @@
+---
+/**
+ * "What the AI does, what people decide" — one row per product, PAIR-style.
+ * Each row carries a mode chip (automate / augment / hand-off) so the split of
+ * work reads before the sentences do. A semantic <table> with a caption and row
+ * headers; under 760px each row becomes a labelled card.
+ *
+ * Motion (in-view island): rows settle in one after another and each mode chip
+ * fills in as its row lands. Static without JS / with reduced motion.
+ *
+ *   <AiRoleTable caption="…" rows={[{ product, mode, tone: 'augment', ai, people }]} />
+ */
+interface Row {
+  product: string;
+  /** Mode label shown in the chip, e.g. "Augment", "Automate + hand-off". */
+  mode: string;
+  /** Chip tone: automate = accent fill, augment = outline, handoff = ink. */
+  tone: 'automate' | 'augment' | 'handoff';
+  ai: string;
+  people: string;
+  /** Small "Next" marker for work that isn't shipped yet. */
+  next?: string;
+}
+interface Props {
+  rows: Row[];
+  caption: string;
+  columns?: [string, string, string, string];
+}
+const { rows, caption, columns = ['Product', 'Mode', 'What the AI does', 'What people decide'] } = Astro.props;
+---
+<div class="art" data-inview>
+  <table class="art-table">
+    <caption class="art-cap">{caption}</caption>
+    <thead>
+      <tr>
+        {columns.map((c) => <th scope="col">{c}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((r, i) => (
+        <tr style={`--i: ${i}`}>
+          <th scope="row" class="art-product">{r.product}</th>
+          <td class="art-mode" data-label={columns[1]}>
+            <span class={`art-chip art-chip--${r.tone}`}>{r.mode}</span>
+          </td>
+          <td class="art-ai" data-label={columns[2]}>
+            {r.ai}
+            {r.next && <span class="art-next"><span class="art-next-tag">Next</span>{r.next}</span>}
+          </td>
+          <td class="art-people" data-label={columns[3]}>{r.people}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<style>
+  .art {
+    position: relative;
+    width: calc(100vw - var(--sbw));
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
+    margin-block: var(--space-7);
+  }
+  .art-table {
+    width: 100%;
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--pad-page-x);
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+  .art-cap {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .art-table thead th {
+    text-align: left;
+    padding: 0 var(--space-4) var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+    border-bottom: 1px solid var(--rule);
+  }
+  .art-table thead th:nth-child(1) { width: 16%; }
+  .art-table thead th:nth-child(2) { width: 18%; }
+  .art-table thead th:nth-child(3) { width: 35%; }
+  .art-table tbody th,
+  .art-table tbody td {
+    padding: var(--space-5) var(--space-4);
+    vertical-align: top;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+    font-size: var(--fs-card);
+    line-height: 1.55;
+    color: var(--ink-secondary);
+  }
+  .art-product {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--ink-primary);
+  }
+  .art-people { color: var(--ink-primary); }
+  .art-chip {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    border: 1px solid var(--accent-medium);
+    color: var(--accent-ink);
+  }
+  .art-chip--automate { background: var(--accent-soft); }
+  .art-chip--augment { background: transparent; }
+  .art-chip--handoff { background: var(--ink-primary); border-color: var(--ink-primary); color: var(--ink-on-dark); }
+  .art-next {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: 14px;
+    color: var(--ink-tertiary);
+  }
+  .art-next-tag {
+    display: inline-block;
+    margin-right: var(--space-2);
+    padding: 0 var(--space-2);
+    border: 1px dashed var(--ink-tertiary);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* motion */
+  .art-table tbody tr > * { transition: opacity 0.5s ease, transform 0.5s ease; transition-delay: calc(var(--i) * 0.1s); }
+  .art-chip { transition: background-color 0.4s ease, color 0.4s ease; transition-delay: calc(var(--i) * 0.1s + 0.35s); }
+  :global(html.inview-armed) .art:not(.is-in) .art-table tbody tr > * { opacity: 0; transform: translateY(var(--space-2)); }
+  :global(html.inview-armed) .art:not(.is-in) .art-chip { background: transparent; color: var(--ink-tertiary); }
+
+  /* phones: each row becomes a labelled card */
+  @media (max-width: 760px) {
+    .art-table, .art-table tbody, .art-table tr, .art-table th, .art-table td { display: block; width: auto; }
+    .art-table thead { display: none; }
+    .art-table tbody tr {
+      margin-bottom: var(--space-4);
+      padding: var(--space-5);
+      background: var(--bg-secondary);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-lg);
+    }
+    .art-table tbody th, .art-table tbody td { padding: 0; border: 0; }
+    .art-table tbody td { margin-top: var(--space-3); }
+    .art-table tbody td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: var(--space-1);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-tertiary);
+    }
+    .art-mode::before { display: none; }
+  }
+</style>

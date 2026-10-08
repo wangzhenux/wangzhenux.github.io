@@ -3,7 +3,8 @@
 <div class="body-text"><slot /></div>
 <style>
   /* ported from case-study-twilio.html .body-text, tokenized.
-     Fills the body column for unified left+right edges.
+     Prose is capped at the reading measure (--max-read, ~68ch) and stays
+     LEFT-aligned with the hero and the full-width bands around it.
 
      Block container (div, not p): MDX wraps a formatted paragraph — anything
      with **strong**, a link, etc. — in its own <p>, and a <p> can't nest in a
@@ -12,16 +13,16 @@
      inner <p> nest validly so the descendant rules actually match. */
   .body-text {
     font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.75;
+    font-size: var(--fs-body);
+    line-height: 1.7;
     color: var(--ink-secondary);
-    max-width: none;
+    max-width: var(--max-read);
     margin: var(--space-5) 0;
   }
   /* Flatten MDX's inner paragraph(s): the wrapper owns the outer spacing, and
      stacked paragraphs breathe via the adjacent-sibling rule. */
   .body-text :global(p) { margin: 0; }
-  .body-text :global(p + p) { margin-top: var(--space-4); }
+  .body-text :global(p + p) { margin-top: var(--space-5); }
   /* Marker-pen highlight on <strong> (§8.1). Default: thin amber underline.
      On hover: fills upward to a marker-style highlight. Reduced-motion is
      handled globally (kills the transition + shows the full marker). */

@@ -1,0 +1,163 @@
+---
+/**
+ * The conversation storyboard: one block per principle — a principle eyebrow,
+ * what the renter said (in their words), then "What happened" and "What we
+ * designed", beside the moment itself: a real product capture (zoomable) or a
+ * ChatMock vignette. Blocks alternate sides so a run of them reads as a
+ * storyboard, not a list. Stacks on phones (visual first).
+ *
+ * Motion (in-view island, per block): the visual slides in from its side, the
+ * text settles after it; ChatMock vignettes play their messages in order.
+ * Static without JS / with reduced motion. Token-only CSS.
+ *
+ *   <StoryBlocks blocks={[{ principle: 'Context', num: '08', quote: '…',
+ *     happened: '…', designed: '…', image: { src, alt, width, height } }]} />
+ */
+import ChatMock, { type ChatMsg } from './ChatMock.astro';
+
+interface Block {
+  principle: string;
+  num?: string;
+  /** What the renter (or caller) said, in their words. */
+  quote?: string;
+  happened: string;
+  designed: string;
+  image?: { src: string; alt: string; width: number; height: number };
+  chat?: ChatMsg[];
+  chatTag?: string;
+  /** Optional status chip, e.g. "Open question", "In progress". */
+  status?: string;
+}
+interface Props {
+  blocks: Block[];
+  label?: string;
+}
+const { blocks, label = 'Storyboard' } = Astro.props;
+---
+<section class="sb" aria-label={label}>
+  {blocks.map((b, i) => (
+    <article class:list={['sb-block', i % 2 === 1 && 'sb-block--flip']} data-inview>
+      <div class="sb-visual">
+        {b.image ? (
+          <figure class="sb-shot" data-zoomable>
+            <img src={b.image.src} alt={b.image.alt} width={b.image.width} height={b.image.height} loading="lazy" decoding="async" />
+          </figure>
+        ) : b.chat ? (
+          <ChatMock messages={b.chat} tag={b.chatTag} label={`${b.principle}: example exchange`} />
+        ) : null}
+      </div>
+      <div class="sb-text">
+        <p class="sb-eyebrow">
+          {b.num && <span class="sb-num">{b.num}</span>}
+          {b.principle}
+          {b.status && <span class="sb-status">{b.status}</span>}
+        </p>
+        {b.quote && <p class="sb-quote">“{b.quote}”</p>}
+        <dl class="sb-lines">
+          <div class="sb-line">
+            <dt>What happened</dt>
+            <dd>{b.happened}</dd>
+          </div>
+          <div class="sb-line sb-line--designed">
+            <dt>What we designed</dt>
+            <dd>{b.designed}</dd>
+          </div>
+        </dl>
+      </div>
+    </article>
+  ))}
+</section>
+<style>
+  .sb {
+    position: relative;
+    width: calc(100vw - var(--sbw));
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
+    margin-block: var(--space-9);
+    display: grid;
+    gap: var(--space-12);
+  }
+  .sb-block {
+    max-width: var(--max-content);
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--pad-page-x);
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: var(--space-10);
+    align-items: center;
+  }
+  .sb-block--flip { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); }
+  .sb-block--flip .sb-visual { order: 2; }
+
+  .sb-shot { margin: 0; cursor: zoom-in; }
+  .sb-shot img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-frame);
+    background: var(--bento-card-bg);
+  }
+
+  .sb-eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+  .sb-num {
+    padding: 0 var(--space-2);
+    border: 1px solid var(--accent-medium);
+    border-radius: var(--radius-sm);
+  }
+  .sb-status {
+    padding: 0 var(--space-2);
+    border: 1px dashed var(--ink-tertiary);
+    border-radius: var(--radius-sm);
+    color: var(--ink-tertiary);
+    letter-spacing: 0.08em;
+  }
+  .sb-quote {
+    margin: 0 0 var(--space-6);
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 28px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--ink-primary);
+  }
+  .sb-lines { margin: 0; display: grid; gap: var(--space-4); }
+  .sb-line { padding-top: var(--space-3); border-top: 1px solid var(--rule); }
+  .sb-line dt {
+    margin-bottom: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .sb-line dd { margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink-secondary); }
+  .sb-line--designed dt { color: var(--accent-ink); }
+  .sb-line--designed dd { color: var(--ink-primary); }
+
+  /* motion */
+  .sb-visual { transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .sb-text > * { transition: opacity 0.6s ease, transform 0.6s ease; }
+  .sb-eyebrow { transition-delay: 0.2s; }
+  .sb-quote { transition-delay: 0.3s; }
+  .sb-lines { transition-delay: 0.45s; }
+  :global(html.inview-armed) .sb-block:not(.is-in) .sb-visual { opacity: 0; transform: translateX(calc(-1 * var(--space-9))); }
+  :global(html.inview-armed) .sb-block--flip:not(.is-in) .sb-visual { transform: translateX(var(--space-9)); }
+  :global(html.inview-armed) .sb-block:not(.is-in) .sb-text > * { opacity: 0; transform: translateY(var(--space-3)); }
+
+  @media (max-width: 860px) {
+    .sb { gap: var(--space-10); }
+    .sb-block, .sb-block--flip { grid-template-columns: 1fr; gap: var(--space-6); }
+    .sb-block--flip .sb-visual { order: 0; }
+  }
+</style>
