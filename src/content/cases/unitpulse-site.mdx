@@ -34,7 +34,7 @@ meta:
 sections:
   - { id: ctx, num: "00", label: "Context" }
   - { id: p1, num: "01", label: "The problem" }
-  - { id: p2, num: "02", label: "Talking to renters" }
+  - { id: p2, num: "02", label: "3 ways in" }
   - { id: p3, num: "03", label: "One search, two modes" }
   - { id: p4, num: "04", label: "Designed to be found" }
   - { id: p5, num: "05", label: "Built & tested" }
@@ -46,7 +46,6 @@ import SectionH from '../../components/reading/SectionH.astro';
 import SectionDeck from '../../components/reading/SectionDeck.astro';
 import Pullquote from '../../components/reading/Pullquote.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
-import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
 import ShowcaseCarousel from '../../components/showcase/ShowcaseCarousel.astro';
 import Bento from '../../components/showcase/Bento.astro';
 import CardGrid from '../../components/showcase/CardGrid.astro';
@@ -106,8 +105,9 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     carry real product mockups exported from Figma.
 
   VISUALS:
-  - The hero is the conversational welcome (welcome-hero.jpg); property-detail is a
-    real screenshot. listing-map.jpg (results split-view) remains available for reuse.
+  - The hero is the conversational welcome (welcome-hero.jpg). property-detail.jpg and
+    bento-tour.png were PULLED 2026-10-08 (real property name / street addresses).
+    listing-map.jpg (results split-view) remains available for reuse.
   - Part 04 principles use bespoke SVG illustrations (principles/*.svg) — conceptual
     mini-vignettes in the warm palette, not screenshots.
   - <ShowcaseCarousel> carries five real demo clips; <ScreenshotPlaceholder> marks
@@ -133,7 +133,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
         image: "/cases/unitpulse-site/bento-conversational.png",
         imageAlt: "The conversational welcome — \"Elite long-term rentals, found by conversation\" with a chat box, structured filter chips, and example prompts",
         title: "Conversational home search",
-        body: "An integrated LLM assistant that turns a vague need — \"walkable to USC, dog-friendly, under $2,500\" — into real listings on the map. Grounded on live inventory, so it never invents a home.",
+        body: "An assistant that turns a vague need — \"walkable to USC, dog-friendly, under $2,500\" — into real listings on the map. Grounded on live inventory, so it never invents a home.",
       },
       {
         image: "/cases/unitpulse-site/bento-intake.png",
@@ -142,16 +142,11 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
         body: "Inline stepped cards capture must-haves.",
       },
       {
+        size: "wide",
         image: "/cases/unitpulse-site/bento-map.png",
         imageAlt: "A live map with price pins beside a listing card",
         title: "Map split-view",
         body: "A live map with price pins beside the result grid.",
-      },
-      {
-        image: "/cases/unitpulse-site/bento-tour.png",
-        imageAlt: "A planned tour day with multiple stops — two showings scheduled at 9:00 and 10:30",
-        title: "Tour shortlist",
-        body: "Shortlist homes and plan several tours in one pass.",
       },
       {
         image: "/cases/unitpulse-site/bento-personalized.png",
@@ -175,8 +170,8 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
       "Refreshed visual system",
       "AI test suite + evaluation",
     ]}
-    shared={["Gemini → Dify chat-backend migration"]}
-    platform={["SSR scaffolding", "Astra / Dify data layer"]}
+    shared={["Chat-backend migration"]}
+    platform={["SSR scaffolding", "Data layer"]}
     platformLabel="Engineering"
   />
 </section>
@@ -213,12 +208,13 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 </section>
 
 <section id="p2" data-reveal>
-  <PartHeader num="02" title="Talking to renters" />
+  <PartHeader num="02" title="3 ways in" />
   <BodyText>
-    Before designing the search, I talked to renters about how they actually look
-    for a home. Three profiles surfaced — and **they want different things**.
+    Before designing the search, I mapped how people start looking for a home.
+    3 starting points shaped the design, and **they want different things**.
+    {/* Design reasoning, not research (Zhen 2026-10-08): claim no interviews. */}
   </BodyText>
-  <SectionH small>Three kinds of renters</SectionH>
+  <SectionH small>3 starting points</SectionH>
   <PersonaGrid
     label="Three kinds of renters"
     personas={[
@@ -310,7 +306,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
   <JourneyStrip
     label="The minimum viable renter journey"
     steps={[
-      { label: "Search", desc: "A place or a need — typed or spoken" },
+      { label: "Search", desc: "A place or a need, in your own words" },
       { label: "Browse", desc: "Map split-view + a live listing grid" },
       { label: "Detail", desc: "Floor plans, amenities, neighborhood Q&A" },
       { label: "Act", desc: "Inquire or schedule a tour" },
@@ -455,15 +451,6 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     ]}
   />
 
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-site/property-detail.jpg"
-      alt="A property detail page: a photo gallery, the home's name and address, studio-to-4-bed floor plans, pricing, a schedule-a-tour panel, and a neighborhood Q&A wall"
-      width={1728}
-      height={1084}
-    />
-  </ImageShowcase>
-
   {/* EXAMPLE VISUAL — token-built diagram of the canonical → cited architecture */}
   <ImageShowcase>
     <SiteGeoArch />
@@ -551,7 +538,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
       {
         icon: "grid",
         title: "47 cases · 9 families · EN + ZH",
-        body: "Each runs in a fresh session, in both languages, judged on the routed `route_code` and node logs — not just the visible reply.",
+        body: "A historical suite in English and Chinese, each case judged on how the message was routed, not just the visible reply.",
       },
       {
         icon: "bars",
@@ -573,16 +560,17 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 
 <section id="p6" data-reveal>
   <PartHeader num="06" title="Early traction — honest, not inflated" />
-  <SectionDeck>A ~6-week-old production rebuild, live and ramping. All figures measured in GSC / GA4 over the window 2026-05-05 → 06-23.</SectionDeck>
+  <SectionDeck>A 6-week-old production rebuild, live and ramping.</SectionDeck>
+  {/* SOURCE (internal, not rendered): GSC / GA4, 2026-05-05 → 06-23 except
+      impressions (GSC, last 3 months) and users (GA4, trailing 30 days). */}
 
   <ResearchStats cols={2}>
     <Stat num="245" label="Pages indexed">
       <span class="item">from ~0 in ~6 weeks</span>
-      <span class="item">measured in GSC</span>
     </Stat>
     <Stat num="2.34K" label="Impressions · 134 clicks">
       <span class="item">5.7% CTR · avg position ~10.8</span>
-      <span class="item">GSC · last 3 months</span>
+      <span class="item">last 3 months</span>
     </Stat>
     <Stat num="96" label="Live leads captured">
       <span class="item">54 inquiry · 42 tour</span>
@@ -590,7 +578,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     </Stat>
     <Stat num="+55.6%" label="Users · trailing 30 days">
       <span class="item">1,045 users · 11,864 events</span>
-      <span class="item">+65.6% events · GA4</span>
+      <span class="item">+65.6% events</span>
     </Stat>
   </ResearchStats>
 

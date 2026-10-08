@@ -45,7 +45,6 @@ sections:
 
 import BodyText from '../../components/reading/BodyText.astro';
 import SectionH from '../../components/reading/SectionH.astro';
-import SourceNote from '../../components/reading/SourceNote.astro';
 import Pullquote from '../../components/reading/Pullquote.astro';
 import PartHeader from '../../components/showcase/PartHeader.astro';
 import Bento from '../../components/showcase/Bento.astro';
@@ -151,7 +150,10 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     leasing agent, not real people. bento/personas/*.jpg.
   - Context <Bento>: real Figma exports, each composited onto a uniform 4:3
     cream (#F1E9D5 = bg-secondary) card so the grid aligns — kanban (hero),
-    copilot, marketing, ai-reply, funnel. bento/*.jpg.
+    copilot, marketing, ai-reply, funnel. bento/*.jpg. marketing.jpg + ai-reply.jpg
+    and mobile/phone-recording.jpg were PULLED 2026-10-08 (real customer data);
+    the marketing / AI-leasing tiles use the seeded video posters until the
+    rebuilt mocks land.
   - PRODUCT VIDEOS: real screen recordings (4K source → 1080p H.264 via
     avconvert), autoplay muted loop lazily on view: marketing.mp4 (Reach),
     leasing.mp4 (Convert), insight.mp4 (Measure). video/*.mp4 + *-poster.jpg.
@@ -193,16 +195,16 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
         frame: { w: 100, h: 219.36, left: 0, top: 0.14 },
       },
       {
-        image: "/cases/unitpulse-platform/bento/marketing.jpg",
-        imageAlt: "The create-post composer — channel picker, a market-analysis panel, AI-drafted copy, and a live social preview",
+        image: "/cases/unitpulse-platform/video/marketing-poster.jpg",
+        imageAlt: "The marketing content pipeline: AI drafting a post, scheduled posts with property photos, and published posts with engagement",
         title: "Posts on market data",
-        frame: { w: 135.97, h: 128.01, left: -4.39, top: -1.51 },
+        pos: "30% 40%",
       },
       {
-        image: "/cases/unitpulse-platform/bento/ai-reply.jpg",
-        imageAlt: "The AI leasing agent answering a prospect over SMS with a specific unit, then offering tour times",
+        image: "/cases/unitpulse-platform/video/leasing-poster.jpg",
+        imageAlt: "The AI leasing assistant answering a prospect over SMS, with AI replies marked in the thread",
         title: "AI leasing",
-        frame: { w: 128.75, h: 138.87, left: -28.95, top: -22.72 },
+        pos: "88% 45%",
       },
       {
         image: "/cases/unitpulse-platform/bento/funnel.jpg",
@@ -271,15 +273,15 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <PartHeader num="03" title="Leasing: convert leads" />
   <BodyText>
     UP Leasing turns that demand into signed leases. The AI answers every
-    inquiry **knowing who's asking**, writes follow-ups worth reading, and books
-    the tour.
+    inquiry **knowing who's asking**, writes follow-ups worth reading, and takes
+    the renter to a tour request that an agent confirms.
     {/* ‹C-ai-behaviors› */}
   </BodyText>
 
   <ShowcaseVideo
     src="https://res.cloudinary.com/dcswo1dgj/video/upload/q_auto,w_1920,c_limit/unitpulse-platform/leasing.mp4"
     poster="/cases/unitpulse-platform/video/leasing-poster.jpg"
-    label="UP Leasing demo — the AI answering a prospect's inquiry with a specific unit and booking a tour"
+    label="UP Leasing demo — the AI answering a prospect's inquiry with a specific unit and moving them toward a tour"
     width={1920}
     height={1080}
   />
@@ -319,9 +321,9 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <PartHeader num="04" title="Insight: optimize operations" />
   <BodyText>
     UP Insight closes the loop for owners who aren't analysts: the full funnel,
-    per-prospect attribution, AI alerts, and a plain-language Data Copilot.
-    Attribution shows **which segments and channels actually sign leases**, which
-    then steers what Marketing writes next.
+    per-prospect attribution, the biggest leak called out each morning, and a
+    plain-language Data Copilot. Attribution shows **which segments and channels
+    actually sign leases**, so the team can decide what Marketing writes next.
   </BodyText>
 
   <ShowcaseVideo
@@ -387,9 +389,9 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     ]}
   />
   <BodyText>
-    I led the UX layer and the design-system primitives; the absorption
-    architecture was a shared effort with engineering. It's built and merged
-    today, but **not yet cut over**.
+    I owned the navigation, access states and interaction rules; engineering
+    led the technical integration. It's built and merged today, but **not yet
+    cut over**.
     {/* ‹C-split› */}
   </BodyText>
 </section>
@@ -404,11 +406,11 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     UI onto it.
   </BodyText>
   <BodyText>
-    "One design language" is a claim, so here is the language itself. Warm cream
-    surfaces, 2 greens with strict roles (olive for the brand, signal green for
-    state — they never trade places), tabular numbers everywhere, 3 shadows in
-    the entire system, dark mode built in. It lives as tokens and component CSS
-    that the products build against, so **the UI can't drift apart again**.
+    "One design language" is a claim, so here is the first version of it. Warm
+    cream surfaces, 2 greens with strict roles (olive for the brand, signal
+    green for state — they never trade places), tabular numbers everywhere, 3
+    shadows in the entire system, dark mode built in. It lives as tokens and
+    component CSS, so **the UI can't drift apart again**.
     {/* ‹C-ds› system documented from the product brief; specimens below are
         3× Playwright captures of the real CSS (scripts/ds-specimens/). */}
   </BodyText>
@@ -466,9 +468,10 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     ]}
   />
   <BodyText>
-    I built this system in **Claude Design**, then extracted it to the tokens and
-    component CSS the products compile against. The specimens above are rendered
-    straight from that CSS, so **what you see is what ships**.
+    I built this system in **Claude Design**, then extracted it to tokens and
+    component CSS; the specimens above are rendered straight from that CSS. The
+    current Portal system grew out of it, with an emerald primary and
+    **the same rules**.
     {/* ‹C-ds› Claude Design = claude.ai/design; system source of truth is
         the artifact's colors_and_type.css + components.css. */}
   </BodyText>
@@ -479,9 +482,9 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <BodyText>
     Leasing happens on foot, so we built the agents' app **from scratch in 2
     weeks**, and I decided what went in first. The feature I pushed hardest for
-    was tour recording: it auto-summarizes the visit and sends the prospect a
-    recap, so leasing's highest-signal moment becomes data instead of a fading
-    memory. Around it sit chat and calls, tour scheduling, prospect management,
+    was tour recording: it summarizes the visit and drafts a follow-up the
+    agent sends, so leasing's highest-signal moment becomes data instead of a
+    fading memory. Around it sit chat and calls, tour scheduling, prospect management,
     and the Copilot.
     {/* ‹C-mobile› */}
   </BodyText>
@@ -493,13 +496,6 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
         alt: "The mobile home screen — today's tours with start buttons, tours-completed and minutes-per-tour stats, and upcoming showings",
         caption: "Today's tours, one tap to start",
         width: 368,
-        height: 800,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-recording.jpg",
-        alt: "A recorded tour turned into an auto-generated summary — the prospect, a warm-lead score, the units shown, pricing, amenities, and move-in date",
-        caption: "Tour recording → auto-summary",
-        width: 369,
         height: 800,
       },
       {
@@ -548,7 +544,6 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <ResearchStats cols={3}>
     <Stat num="821" label="Leads in">
       <span class="item">2 months · 1 property · 93 units</span>
-      <span class="item">Superset dashboard</span>
     </Stat>
     <Stat num="48.7%" label="Lead → tour">
       <span class="item">400 tours scheduled</span>
@@ -557,9 +552,12 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       <span class="item">7.19% observed to date</span>
     </Stat>
   </ResearchStats>
-  <SourceNote>
-    Superset dashboard. Observed at the measurement cutoff, so the cohort is still maturing: leads from the final weeks hadn't had time to convert. For reference, the average lead-to-lease across 1.5M leads and 4,300 properties is 8.7% (<a href="https://www.myresman.com/blog/maximizing-lease-conversions-data-insights-from-the-leasing-funnel/" target="_blank" rel="noopener">ResMan, 2024</a>), though operators define a "lead" differently enough that cross-company comparison is directional at best.
-  </SourceNote>
+  {/* SOURCE (internal, not rendered — Zhen 2026-10-08: no source/reference
+      notes on the page): Superset dashboard. Observed at the measurement
+      cutoff, so the cohort is still maturing. Reference: ResMan 2024, 8.7%
+      average lead-to-lease across 1.5M leads / 4,300 properties
+      (https://www.myresman.com/blog/maximizing-lease-conversions-data-insights-from-the-leasing-funnel/);
+      lead definitions differ across operators, so comparison is directional. */}
   <BodyText>
     Worth knowing how to read that last number: this is a **new property in
     lease-up**, so we were leasing all 93 units at once. That's context for
@@ -584,12 +582,12 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
     </Stat>
     <Stat num="79" label="Accounts on UP Insight">
       <span class="item">52 on the core dashboard (~66%)</span>
-      <span class="item">Pendo · May 2026</span>
     </Stat>
     <Stat num="~45 min" label="Analytics engagement">
       <span class="item">per user per week</span>
-      <span class="item">high for B2B analytics</span>
     </Stat>
+    {/* SOURCE (internal): Pendo, May 2026. "High for B2B analytics" removed
+        2026-10-08: no source. */}
   </ResearchStats>
   {/* ‹C-mkt› ‹C-mobile› add when ready: marketing traffic/leads/GBP views,
       tours booked via AI, recap-email engagement, mobile usage — each with
@@ -597,8 +595,8 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
   <BodyText>
     The portal is built and merged, but not yet cut over, and the convergence
     was **a team effort I drove** as design lead. What I'd measure next:
-    funnel lift per segment, how many tours the AI books on its own, and
-    whether the recap emails get opened.
+    funnel lift per segment, how many tour requests the AI brings in on its
+    own, and how often agents send the follow-ups it drafts.
   </BodyText>
 </section>
 
@@ -620,8 +618,7 @@ import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
       Early on I handed AI coding an underspecified design language and took
       the speed. The drift and rework that followed taught me the order:
       write the system down first — a design.md, tokens, tested components —
-      then let AI build against it. Slower first week, faster every week
-      after.
+      then let AI build against it.
     </ReflectionCard>
   </Reflection>
 </section>

@@ -2,8 +2,8 @@
 /**
  * EXAMPLE VISUAL (Section 7) — the AI evaluation suite, built from tokens. Nine
  * intent families, the honest 34 / 9 / 4 Pass / Fail / Blocked split (no
- * green-wash), and the Fair-Housing compliance path: refuse → cite law →
- * redirect to a lawful search. Numbers come straight from the spec's test
+ * green-wash), and the Fair-Housing compliance path: refuse → decline plainly and
+ * clear saved filters → redirect to a lawful search. Numbers come straight from the spec's test
  * workbook; nothing here is invented.
  */
 const families = [
@@ -63,7 +63,7 @@ const split = [
       <li class="tm-chev" aria-hidden="true">→</li>
       <li class="tm-step">Refuse — never extract it</li>
       <li class="tm-chev" aria-hidden="true">→</li>
-      <li class="tm-step">Cite fair-housing law</li>
+      <li class="tm-step">Decline plainly, clear saved filters</li>
       <li class="tm-chev" aria-hidden="true">→</li>
       <li class="tm-step tm-step--ok">Redirect to a lawful search</li>
     </ol>
