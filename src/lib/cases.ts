@@ -5,10 +5,10 @@ export type CaseEntry = CollectionEntry<'cases'>;
 
 const byOrder = (a: CaseEntry, b: CaseEntry) => a.data.order - b.data.order;
 
-/** All cases, sorted by `order` ascending. */
+/** All published cases, sorted by `order` ascending. */
 export async function getAllCases(): Promise<CaseEntry[]> {
   const cases = await getCollection('cases');
-  return cases.sort(byOrder);
+  return cases.filter((c) => !c.data.hidden).sort(byOrder);
 }
 
 /** Featured, non-archive cases sorted by `order` ascending. */
