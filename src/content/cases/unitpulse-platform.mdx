@@ -196,33 +196,33 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       mocks/bento/. */}
   <Bento
     crop
+    fade={false}
     label="The platform's primary capabilities"
     items={[
       {
         size: "hero",
         image: "/cases/unitpulse-platform/bento/kanban.jpg",
-        imageAlt: "The Customers pipeline board: leads across Inquiry, Tour, Application, Contract and Signed columns, each card showing the property, a hot, warm or cold tag and the assigned agent",
+        imageAlt: "The Customers pipeline board, zoomed in on the Inquiry, Tour and Application columns; each card shows the lead, the property, the assigned agent and the last activity",
         title: "Every lead, inquiry to signed",
-        pos: "50% 38%",
       },
       {
         image: "/cases/unitpulse-platform/bento/copilot.jpg",
-        imageAlt: "The Copilot panel greeting Alex, with suggested questions about leasing performance and pre-tour drop-offs, and a question typed into the ask box",
+        imageAlt: "The Copilot panel greeting Alex, with two suggested questions and Why did applications drop? typed into the ask box",
         title: "Just ask Copilot",
       },
       {
         image: "/cases/unitpulse-platform/bento/marketing.jpg",
-        imageAlt: "The create-post composer: Facebook and Instagram selected, a market-analysis panel describing Maple Court's likely renters, the AI-drafted copy and a live Facebook preview",
+        imageAlt: "Creating a post for Maple Court: a market-analysis panel describes likely renters and themes to post about, above the start of the drafted copy",
         title: "Posts on market data",
       },
       {
         image: "/cases/unitpulse-platform/bento/ai-reply.jpg",
-        imageAlt: "An SMS thread where the AI offers Unit 204 with three open times from the agent's calendar, the prospect picks 2 PM, and the AI books the tour",
+        imageAlt: "An SMS thread where the AI offers Unit 204 at three open times, the renter replies 2 PM works, and the AI books the tour on the agent's calendar",
         title: "AI leasing",
       },
       {
         image: "/cases/unitpulse-platform/bento/funnel.jpg",
-        imageAlt: "The customer journey flow with drop-offs highlighted, from tour scheduled to tour finished to application, with red drop-off branches at each stage",
+        imageAlt: "The customer journey flow zoomed in from engaged to tour scheduled, with 57 leads dropping off before the tour highlighted in red",
         title: "Look into drop-offs",
       },
     ]}
