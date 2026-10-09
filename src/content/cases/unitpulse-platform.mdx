@@ -65,7 +65,6 @@ import StoryBlocks from '../../components/showcase/StoryBlocks.astro';
 import BrokeCarousel from '../../components/showcase/BrokeCarousel.astro';
 import ProcessStrip from '../../components/showcase/ProcessStrip.astro';
 import LadderFigure from '../../components/showcase/LadderFigure.astro';
-import AiRoleTable from '../../components/data/AiRoleTable.astro';
 import ThresholdCards from '../../components/data/ThresholdCards.astro';
 
 {/*
@@ -220,20 +219,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         title: "Look into drop-offs",
         frame: { w: 185.17, h: 108.07, left: -0.08, top: -0.01 },
       },
-    ]}
-  />
-  <SectionH small>What the AI does, what people decide</SectionH>
-  {/* Modes follow PAIR (automate vs augment). Every row is checked against the
-      product code (2026-10-08). For You and Voice AI "Next" items are [TARGET]. */}
-  <AiRoleTable
-    caption="What the AI does and what people decide, product by product"
-    rows={[
-      { product: "Marketing", mode: "Augment", tone: "augment", ai: "Builds a brand and local market profile, plans each channel, drafts posts that match the photos and fact-checks them.", people: "Confirm the address, edit the brand guide, and approve or rewrite every post before it goes live." },
-      { product: "AI leasing", mode: "Automate + hand-off", tone: "automate", ai: "Answers renters on web chat, text, email and Messenger at any hour and takes them to a tour request.", people: "An agent confirms the tour and handles pricing. The AI goes quiet once an agent replies." },
-      { product: "Calls and tours", mode: "Automate the record", tone: "automate", ai: "Transcribes and summarizes calls and tours, fills in preferences, and drafts a follow-up.", people: "The agent asks consent to record, reads the draft, sends it, and can correct any preference." },
-      { product: "Insight", mode: "Augment", tone: "augment", ai: "Shows the whole funnel, calls out the biggest leak and answers questions in charts.", people: "A person decides what to change.", next: "AI-proposed process changes" },
-      { product: "For You", mode: "Automate the brief", tone: "automate", ai: "Writes a morning brief from computed facts and ranks the team's open tasks.", people: "The manager filters, opens the conversation and acts.", next: "Dismiss and correct from the brief" },
-      { product: "Voice AI", mode: "Overflow + hand-off", tone: "handoff", ai: "Answers when nobody on the team picks up: property questions, units, tours, repairs, callbacks.", people: "People ring first, press 3 reaches a person, and a callback needs the caller's yes.", next: "Connect to a person mid-call" },
     ]}
   />
 </section>
