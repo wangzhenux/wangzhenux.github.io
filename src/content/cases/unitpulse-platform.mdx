@@ -158,9 +158,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     leasing agent, not real people. bento/personas/*.jpg.
   - Context <Bento>: real Figma exports, each composited onto a uniform 4:3
     cream (#F1E9D5 = bg-secondary) card so the grid aligns — kanban (hero),
-    copilot, marketing, ai-reply, funnel. bento/*.jpg. mobile/phone-recording.jpg was PULLED 2026-10-08 (real
-    customer data). marketing.jpg + ai-reply.jpg were restored 2026-10-09: Zhen
-    confirmed those captures were already anonymized.
+    copilot, marketing, ai-reply, funnel. bento/*.jpg — REBUILT 2026-10-09 as
+    vNext coded mocks (fictional data). mobile/phone-recording.jpg was PULLED
+    2026-10-08 (real customer data).
   - PRODUCT VIDEOS: marketing.mp4, leasing.mp4 and insight.mp4 (and copilot.mp4) are coded
     mocks in the CURRENT vNext system (2026-10-09), 1920×1080 H.264, local
     files, 3 s end hold so the player's loop reads cleanly. Sources: scratchpad
@@ -190,6 +190,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     later**.
     {/* ‹C-dates› */}
   </BodyText>
+  {/* Bento tiles rebuilt 2026-10-09 as coded mocks in the CURRENT vNext system
+      (Zhen asked for them to match the design system). Sources: scratchpad
+      mocks/bento/. */}
   <Bento
     crop
     label="The platform's primary capabilities"
@@ -197,33 +200,29 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       {
         size: "hero",
         image: "/cases/unitpulse-platform/bento/kanban.jpg",
-        imageAlt: "The leasing pipeline board — prospects moving across Inquiry, Tour, Application, Contract, and Signed columns, each card tagged hot/warm/cold",
+        imageAlt: "The Customers pipeline board: leads across Inquiry, Tour, Application, Contract and Signed columns, each card showing the property, a hot, warm or cold tag and the assigned agent",
         title: "Every lead, inquiry to signed",
-        frame: { w: 195.63, h: 114.56, left: -1.31, top: -9.29 },
+        pos: "50% 38%",
       },
       {
         image: "/cases/unitpulse-platform/bento/copilot.jpg",
-        imageAlt: "The Copilot panel — a greeting, suggested questions about leasing performance and drop-offs, and an ask-anything box",
+        imageAlt: "The Copilot panel greeting Alex, with suggested questions about leasing performance and pre-tour drop-offs, and a question typed into the ask box",
         title: "Just ask Copilot",
-        frame: { w: 100, h: 219.36, left: 0, top: 0.14 },
       },
       {
         image: "/cases/unitpulse-platform/bento/marketing.jpg",
-        imageAlt: "The create-post composer — channel picker, a market-analysis panel, AI-drafted copy, and a live social preview",
+        imageAlt: "The create-post composer: Facebook and Instagram selected, a market-analysis panel describing Maple Court's likely renters, the AI-drafted copy and a live Facebook preview",
         title: "Posts on market data",
-        frame: { w: 135.97, h: 128.01, left: -4.39, top: -1.51 },
       },
       {
         image: "/cases/unitpulse-platform/bento/ai-reply.jpg",
-        imageAlt: "The AI leasing agent answering a prospect over SMS with a specific unit, then offering tour times",
+        imageAlt: "An SMS thread where the AI offers Unit 204 with three open times from the agent's calendar, the prospect picks 2 PM, and the AI books the tour",
         title: "AI leasing",
-        frame: { w: 128.75, h: 138.87, left: -28.95, top: -22.72 },
       },
       {
         image: "/cases/unitpulse-platform/bento/funnel.jpg",
-        imageAlt: "The customer-journey Sankey — inquiries flowing through to signed leases, with drop-offs branching at each stage",
+        imageAlt: "The customer journey flow with drop-offs highlighted, from tour scheduled to tour finished to application, with red drop-off branches at each stage",
         title: "Look into drop-offs",
-        frame: { w: 185.17, h: 108.07, left: -0.08, top: -0.01 },
       },
     ]}
   />
@@ -364,7 +363,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       { principle: "Cooperative principle", quote: "Can I come see it Saturday at 2?", happened: "Renters ask to tour at any hour, often after the office closes.", designed: "The AI checks the on-shift agent's calendar and books the slot, or offers the nearest open times. The tour lands on the agent's calendar.", image: { src: "/cases/unitpulse-platform/leasing/request.jpg", alt: "The AI booking a Saturday tour of unit 204 on the leasing agent's calendar", width: 1680, height: 1641 } },
       { principle: "Move the conversation forward", quote: "A 2 bedroom under $2,400 at Maple Court?", happened: "Nothing at this building fits.", designed: "It says so, then lists matching units at sister properties, each under its own name, with the same filters.", image: { src: "/cases/unitpulse-platform/leasing/nomatch.jpg", alt: "The AI saying Maple Court has nothing under $2,400 and listing matching units at The Linden and Harbor View Lofts", width: 1680, height: 1560 } },
       { principle: "Listen between the lines", quote: "Does unit 204 have parking?", happened: "Curiosity isn't a requirement.", designed: "A question gets an answer. Only “I need parking” becomes a filter, and a tour date is never read as a move-in date.", image: { src: "/cases/unitpulse-platform/leasing/asking.jpg", alt: "A parking question answered without adding a filter, then I need parking adds a Parking preference", width: 1680, height: 1521 } },
-      { principle: "Turn-taking", quote: "Am I talking to a bot?", happened: "Some renters want a person.", designed: "The AI says it's an AI, asks for contact only if it's missing, and hands the lead to an agent. It stops the moment the agent replies.", image: { src: "/cases/unitpulse-platform/leasing/handoff.jpg", alt: "A thread where the agent replies and AI leasing shows as turned off for the conversation", width: 1680, height: 1716 } },
+      { principle: "Turn-taking", quote: "Is there a move-in special if I sign by Oct 15?", happened: "Pricing isn't in the property data, and a guess would be a promise.", designed: "The AI says it will check and opens a Need Reply task for the agent. When the agent answers, the AI goes quiet for the rest of the thread.", image: { src: "/cases/unitpulse-platform/leasing/handoff.jpg", alt: "A pricing question the AI can't answer becomes a Need Reply task; the agent answers and AI leasing turns off for the conversation", width: 1680, height: 1737 } },
     ]}
   />
 
@@ -736,7 +735,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       },
       {
         src: "/cases/unitpulse-platform/mobile/phone-sms.jpg",
-        alt: "An SMS thread with a prospect: an AI reply, the agent taking over, and a pet-policy follow-up, with call, note and schedule actions",
+        alt: "An SMS thread: the AI books a Saturday tour, then the agent picks up a move-in special question from the field, with call, note and schedule actions",
         caption: "Message and call from the field",
         width: 1206,
         height: 2622,
