@@ -12,7 +12,7 @@ cover:
   width: 1600
   height: 1000
 heroImage: "/cases/unitpulse-platform/hero-cover.png"
-heroAlt: "The UnitPulse platform's For You dashboard — occupancy, tours, applications and leases at a glance, leasing velocity, lead sources, and signed leases, with one sidebar spanning Insight, Leasing, Marketing, and Workspace"
+heroAlt: "The UnitPulse Portal's For You page for Maple Court: the dark Daily Brief with occupancy, contracts, tours and the biggest leak, then leasing status by stage and lead sources by channel, inside one sidebar for Insight, Leasing, Voice AI, Marketing, Billing & Payments and Settings"
 heroWidth: 5880
 heroHeight: 3692
 order: 1
@@ -141,12 +141,11 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   ‹C-split› Portal UX-layer vs absorption-architecture credit split.
 
   VISUALS (all real as of 2026-07-12):
-  - REAL: hero-cover.png (hero — the For You dashboard, Figma 1607-21851,
-    Zhen's high-res export 5880×3692, PNG with alpha so the page cream shows
-    behind the dashboard card), platform-nav.png (Part 05 — annotated
-    navigation groups, Figma 1629-151 — the frame's own raster source at its
-    native 2858×1512, kept transparent so the band shows through; the 2× frame
-    export was a pure upscale of it, flattened onto gray).
+  - hero-cover.png (For You) and platform-nav.png (annotated navigation) were
+    rebuilt 2026-10-09 as coded mocks in the CURRENT vNext system (real nav
+    labels from SidebarNavigation.tsx, Daily Brief data matching
+    insight/leak.jpg; tenant-admin view; the new Marketing nav, which sits
+    behind a feature flag ‹C-mkt-nav›). Sources: scratchpad mocks/desktop/.
   - Token-built EXAMPLE diagrams: timeline.svg, portal-merge.svg.
   - DESIGN-SYSTEM SPECIMENS (ds/*.png, replaced 2026-10-09 with the CURRENT
     vNext system): 3× captures of the Portal's own component library
@@ -167,8 +166,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     NOTE: Figma caps node exports at native res (Copilot node is only 435px
     wide), so bento/mobile images are shown crop-to-filled to look crisp;
     true 4K would need Figma 3–4× exports or Cloudinary-hosted originals.
-  - MOBILE: 3 real phone screens (Tours home, tour-recording summary, Copilot)
-    from Figma frame 1604-15941, shown via <ShowcasePhones>. mobile/phone-*.jpg.
+  - MOBILE: 8 phone screens, rebuilt 2026-10-09 as coded mocks in the app's
+    CURRENT vNext tokens (app-up-leasing theme/*.ts, real screen layouts and
+    labels, fictional data), 1206×2622. Sources: scratchpad mocks/mobile/.
   - ScreenshotPlaceholder slots awaiting Figma exports: marketing post,
     Google Business Profile, two-renters split answer (the money shot),
     mobile tour-recording, mobile prospect chat; sankey.svg likewise.
@@ -532,7 +532,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   <ImageShowcase>
     <ShowcaseImage
       src="/cases/unitpulse-platform/platform-nav.png"
-      alt="The unified platform's navigation, annotated — one sidebar with 4 groups: Insight (analytics and overview), Leasing (tenants and leads), Marketing (content and campaigns), and Workspace (configuration)"
+      alt="The unified platform's navigation, annotated: one sidebar with 6 groups (Insight, Leasing, Voice AI, Marketing, Billing & Payments, Settings), each labeled with the pages it holds"
       width={2858}
       height={1512}
     />
@@ -679,56 +679,56 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     phones={[
       {
         src: "/cases/unitpulse-platform/mobile/phone-tours.jpg",
-        alt: "The mobile home screen — today's tours with start buttons, tours-completed and minutes-per-tour stats, and upcoming showings",
+        alt: "The mobile Tours tab: tours today, completed and minutes-per-tour stats, today's upcoming tours with Start buttons, and a completed tour tagged Hot with budget and move-in",
         caption: "Today's tours, one tap to start",
         width: 1206,
         height: 2622,
       },
       {
         src: "/cases/unitpulse-platform/mobile/phone-consent.jpg",
-        alt: "Before a tour recording: a consent reminder with a suggested script and three checks, and a long press to start",
+        alt: "Before a tour recording: an Ask for consent sheet with a suggested script and three checks, over the tour's prospect and property",
         caption: "Ask first, then record",
-        width: 1170,
-        height: 2532,
+        width: 1206,
+        height: 2622,
       },
       {
         src: "/cases/unitpulse-platform/mobile/phone-analyzing.jpg",
-        alt: "Analyzing your tour: upload, transcribe and analyze, in progress",
+        alt: "Analyzing your tour: upload done, transcription in progress, AI analysis next",
         caption: "The tour, analyzed",
-        width: 1170,
-        height: 2532,
+        width: 1206,
+        height: 2622,
       },
       {
         src: "/cases/unitpulse-platform/mobile/phone-details.jpg",
-        alt: "Tour details: an interest score, a summary, budget and move-in, and a suggested follow-up email with a Copy email button",
+        alt: "Tour details: a warm-lead score, a summary, budget and move-in, next steps, and a suggested follow-up email with a Copy email button",
         caption: "A follow-up, ready to send",
-        width: 1170,
-        height: 2532,
+        width: 1206,
+        height: 2622,
       },
       {
         src: "/cases/unitpulse-platform/mobile/phone-chat.jpg",
-        alt: "The chat inbox — prospect conversations with status tags (tour scheduled, submitted, fully executed) and unread counts",
+        alt: "The Inbox tab: prospect conversations with status tags (tour finished, tour scheduled, submitted, fully executed), stars and unread counts",
         caption: "Every conversation, one inbox",
         width: 1206,
         height: 2622,
       },
       {
         src: "/cases/unitpulse-platform/mobile/phone-sms.jpg",
-        alt: "An SMS thread with a prospect — scheduling a tour, confirming a time, and a check-in reminder",
+        alt: "An SMS thread with a prospect: an AI reply, the agent taking over, and a pet-policy follow-up, with call, note and schedule actions",
         caption: "Message and call from the field",
         width: 1206,
         height: 2622,
       },
       {
         src: "/cases/unitpulse-platform/mobile/phone-insights.jpg",
-        alt: "The mobile Insights dashboard — occupancy, tours, applications and leases, leasing velocity by weekday, and lead sources",
+        alt: "Mobile Insights for Maple Court over 7 days: 94% occupancy, 22 tours, 4 applications, 3 leases, leasing velocity and lead sources",
         caption: "The funnel, in your pocket",
         width: 1206,
         height: 2622,
       },
       {
         src: "/cases/unitpulse-platform/mobile/phone-copilot.jpg",
-        alt: "The Copilot in the mobile app — ask about prospects, analytics, or tasks, with suggested questions",
+        alt: "The Copilot tab: ask about prospects, analytics or tasks, with four suggested questions",
         caption: "The Copilot, in a pocket",
         width: 1206,
         height: 2622,
