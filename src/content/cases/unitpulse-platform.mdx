@@ -12,7 +12,7 @@ cover:
   width: 1600
   height: 1000
 heroImage: "/cases/unitpulse-platform/hero-cover.png"
-heroAlt: "The UnitPulse Portal's For You page for Maple Court: the dark Daily Brief with occupancy, contracts, tours and the biggest leak, then leasing status by stage and lead sources by channel, inside one sidebar for Insight, Leasing, Voice AI, Marketing, Billing & Payments and Settings"
+heroAlt: "The UnitPulse Portal's For You page for Maple Court: the dark Daily Brief with occupancy, contracts, tours and the biggest leak, then leasing status by stage and lead sources by channel, inside one sidebar for Insight, Leasing, Voice AI, Marketing and Settings"
 heroWidth: 5880
 heroHeight: 3692
 order: 1
@@ -53,6 +53,7 @@ import PersonaGrid from '../../components/showcase/PersonaGrid.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
 import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
 import ShowcaseVideo from '../../components/showcase/ShowcaseVideo.astro';
+import BeforeAfter from '../../components/showcase/BeforeAfter.astro';
 import ShowcasePhones from '../../components/showcase/ShowcasePhones.astro';
 import ShowcaseWall from '../../components/showcase/ShowcaseWall.astro';
 import ResearchStats from '../../components/data/ResearchStats.astro';
@@ -322,34 +323,37 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   <PartHeader num="03" title="Leasing: convert leads" />
   <BodyText>
     UP Leasing turns that demand into signed leases. The AI answers every
-    inquiry **knowing who's asking**, writes follow-ups worth reading, and takes
-    the renter to a tour request that an agent confirms.
+    inquiry **knowing who's asking**, writes follow-ups worth reading, and books
+    the tour itself on the on-shift agent's calendar. When the system doesn't
+    have the answer, usually pricing, the question goes to an agent as a task.
     {/* ‹C-ai-behaviors› */}
   </BodyText>
 
   <ShowcaseVideo
     src="/cases/unitpulse-platform/video/leasing.mp4"
     poster="/cases/unitpulse-platform/video/leasing-poster.jpg"
-    label="UP Leasing in the Portal inbox: the AI answers with a specific unit, adds parking as a preference, opens a tour request an agent will confirm, then turns itself off when the agent replies"
+    label="UP Leasing in the Portal inbox: the AI answers with a specific unit, adds parking as a preference, books the tour on the agent's calendar, hands a pricing question to an agent as a task, then turns itself off when the agent replies"
     width={1920}
     height={1080}
   />
 
-  <SectionH small>From first message to tour request</SectionH>
+  <SectionH small>From first message to booked tour</SectionH>
   {/* [REAL] Tripalink + larger production flows: 5/24 and 9/44 model steps;
-      fair housing first; tour = request, agent confirms; lead sync to an
-      on-duty agent; AI stops once an agent replies (leasing bot guard). */}
+      fair housing first; the AI books the tour on the on-shift agent's calendar
+      (Zhen 2026-10-09: no agent confirmation step); data the system lacks,
+      esp. pricing, becomes a task for an agent; lead sync to an on-duty agent;
+      AI stops once an agent replies (leasing bot guard). */}
   <StageFlow
     label="How AI leasing answers, and where people take over"
     steps={[
       { label: "Listen", desc: "Loads the home in view and the chat so far.", tag: "code" },
       { label: "Collect", desc: "Reads what the renter wants. Asking isn't requiring.", tag: "ai" },
       { label: "Route", desc: "Sorts the message.", tag: "ai", badge: "Fair housing first" },
-      { label: "Act", desc: "Answers from property data or opens the tour form.", tag: "code" },
+      { label: "Act", desc: "Answers from property data, or books the tour on the agent's calendar.", tag: "code" },
       { label: "Reply", desc: "A warm, short answer in the renter's language.", tag: "ai" },
       { label: "Hand off", desc: "Lead, chat and preferences go to the on-duty agent.", tag: "person" },
     ]}
-    lanes={[{ label: "People", tone: "person", cells: [null, null, null, "An agent confirms the tour; pricing goes to the team", null, "The agent takes over the thread"] }]}
+    lanes={[{ label: "People", tone: "person", cells: [null, null, null, "Missing data, often pricing, becomes a task for an agent", null, "The agent takes over the thread"] }]}
     rails={["Any time an agent replies, the AI goes quiet. Agents can switch it off per conversation."]}
   />
 
@@ -357,7 +361,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   <StoryBlocks
     label="AI leasing behaviors"
     blocks={[
-      { principle: "Cooperative principle", quote: "Can I come see it Saturday at 2?", happened: "Renters ask to tour at any hour, but only an agent can confirm a slot.", designed: "The AI opens a tour request and says an agent will confirm. It never says booked.", image: { src: "/cases/unitpulse-platform/leasing/request.jpg", alt: "The AI answering a tour ask with a tour request that a leasing agent will confirm", width: 1680, height: 1641 } },
+      { principle: "Cooperative principle", quote: "Can I come see it Saturday at 2?", happened: "Renters ask to tour at any hour, often after the office closes.", designed: "The AI checks the on-shift agent's calendar and books the slot, or offers the nearest open times. The tour lands on the agent's calendar.", image: { src: "/cases/unitpulse-platform/leasing/request.jpg", alt: "The AI booking a Saturday tour of unit 204 on the leasing agent's calendar", width: 1680, height: 1641 } },
       { principle: "Move the conversation forward", quote: "A 2 bedroom under $2,400 at Maple Court?", happened: "Nothing at this building fits.", designed: "It says so, then lists matching units at sister properties, each under its own name, with the same filters.", image: { src: "/cases/unitpulse-platform/leasing/nomatch.jpg", alt: "The AI saying Maple Court has nothing under $2,400 and listing matching units at The Linden and Harbor View Lofts", width: 1680, height: 1560 } },
       { principle: "Listen between the lines", quote: "Does unit 204 have parking?", happened: "Curiosity isn't a requirement.", designed: "A question gets an answer. Only “I need parking” becomes a filter, and a tour date is never read as a move-in date.", image: { src: "/cases/unitpulse-platform/leasing/asking.jpg", alt: "A parking question answered without adding a filter, then I need parking adds a Parking preference", width: 1680, height: 1521 } },
       { principle: "Turn-taking", quote: "Am I talking to a bot?", happened: "Some renters want a person.", designed: "The AI says it's an AI, asks for contact only if it's missing, and hands the lead to an agent. It stops the moment the agent replies.", image: { src: "/cases/unitpulse-platform/leasing/handoff.jpg", alt: "A thread where the agent replies and AI leasing shows as turned off for the conversation", width: 1680, height: 1716 } },
@@ -384,11 +388,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 
-  <BodyText>
-    Agents drive all of it by typing. I first proved the Copilot pattern on a
-    2025 predecessor CRM, where it **replaced a 15-click path with one sentence**;
-    here it fronts the platform's whole AI suite.
-  </BodyText>
   {/* Coded mock (2026-10-09), same clip as the interview deck's Leasing slide,
       recoloured to the vNext tokens. Rendered from scratchpad copilot/anim-vnext.html. */}
   <ShowcaseVideo
@@ -397,8 +396,15 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     label="The Copilot — a manager asks about tour drop-offs, gets the cluster and its cause, then turns the fix into an automated follow-up rule"
     width={1680}
     height={1244}
-    maxWidth={640}
-  />
+  >
+    <h3>Just ask the Copilot</h3>
+    <p>Agents drive all of it by typing. I first proved the Copilot pattern on a 2025 predecessor CRM, where it <strong>replaced a 15-click path with one sentence</strong>; here it fronts the platform's whole AI suite.</p>
+    <ul>
+      <li>Ask in a sentence about any prospect, stage or channel.</li>
+      <li>Get the answer with the numbers behind it.</li>
+      <li>Turn the fix into an automated follow-up once a manager says go.</li>
+    </ul>
+  </ShowcaseVideo>
 </section>
 
 <section id="p4" data-reveal>
@@ -537,7 +543,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   <ImageShowcase>
     <ShowcaseImage
       src="/cases/unitpulse-platform/platform-nav.png"
-      alt="The unified platform's navigation, annotated: one sidebar with 6 groups (Insight, Leasing, Voice AI, Marketing, Billing & Payments, Settings), each labeled with the pages it holds"
+      alt="The unified platform's navigation, annotated: one sidebar with 5 groups (Insight, Leasing, Voice AI, Marketing, Settings), each labeled with the pages it holds"
       width={2858}
       height={1512}
     />
@@ -581,6 +587,17 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     language once, build it as reusable components, then migrate the scattered
     UI onto it.
   </BodyText>
+
+  {/* Before = the For You page in the first, brief-based system (main's
+      hero-cover.png); after = the same page today (vNext coded mock). */}
+  <BeforeAfter
+    label="The For You page, before and after the design system"
+    width={2940}
+    height={1846}
+    before={{ src: "/cases/unitpulse-platform/ds/foryou-before.jpg", alt: "The For You page in the first design system: olive on cream, Inter, square uppercase chips" }}
+    after={{ src: "/cases/unitpulse-platform/ds/foryou-after.jpg", alt: "The same page today: emerald on neutral, Manrope and Newsreader, the dark daily brief and pill badges" }}
+    notes={["The first version: olive on cream, Inter, square uppercase chips and mono trend pills.", "Today: emerald on neutral, Newsreader for titles and numbers, Manrope for the UI, pill badges, flat cards on hairline borders."]}
+  />
   <BodyText>
     "One design language" is a claim, so here it is as it ships today. Neutral
     surfaces, one emerald accent that marks the affirmative and the active, a
