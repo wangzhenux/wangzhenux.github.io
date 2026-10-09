@@ -55,6 +55,7 @@ import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
 import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
 import ShowcaseVideo from '../../components/showcase/ShowcaseVideo.astro';
 import BeforeAfter from '../../components/showcase/BeforeAfter.astro';
+import DSShowcase from '../../components/showcase/DSShowcase.astro';
 import ShowcasePhones from '../../components/showcase/ShowcasePhones.astro';
 import ShowcaseWall from '../../components/showcase/ShowcaseWall.astro';
 import ResearchStats from '../../components/data/ResearchStats.astro';
@@ -149,11 +150,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     insight/leak.jpg; tenant-admin view; the new Marketing nav, which sits
     behind a feature flag ‹C-mkt-nav›). Sources: scratchpad mocks/desktop/.
   - Token-built EXAMPLE diagrams: timeline.svg, portal-merge.svg.
-  - DESIGN-SYSTEM SPECIMENS (ds/*.png, replaced 2026-10-09 with the CURRENT
-    vNext system): 3× captures of the Portal's own component library
-    (web-unitpulse-portal/ds-bundle stories) plus token boards built from its
-    design-system/colors_and_type.css. The earlier olive-on-cream specimens and
-    scripts/ds-specimens/ are no longer used on this page. ‹C-ds›
+  - DESIGN-SYSTEM SPECIMENS: ds/system/*.png (light + -dark pairs) for the
+    DSShowcase switch, captured from the Portal's own component library;
+    ds/foryou-before.jpg / foryou-after.jpg for the before/after slider. ‹C-ds›
   - PERSONA HEADSHOTS: AI-generated synthetic faces (gen-platform-personas.mjs
     via Gemini) — fictional stand-ins for landlord / property manager /
     leasing agent, not real people. bento/personas/*.jpg.
@@ -594,11 +593,14 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 <section id="ds" data-reveal>
   <PartHeader num="08" title="The design system" />
   <BodyText>
-    The 3 products were built fast, with **AI writing Tailwind before AI was
-    good at it** — no maintained library, every screen its own local dialect,
-    debt compounding quietly. Consolidating that was the real job: define the
-    language once, build it as reusable components, then migrate the scattered
-    UI onto it.
+    The 3 products were built fast, with AI writing Tailwind before AI was good
+    at it, so every screen spoke its own dialect. I wrote the language down once
+    in design.md, built it as components, and moved the Portal onto it. It grew
+    from a first version I built in **Claude Design**.
+    {/* ‹C-ds› Specimens (2026-10-09): 3× captures of the Portal's own component
+        library (ds-bundle stories, sample data swapped to the fictional set) in
+        light and dark, plus foundation boards read from the live tokens.
+        Pipeline: scratchpad dsb-v2/. */}
   </BodyText>
 
   {/* Before = the For You page in the first, brief-based system (main's
@@ -611,30 +613,44 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     after={{ src: "/cases/unitpulse-platform/ds/foryou-after.jpg", alt: "The same page today: emerald on neutral, Manrope and Newsreader, the dark daily brief and pill badges" }}
     notes={["The first version: olive on cream, Inter, square uppercase chips and mono trend pills.", "Today: emerald on neutral, Newsreader for titles and numbers, Manrope for the UI, pill badges, flat cards on hairline borders."]}
   />
-  <BodyText>
-    "One design language" is a claim, so here it is as it ships today. Neutral
-    surfaces, one emerald accent that marks the affirmative and the active, a
-    quiet violet that only ever means AI, Newsreader for titles and metrics and
-    Manrope for everything you operate. It lives as tokens and React
-    components, so **the UI can't drift apart again**.
-    {/* ‹C-ds› Specimens (2026-10-09) are 3× Playwright captures of the Portal's
-        own component library (web-unitpulse-portal/ds-bundle: the real React
-        components and their stories) plus two token boards built from
-        design-system/colors_and_type.css. Pipeline: scratchpad dsb/ + mocks/ds/. */}
-  </BodyText>
 
-  <ShowcaseWall
-    label="Design-system component specimens"
-    items={[
-      { src: "/cases/unitpulse-platform/ds/buttons.png", alt: "Buttons: primary, ghost and link; intents for approve, delete and draft with AI; saving and unavailable states", width: 2052, height: 918 },
-      { src: "/cases/unitpulse-platform/ds/kpi.png", alt: "KPI cards: occupancy, average rent, tours booked and new leads, each with a trend pill and a Newsreader numeral", width: 3132, height: 624 },
-      { src: "/cases/unitpulse-platform/ds/forms.png", alt: "Inputs across default, focus, warning, error and read-only states", width: 2052, height: 1314 },
-      { src: "/cases/unitpulse-platform/ds/chips.png", alt: "Badges for draft, featured, available, needs review, expired, AI drafted and hot lead, and a row of filter chips with counts", width: 2052, height: 738 },
-      { src: "/cases/unitpulse-platform/ds/segmented.png", alt: "Segmented controls with unread and escalation counts and a live-agents dot", width: 2052, height: 468 },
-      { src: "/cases/unitpulse-platform/ds/table.png", alt: "A module card holding a leads-by-property table: hairline rows, right-aligned numbers", width: 2892, height: 930 },
-      { src: "/cases/unitpulse-platform/ds/alerts.png", alt: "Alerts in info, success, attention and danger", width: 2052, height: 828 },
-      { src: "/cases/unitpulse-platform/ds/composer.png", alt: "The chat composer holding a drafted reply, ready to send", width: 2052, height: 444 },
-      { src: "/cases/unitpulse-platform/ds/empty.png", alt: "An empty state: an icon, a Newsreader headline, one line of help and one action", width: 2052, height: 945 },
+  <DSShowcase
+    label="UnitPulse design system"
+    groups={[
+      { label: "Foundations", items: [
+        { label: "Colour", alt: "Colour tokens: canvas, card, subtle and border surfaces, 3 text inks, the single emerald accent with its wash and ring, 5 status pairs (AI, success, info, warning, alert) and 6 chart series, each with its hex value.", light: "/cases/unitpulse-platform/ds/system/colors.png", dark: "/cases/unitpulse-platform/ds/system/colors-dark.png", width: 2304, height: 2313 },
+        { label: "Type scale", alt: "Type scale pairing Newsreader for display with Manrope for UI: page title, metric, section, card feature, card title, body, tabular data, label and eyebrow, each with weight and size.", light: "/cases/unitpulse-platform/ds/system/type.png", dark: "/cases/unitpulse-platform/ds/system/type-dark.png", width: 2304, height: 2427 },
+        { label: "Radius and elevation", alt: "Radius scale from 3 px checkbox to fully round pills, and 3 elevation levels: cards use a border with no shadow, popovers and modals float with shadows.", light: "/cases/unitpulse-platform/ds/system/shape.png", dark: "/cases/unitpulse-platform/ds/system/shape-dark.png", width: 2321, height: 1078 },
+        { label: "Spacing", alt: "Spacing scale from 2 to 40 px with how it is used: 32 px page padding, 24 to 28 between blocks, 16 to 20 inside cards, 12 to 14 inside wells.", light: "/cases/unitpulse-platform/ds/system/spacing.png", dark: "/cases/unitpulse-platform/ds/system/spacing-dark.png", width: 2304, height: 782 },
+      ] },
+      { label: "Actions", items: [
+        { label: "Buttons", alt: "Buttons: primary, ghost and link variants; default, danger and AI intents; icon buttons; 3 sizes; loading and disabled states.", light: "/cases/unitpulse-platform/ds/system/buttons.png", dark: "/cases/unitpulse-platform/ds/system/buttons-dark.png", width: 1410, height: 1400 },
+        { label: "Segmented controls", alt: "Segmented controls for a date range, inbox tabs with unread counts and a live dot, and a day, week, month switch with icons.", light: "/cases/unitpulse-platform/ds/system/segmented.png", dark: "/cases/unitpulse-platform/ds/system/segmented-dark.png", width: 1074, height: 1178 },
+        { label: "Toggles, checkboxes and radios", alt: "Selection controls: notification toggles with descriptions, an amenities checkbox group and a tour type radio group.", light: "/cases/unitpulse-platform/ds/system/selection.png", dark: "/cases/unitpulse-platform/ds/system/selection-dark.png", width: 2793, height: 797 },
+        { label: "Filter chips", alt: "Filter chips with counts for lead pipeline stages, property health and listing channels, one chip selected in each row.", light: "/cases/unitpulse-platform/ds/system/chips.png", dark: "/cases/unitpulse-platform/ds/system/chips-dark.png", width: 2100, height: 800 },
+      ] },
+      { label: "Inputs", items: [
+        { label: "Text fields", alt: "Text fields with labels: required name, email and budget with leading icons, a notes textarea, and success, warning, error, disabled and placeholder states.", light: "/cases/unitpulse-platform/ds/system/fields.png", dark: "/cases/unitpulse-platform/ds/system/fields-dark.png", width: 2064, height: 1251 },
+        { label: "Selects and pickers", alt: "A lead source select, a tour time picker, select states (empty, required with error, disabled) and an open date picker calendar with the selected day in emerald.", light: "/cases/unitpulse-platform/ds/system/pickers.png", dark: "/cases/unitpulse-platform/ds/system/pickers-dark.png", width: 2014, height: 1384 },
+        { label: "Search and filters", alt: "A search field beside an Add property button, a row of searchable filter selects with one applied, and a status filter with counts.", light: "/cases/unitpulse-platform/ds/system/search.png", dark: "/cases/unitpulse-platform/ds/system/search-dark.png", width: 2040, height: 818 },
+        { label: "Message composer", alt: "Message composer states: a drafted reply with a send button, quick actions to attach a photo, schedule a tour or draft with AI, and a send blocked by a Fair Housing check.", light: "/cases/unitpulse-platform/ds/system/composer.png", dark: "/cases/unitpulse-platform/ds/system/composer-dark.png", width: 1872, height: 1244 },
+      ] },
+      { label: "Data display", items: [
+        { label: "Metric cards", alt: "2 rows of metric cards with Newsreader numerals and trend pills: occupancy, average rent, tours booked, new leads, applications, days on market, lead drop-offs and signed leases.", light: "/cases/unitpulse-platform/ds/system/kpi.png", dark: "/cases/unitpulse-platform/ds/system/kpi-dark.png", width: 3024, height: 1044 },
+        { label: "Data table", alt: "A unit table listing unit, property, floor plan, status chip, tours and rent, with tabular numerals and hairline row dividers.", light: "/cases/unitpulse-platform/ds/system/table.png", dark: "/cases/unitpulse-platform/ds/system/table-dark.png", width: 2424, height: 1380 },
+        { label: "Module cards", alt: "Module cards: leads by channel with a 30 and 90 day switch and emerald bars, tour conversion against the prior period, and a headless KPI strip for occupancy, vacant units, days to lease and renewals.", light: "/cases/unitpulse-platform/ds/system/module.png", dark: "/cases/unitpulse-platform/ds/system/module-dark.png", width: 2712, height: 1251 },
+        { label: "Badges and counts", alt: "Status badges in neutral, brand, success, warning, alert, AI and hot tones, badges with icons, and count bubbles on icon buttons.", light: "/cases/unitpulse-platform/ds/system/badges.png", dark: "/cases/unitpulse-platform/ds/system/badges-dark.png", width: 2088, height: 746 },
+        { label: "Avatars", alt: "Avatars in 5 sizes, the signed-in accent, the AI mark and an unknown caller, plus a message thread pairing prospect, assistant and leasing agent.", light: "/cases/unitpulse-platform/ds/system/avatars.png", dark: "/cases/unitpulse-platform/ds/system/avatars-dark.png", width: 1872, height: 1424 },
+        { label: "Chart tooltips", alt: "Chart tooltips: leads per listing channel for one day, and tours per property for a week with a total row.", light: "/cases/unitpulse-platform/ds/system/tooltips.png", dark: "/cases/unitpulse-platform/ds/system/tooltips-dark.png", width: 1607, height: 721 },
+      ] },
+      { label: "Feedback and overlays", items: [
+        { label: "Alerts", alt: "Inline alerts in info, success, warning and error tones, titled warning and error alerts, and an unsaved-changes bar with Discard and Save changes.", light: "/cases/unitpulse-platform/ds/system/alerts.png", dark: "/cases/unitpulse-platform/ds/system/alerts-dark.png", width: 2064, height: 1865 },
+        { label: "Toasts", alt: "4 toasts: leads waiting on a reply with an Open inbox action, a Fair Housing review warning, a published listing and a failed sync.", light: "/cases/unitpulse-platform/ds/system/toasts.png", dark: "/cases/unitpulse-platform/ds/system/toasts-dark.png", width: 2360, height: 806 },
+        { label: "Confirm dialog", alt: "A danger confirm dialog asking to delete the Instagram DM channel, floating over a blurred channel list with Keep it and Delete channel buttons.", light: "/cases/unitpulse-platform/ds/system/modal.png", dark: "/cases/unitpulse-platform/ds/system/modal-dark.png", width: 2424, height: 1524 },
+        { label: "Drawer", alt: "A tour details drawer over a dimmed tour list: prospect, phone, source, agent, move-in target, budget and notes, with Cancel tour and Reassign agent.", light: "/cases/unitpulse-platform/ds/system/drawer.png", dark: "/cases/unitpulse-platform/ds/system/drawer-dark.png", width: 2424, height: 2100 },
+        { label: "Empty states", alt: "Empty states: no properties yet with an Add a property button, and an empty week in a table frame.", light: "/cases/unitpulse-platform/ds/system/empty.png", dark: "/cases/unitpulse-platform/ds/system/empty-dark.png", width: 2556, height: 990 },
+        { label: "Popovers and menus", alt: "A sort and filter popover with radios, checkboxes and Apply, a listing action menu with a destructive delete, and an account menu.", light: "/cases/unitpulse-platform/ds/system/menus.png", dark: "/cases/unitpulse-platform/ds/system/menus-dark.png", width: 2732, height: 1151 },
+      ] },
     ]}
   />
 
@@ -659,30 +675,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       },
     ]}
   />
-
-  <SectionH small>Foundations, light and dark</SectionH>
-  <BodyText>
-    Dark mode is **a token swap, not a second theme** to maintain: the same
-    components read flipped surface and state values.
-  </BodyText>
-  <ShowcaseWall
-    cols={2}
-    label="Foundations and dark mode"
-    items={[
-      { src: "/cases/unitpulse-platform/ds/colors.png", alt: "The palette: canvas, card, ink and border; the emerald accent with its strong, soft and ring steps; violet for AI, amber, red and blue for meaning", width: 2052, height: 1464 },
-      { src: "/cases/unitpulse-platform/ds/type-scale.png", alt: "The type scale: Newsreader for page titles, metrics, sections and card features; Manrope for card titles, body, labels and eyebrows", width: 2055, height: 1941 },
-      { src: "/cases/unitpulse-platform/ds/buttons-dark.png", alt: "The same buttons in dark mode, the emerald brightened for dark surfaces", width: 2052, height: 612 },
-      { src: "/cases/unitpulse-platform/ds/kpi-dark.png", alt: "The same KPI cards in dark mode", width: 3132, height: 624 },
-    ]}
-  />
-  <BodyText>
-    It started as a first version I built in **Claude Design**, olive on cream.
-    The current system keeps its rules, moves to an emerald accent, and is
-    written down once in design.md for the team and the AI coding tools.
-    {/* ‹C-ds› Earlier system: Claude Design, brief-based (forest #3D4A2E on
-        cream). Current: emerald #006045 on #FAFAFA, Manrope + Newsreader.
-        design.md authorship per the Define step below ([REAL] s18). */}
-  </BodyText>
 
   <SectionH small>Where AI helped, and what I decided</SectionH>
   {/* [REAL] Define: design.md (s18). Develop: Claude Design boards (s17) +

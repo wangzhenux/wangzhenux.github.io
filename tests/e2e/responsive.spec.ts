@@ -118,7 +118,7 @@ test('short mobile drawer scrolls to the last section and restores focus', async
   await drawer.locator('.toc-item--drawer').last().click();
   await expect(drawer).toBeHidden();
   await expect(tag).toBeFocused();
-  await expect(page.locator('.progress-current')).toHaveText('11');
+  await expect(page.locator('.progress-current')).toHaveText('12');
   await expect(page.locator('#p8')).toBeInViewport();
 });
 

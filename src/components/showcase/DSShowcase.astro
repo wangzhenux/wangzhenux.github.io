@@ -8,7 +8,7 @@
  * light, so the page is complete at rest. Token-only CSS.
  *
  *   <DSShowcase label="…" groups={[{ label: 'Actions', items: [
- *     { label, alt, light, dark, width, height, wide? }, …] }, …]} />
+ *     { label, alt, light, dark, width, height }, …] }, …]} />
  */
 interface Specimen {
   label: string;
@@ -17,8 +17,6 @@ interface Specimen {
   dark: string;
   width: number;
   height: number;
-  /** Spans two columns (for wide specimens such as a KPI row or a table). */
-  wide?: boolean;
 }
 interface Group { label: string; items: Specimen[] }
 interface Props { label: string; groups: Group[] }
@@ -44,7 +42,7 @@ const { label, groups } = Astro.props;
         <p class="dss-glabel">{g.label}</p>
         <div class="dss-grid">
           {g.items.map((it) => (
-            <figure class:list={['dss-item', { 'dss-item--wide': it.wide }]}>
+            <figure class="dss-item">
               <div class="dss-frame">
                 <img class="dss-img dss-img--light" src={it.light} alt={it.alt} width={it.width} height={it.height} loading="lazy" decoding="async" />
                 <img class="dss-img dss-img--dark" src={it.dark} alt={`${it.alt}, in dark mode`} width={it.width} height={it.height} loading="lazy" decoding="async" />
@@ -128,14 +126,9 @@ const { label, groups } = Astro.props;
     color: var(--ink-tertiary);
   }
   .dss[data-mode='dark'] .dss-glabel { color: var(--accent-on-dark); }
-  .dss-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-5);
-    align-items: start;
-  }
-  .dss-item { margin: 0; display: grid; gap: var(--space-2); min-width: 0; }
-  .dss-item--wide { grid-column: span 2; }
+  /* Masonry: specimens differ a lot in height, so they flow down columns. */
+  .dss-grid { columns: 3 280px; column-gap: var(--space-5); }
+  .dss-item { margin: 0 0 var(--space-5); display: grid; gap: var(--space-2); min-width: 0; break-inside: avoid; }
   .dss-frame {
     overflow: hidden;
     border-radius: var(--radius-lg);
@@ -149,13 +142,6 @@ const { label, groups } = Astro.props;
   .dss[data-mode='dark'] .dss-img--dark { display: block; }
   .dss-item figcaption { font-size: var(--fs-card); color: var(--ink-secondary); }
   .dss[data-mode='dark'] .dss-item figcaption { color: var(--ink-on-dark); opacity: 0.75; }
-  @media (max-width: 900px) {
-    .dss-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  @media (max-width: 560px) {
-    .dss-grid { grid-template-columns: minmax(0, 1fr); }
-    .dss-item--wide { grid-column: auto; }
-  }
   @media (prefers-reduced-motion: reduce) {
     .dss { transition: none; }
   }

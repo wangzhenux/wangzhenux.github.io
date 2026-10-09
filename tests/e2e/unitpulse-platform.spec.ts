@@ -34,8 +34,11 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
   // Nothing internal or client-identifying leaks onto the page.
   await expect(page.locator('body')).not.toContainText(/Odessia|Motor Tides|Retell|Twilio|Dify|Gemini/i);
 
-  // The specimen wall renders its high-res tiles.
-  await expect(page.locator('.wall-tile img[src*="ds/buttons.png"]')).toBeAttached();
+  // The design-system showcase renders its specimens and switches to dark.
+  await expect(page.locator('.dss img[src*="ds/system/buttons.png"]')).toBeAttached();
+  await page.locator('.dss-btn[data-set="dark"]').click();
+  await expect(page.locator('.dss')).toHaveAttribute('data-mode', 'dark');
+  await page.locator('.dss-btn[data-set="light"]').click();
 
   // The Feb→summer 2026 timeline (the one bespoke artifact) is present.
   await expect(page.locator('img[src*="timeline.svg"]')).toBeVisible();
