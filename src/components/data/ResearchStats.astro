@@ -15,9 +15,10 @@ const { cols = 3 } = Astro.props;
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
   }
-  /* At most two columns on mobile; minmax(0, 1fr) lets long labels wrap
-     instead of widening the page. */
+  /* At most two columns on mobile, so 4- and 5-stat rows no longer widen the
+     page. A lone last stat spans the row instead of leaving a half-empty one. */
   @media (max-width: 767px) {
-    .research-stats { grid-template-columns: repeat(var(--cols-phone), minmax(0, 1fr)); }
+    .research-stats { grid-template-columns: repeat(var(--cols-phone), 1fr); }
+    .research-stats > :global(.stat:last-child:nth-child(odd)) { grid-column: 1 / -1; }
   }
 </style>
