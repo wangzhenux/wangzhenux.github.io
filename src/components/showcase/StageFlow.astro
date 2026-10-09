@@ -228,9 +228,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
     border-radius: var(--radius);
     background: var(--bg-secondary);
   }
-  .sf-cell--person { border-left: 3px solid var(--ink-primary); }
+  .sf-cell--person { background: var(--bg-primary); border: 1px solid var(--ink-tertiary); }
   .sf-cell--ai { background: var(--accent-soft); }
-  .sf-cell--empty { background: transparent; border-left-color: transparent; }
+  .sf-cell--empty { background: transparent; border-color: transparent; }
   .sf-cell-lab {
     font-family: var(--font-mono);
     font-size: 10px;
