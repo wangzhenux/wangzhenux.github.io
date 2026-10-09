@@ -148,11 +148,11 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     native 2858×1512, kept transparent so the band shows through; the 2× frame
     export was a pure upscale of it, flattened onto gray).
   - Token-built EXAMPLE diagrams: timeline.svg, portal-merge.svg.
-  - DESIGN-SYSTEM SPECIMENS (ds/*.png): 3× Playwright captures of the real
-    system CSS, extracted from Zhen's UnitPulse Design System artifact
-    (claude.ai design da884f8c). Pipeline: scripts/ds-specimens/ (CSS + fonts +
-    preview pages + capture.mjs). Re-run `node scripts/ds-specimens/capture.mjs`
-    to regenerate. ‹C-ds› confirm the system-of-record framing before publish.
+  - DESIGN-SYSTEM SPECIMENS (ds/*.png, replaced 2026-10-09 with the CURRENT
+    vNext system): 3× captures of the Portal's own component library
+    (web-unitpulse-portal/ds-bundle stories) plus token boards built from its
+    design-system/colors_and_type.css. The earlier olive-on-cream specimens and
+    scripts/ds-specimens/ are no longer used on this page. ‹C-ds›
   - PERSONA HEADSHOTS: AI-generated synthetic faces (gen-platform-personas.mjs
     via Gemini) — fictional stand-ins for landlord / property manager /
     leasing agent, not real people. bento/personas/*.jpg.
@@ -384,6 +384,16 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     2025 predecessor CRM, where it **replaced a 15-click path with one sentence**;
     here it fronts the platform's whole AI suite.
   </BodyText>
+  {/* Coded mock (2026-10-09), same clip as the interview deck's Leasing slide,
+      recoloured to the vNext tokens. Rendered from scratchpad copilot/anim-vnext.html. */}
+  <ShowcaseVideo
+    src="/cases/unitpulse-platform/video/copilot.mp4"
+    poster="/cases/unitpulse-platform/video/copilot-poster.jpg"
+    label="The Copilot — a manager asks about tour drop-offs, gets the cluster and its cause, then turns the fix into an automated follow-up rule"
+    width={1680}
+    height={1244}
+    maxWidth={640}
+  />
 </section>
 
 <section id="p4" data-reveal>
@@ -567,27 +577,29 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     UI onto it.
   </BodyText>
   <BodyText>
-    "One design language" is a claim, so here is the first version of it. Warm
-    cream surfaces, 2 greens with strict roles (olive for the brand, signal
-    green for state — they never trade places), tabular numbers everywhere, 3
-    shadows in the entire system, dark mode built in. It lives as tokens and
-    component CSS, so **the UI can't drift apart again**.
-    {/* ‹C-ds› system documented from the product brief; specimens below are
-        3× Playwright captures of the real CSS (scripts/ds-specimens/). */}
+    "One design language" is a claim, so here it is as it ships today. Neutral
+    surfaces, one emerald accent that marks the affirmative and the active, a
+    quiet violet that only ever means AI, Newsreader for titles and metrics and
+    Manrope for everything you operate. It lives as tokens and React
+    components, so **the UI can't drift apart again**.
+    {/* ‹C-ds› Specimens (2026-10-09) are 3× Playwright captures of the Portal's
+        own component library (web-unitpulse-portal/ds-bundle: the real React
+        components and their stories) plus two token boards built from
+        design-system/colors_and_type.css. Pipeline: scratchpad dsb/ + mocks/ds/. */}
   </BodyText>
 
   <ShowcaseWall
     label="Design-system component specimens"
     items={[
-      { src: "/cases/unitpulse-platform/ds/buttons.png", alt: "Button specimens — primary (olive fill) and ghost variants across default, hover, focus, and loading states", width: 2100, height: 1200 },
-      { src: "/cases/unitpulse-platform/ds/kpi.png", alt: "KPI cards — occupancy 94.8% with trend pill and sparkbars, tours today against target, NOI with an EXCEEDING chip, delinquency", width: 2100, height: 978 },
-      { src: "/cases/unitpulse-platform/ds/forms.png", alt: "Form specimens — inputs and selects across default, error, warning, success, and focus states", width: 2100, height: 1122 },
-      { src: "/cases/unitpulse-platform/ds/chips.png", alt: "Chips and trend pills — hot, warm, cold lead chips; live and alert dots; trend-up and trend-down pills", width: 2100, height: 660 },
-      { src: "/cases/unitpulse-platform/ds/funnel.png", alt: "The leasing funnel bar — forest gradient stages with the bottleneck stage flagged in alert red", width: 2100, height: 822 },
-      { src: "/cases/unitpulse-platform/ds/nav.png", alt: "Sidebar navigation and segmented control — the active item is ink, not green", width: 2100, height: 1047 },
-      { src: "/cases/unitpulse-platform/ds/donut.png", alt: "Donut chart specimens — SVG ring with legend and a KPI readout in the center void", width: 2100, height: 846 },
-      { src: "/cases/unitpulse-platform/ds/table.png", alt: "Data table — cream header row, mono tabular numerics, hover and selected row states", width: 2100, height: 804 },
-      { src: "/cases/unitpulse-platform/ds/empty.png", alt: "Empty state — an editorial mixed-type headline instead of a sad illustration", width: 2100, height: 1038 },
+      { src: "/cases/unitpulse-platform/ds/buttons.png", alt: "Buttons: primary, ghost and link; intents for approve, delete and draft with AI; saving and unavailable states", width: 2052, height: 918 },
+      { src: "/cases/unitpulse-platform/ds/kpi.png", alt: "KPI cards: occupancy, average rent, tours booked and new leads, each with a trend pill and a Newsreader numeral", width: 3132, height: 624 },
+      { src: "/cases/unitpulse-platform/ds/forms.png", alt: "Inputs across default, focus, warning, error and read-only states", width: 2052, height: 1314 },
+      { src: "/cases/unitpulse-platform/ds/chips.png", alt: "Badges for draft, featured, available, needs review, expired, AI drafted and hot lead, and a row of filter chips with counts", width: 2052, height: 738 },
+      { src: "/cases/unitpulse-platform/ds/segmented.png", alt: "Segmented controls with unread and escalation counts and a live-agents dot", width: 2052, height: 468 },
+      { src: "/cases/unitpulse-platform/ds/table.png", alt: "A module card holding a leads-by-property table: hairline rows, right-aligned numbers", width: 2892, height: 930 },
+      { src: "/cases/unitpulse-platform/ds/alerts.png", alt: "Alerts in info, success, attention and danger", width: 2052, height: 828 },
+      { src: "/cases/unitpulse-platform/ds/composer.png", alt: "The chat composer holding a drafted reply, ready to send", width: 2052, height: 444 },
+      { src: "/cases/unitpulse-platform/ds/empty.png", alt: "An empty state: an icon, a Newsreader headline, one line of help and one action", width: 2052, height: 945 },
     ]}
   />
 
@@ -597,18 +609,18 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     items={[
       {
         icon: "palette",
-        title: "2 greens, 2 roles",
-        body: "Olive is the brand: buttons, logo, authority. Signal green is state: trend-up, live, success. They never trade places.",
+        title: "One accent",
+        body: "Emerald marks the affirmative and the active: approve, publish, live. It is never decoration.",
       },
       {
-        icon: "balance",
-        title: "Selected is ink, not green",
-        body: "Active nav and segmented controls use ink. Green would read as branded when the element is just selected.",
+        icon: "spark",
+        title: "AI is violet, and quiet",
+        body: "A deep, low-chroma violet that only ever means AI. Not grey, and never a bright tech purple.",
       },
       {
         icon: "grid",
-        title: "3 shadows, total",
-        body: "One for cards, one for the phone frame, one for modals. Everything else sits flat on a hairline border.",
+        title: "Flat cards, floating overlays",
+        body: "A card is a hairline border with no shadow. Only what floats over content gets one: modals, drawers, popovers, toasts.",
       },
     ]}
   />
@@ -616,25 +628,25 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   <SectionH small>Foundations, light and dark</SectionH>
   <BodyText>
     Dark mode is **a token swap, not a second theme** to maintain: the same
-    component CSS reads flipped surface and state values.
+    components read flipped surface and state values.
   </BodyText>
   <ShowcaseWall
     cols={2}
     label="Foundations and dark mode"
     items={[
-      { src: "/cases/unitpulse-platform/ds/colors.png", alt: "The brand palette — forest and forest2 olive, signal green, and the olive data-series family with hex values", width: 2100, height: 708 },
-      { src: "/cases/unitpulse-platform/ds/type-scale.png", alt: "The type scale — 40px KPI crown down through page headings to body, with rem and px values", width: 2100, height: 2340 },
-      { src: "/cases/unitpulse-platform/ds/buttons-dark.png", alt: "The same button specimens in dark mode — olive brightened for dark surfaces", width: 2100, height: 1200 },
-      { src: "/cases/unitpulse-platform/ds/kpi-dark.png", alt: "The same KPI cards in dark mode — warm near-black surfaces, brightened state colors", width: 2100, height: 978 },
+      { src: "/cases/unitpulse-platform/ds/colors.png", alt: "The palette: canvas, card, ink and border; the emerald accent with its strong, soft and ring steps; violet for AI, amber, red and blue for meaning", width: 2052, height: 1464 },
+      { src: "/cases/unitpulse-platform/ds/type-scale.png", alt: "The type scale: Newsreader for page titles, metrics, sections and card features; Manrope for card titles, body, labels and eyebrows", width: 2055, height: 1941 },
+      { src: "/cases/unitpulse-platform/ds/buttons-dark.png", alt: "The same buttons in dark mode, the emerald brightened for dark surfaces", width: 2052, height: 612 },
+      { src: "/cases/unitpulse-platform/ds/kpi-dark.png", alt: "The same KPI cards in dark mode", width: 3132, height: 624 },
     ]}
   />
   <BodyText>
-    I built this system in **Claude Design**, then extracted it to tokens and
-    component CSS; the specimens above are rendered straight from that CSS. The
-    current Portal system grew out of it, with an emerald primary and
-    **the same rules**.
-    {/* ‹C-ds› Claude Design = claude.ai/design; system source of truth is
-        the artifact's colors_and_type.css + components.css. */}
+    It started as a first version I built in **Claude Design**, olive on cream.
+    The current system keeps its rules, moves to an emerald accent, and is
+    written down once in design.md for the team and the AI coding tools.
+    {/* ‹C-ds› Earlier system: Claude Design, brief-based (forest #3D4A2E on
+        cream). Current: emerald #006045 on #FAFAFA, Manrope + Newsreader.
+        design.md authorship per the Define step below ([REAL] s18). */}
   </BodyText>
 
   <SectionH small>Where AI helped, and what I decided</SectionH>

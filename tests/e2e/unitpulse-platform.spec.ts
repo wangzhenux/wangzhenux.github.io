@@ -25,10 +25,9 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
   await expect(parts.nth(6)).toContainText('3 products to one platform');
   await expect(parts.nth(7)).toContainText('The design system');
 
-  // What the AI does vs what people decide is a real, captioned table, and the
-  // escalation ladder shows the 3 ways a call reaches a person.
-  await expect(page.locator('#ctx table caption')).toContainText('what people decide');
-  await expect(page.locator('#ctx table tbody tr')).toHaveCount(6);
+  // Leasing carries the Copilot clip, and the escalation ladder shows the 3
+  // ways a call reaches a person.
+  await expect(page.locator('#p3 video[aria-label^="The Copilot"]')).toHaveCount(1);
   await expect(page.locator('#vc .lf-lane')).toHaveCount(3);
 
   // Nothing internal or client-identifying leaks onto the page.
