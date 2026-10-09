@@ -48,7 +48,7 @@ sections:
 import BodyText from '../../components/reading/BodyText.astro';
 import SectionH from '../../components/reading/SectionH.astro';
 import PartHeader from '../../components/showcase/PartHeader.astro';
-import Bento from '../../components/showcase/Bento.astro';
+import FieldBento from '../../components/showcase/FieldBento.astro';
 import CardGrid from '../../components/showcase/CardGrid.astro';
 import PersonaGrid from '../../components/showcase/PersonaGrid.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
@@ -56,6 +56,7 @@ import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
 import ShowcaseVideo from '../../components/showcase/ShowcaseVideo.astro';
 import BeforeAfter from '../../components/showcase/BeforeAfter.astro';
 import DSShowcase from '../../components/showcase/DSShowcase.astro';
+import DocExcerpt from '../../components/showcase/DocExcerpt.astro';
 import ShowcasePhones from '../../components/showcase/ShowcasePhones.astro';
 import ShowcaseWall from '../../components/showcase/ShowcaseWall.astro';
 import ResearchStats from '../../components/data/ResearchStats.astro';
@@ -156,10 +157,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   - PERSONA HEADSHOTS: AI-generated synthetic faces (gen-platform-personas.mjs
     via Gemini) — fictional stand-ins for landlord / property manager /
     leasing agent, not real people. bento/personas/*.jpg.
-  - Context <Bento>: real Figma exports, each composited onto a uniform 4:3
-    cream (#F1E9D5 = bg-secondary) card so the grid aligns — kanban (hero),
-    copilot, marketing, ai-reply, funnel. bento/*.jpg — REBUILT 2026-10-09 as
-    vNext coded mocks (fictional data). mobile/phone-recording.jpg was PULLED
+  - Context <FieldBento>: transparent product windows (bento/win-*.png, vNext
+    coded mocks, fictional data) on tiles in the product's own surfaces, under
+    one contour field (bento/field.svg). mobile/phone-recording.jpg was PULLED
     2026-10-08 (real customer data).
   - PRODUCT VIDEOS: marketing.mp4, leasing.mp4 and insight.mp4 (and copilot.mp4) are coded
     mocks in the CURRENT vNext system (2026-10-09), 1920×1080 H.264, local
@@ -190,39 +190,48 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     later**.
     {/* ‹C-dates› */}
   </BodyText>
-  {/* Bento tiles rebuilt 2026-10-09 as coded mocks in the CURRENT vNext system
-      (Zhen asked for them to match the design system). Sources: scratchpad
-      mocks/bento/. */}
-  <Bento
-    crop
-    fade={false}
+  {/* Bento v3 (2026-10-09, round 5): transparent product windows (coded mocks
+      in the vNext system, scratchpad mocks/bento3/) on tiles that alternate the
+      product's own surfaces, with one contour field running across all tiles
+      (bento/field.svg, scratchpad field/gen.mjs). */}
+  <FieldBento
     label="The platform's primary capabilities"
+    field="/cases/unitpulse-platform/bento/field.svg"
     items={[
       {
-        size: "hero",
-        image: "/cases/unitpulse-platform/bento/kanban.jpg",
-        imageAlt: "The Customers pipeline board, zoomed in on the Inquiry, Tour and Application columns; each card shows the lead, the property, the assigned agent and the last activity",
+        tone: "emerald", col: 1, row: 1, cols: 2, rows: 2, win: 97.74, mw: 108, mh: 360,
+        image: "/cases/unitpulse-platform/bento/win-kanban.png", width: 1560, height: 1512,
+        alt: "The Customers pipeline with Inquiry, Tour and Application columns of lead cards; Jordan Lee's card is selected",
         title: "Every lead, inquiry to signed",
+        sub: "One pipeline across every property",
       },
       {
-        image: "/cases/unitpulse-platform/bento/copilot.jpg",
-        imageAlt: "The Copilot panel greeting Alex, with two suggested questions and Why did applications drop? typed into the ask box",
+        tone: "lavender", col: 3, row: 1, win: 98.45, mw: 92, mh: 230,
+        image: "/cases/unitpulse-platform/bento/win-copilot.png", width: 762, height: 630,
+        alt: "The Copilot greeting Alex with a suggested question, and Why did applications drop? typed into the ask box",
         title: "Just ask Copilot",
+        sub: "Answers from live data",
       },
       {
-        image: "/cases/unitpulse-platform/bento/marketing.jpg",
-        imageAlt: "Creating a post for Maple Court: a market-analysis panel describes likely renters and themes to post about, above the start of the drafted copy",
+        tone: "mint", col: 3, row: 2, win: 98.45, mw: 92, mh: 230,
+        image: "/cases/unitpulse-platform/bento/win-marketing.png", width: 762, height: 630,
+        alt: "A market analysis panel describing hybrid workers and car-light commuters, with theme chips above the start of a drafted post",
         title: "Posts on market data",
+        sub: "Drafted from the analysis",
       },
       {
-        image: "/cases/unitpulse-platform/bento/ai-reply.jpg",
-        imageAlt: "An SMS thread where the AI offers Unit 204 at three open times, the renter replies 2 PM works, and the AI books the tour on the agent's calendar",
+        tone: "violet", col: 4, row: 1, rows: 2, win: 98.45, mw: 92, mh: 340,
+        image: "/cases/unitpulse-platform/bento/win-ai-reply.png", width: 762, height: 1512,
+        alt: "An inbox thread: the team offers 3 tour times for Unit 204, Jordan replies 2 PM works, and the tour is booked at Maple Court for Saturday, Oct 3, with an SMS confirmation",
         title: "AI leasing",
+        sub: "Replies and books tours",
       },
       {
-        image: "/cases/unitpulse-platform/bento/funnel.jpg",
-        imageAlt: "The customer journey flow zoomed in from engaged to tour scheduled, with 57 leads dropping off before the tour highlighted in red",
+        tone: "brief", col: 1, row: 3, cols: 4, win: 68.15, mw: 150, mh: 220,
+        image: "/cases/unitpulse-platform/bento/win-funnel.png", width: 2208, height: 846,
+        alt: "The customer journey flow with drop-offs highlighted: 57 leads, 40.1%, leave before the tour",
         title: "Look into drop-offs",
+        sub: "See where renters leave the funnel",
       },
     ]}
   />
@@ -357,13 +366,14 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   />
 
   <SectionH small>4 behaviors we designed</SectionH>
-  <StoryBlocks
+  <ShowcaseCarousel
     label="AI leasing behaviors"
-    blocks={[
-      { principle: "Cooperative principle", quote: "Can I come see it Saturday at 2?", happened: "Renters ask to tour at any hour, often after the office closes.", designed: "The AI checks the on-shift agent's calendar and books the slot, or offers the nearest open times. The tour lands on the agent's calendar.", image: { src: "/cases/unitpulse-platform/leasing/request.jpg", alt: "The AI booking a Saturday tour of unit 204 on the leasing agent's calendar", width: 1680, height: 1641 } },
-      { principle: "Move the conversation forward", quote: "A 2 bedroom under $2,400 at Maple Court?", happened: "Nothing at this building fits.", designed: "It says so, then lists matching units at sister properties, each under its own name, with the same filters.", image: { src: "/cases/unitpulse-platform/leasing/nomatch.jpg", alt: "The AI saying Maple Court has nothing under $2,400 and listing matching units at The Linden and Harbor View Lofts", width: 1680, height: 1560 } },
-      { principle: "Listen between the lines", quote: "Does unit 204 have parking?", happened: "Curiosity isn't a requirement.", designed: "A question gets an answer. Only “I need parking” becomes a filter, and a tour date is never read as a move-in date.", image: { src: "/cases/unitpulse-platform/leasing/asking.jpg", alt: "A parking question answered without adding a filter, then I need parking adds a Parking preference", width: 1680, height: 1521 } },
-      { principle: "Turn-taking", quote: "Is there a move-in special if I sign by Oct 15?", happened: "Pricing isn't in the property data, and a guess would be a promise.", designed: "The AI says it will check and opens a Need Reply task for the agent. When the agent answers, the AI goes quiet for the rest of the thread.", image: { src: "/cases/unitpulse-platform/leasing/handoff.jpg", alt: "A pricing question the AI can't answer becomes a Need Reply task; the agent answers and AI leasing turns off for the conversation", width: 1680, height: 1737 } },
+    autoplay={false}
+    slides={[
+      { eyebrow: "Cooperative principle", title: "“Can I come see it Saturday at 2?”", body: "Renters ask to tour at any hour, often after the office closes. The AI checks the on-shift agent's calendar and books the slot, or offers the nearest open times.", image: "/cases/unitpulse-platform/leasing/request.jpg", imageAlt: "The AI booking a Saturday tour of unit 204 on the leasing agent's calendar", width: 1680, height: 1641, bg: "var(--bg-secondary)" },
+      { eyebrow: "Move the conversation forward", title: "“A 2 bedroom under $2,400 at Maple Court?”", body: "Nothing at this building fits. It says so, then lists matching units at sister properties, each under its own name, with the same filters.", image: "/cases/unitpulse-platform/leasing/nomatch.jpg", imageAlt: "The AI saying Maple Court has nothing under $2,400 and listing matching units at The Linden and Harbor View Lofts", width: 1680, height: 1560, bg: "var(--bg-secondary)" },
+      { eyebrow: "Listen between the lines", title: "“Does unit 204 have parking?”", body: "Curiosity isn't a requirement. A question gets an answer; only “I need parking” becomes a filter, and a tour date is never read as a move-in date.", image: "/cases/unitpulse-platform/leasing/asking.jpg", imageAlt: "A parking question answered without adding a filter, then I need parking adds a Parking preference", width: 1680, height: 1521, bg: "var(--bg-secondary)" },
+      { eyebrow: "Turn-taking", title: "“Is there a move-in special if I sign by Oct 15?”", body: "Pricing isn't in the property data, and a guess would be a promise. The AI says it will check and opens a Need Reply task; when the agent answers, the AI goes quiet.", image: "/cases/unitpulse-platform/leasing/handoff.jpg", imageAlt: "A pricing question the AI can't answer becomes a Need Reply task; the agent answers and AI leasing turns off for the conversation", width: 1680, height: 1737, bg: "var(--bg-secondary)" },
     ]}
   />
 
@@ -416,12 +426,20 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       { label: "Act", desc: "A person decides. AI-proposed process changes come next.", tag: "person" },
     ]}
   />
-  <ShowcaseWall
-    cols={2}
-    label="Insight: the biggest leak and the drop-offs behind it"
-    items={[
-      { src: "/cases/unitpulse-platform/insight/leak.jpg", alt: "The morning brief calling out the biggest leak this week and where to look, with action-first bullets", width: 2400, height: 1033 },
-      { src: "/cases/unitpulse-platform/insight/dropoffs.jpg", alt: "The customer journey with drop-offs highlighted and a stage panel showing dropout reasons", width: 2400, height: 1433 },
+  <SectionH small>What a manager sees each morning</SectionH>
+  {/* For You panels in product order (2026-10-09, round 5). inventory, agents,
+      tasks and afterhours are coded mocks from the real panel markup
+      (scratchpad mocks/insight-panels/); numbers match the rest of the week. */}
+  <ShowcaseCarousel
+    label="The For You page, panel by panel"
+    autoplay={false}
+    slides={[
+      { eyebrow: "Daily brief", title: "The biggest leak, first thing", body: "Each morning the brief names the stage that slipped most this week, with the numbers behind it and where to look.", image: "/cases/unitpulse-platform/insight/leak.jpg", imageAlt: "The morning brief calling out the biggest leak this week and where to look, with action-first bullets", width: 2400, height: 1033 },
+      { eyebrow: "Funnel", title: "See where renters leave", body: "The customer journey highlights every drop-off, and the stage panel lists why leads left.", image: "/cases/unitpulse-platform/insight/dropoffs.jpg", imageAlt: "The customer journey with drop-offs highlighted and a stage panel showing dropout reasons", width: 2400, height: 1433 },
+      { eyebrow: "Inventory", title: "Where the demand has to land", body: "7 of the 13 empty units are two-bedrooms, so that's where pricing and marketing effort go first.", image: "/cases/unitpulse-platform/insight/inventory.jpg", imageAlt: "Vacancy by unit type for Maple Court: 2B2B with 7 of 64 vacant at $3,150 to $3,350, then 1B1B, 3B2B and Studio with 2 vacant each, each row with an occupancy bar", width: 2400, height: 1500 },
+      { eyebrow: "Team", title: "Who is carrying the week", body: "Tours, applications and contracts by agent, always over the last 7 days.", image: "/cases/unitpulse-platform/insight/agents.jpg", imageAlt: "Tours, applications and contracts by manager for the last 7 days: Alex Rivera 9, 2 and 1, Sam Okafor 7, 1 and 1, Dana Ruiz 6, 1 and 1", width: 2400, height: 1500 },
+      { eyebrow: "Tasks", title: "What still needs a person", body: "Every conversation waiting on the team, ranked by urgency, with the renter's actual question and the agent who owns it.", image: "/cases/unitpulse-platform/insight/tasks.jpg", imageAlt: "9 outstanding tasks, 1 urgent: Jordan Lee's move-in special question first, then a missing pay stub, parking details, a tour time and an early key pickup, each with a priority, a stage and an owner", width: 2400, height: 1500 },
+      { eyebrow: "After hours", title: "The work that happens after close", body: "40% of chat messages and 42% of tour bookings came outside office hours. The AI booked 9 of those 11 tours.", image: "/cases/unitpulse-platform/insight/afterhours.jpg", imageAlt: "After-hours activity for 7 days: 318 of 794 chat messages, 11 of 26 tour bookings and 8 of 22 tours held came outside business hours, above a chart of activity by hour", width: 2400, height: 1500 },
     ]}
   />
 </section>
@@ -529,7 +547,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p5" data-reveal>
-  <PartHeader num="07" title="3 products to one platform" />
+  <PartHeader num="07" title="Separate products, one platform" />
   <BodyText>
     Customers came for Marketing, then asked us to run the whole journey. But
     the 3 products didn't talk to each other — **even though they consumed the
@@ -546,9 +564,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   <ImageShowcase>
     <ShowcaseImage
       src="/cases/unitpulse-platform/timeline.svg"
-      alt="Timeline: kickoff from zero in February 2026, first customer on the marketing product in March, three products live by spring, converged into one platform by summer"
+      alt="Timeline: kickoff from zero in February 2026, first customer on the marketing product in March, three products live by spring, one platform by summer, and Voice AI joining the same platform as the fourth product in August"
       width={1600}
-      height={533}
+      height={457}
     />
   </ImageShowcase>
 
@@ -603,16 +621,50 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         Pipeline: scratchpad dsb-v2/. */}
   </BodyText>
 
-  {/* Before = the For You page in the first, brief-based system (main's
-      hero-cover.png); after = the same page today (vNext coded mock). */}
-  <BeforeAfter
-    label="The For You page, before and after the design system"
-    width={2940}
-    height={1846}
-    before={{ src: "/cases/unitpulse-platform/ds/foryou-before.jpg", alt: "The For You page in the first design system: olive on cream, Inter, square uppercase chips" }}
-    after={{ src: "/cases/unitpulse-platform/ds/foryou-after.jpg", alt: "The same page today: emerald on neutral, Manrope and Newsreader, the dark daily brief and pill badges" }}
-    notes={["The first version: olive on cream, Inter, square uppercase chips and mono trend pills.", "Today: emerald on neutral, Newsreader for titles and numbers, Manrope for the UI, pill badges, flat cards on hairline borders."]}
-  />
+  <SectionH small>The rules that keep it tight</SectionH>
+  {/* Excerpt of the real design.md §0 (dsb/guidelines/design.md), trimmed,
+      not rewritten. */}
+  <DocExcerpt
+    path="design.md"
+    note="§0 · How to use this document"
+    label="Excerpt from the UnitPulse design.md: how to use the document, and the 5 non-negotiables"
+    lines={[
+      "## 0. How to use this document",
+      "1. **Never invent a value.** Every color, size, radius, shadow and duration has a token. If you need one that isn't here, stop and escalate.",
+      "2. **Tokens are two-layer.** Primitives (raw values) → semantics (jobs). Components bind to semantics only.",
+      "3. **When this document and the code disagree, this document wins.** Open an issue rather than silently diverging.",
+      "",
+      "**The five non-negotiables** (violating any is an automatic PR rejection):",
+      "- No raw color/radius/spacing/shadow literals in code you touch.",
+      "- Every icon-only control carries a tooltip and an accessible name.",
+      "- Every overlay animates both ways: open and close.",
+      "- Selection carries the ARIA state, not just the visual.",
+      "- Dark mode is never left behind: a token added to light is added to dark in the same commit.",
+    ]}
+  >
+    <CardGrid
+      inline
+      cols={1}
+      label="The rules that keep it tight"
+      items={[
+        {
+          icon: "palette",
+          title: "One accent",
+          body: "Emerald marks the affirmative and the active: approve, publish, live. It is never decoration.",
+        },
+        {
+          icon: "spark",
+          title: "AI is violet, and quiet",
+          body: "A deep, low-chroma violet that only ever means AI. Not grey, and never a bright tech purple.",
+        },
+        {
+          icon: "grid",
+          title: "Flat cards, floating overlays",
+          body: "A card is a hairline border with no shadow. Only what floats over content gets one: modals, drawers, popovers, toasts.",
+        },
+      ]}
+    />
+  </DocExcerpt>
 
   <DSShowcase
     label="UnitPulse design system"
@@ -654,26 +706,15 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 
-  <SectionH small>The rules that keep it tight</SectionH>
-  <CardGrid
-    label="The rules that keep it tight"
-    items={[
-      {
-        icon: "palette",
-        title: "One accent",
-        body: "Emerald marks the affirmative and the active: approve, publish, live. It is never decoration.",
-      },
-      {
-        icon: "spark",
-        title: "AI is violet, and quiet",
-        body: "A deep, low-chroma violet that only ever means AI. Not grey, and never a bright tech purple.",
-      },
-      {
-        icon: "grid",
-        title: "Flat cards, floating overlays",
-        body: "A card is a hairline border with no shadow. Only what floats over content gets one: modals, drawers, popovers, toasts.",
-      },
-    ]}
+  {/* Before = the For You page in the first, brief-based system (main's
+      hero-cover.png); after = the same page today (vNext coded mock). */}
+  <BeforeAfter
+    label="The For You page, before and after the design system"
+    width={2940}
+    height={1846}
+    before={{ src: "/cases/unitpulse-platform/ds/foryou-before.jpg", alt: "The For You page in the first design system: olive on cream, Inter, square uppercase chips" }}
+    after={{ src: "/cases/unitpulse-platform/ds/foryou-after.jpg", alt: "The same page today: emerald on neutral, Manrope and Newsreader, the dark daily brief and pill badges" }}
+    notes={["The first version: olive on cream, Inter, square uppercase chips and mono trend pills.", "Today: emerald on neutral, Newsreader for titles and numbers, Manrope for the UI, pill badges, flat cards on hairline borders."]}
   />
 
   <SectionH small>Where AI helped, and what I decided</SectionH>

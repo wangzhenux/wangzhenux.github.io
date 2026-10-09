@@ -1,0 +1,109 @@
+---
+/**
+ * An excerpt of a real working document (a spec, a design.md), shown as a
+ * file window: path and note in the header, numbered lines below, with light
+ * markdown styling (headings, quotes, list items, inline `code`). Lines are
+ * trimmed from the source, not rewritten, so the excerpt stays checkable.
+ * With slotted content (e.g. an inline <CardGrid>), the window and the slot sit
+ * side by side at content width; without it, the window stays in the column.
+ * Token-only CSS.
+ *
+ *   <DocExcerpt path="design.md" note="§0" lines={[…]}><CardGrid inline … /></DocExcerpt>
+ */
+interface Props {
+  path: string;
+  note?: string;
+  lines: string[];
+  label?: string;
+}
+const { path, note, lines, label = `Excerpt from ${path}` } = Astro.props;
+const kind = (l: string) =>
+  /^#{1,6}\s/.test(l) ? 'h' : /^>\s?/.test(l) ? 'q' : /^\s*([-*]|\d+\.)\s/.test(l) ? 'li' : l.trim() === '' ? 'blank' : 'p';
+const aside = Astro.slots.has('default');
+const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const inline = (t: string) => esc(t).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+---
+<div class:list={['doc-wrap', { 'doc-wrap--split': aside }]}>
+<figure class="doc" aria-label={label}>
+  <div class="doc-head">
+    <span class="doc-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="doc-path">{path}</span>
+    {note && <span class="doc-note">{note}</span>}
+  </div>
+  <ol class="doc-body">
+    {lines.map((l) => (
+      <li class={`doc-l doc-l--${kind(l)}`}><span set:html={inline(l) || '&nbsp;'} /></li>
+    ))}
+  </ol>
+</figure>
+{aside && <div class="doc-aside"><slot /></div>}
+</div>
+<style>
+  .doc-wrap { margin: var(--space-6) 0; }
+  /* Content width, aligned with CardGrid / ImageShowcase. */
+  .doc-wrap--split {
+    box-sizing: border-box;
+    width: calc(100vw - var(--sbw));
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
+    margin-block: var(--space-7);
+    padding-inline: max(var(--pad-page-x), calc((100vw - var(--sbw) - var(--max-content)) / 2 + var(--pad-page-x)));
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+  .doc {
+    margin: 0;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    background: var(--bg-primary);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  .doc-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg-secondary);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-secondary);
+  }
+  .doc-dots { display: inline-flex; gap: var(--space-1); }
+  .doc-dots i { width: 9px; height: 9px; border-radius: 999px; background: var(--rule); }
+  .doc-path { color: var(--ink-primary); }
+  .doc-note { margin-left: auto; color: var(--ink-tertiary); }
+  .doc-body {
+    margin: 0;
+    padding: var(--space-4) 0;
+    list-style: none;
+    counter-reset: ln;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--ink-secondary);
+    overflow-x: auto;
+  }
+  .doc-l {
+    counter-increment: ln;
+    display: grid;
+    grid-template-columns: 3.5ch 1fr;
+    gap: var(--space-4);
+    padding-inline: var(--space-4) var(--space-6);
+    white-space: pre-wrap;
+  }
+  .doc-l::before { content: counter(ln); text-align: right; color: var(--ink-tertiary); opacity: 0.6; }
+  .doc-l--h { color: var(--accent); font-weight: 600; }
+  .doc-l--q { color: var(--ink-primary); font-style: italic; }
+  .doc-l--li { color: var(--ink-primary); }
+  .doc-l :global(code) { padding: 0 var(--space-1); border-radius: 4px; background: var(--bg-secondary); }
+  .doc-l :global(b) { color: var(--ink-primary); }
+  @media (max-width: 900px) {
+    .doc-wrap--split { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .doc-body { font-size: 12px; }
+    .doc-note { display: none; }
+  }
+</style>

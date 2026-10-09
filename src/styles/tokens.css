@@ -55,6 +55,24 @@
   --bento-card-bg: #FAF9F5;
   --bento-img-fade: linear-gradient(to bottom, rgba(255, 255, 255, 0) 67%, #FBFAF7 97%);
 
+  /* === UnitPulse field bento (design literals, from the vNext design.md) ===
+     Tiles alternate the product's own surfaces: accent emerald, accent-soft
+     mint, AI-soft lavender, AI violet and the daily-brief ink. Each pairs with
+     its own text inks and a tint for the contour lines that run across tiles. */
+  --up-emerald: #006045;
+  --up-emerald-ink: #004F3B;
+  --up-mint: #E8F4F0;
+  --up-violet: #4A3F8C;
+  --up-violet-ink: #322965;
+  --up-lavender: #EFEDF9;
+  --up-brief: #18181B;
+  --up-on-dark: #FFFFFF;
+  --up-on-dark-soft: rgba(255, 255, 255, 0.76);
+  --up-line-on-dark: rgba(138, 234, 199, 0.22);
+  --up-line-on-violet: rgba(239, 237, 249, 0.2);
+  --up-line-emerald: rgba(0, 96, 69, 0.16);
+  --up-line-violet: rgba(74, 63, 140, 0.16);
+
   /* === Product-mock literals (design literals, from the shipped UnitPulse UIs) ===
      Reconstructed chat states and small product vignettes are drawn in the
      product's own palette, not the portfolio's, so they read as the real UI.

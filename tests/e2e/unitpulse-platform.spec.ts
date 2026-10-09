@@ -23,7 +23,7 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
   await expect(parts.nth(4)).toContainText('Insight: optimize operations');
   await expect(parts.nth(5)).toContainText('Voice AI: answer every call');
   await expect(parts.nth(6)).toContainText('Copilot');
-  await expect(parts.nth(7)).toContainText('3 products to one platform');
+  await expect(parts.nth(7)).toContainText('Separate products, one platform');
   await expect(parts.nth(8)).toContainText('The design system');
 
   // The Copilot has its own part with its clip, and the escalation ladder

@@ -1,0 +1,170 @@
+---
+/**
+ * A 4×3 bento of product windows on coloured tiles. One contour-line field
+ * (`field`, an SVG of lines on transparent) is laid over the whole grid and
+ * sliced per tile, so the pattern runs continuously across tiles while each
+ * tile tints it in its own colour. Titles are live text, top left; each window
+ * is a transparent PNG anchored bottom right and cut flush at those edges.
+ *
+ * Tile geometry follows the design the windows were drawn for: 4 columns with
+ * rows at 290/258 of a column, so window positions hold at any width. Below
+ * 900px the tiles stack and each window sits under its title.
+ * Token-only CSS.
+ *
+ *   <FieldBento field="/…/field.svg" items={[{ title, sub, image, alt, width,
+ *     height, tone: 'emerald', col: 1, row: 1, cols: 2, rows: 2, win: 97.7 }, …]} />
+ */
+interface Tile {
+  title: string;
+  sub: string;
+  image: string;
+  alt: string;
+  /** Intrinsic size of the window PNG. */
+  width: number;
+  height: number;
+  tone: 'emerald' | 'mint' | 'lavender' | 'violet' | 'brief';
+  /** 1-based grid start and span on the 4×3 desktop grid. */
+  col: number;
+  row: number;
+  cols?: number;
+  rows?: number;
+  /** Window width as a % of the tile width (desktop). */
+  win: number;
+  /** Stacked layout: window width as a % of the tile, and its max height. */
+  mw?: number;
+  mh?: number;
+}
+interface Props {
+  items: Tile[];
+  field: string;
+  label?: string;
+}
+const { items, field, label = 'Highlights' } = Astro.props;
+---
+<section class="fb" aria-label={label} style={`--field: url(${field})`}>
+  <div class="fb-inner">
+    <ul class="fb-grid">
+      {items.map((it, i) => (
+        <li
+          class={`fb-tile fb-tile--${it.tone}`}
+          style={`grid-column:${it.col} / span ${it.cols ?? 1};grid-row:${it.row} / span ${it.rows ?? 1};--c:${it.col - 1};--r:${it.row - 1};--win:${it.win}%;--mw:${it.mw ?? 90}%;--mh:${it.mh ?? 260}px;--i:${i}`}
+        >
+          <div class="fb-copy">
+            <h3 class="fb-title">{it.title}</h3>
+            <p class="fb-sub">{it.sub}</p>
+          </div>
+          <img class="fb-win" src={it.image} alt={it.alt} width={it.width} height={it.height} loading="lazy" decoding="async" />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  .fb {
+    width: calc(100vw - var(--sbw));
+    margin: var(--space-9) calc(50% - (100vw - var(--sbw)) / 2);
+  }
+  .fb-inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--pad-page-x);
+    container-type: inline-size;
+  }
+  .fb-grid {
+    --g: var(--space-4);
+    /* Column and row size from the container width; rows keep the 258:290
+       proportion the windows were drawn at. */
+    --cw: calc((100cqw - 3 * var(--g)) / 4);
+    --rh: calc(var(--cw) * 290 / 258);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: var(--rh);
+    gap: var(--g);
+  }
+  .fb-tile {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    isolation: isolate;
+    --bg: var(--up-emerald);
+    --line: var(--up-line-on-dark);
+    --ink: var(--up-on-dark);
+    --ink-soft: var(--up-on-dark-soft);
+    background: var(--bg);
+  }
+  .fb-tile--mint { --bg: var(--up-mint); --line: var(--up-line-emerald); --ink: var(--up-emerald-ink); --ink-soft: var(--up-emerald-ink); }
+  .fb-tile--lavender { --bg: var(--up-lavender); --line: var(--up-line-violet); --ink: var(--up-violet-ink); --ink-soft: var(--up-violet-ink); }
+  .fb-tile--violet { --bg: var(--up-violet); --line: var(--up-line-on-violet); }
+  .fb-tile--brief { --bg: var(--up-brief); }
+  /* The shared field: sized to the whole grid and offset by this tile's place
+     in it, so neighbouring tiles continue each other's lines. */
+  .fb-tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--line);
+    -webkit-mask: var(--field) no-repeat;
+    mask: var(--field) no-repeat;
+    -webkit-mask-size: 100cqw calc(3 * var(--rh) + 2 * var(--g));
+    mask-size: 100cqw calc(3 * var(--rh) + 2 * var(--g));
+    -webkit-mask-position: calc(var(--c) * (var(--cw) + var(--g)) * -1) calc(var(--r) * (var(--rh) + var(--g)) * -1);
+    mask-position: calc(var(--c) * (var(--cw) + var(--g)) * -1) calc(var(--r) * (var(--rh) + var(--g)) * -1);
+  }
+  .fb-copy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: clamp(var(--space-4), 2.2cqw, var(--space-6)) clamp(var(--space-4), 1.9cqw, var(--space-5));
+  }
+  .fb-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(16px, 1.95cqw, 21px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .fb-sub {
+    margin: var(--space-1) 0 0;
+    font-size: clamp(12px, 1.25cqw, 13.5px);
+    line-height: 1.4;
+    color: var(--ink-soft);
+    opacity: 0.9;
+  }
+  .fb-win {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: var(--win);
+    height: auto;
+    display: block;
+  }
+  @media (max-width: 899px) {
+    .fb-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+    .fb-tile { grid-column: auto !important; grid-row: auto !important; }
+    .fb-tile::before {
+      -webkit-mask-size: 260% auto;
+      mask-size: 260% auto;
+      -webkit-mask-position: calc(var(--i) * 24%) calc(var(--i) * 22%);
+      mask-position: calc(var(--i) * 24%) calc(var(--i) * 22%);
+    }
+    .fb-copy { position: static; padding: var(--space-5) var(--space-5) var(--space-3); }
+    .fb-title { font-size: 20px; }
+    .fb-sub { font-size: 13px; }
+    .fb-win {
+      position: static;
+      margin-left: var(--space-2);
+      width: var(--mw);
+      max-width: none;
+      max-height: var(--mh);
+      object-fit: cover;
+      object-position: left top;
+    }
+  }
+</style>
