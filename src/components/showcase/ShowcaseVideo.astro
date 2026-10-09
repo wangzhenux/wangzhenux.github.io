@@ -21,8 +21,11 @@ interface Props {
   /** Intrinsic dimensions, for CLS-free aspect reservation. */
   width?: number;
   height?: number;
+  /** Optional display cap in CSS px, centred — keeps a small clip at 2x instead
+   *  of stretching it to the full band (mirrors ShowcaseImage's native-width cap). */
+  maxWidth?: number;
 }
-const { src, poster, label, width = 1920, height = 1080 } = Astro.props;
+const { src, poster, label, width = 1920, height = 1080, maxWidth } = Astro.props;
 const ratio = `${width} / ${height}`;
 ---
 <div class="video-showcase">
@@ -39,7 +42,7 @@ const ratio = `${width} / ${height}`;
       playsinline
       preload="none"
       aria-label={label}
-      style={`aspect-ratio: ${ratio}`}
+      style={`aspect-ratio: ${ratio}${maxWidth ? `; max-width: ${maxWidth}px` : ''}`}
     ></video>
   </div>
 </div>
@@ -72,6 +75,7 @@ const ratio = `${width} / ${height}`;
   .vs-video {
     display: block;
     width: 100%;
+    margin-inline: auto;
     height: auto;
     background: var(--ink-primary);
     border-radius: var(--radius-lg);
