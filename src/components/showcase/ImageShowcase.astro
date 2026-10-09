@@ -10,8 +10,16 @@
 // block, then translateX(-50vw) pulls it to the true viewport-left. This is
 // robust even though the body column is offset (TOC to its right), because the
 // translate is in viewport units, not relative to the (off-centre) parent.
+//
+// variant="wireframe" / "wireframe-dark": the same band in the stage tones, for
+// wireframes and other mostly-white or transparent design artifacts. Pick the
+// tone the image was drawn for (light labels → dark).
+interface Props {
+  variant?: 'default' | 'wireframe' | 'wireframe-dark';
+}
+const { variant = 'default' } = Astro.props;
 ---
-<div class="image-showcase">
+<div class:list={['image-showcase', variant !== 'default' && `image-showcase--${variant}`]}>
   <div class="showcase-inner" data-zoomable><slot /></div>
 </div>
 <style>
@@ -36,6 +44,14 @@
     background-image: radial-gradient(circle, var(--rule) 1px, transparent 1.5px);
     background-size: 28px 28px;
     z-index: 0;
+  }
+  .image-showcase--wireframe::before {
+    background-color: var(--stage-bg);
+    background-image: radial-gradient(circle, var(--stage-dot) 1px, transparent 1.5px);
+  }
+  .image-showcase--wireframe-dark::before {
+    background-color: var(--stage-bg-dark);
+    background-image: radial-gradient(circle, var(--stage-dot-dark) 1px, transparent 1.5px);
   }
   .showcase-inner {
     position: relative;
@@ -64,5 +80,13 @@
   .showcase-inner :global(img:hover) {
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
+  }
+  /* Wireframes are mostly transparent: outline the drawn shapes, not the box. */
+  .image-showcase--wireframe .showcase-inner :global(img) {
+    filter: var(--wire-edge);
+  }
+  .image-showcase--wireframe .showcase-inner :global(img:hover),
+  .image-showcase--wireframe-dark .showcase-inner :global(img:hover) {
+    box-shadow: none;
   }
 </style>

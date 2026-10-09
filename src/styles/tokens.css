@@ -4,6 +4,14 @@
   --bg-secondary: #F1E9D5;
   --bg-inverse: #181210;
   --stage-bg: #DDD3C2;
+  /* Wireframe bands (ImageShowcase variant): the same dotted band in two tones.
+     Light = --stage-bg with slightly stronger dots, plus a hairline that follows
+     each screen's outline so white pages don't dissolve into the band. Dark =
+     for wireframes exported with light labels (Pool My Ride). */
+  --stage-dot: #1A141022;
+  --stage-bg-dark: #2A221D;
+  --stage-dot-dark: #FAF5E81F;
+  --wire-edge: drop-shadow(0 0 0.6px rgba(26, 20, 16, 0.55)) drop-shadow(0 2px 6px rgba(26, 20, 16, 0.14));
 
   /* === Ink === */
   --ink-primary: #1A1410;
