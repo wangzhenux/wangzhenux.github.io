@@ -64,7 +64,6 @@ import Dual from '../../components/data/Dual.astro';
 import Reflection from '../../components/showcase/Reflection.astro';
 import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
 import RelatedCases from '../../components/showcase/RelatedCases.astro';
-import ExpandModule from '../../components/showcase/ExpandModule.astro';
 import StageFlow from '../../components/showcase/StageFlow.astro';
 import StoryBlocks from '../../components/showcase/StoryBlocks.astro';
 import BrokeCarousel from '../../components/showcase/BrokeCarousel.astro';
@@ -114,8 +113,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     carry real product mockups exported from Figma.
 
   VISUALS:
-  - The hero is the conversational welcome (welcome-hero.jpg). property-detail.jpg and
-    bento-tour.png were PULLED 2026-10-08 (real property name / street addresses).
+  - The hero is the conversational welcome (welcome-hero.jpg). property-detail.jpg was
+    PULLED 2026-10-08 (real property name / street addresses). bento-tour.png was
+    restored 2026-10-09 (Zhen: already anonymized).
     listing-map.jpg (results split-view) remains available for reuse.
   - Part 04 "How the conversation works" (2026-10-08): live captures from
     rental.unitpulse.ai (chat/*.jpg, Oct 8 2026, unblurred: listing names, photos and
@@ -159,6 +159,12 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         imageAlt: "A live map with price pins beside a listing card",
         title: "Map split-view",
         body: "A live map with price pins beside the result grid.",
+      },
+      {
+        image: "/cases/unitpulse-site/bento-tour.png",
+        imageAlt: "A planned tour day with multiple stops — two showings scheduled at 9:00 and 10:30",
+        title: "Tour shortlist",
+        body: "Shortlist homes and plan several tours in one pass.",
       },
       {
         image: "/cases/unitpulse-site/bento-personalized.png",
@@ -416,7 +422,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       { label: "Reply", desc: "A short answer and up to 3 next steps.", tag: "mixed" },
       { label: "Remember", desc: "Saves filters and history for the next turn.", tag: "code" },
     ]}
-    loop="next turn"
     legend
     caption="Simplified from 94 production steps. A model runs 13 of them."
   />
@@ -427,7 +432,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     blocks={[
       {
         principle: "Context",
-        num: "08",
         quote: "Can you go $200 higher on my budget?",
         happened: "Mid-search, the renter nudges one thing instead of starting over.",
         designed: "The model reads the change, code adds it to the saved budget, and the chat, chips and map move together.",
@@ -435,7 +439,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       },
       {
         principle: "Listen between the lines",
-        num: "06",
         quote: "I also have a dog.",
         happened: "Viewing a home, it's a question about that home. Browsing, “pet-friendly” starts a search.",
         designed: "Routing reads the context first, so the answer comes from that home's own pet policy, with next steps that keep the search alive.",
@@ -443,7 +446,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       },
       {
         principle: "Move the conversation forward",
-        num: "04",
         quote: "2 bedrooms under $1,200 in Los Angeles.",
         happened: "Nothing on the market matches.",
         designed: "The reply says so in the renter's own terms and offers up to 3 ways to widen. The renter chooses; nothing loosens quietly.",
@@ -451,7 +453,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       },
       {
         principle: "Turn-taking",
-        num: "10",
         quote: "Can I see this one on Saturday?",
         happened: "Asking for a date, a time and contact details one turn at a time drags on.",
         designed: "A tour card opens in the chat for that home. The renter picks a time, and the leasing office confirms.",
@@ -557,26 +558,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 
-  <ExpandModule n="10" title="All 10 conversation principles, mapped" role="Google's conversation design principles, each with what the copilot does">
-    <CompareTable
-      contained
-      emphasize="none"
-      caption="Ten conversation design principles and what the copilot does"
-      columns={["Principle", "In short", "What the copilot does"]}
-      rows={[
-        { head: "1 Cooperative principle", a: "Be truthful, say enough, stay relevant, be clear.", b: "Tour requests open a form and are never called booked. A distance is never called a walk or a drive." },
-        { head: "2 Expect users to be informative", a: "Accept the extra details people volunteer.", b: "One message can fill several fields; the form then asks only for what's missing." },
-        { head: "3 Get the dialog back on track", a: "Recover with a short, light reprompt.", b: "Off-topic gets a friendly nudge back. If a name fits 2 homes, it asks which one." },
-        { head: "4 Move the conversation forward", a: "Offer the nearest alternative.", b: "No results come with up to 3 ways to widen, never a dead end." },
-        { head: "5 Optimize for relevance", a: "Only what matters to this choice.", b: "Answers about a home use that home's data; suggestions skip filters already set." },
-        { head: "6 Listen between the lines", a: "Read meaning from context.", b: "“2200+” means at least $2,200. “Thanks” is read as a closer, never a yes." },
-        { head: "7 Speak plainly", a: "Everyday words, short confirmations.", b: "It sounds like a leasing agent texting, never like a system message." },
-        { head: "8 Context", a: "Treat a follow-up as a continuation.", b: "Filters carry across turns, and a short “yes” continues the last request." },
-        { head: "9 Variation", a: "Vary lines people hear often.", b: "Search summaries rotate between 3 phrasings." },
-        { head: "10 Turn-taking", a: "One clear question, then let them talk.", b: "Forms for tours and missing essentials; at most 3 next steps per reply." },
-      ]}
-    />
-  </ExpandModule>
 </section>
 
 <section id="p4" data-reveal>
@@ -646,10 +627,11 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   {/* [REAL] Develop: s06 script (AI built prototypes / frontend changes).
       Deliver: s42 (AI-assisted tests beside manual QA, not a full rerun of the
       47 cases); 6 weeks + lost-context failure fixed by engineering (s41/s42).
-      Define: no AI claim (unconfirmed). Discover: no AI claim (Zhen 2026-10-08). */}
+      Define: no AI claim (unconfirmed). Discover: AI first pass, then users validate the
+      unknowns and business-specific depth (Zhen 2026-10-09). */}
   <ProcessStrip
     steps={[
-      { label: "Discover", none: "People first: I start from customer and manager feedback.", me: "Reviewed other search products and framed 3 ways renters start." },
+      { label: "Discover", ai: "A fast first pass of research; users for the unknowns.", me: "Reviewed other search products and framed 3 ways renters start." },
       { label: "Define", none: "No AI here.", me: "One home, from search to contact. Bulk tours, blogs and FAQ pages waited." },
       { label: "Develop", ai: "Early working versions and frontend changes in code.", me: "The search behavior, lead capture and the visual system." },
       { label: "Deliver", ai: "AI-assisted test scripts alongside manual QA.", me: "Shipped in 6 weeks; flagged a lost-context failure engineering fixed." },

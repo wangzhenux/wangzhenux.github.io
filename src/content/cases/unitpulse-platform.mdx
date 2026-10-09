@@ -159,10 +159,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     leasing agent, not real people. bento/personas/*.jpg.
   - Context <Bento>: real Figma exports, each composited onto a uniform 4:3
     cream (#F1E9D5 = bg-secondary) card so the grid aligns — kanban (hero),
-    copilot, marketing, ai-reply, funnel. bento/*.jpg. marketing.jpg + ai-reply.jpg
-    and mobile/phone-recording.jpg were PULLED 2026-10-08 (real customer data);
-    the marketing / AI-leasing tiles use the seeded video posters until the
-    rebuilt mocks land.
+    copilot, marketing, ai-reply, funnel. bento/*.jpg. mobile/phone-recording.jpg was PULLED 2026-10-08 (real
+    customer data). marketing.jpg + ai-reply.jpg were restored 2026-10-09: Zhen
+    confirmed those captures were already anonymized.
   - PRODUCT VIDEOS: real screen recordings (4K source → 1080p H.264 via
     avconvert), autoplay muted loop lazily on view: marketing.mp4 (Reach),
     leasing.mp4 (Convert), insight.mp4 (Measure). video/*.mp4 + *-poster.jpg.
@@ -204,16 +203,16 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         frame: { w: 100, h: 219.36, left: 0, top: 0.14 },
       },
       {
-        image: "/cases/unitpulse-platform/bento/marketing-composer.jpg",
-        imageAlt: "The post composer: channel chips, attached photos, tone and length, an AI draft that matches the photos, and a live preview",
-        title: "Posts that match the photos",
-        pos: "40% 30%",
+        image: "/cases/unitpulse-platform/bento/marketing.jpg",
+        imageAlt: "The create-post composer — channel picker, a market-analysis panel, AI-drafted copy, and a live social preview",
+        title: "Posts on market data",
+        frame: { w: 135.97, h: 128.01, left: -4.39, top: -1.51 },
       },
       {
-        image: "/cases/unitpulse-platform/bento/ai-leasing.jpg",
-        imageAlt: "The AI leasing assistant answering a prospect with one specific unit and offering to request a tour, its replies marked as AI",
+        image: "/cases/unitpulse-platform/bento/ai-reply.jpg",
+        imageAlt: "The AI leasing agent answering a prospect over SMS with a specific unit, then offering tour times",
         title: "AI leasing",
-        pos: "60% 35%",
+        frame: { w: 128.75, h: 138.87, left: -28.95, top: -22.72 },
       },
       {
         image: "/cases/unitpulse-platform/bento/funnel.jpg",
