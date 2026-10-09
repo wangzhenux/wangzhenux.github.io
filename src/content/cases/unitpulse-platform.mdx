@@ -160,12 +160,13 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     copilot, marketing, ai-reply, funnel. bento/*.jpg. mobile/phone-recording.jpg was PULLED 2026-10-08 (real
     customer data). marketing.jpg + ai-reply.jpg were restored 2026-10-09: Zhen
     confirmed those captures were already anonymized.
-  - PRODUCT VIDEOS: real screen recordings (4K source → 1080p H.264 via
-    avconvert), autoplay muted loop lazily on view: marketing.mp4 (Reach),
-    leasing.mp4 (Convert), insight.mp4 (Measure). video/*.mp4 + *-poster.jpg.
-    NOTE: Figma caps node exports at native res (Copilot node is only 435px
-    wide), so bento/mobile images are shown crop-to-filled to look crisp;
-    true 4K would need Figma 3–4× exports or Cloudinary-hosted originals.
+  - PRODUCT VIDEOS: leasing.mp4 and insight.mp4 (and copilot.mp4) are coded
+    mocks in the CURRENT vNext system (2026-10-09), 1920×1080 H.264, local
+    files, 3 s end hold so the player's loop reads cleanly. Sources: scratchpad
+    mocks/leasing-video, mocks/insight-video, copilot/anim-vnext.html. The
+    Insight clip adds a clickable leak card, a leak callout on the Sankey and a
+    lead-source breakdown that the real Portal doesn't have yet ‹C-insight-mock›.
+    marketing.mp4 is still the old-system Cloudinary recording until its mock lands.
   - MOBILE: 8 phone screens, rebuilt 2026-10-09 as coded mocks in the app's
     CURRENT vNext tokens (app-up-leasing theme/*.ts, real screen layouts and
     labels, fictional data), 1206×2622. Sources: scratchpad mocks/mobile/.
@@ -323,9 +324,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   </BodyText>
 
   <ShowcaseVideo
-    src="https://res.cloudinary.com/dcswo1dgj/video/upload/q_auto,w_1920,c_limit/unitpulse-platform/leasing.mp4"
+    src="/cases/unitpulse-platform/video/leasing.mp4"
     poster="/cases/unitpulse-platform/video/leasing-poster.jpg"
-    label="UP Leasing demo — the AI answering a prospect's inquiry with a specific unit and moving them toward a tour"
+    label="UP Leasing in the Portal inbox: the AI answers with a specific unit, adds parking as a preference, opens a tour request an agent will confirm, then turns itself off when the agent replies"
     width={1920}
     height={1080}
   />
@@ -355,7 +356,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       { principle: "Cooperative principle", quote: "Can I come see it Saturday at 2?", happened: "Renters ask to tour at any hour, but only an agent can confirm a slot.", designed: "The AI opens a tour request and says an agent will confirm. It never says booked.", image: { src: "/cases/unitpulse-platform/leasing/request.jpg", alt: "The AI answering a tour ask with a tour request that a leasing agent will confirm", width: 1680, height: 1641 } },
       { principle: "Move the conversation forward", quote: "A 2 bedroom under $2,400 at Maple Court?", happened: "Nothing at this building fits.", designed: "It says so, then lists matching units at sister properties, each under its own name, with the same filters.", image: { src: "/cases/unitpulse-platform/leasing/nomatch.jpg", alt: "The AI saying Maple Court has nothing under $2,400 and listing matching units at The Linden and Harbor View Lofts", width: 1680, height: 1560 } },
       { principle: "Listen between the lines", quote: "Does unit 204 have parking?", happened: "Curiosity isn't a requirement.", designed: "A question gets an answer. Only “I need parking” becomes a filter, and a tour date is never read as a move-in date.", image: { src: "/cases/unitpulse-platform/leasing/asking.jpg", alt: "A parking question answered without adding a filter, then I need parking adds a Parking preference", width: 1680, height: 1521 } },
-      { principle: "Turn-taking", quote: "Am I talking to a bot?", happened: "Some renters want a person.", designed: "The AI says it's an AI, asks for contact only if it's missing, and hands the lead to an agent. It stops the moment the agent replies.", image: { src: "/cases/unitpulse-platform/leasing/handoff.jpg", alt: "A thread where the agent replies and the AI shows as paused for the conversation", width: 1680, height: 1716 } },
+      { principle: "Turn-taking", quote: "Am I talking to a bot?", happened: "Some renters want a person.", designed: "The AI says it's an AI, asks for contact only if it's missing, and hands the lead to an agent. It stops the moment the agent replies.", image: { src: "/cases/unitpulse-platform/leasing/handoff.jpg", alt: "A thread where the agent replies and AI leasing shows as turned off for the conversation", width: 1680, height: 1716 } },
     ]}
   />
 
@@ -406,11 +407,11 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   </BodyText>
 
   <ShowcaseVideo
-    src="https://res.cloudinary.com/dcswo1dgj/video/upload/q_auto,w_1920,c_limit/unitpulse-platform/insight.mp4"
+    src="/cases/unitpulse-platform/video/insight.mp4"
     poster="/cases/unitpulse-platform/video/insight-poster.jpg"
-    label="UP Insight demo — the full-funnel view, channel attribution, and the natural-language Data Copilot"
-    width={1280}
-    height={720}
+    label="UP Insight: from the daily brief's biggest leak to the customer journey, drop-offs highlighted, the reasons behind them, and which lead sources sign leases"
+    width={1920}
+    height={1080}
   />
 
   <SectionH small>Find the stage that leaks</SectionH>
