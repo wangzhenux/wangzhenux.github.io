@@ -111,9 +111,6 @@
   --gap-stack: var(--space-6);
   --max-content: 1080px;
   --max-body: 880px;
-  /* Reading measure for running prose: ~68 characters at 18px (Kyruus-style
-     reading column). Bands, bentos and media stay full width. */
-  --max-read: 720px;
 
   /* === Reading sizes ===
      Body prose steps 18 → 17 → 16 by breakpoint; card body text never drops

@@ -3,8 +3,7 @@
 <div class="body-text"><slot /></div>
 <style>
   /* ported from case-study-twilio.html .body-text, tokenized.
-     Prose is capped at the reading measure (--max-read, ~68ch) and stays
-     LEFT-aligned with the hero and the full-width bands around it.
+     Fills the body column for unified left+right edges.
 
      Block container (div, not p): MDX wraps a formatted paragraph — anything
      with **strong**, a link, etc. — in its own <p>, and a <p> can't nest in a
@@ -16,7 +15,7 @@
     font-size: var(--fs-body);
     line-height: 1.7;
     color: var(--ink-secondary);
-    max-width: var(--max-read);
+    max-width: none;
     margin: var(--space-5) 0;
   }
   /* Flatten MDX's inner paragraph(s): the wrapper owns the outer spacing, and
