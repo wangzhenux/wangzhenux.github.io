@@ -13,7 +13,7 @@
  * keys scroll it. On phones one card shows with the next peeking in.
  *
  * A single story fills the content width instead: words on the left, the
- * before → after on the right (stacked again below 900px).
+ * before → after on the right (stacked, words first, below 900px).
  *
  * Motion: cards rise in as the band enters (in-view island); the before → after
  * arrow nudges once. Static without JS / with reduced motion. Token-only CSS.
@@ -134,8 +134,8 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
     box-shadow: var(--shadow-card);
   }
   /* One story: fill the content width, words left, before → after right */
+  .bk--single .bk-track { grid-auto-columns: 100%; }
   .bk--single .bk-card {
-    flex: 1 1 auto;
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     grid-template-rows: auto auto 1fr;
@@ -147,9 +147,14 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
   .bk--single .bk-eyebrow { grid-area: eyebrow; }
   .bk--single .bk-title { grid-area: title; }
   .bk--single .bk-pair { grid-area: pair; align-self: center; }
-  .bk--single .bk-lines { grid-area: lines; align-self: end; }
+  .bk--single .bk-lines { grid-area: lines; grid-template-rows: none; align-self: end; }
   @media (max-width: 900px) {
-    .bk--single .bk-card { display: flex; padding: var(--space-6); }
+    .bk--single .bk-card {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
+      grid-template-areas: 'eyebrow' 'title' 'lines' 'pair';
+      padding: var(--space-6);
+    }
   }
   .bk-eyebrow {
     display: flex;
