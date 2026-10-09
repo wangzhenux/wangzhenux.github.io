@@ -37,11 +37,12 @@ sections:
   - { id: p3, num: "03", label: "Convert leads" }
   - { id: p4, num: "04", label: "Optimize operations" }
   - { id: vc, num: "05", label: "Voice AI" }
-  - { id: p5, num: "06", label: "One platform" }
-  - { id: ds, num: "07", label: "Design system" }
-  - { id: p6, num: "08", label: "On the go" }
-  - { id: p7, num: "09", label: "Evidence" }
-  - { id: p8, num: "10", label: "Reflection" }
+  - { id: cp, num: "06", label: "Copilot" }
+  - { id: p5, num: "07", label: "One platform" }
+  - { id: ds, num: "08", label: "Design system" }
+  - { id: p6, num: "09", label: "On the go" }
+  - { id: p7, num: "10", label: "Evidence" }
+  - { id: p8, num: "11", label: "Reflection" }
 ---
 
 import BodyText from '../../components/reading/BodyText.astro';
@@ -387,23 +388,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 
-  {/* Coded mock (2026-10-09), same clip as the interview deck's Leasing slide,
-      recoloured to the vNext tokens. Rendered from scratchpad copilot/anim-vnext.html. */}
-  <ShowcaseVideo
-    src="/cases/unitpulse-platform/video/copilot.mp4"
-    poster="/cases/unitpulse-platform/video/copilot-poster.jpg"
-    label="The Copilot — a manager asks about tour drop-offs, gets the cluster and its cause, then turns the fix into an automated follow-up rule"
-    width={1680}
-    height={1244}
-  >
-    <h3>Just ask the Copilot</h3>
-    <p>Agents drive all of it by typing. I first proved the Copilot pattern on a 2025 predecessor CRM, where it <strong>replaced a 15-click path with one sentence</strong>; here it fronts the platform's whole AI suite.</p>
-    <ul>
-      <li>Ask in a sentence about any prospect, stage or channel.</li>
-      <li>Get the answer with the numbers behind it.</li>
-      <li>Turn the fix into an automated follow-up once a manager says go.</li>
-    </ul>
-  </ShowcaseVideo>
 </section>
 
 <section id="p4" data-reveal>
@@ -515,8 +499,38 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   />
 </section>
 
+<section id="cp" data-reveal>
+  <PartHeader num="06" title="Copilot: one assistant for every product" />
+  {/* Today = verified in web-unitpulse-portal (2026-10-09): Insight AidenCopilot
+      returns profile / KPI / chart / list answers and can open views; Marketing's
+      Copilot drafts a post for a property and reports channel performance; the
+      agent app has a Copilot tab. Next = Zhen: one Copilot serving all products.
+      Clip: coded mock (copilot/anim-tall.html), the deck's Insight clip, taller. */}
+  <ShowcaseVideo
+    src="/cases/unitpulse-platform/video/copilot.mp4"
+    poster="/cases/unitpulse-platform/video/copilot-poster.jpg"
+    label="The Copilot: a manager asks about tour drop-offs, gets the cluster and its cause, then turns the fix into an automated follow-up rule"
+    width={1050}
+    height={1500}
+    tone="callout"
+  >
+    <h3>Ask once, get the answer with the data behind it</h3>
+    <p>The Copilot is the command layer the products share. Managers and agents ask in plain language instead of digging through menus.</p>
+    <h4>Today</h4>
+    <ul>
+      <li><strong>Insight:</strong> leasing performance, drop-offs or a single prospect, answered as charts, KPIs, lists and prospect profiles, with the view one click away.</li>
+      <li><strong>Marketing:</strong> draft a post for a property, or check how a channel is doing.</li>
+      <li><strong>On the go:</strong> the same Copilot is a tab in the agents' app.</li>
+    </ul>
+    <h4>Next</h4>
+    <ul>
+      <li>One Copilot across Marketing, Leasing and Insight, so a question asked anywhere can act on any product.</li>
+    </ul>
+  </ShowcaseVideo>
+</section>
+
 <section id="p5" data-reveal>
-  <PartHeader num="06" title="3 products to one platform" />
+  <PartHeader num="07" title="3 products to one platform" />
   <BodyText>
     Customers came for Marketing, then asked us to run the whole journey. But
     the 3 products didn't talk to each other — **even though they consumed the
@@ -578,7 +592,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="ds" data-reveal>
-  <PartHeader num="07" title="The design system" />
+  <PartHeader num="08" title="The design system" />
   <BodyText>
     The 3 products were built fast, with **AI writing Tailwind before AI was
     good at it** — no maintained library, every screen its own local dialect,
@@ -685,7 +699,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p6" data-reveal>
-  <PartHeader num="08" title="On the go — the agent's mobile app" />
+  <PartHeader num="09" title="On the go — the agent's mobile app" />
   <BodyText>
     Leasing happens on foot, so we built the agents' app **from scratch in 2
     weeks**, and I decided what went in first. The feature I pushed hardest for
@@ -759,7 +773,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p7" data-reveal>
-  <PartHeader num="09" title="What it's done so far — honestly" />
+  <PartHeader num="10" title="What it's done so far — honestly" />
   <BodyText>
     The sharpest evidence is one property that ran entirely on the merged
     platform: **93 units, 3 leasing agents, 2 months**. Every one of these
@@ -838,7 +852,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p8" data-reveal>
-  <PartHeader num="10" title="Reflection" />
+  <PartHeader num="11" title="Reflection" />
   <Reflection>
     <ReflectionCard label="On the real problem" heading="The system was the design problem">
       The interesting problem was never one screen. It was turning 3 fast,

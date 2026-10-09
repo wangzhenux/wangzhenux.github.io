@@ -13,21 +13,22 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
   await expect(page.locator('.hero-cover img')).toHaveAttribute('src', /hero-cover\.png/);
   await expect(page.locator('.meta-strip')).toContainText('821 → 400 → 59');
 
-  // The spine: Context + Parts 01–10 (eleven PartHeaders), with the product
+  // The spine: Context + Parts 01–11 (twelve PartHeaders), with the product
   // chapters — generate demand → convert leads → optimize operations → answer
-  // every call — in order, then the convergence and the design system.
+  // every call — in order, then the Copilot, the convergence and the design system.
   const parts = page.locator('.part-title');
-  await expect(parts).toHaveCount(11);
+  await expect(parts).toHaveCount(12);
   await expect(parts.nth(2)).toContainText('Marketing: generate demand');
   await expect(parts.nth(3)).toContainText('Leasing: convert leads');
   await expect(parts.nth(4)).toContainText('Insight: optimize operations');
   await expect(parts.nth(5)).toContainText('Voice AI: answer every call');
-  await expect(parts.nth(6)).toContainText('3 products to one platform');
-  await expect(parts.nth(7)).toContainText('The design system');
+  await expect(parts.nth(6)).toContainText('Copilot');
+  await expect(parts.nth(7)).toContainText('3 products to one platform');
+  await expect(parts.nth(8)).toContainText('The design system');
 
-  // Leasing carries the Copilot clip, and the escalation ladder shows the 3
-  // ways a call reaches a person.
-  await expect(page.locator('#p3 video[aria-label^="The Copilot"]')).toHaveCount(1);
+  // The Copilot has its own part with its clip, and the escalation ladder
+  // shows the 3 ways a call reaches a person.
+  await expect(page.locator('#cp video[aria-label^="The Copilot"]')).toHaveCount(1);
   await expect(page.locator('#vc .lf-lane')).toHaveCount(3);
 
   // Nothing internal or client-identifying leaks onto the page.
