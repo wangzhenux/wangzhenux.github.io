@@ -1,0 +1,209 @@
+---
+/**
+ * An escalation ladder: how a call (or a conversation) reaches a person. Each
+ * lane is one entry point ("Every call", "Press 3", "Asks the AI") drawn as a
+ * row of nodes joined by arrows: people, the AI, fallbacks (dashed) and ends.
+ * A lane can carry a status chip ("In progress") and a side branch line.
+ *
+ * Motion (in-view island): lanes light up one after another and a call pulse
+ * runs each lane's connector once; AI nodes keep a slow breathing ring. Static
+ * without JS / with reduced motion. Lanes stack, nodes wrap, on phones.
+ * Token-only CSS.
+ *
+ *   <LadderFigure lanes={[{ label: 'Every call', nodes: [{ label: 'On-duty agent', kind: 'person' }, …] }]} />
+ */
+type Kind = 'person' | 'ai' | 'fallback' | 'end' | 'emergency';
+interface Node {
+  label: string;
+  kind: Kind;
+  note?: string;
+}
+interface Lane {
+  label: string;
+  sub?: string;
+  nodes: Node[];
+  status?: string;
+  /** A side branch under the lane, e.g. "Can't connect → consented callback". */
+  branch?: string;
+}
+interface Props {
+  lanes: Lane[];
+  label?: string;
+  legend?: boolean;
+}
+const { lanes, label = 'How a call reaches a person', legend = true } = Astro.props;
+const kindText: Record<Kind, string> = { person: 'Person', ai: 'AI', fallback: 'Fallback', end: 'End', emergency: 'Emergency' };
+---
+<figure class="lf" aria-label={label} data-inview>
+  <ol class="lf-lanes">
+    {lanes.map((ln, li) => (
+      <li class="lf-lane" style={`--i: ${li}`}>
+        <div class="lf-head">
+          <span class="lf-label">{ln.label}</span>
+          {ln.sub && <span class="lf-sub">{ln.sub}</span>}
+          {ln.status && <span class="lf-status">{ln.status}</span>}
+        </div>
+        <ol class="lf-nodes" aria-label={`${ln.label}: ${ln.nodes.map((n) => n.label).join(', then ')}`}>
+          {ln.nodes.map((n, ni) => (
+            <li class={`lf-node lf-node--${n.kind}`} style={`--j: ${ni}`}>
+              <span class="lf-kind">{kindText[n.kind]}</span>
+              <span class="lf-name">{n.label}</span>
+              {n.note && <span class="lf-note">{n.note}</span>}
+            </li>
+          ))}
+        </ol>
+        {ln.branch && <p class="lf-branch">{ln.branch}</p>}
+      </li>
+    ))}
+  </ol>
+  {legend && (
+    <ul class="lf-legend" aria-label="Legend">
+      <li><span class="lf-swatch lf-swatch--person"></span>Person</li>
+      <li><span class="lf-swatch lf-swatch--ai"></span>AI assistant</li>
+      <li><span class="lf-swatch lf-swatch--fallback"></span>Fallback</li>
+    </ul>
+  )}
+</figure>
+<style>
+  .lf { margin: var(--space-8) 0; }
+  .lf-lanes { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-5); }
+  .lf-lane {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: var(--space-2) var(--space-5);
+    align-items: center;
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--rule);
+  }
+  .lf-head { display: flex; flex-direction: column; gap: var(--space-1); }
+  .lf-label { font-family: var(--font-display); font-size: 19px; font-weight: 500; color: var(--ink-primary); }
+  .lf-sub { font-size: 14px; color: var(--ink-tertiary); }
+  .lf-status {
+    align-self: flex-start;
+    padding: 0 var(--space-2);
+    border: 1px dashed var(--accent-medium);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+  .lf-nodes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+  .lf-node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 120px;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--bg-primary);
+    border: 1px solid var(--ink-tertiary);
+  }
+  /* Arrow joining this node to the next. */
+  .lf-node:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    width: var(--space-6);
+    height: 2px;
+    background: linear-gradient(90deg, var(--ink-tertiary) 70%, transparent 70%) 0 0 / 8px 2px repeat-x;
+  }
+  .lf-kind {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .lf-name { font-size: var(--fs-card); line-height: 1.35; color: var(--ink-primary); font-weight: 500; }
+  .lf-note { font-size: 13px; color: var(--ink-secondary); }
+  .lf-node--person { border-color: var(--ink-primary); }
+  .lf-node--ai { background: var(--accent-soft); border-color: var(--accent); }
+  .lf-node--ai .lf-kind { color: var(--accent-ink); }
+  .lf-node--fallback { border-style: dashed; }
+  .lf-node--end { background: var(--bg-secondary); border-color: var(--rule); }
+  .lf-node--emergency { background: var(--bg-inverse); border-color: var(--bg-inverse); }
+  .lf-node--emergency :is(.lf-kind, .lf-name) { color: var(--ink-on-dark); }
+  .lf-branch {
+    grid-column: 2;
+    margin: 0;
+    padding-left: var(--space-3);
+    border-left: 2px dashed var(--accent-medium);
+    font-size: 14px;
+    color: var(--ink-secondary);
+  }
+  .lf-branch::before { content: '↳ '; color: var(--accent); }
+  .lf-legend {
+    list-style: none;
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-6);
+    font-size: 13px;
+    color: var(--ink-secondary);
+  }
+  .lf-legend li { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .lf-swatch { width: 14px; height: 14px; border-radius: var(--radius-sm); border: 1px solid var(--ink-primary); }
+  .lf-swatch--ai { background: var(--accent-soft); border-color: var(--accent); }
+  .lf-swatch--fallback { border-style: dashed; border-color: var(--ink-tertiary); }
+
+  /* motion: lanes light up in order, nodes left to right, a pulse runs each lane */
+  .lf-node { transition: opacity 0.45s ease, transform 0.45s ease; transition-delay: calc(var(--i) * 0.5s + var(--j) * 0.16s); }
+  .lf-head, .lf-branch { transition: opacity 0.45s ease; transition-delay: calc(var(--i) * 0.5s); }
+  :global(html.inview-armed) .lf:not(.is-in) .lf-node { opacity: 0; transform: translateX(calc(-1 * var(--space-3))); }
+  :global(html.inview-armed) .lf:not(.is-in) :is(.lf-head, .lf-branch) { opacity: 0; }
+  .lf-nodes::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    margin-top: calc(-1 * var(--space-1));
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  :global(html.inview-armed) .lf.is-in .lf-nodes::before {
+    animation: lf-run 1.6s cubic-bezier(0.45, 0, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 0.5s + 0.4s);
+  }
+  @keyframes lf-run {
+    0% { left: 0%; opacity: 0; }
+    12% { opacity: 1; }
+    88% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+  :global(html.inview-armed) .lf.is-in .lf-node--ai { animation: lf-breathe 2.8s ease-in-out 2s infinite; }
+  @keyframes lf-breathe {
+    0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
+    50% { box-shadow: 0 0 0 6px var(--accent-soft); }
+  }
+
+  @media (max-width: 760px) {
+    .lf-lane { grid-template-columns: 1fr; }
+    .lf-branch { grid-column: 1; }
+    .lf-nodes { flex-direction: column; gap: var(--space-4); }
+    .lf-node:not(:last-child)::after {
+      top: 100%;
+      left: var(--space-5);
+      width: 2px;
+      height: var(--space-4);
+      background: linear-gradient(180deg, var(--ink-tertiary) 70%, transparent 70%) 0 0 / 2px 8px repeat-y;
+    }
+    .lf-nodes::before { display: none; }
+  }
+</style>

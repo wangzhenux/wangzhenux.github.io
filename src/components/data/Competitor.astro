@@ -75,7 +75,7 @@ const { name, strength, gap, logo, logoColor } = Astro.props;
     .competitor { grid-template-columns: 1fr; gap: var(--space-2); }
   }
   .competitor-good {
-    font-size: 14px;
+    font-size: var(--fs-card);
     line-height: 1.55;
     color: var(--ink-primary);
   }
@@ -89,7 +89,7 @@ const { name, strength, gap, logo, logoColor } = Astro.props;
     display: block;
   }
   .competitor-gap {
-    font-size: 14px;
+    font-size: var(--fs-card);
     line-height: 1.55;
     color: var(--ink-secondary);
   }

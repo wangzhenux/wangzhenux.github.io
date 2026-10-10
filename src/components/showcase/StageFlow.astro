@@ -1,0 +1,358 @@
+---
+/**
+ * "How it works" stage strip — the Kyruus-style numbered sequence, drawn as a
+ * flow. Each stage sits on one rule with a number, a short label, one line of
+ * description and a who-does-it tag (AI / Code / AI + code / Person / Rule).
+ * Optional extras, all aligned to the stage columns:
+ *   - `exit`  a dashed early exit under a stage ("Missing essentials → form")
+ *   - `lanes` swimlanes under the stages (e.g. a People lane for hand-offs);
+ *             rows line up across columns via CSS subgrid
+ *   - `rails` full-width bars for rules that apply on any turn
+ *   - `loop`  a small return note at the end of the rule ("next turn")
+ *
+ * Motion (in-view island): the rule draws left to right, nodes pop in stage by
+ * stage, a pulse travels the line once, then exits and lanes settle in. Static
+ * and fully visible without JS or with reduced motion. Stacks vertically on
+ * phones. Token-only CSS.
+ *
+ *   <StageFlow steps={[{ label: 'Listen', desc: '…', tag: 'code' }, …]} />
+ */
+type Tag = 'ai' | 'code' | 'mixed' | 'person' | 'rule';
+interface Step {
+  label: string;
+  desc?: string;
+  /** Overrides the auto "01" numbering (e.g. a date: "Jul"). */
+  num?: string;
+  tag?: Tag;
+  /** Short accent badge, e.g. "Fair housing first". */
+  badge?: string;
+  /** Dashed early exit under this stage. */
+  exit?: string;
+}
+interface Lane {
+  label: string;
+  /** One entry per stage; null/'' leaves that stage's cell empty. */
+  cells: (string | null)[];
+  tone?: 'person' | 'ai' | 'neutral';
+}
+interface Props {
+  steps: Step[];
+  lanes?: Lane[];
+  rails?: string[];
+  loop?: string;
+  legend?: boolean;
+  caption?: string;
+  label?: string;
+}
+const { steps, lanes = [], rails = [], loop, legend = false, caption, label = 'How it works' } = Astro.props;
+const tagText: Record<Tag, string> = { ai: 'AI', code: 'Code', mixed: 'AI + code', person: 'Person', rule: 'Rule' };
+const hasExit = steps.some((s) => s.exit);
+const rows = 1 + (hasExit ? 1 : 0) + lanes.length;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<figure class="sf" data-inview aria-label={label} style={`--sf-n: ${steps.length}; --sf-rows: ${rows}`}>
+  <ol class="sf-grid">
+    {steps.map((s, i) => (
+      <li class="sf-col" style={`--i: ${i}`}>
+        <div class="sf-step">
+          <span class="sf-node" aria-hidden="true"></span>
+          <span class="sf-num">{s.num ?? pad(i + 1)}</span>
+          <span class="sf-label">{s.label}</span>
+          {s.desc && <span class="sf-desc">{s.desc}</span>}
+          {(s.tag || s.badge) && (
+            <span class="sf-meta">
+              {s.tag && <span class={`sf-tag sf-tag--${s.tag}`}>{tagText[s.tag]}</span>}
+              {s.badge && <span class="sf-badge">{s.badge}</span>}
+            </span>
+          )}
+        </div>
+        {hasExit && (
+          <div class:list={['sf-exit', !s.exit && 'sf-exit--none']}>
+            {s.exit && <span class="sf-exit-text">{s.exit}</span>}
+          </div>
+        )}
+        {lanes.map((ln) => (
+          <div class:list={['sf-cell', `sf-cell--${ln.tone ?? 'neutral'}`, !ln.cells[i] && 'sf-cell--empty']}>
+            <span class="sf-cell-lab">{ln.label}</span>
+            {ln.cells[i] && <span class="sf-cell-text">{ln.cells[i]}</span>}
+          </div>
+        ))}
+      </li>
+    ))}
+  </ol>
+  {loop && <p class="sf-loop"><span aria-hidden="true">↺ </span>{loop}</p>}
+  {rails.length > 0 && (
+    <ul class="sf-rails">
+      {rails.map((r) => <li class="sf-rail">{r}</li>)}
+    </ul>
+  )}
+  {legend && (
+    <ul class="sf-legend" aria-label="Legend">
+      <li><span class="sf-tag sf-tag--ai">AI</span> a model reads or writes language</li>
+      <li><span class="sf-tag sf-tag--code">Code</span> exact work: math, search, forms</li>
+      <li><span class="sf-tag sf-tag--person">Person</span> a person takes over</li>
+    </ul>
+  )}
+  {caption && <figcaption class="sf-cap">{caption}</figcaption>}
+</figure>
+<style>
+  .sf { margin: var(--space-8) 0; }
+  .sf-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--sf-n), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--sf-rows), auto);
+    column-gap: var(--space-4);
+  }
+  .sf-col {
+    display: grid;
+    grid-row: span var(--sf-rows);
+    grid-template-rows: subgrid;
+    row-gap: var(--space-3);
+    min-width: 0;
+  }
+
+  /* --- stage --- */
+  .sf-step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-top: var(--space-5);
+  }
+  /* The rule: each stage draws its own segment, bridging the column gap. */
+  .sf-step::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: calc(-1 * var(--space-4));
+    height: 2px;
+    background: var(--rule);
+    transform-origin: left center;
+  }
+  .sf-col:last-child .sf-step::before { right: 0; }
+  .sf-node {
+    position: absolute;
+    top: calc(-1 * var(--space-1));
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--bg-primary);
+  }
+  .sf-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-tertiary);
+  }
+  .sf-label {
+    font-family: var(--font-display);
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--ink-primary);
+    font-weight: 500;
+  }
+  .sf-desc {
+    font-size: var(--fs-card);
+    line-height: 1.5;
+    color: var(--ink-secondary);
+  }
+  .sf-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+  .sf-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--space-2);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.6;
+    border: 1px solid var(--rule);
+    color: var(--ink-tertiary);
+    white-space: nowrap;
+  }
+  .sf-tag--ai { background: var(--accent-soft); border-color: var(--accent-medium); color: var(--accent-ink); }
+  .sf-tag--mixed { background: linear-gradient(90deg, var(--accent-soft) 50%, transparent 50%); border-color: var(--accent-medium); color: var(--accent-ink); }
+  .sf-tag--person { background: var(--ink-primary); border-color: var(--ink-primary); color: var(--ink-on-dark); }
+  .sf-tag--rule { border-style: dashed; }
+  .sf-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    line-height: 1.6;
+  }
+  .sf-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* --- exits --- */
+  .sf-exit { min-height: 0; }
+  .sf-exit-text {
+    display: block;
+    padding-left: var(--space-3);
+    border-left: 2px dashed var(--accent-medium);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--ink-secondary);
+  }
+  .sf-exit-text::before { content: '↳ '; color: var(--accent); }
+
+  /* --- lanes --- */
+  .sf-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    border-radius: var(--radius);
+    background: var(--bg-secondary);
+  }
+  .sf-cell--person { background: var(--bg-primary); border: 1px solid var(--ink-tertiary); }
+  .sf-cell--ai { background: var(--accent-soft); }
+  .sf-cell--empty { background: transparent; border-color: transparent; }
+  .sf-cell-lab {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  /* Desktop: the lane label reads once, as a row header in the first column. */
+  .sf-col:not(:first-child) .sf-cell-lab {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .sf-cell-text { font-size: 14px; line-height: 1.45; color: var(--ink-primary); }
+
+  /* --- after the grid --- */
+  .sf-loop {
+    margin: var(--space-3) 0 0;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink-tertiary);
+  }
+  .sf-rails {
+    list-style: none;
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .sf-rail {
+    padding: var(--space-3) var(--space-4);
+    border: 1px dashed var(--ink-tertiary);
+    border-radius: var(--radius);
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--ink-primary);
+  }
+  .sf-legend {
+    list-style: none;
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-6);
+    font-size: 13px;
+    color: var(--ink-secondary);
+  }
+  .sf-legend li { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .sf-cap {
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-tertiary);
+  }
+
+  /* --- motion --- */
+  .sf-step::before { transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1); transition-delay: calc(var(--i) * 0.12s); }
+  .sf-node { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); transition-delay: calc(var(--i) * 0.12s + 0.2s); }
+  .sf-num, .sf-label, .sf-desc, .sf-meta {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: calc(var(--i) * 0.12s + 0.25s);
+  }
+  .sf-exit, .sf-cell {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: calc(var(--sf-n) * 0.12s + 0.35s + var(--i) * 0.06s);
+  }
+  .sf-rails, .sf-loop, .sf-legend { transition: opacity 0.5s ease; transition-delay: calc(var(--sf-n) * 0.12s + 0.6s); }
+  :global(html.inview-armed) .sf:not(.is-in) .sf-step::before { transform: scaleX(0); }
+  :global(html.inview-armed) .sf:not(.is-in) .sf-node { transform: scale(0); }
+  :global(html.inview-armed) .sf:not(.is-in) :is(.sf-num, .sf-label, .sf-desc, .sf-meta, .sf-exit, .sf-cell) {
+    opacity: 0;
+    transform: translateY(var(--space-2));
+  }
+  :global(html.inview-armed) .sf:not(.is-in) :is(.sf-rails, .sf-loop, .sf-legend) { opacity: 0; }
+  /* A single pulse travels the rule once the strip is in. */
+  .sf-grid::after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--space-1));
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    pointer-events: none;
+  }
+  :global(html.inview-armed) .sf.is-in .sf-grid::after {
+    animation: sf-travel 1.8s cubic-bezier(0.45, 0, 0.2, 1) calc(var(--sf-n) * 0.12s + 0.3s) 1 both;
+  }
+  @keyframes sf-travel {
+    0% { left: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+
+  /* --- phones: stages stack down a vertical rule --- */
+  @media (max-width: 760px) {
+    .sf-grid { grid-template-columns: 1fr; grid-template-rows: none; row-gap: var(--space-6); }
+    .sf-col { display: flex; flex-direction: column; gap: var(--space-3); grid-row: auto; padding-left: var(--space-5); position: relative; }
+    .sf-col::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: calc(-1 * var(--space-6));
+      left: 0;
+      width: 2px;
+      background: var(--rule);
+    }
+    .sf-col:last-child::before { bottom: 0; }
+    .sf-step { padding-top: 0; }
+    .sf-step::before { display: none; }
+    .sf-node { top: var(--space-1); left: calc(-1 * var(--space-5) - var(--space-1)); }
+    .sf-exit--none, .sf-cell--empty { display: none; }
+    .sf-col:not(:first-child) .sf-cell-lab { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+    .sf-grid::after { display: none; }
+  }
+</style>

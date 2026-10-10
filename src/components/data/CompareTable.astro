@@ -1,0 +1,140 @@
+---
+/**
+ * A three-column comparison: a row header plus two sides, e.g. "Filters alone"
+ * vs "A conversation you can steer". The emphasized side sits on a tinted
+ * column so the difference reads at a glance. Also serves as a plain reference
+ * table (`emphasize="none"`), e.g. the full principle table in an expandable.
+ * Semantic <table> with a caption; under 760px each row becomes a card.
+ *
+ * Motion (in-view island): rows settle in, then the emphasized column's tint
+ * sweeps down. Static without JS / with reduced motion.
+ *
+ *   <CompareTable caption="…" columns={['', 'Filters alone', 'A conversation you can steer']}
+ *     rows={[{ head: 'Context-aware', a: '…', b: '…' }]} />
+ */
+interface Row {
+  head: string;
+  a: string;
+  b: string;
+}
+interface Props {
+  rows: Row[];
+  columns: [string, string, string];
+  caption: string;
+  emphasize?: 'b' | 'none';
+  /** Contained (inside an expandable / the reading column) instead of full content width. */
+  contained?: boolean;
+}
+const { rows, columns, caption, emphasize = 'b', contained = false } = Astro.props;
+---
+<div class:list={['ct', emphasize === 'b' && 'ct--emph', contained && 'ct--contained']} data-inview>
+  <table class="ct-table">
+    <caption class="ct-cap">{caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{columns[0]}</th>
+        <th scope="col">{columns[1]}</th>
+        <th scope="col" class="ct-b-head">{columns[2]}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((r, i) => (
+        <tr style={`--i: ${i}`}>
+          <th scope="row" class="ct-head">{r.head}</th>
+          <td class="ct-a" data-label={columns[1]}>{r.a}</td>
+          <td class="ct-b" data-label={columns[2]}>{r.b}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<style>
+  .ct {
+    position: relative;
+    width: calc(100vw - var(--sbw));
+    margin-inline: calc(50% - (100vw - var(--sbw)) / 2);
+    margin-block: var(--space-7);
+  }
+  .ct--contained { width: auto; margin-inline: 0; }
+  .ct-table {
+    width: 100%;
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--pad-page-x);
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+  .ct--contained .ct-table { padding-inline: 0; }
+  .ct-cap {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .ct-table thead th {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+    border-bottom: 1px solid var(--rule);
+  }
+  .ct-table thead th:first-child { width: 22%; }
+  .ct--emph .ct-b-head { color: var(--accent-ink); }
+  .ct-table tbody th,
+  .ct-table tbody td {
+    padding: var(--space-4);
+    vertical-align: top;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+    font-size: var(--fs-card);
+    line-height: 1.55;
+    color: var(--ink-secondary);
+  }
+  .ct-head {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--ink-primary);
+  }
+  .ct--emph .ct-b { color: var(--ink-primary); background: var(--accent-soft); }
+  .ct--emph .ct-table thead th.ct-b-head { background: var(--accent-soft); border-radius: var(--radius) var(--radius) 0 0; }
+  .ct--emph .ct-table tbody tr:last-child .ct-b { border-radius: 0 0 var(--radius) var(--radius); }
+
+  /* motion */
+  .ct-table tbody tr > * { transition: opacity 0.5s ease, transform 0.5s ease, background-color 0.6s ease; transition-delay: calc(var(--i) * 0.09s); }
+  :global(html.inview-armed) .ct:not(.is-in) .ct-table tbody tr > * { opacity: 0; transform: translateY(var(--space-2)); }
+  :global(html.inview-armed) .ct--emph:not(.is-in) .ct-b { background: transparent; }
+
+  @media (max-width: 760px) {
+    .ct-table, .ct-table tbody, .ct-table tr, .ct-table th, .ct-table td { display: block; width: auto; }
+    .ct-table thead { display: none; }
+    .ct-table tbody tr {
+      margin-bottom: var(--space-4);
+      padding: var(--space-5);
+      background: var(--bg-secondary);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-lg);
+    }
+    .ct-table tbody th, .ct-table tbody td { padding: 0; border: 0; background: none; }
+    .ct-table tbody td { margin-top: var(--space-3); }
+    .ct--emph .ct-b { padding: var(--space-3); border-radius: var(--radius); background: var(--accent-soft); }
+    .ct-table tbody td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: var(--space-1);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-tertiary);
+    }
+  }
+</style>
