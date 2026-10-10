@@ -3,6 +3,9 @@
  * Before / after of the same screen: the "after" image sits on top and is
  * clipped to the right of a divider the reader drags (or moves with the arrow
  * keys — it's a real range input). Both images must share one aspect ratio.
+ * The first time it scrolls into view, the handle sweeps left and right once
+ * and the knob pulses, so the reader sees it can be dragged (skipped under
+ * reduced motion, and stopped the moment the reader takes over).
  * Without JS it rests at the midpoint, so both halves still show. Sits on the
  * same full-bleed dotted band as <ImageShowcase>. Token-only CSS.
  *
@@ -116,6 +119,11 @@ const { label, before, after, width, height, notes } = Astro.props;
     box-shadow: var(--shadow-card);
   }
   .ba-knob svg { width: 18px; height: 18px; }
+  .ba-stage.is-hinting .ba-knob { animation: ba-pulse 1.2s ease-out 2; }
+  @keyframes ba-pulse {
+    0% { box-shadow: var(--shadow-card), 0 0 0 0 var(--accent-medium); }
+    100% { box-shadow: var(--shadow-card), 0 0 0 14px transparent; }
+  }
   .ba-tag {
     position: absolute;
     bottom: var(--space-3);
@@ -171,6 +179,34 @@ const { label, before, after, width, height, notes } = Astro.props;
       const set = () => stage.style.setProperty('--pos', `${range.value}%`);
       range.addEventListener('input', set);
       set();
+
+      // One sweep (50 → 28 → 72 → 50) the first time it's in view.
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let raf = 0, touched = false;
+      const stop = () => { touched = true; cancelAnimationFrame(raf); stage.classList.remove('is-hinting'); };
+      range.addEventListener('pointerdown', stop);
+      range.addEventListener('keydown', stop);
+      const ease = (k: number) => (k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2);
+      const sweep = () => {
+        if (touched) return;
+        stage.classList.add('is-hinting');
+        const t0 = performance.now(), D = 2400;
+        const step = (t: number) => {
+          if (touched) return;
+          const k = Math.min(1, (t - t0) / D);
+          const v = 50 - 22 * Math.sin(ease(k) * Math.PI * 2);
+          stage.style.setProperty('--pos', `${v}%`);
+          if (k < 1) raf = requestAnimationFrame(step);
+          else { stage.classList.remove('is-hinting'); range.value = '50'; set(); }
+        };
+        raf = requestAnimationFrame(step);
+      };
+      const io = new IntersectionObserver((entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        setTimeout(sweep, 400);
+      }, { threshold: 0.6 });
+      io.observe(stage);
     });
   }
   initBeforeAfter();

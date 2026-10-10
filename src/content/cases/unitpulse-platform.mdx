@@ -195,6 +195,8 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       surfaces, emerald and mint, under one calm contour field that runs across
       all tiles (bento/field.svg, scratchpad field/gen.mjs). */}
   <FieldBento
+    wide
+    cols={5}
     label="The platform's primary capabilities"
     field="/cases/unitpulse-platform/bento/field.svg"
     items={[
@@ -227,9 +229,16 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         sub: "Replies and books tours",
       },
       {
-        tone: "mint", col: 1, row: 3, cols: 4, win: 68.15, mw: 150, mh: 220,
-        image: "/cases/unitpulse-platform/bento/win-funnel.png", width: 2208, height: 846,
-        alt: "The customer journey flow with drop-offs highlighted: 57 leads, 40.1%, leave before the tour",
+        tone: "mint", col: 5, row: 1, rows: 2, win: 98.45, mw: 92, mh: 360,
+        image: "/cases/unitpulse-platform/bento/win-mobile.png", width: 762, height: 1524,
+        alt: "The agents' app on a phone: tour details for Jordan Lee at Maple Court, with the tour summary, a $3,000 to $3,200 budget and a suggested follow-up",
+        title: "Tours, summarized",
+        sub: "On the agents' app",
+      },
+      {
+        tone: "mint", col: 1, row: 3, cols: 5, win: 74.6, mw: 170, mh: 220,
+        image: "/cases/unitpulse-platform/bento/win-funnel.png", width: 3030, height: 846,
+        alt: "The customer journey flow with drop-offs highlighted, from 142 inquiries through tour scheduled, tour finished and application submitted, with 57 leads, 40.1%, leaving before the tour",
         title: "Look into drop-offs",
         sub: "See where renters leave the funnel",
       },
@@ -703,10 +712,10 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 
-  <SectionH small>One page, before and after</SectionH>
+  <SectionH small>Before and after the new design system</SectionH>
   <BodyText>
-    The For You page on the first version of the system, and the same page
-    today. Drag the handle to compare.
+    The same For You page on the first version of the system, and on the new
+    one.
   </BodyText>
   {/* Before = the For You page in the first, brief-based system (main's
       hero-cover.png); after = the same page today (vNext coded mock). */}
