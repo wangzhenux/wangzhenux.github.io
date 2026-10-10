@@ -75,6 +75,27 @@
   --up-frame-shadow: 0 18px 40px -20px rgba(0, 50, 35, 0.42), 0 0 0 1px rgba(0, 60, 40, 0.1);
   --up-float-shadow: 0 14px 30px -12px rgba(0, 50, 35, 0.48), 0 0 0 1px rgba(0, 60, 40, 0.1);
 
+  /* === Code editor window (design literals) ===
+     A dark editor for document excerpts (design.md): warm near-black ground,
+     window dots, and 3 markdown tints (headings, bold, list markers). Text
+     and tints clear WCAG AA on the editor ground; only the decorative line
+     numbers sit lower. */
+  --code-bg: #1C1714;
+  --code-head: #26201B;
+  --code-rule: rgba(240, 230, 210, 0.1);
+  --code-ink: #D9CFBD;
+  --code-strong: #FFF4E2;
+  --code-muted: rgba(240, 230, 210, 0.38); /* line numbers, decorative */
+  --code-dim: rgba(240, 230, 210, 0.62);
+  --code-h: #F08466;
+  --code-b: #F2C879;
+  --code-mark: #8CC9A9;
+  --code-inline: rgba(255, 255, 255, 0.08);
+  --code-dot-1: #FF5F57;
+  --code-dot-2: #FEBC2E;
+  --code-dot-3: #28C840;
+  --code-shadow: 0 24px 50px -24px rgba(20, 14, 8, 0.55);
+
   /* === AI agent map (design literals) ===
      One line color per product on a warm near-white panel. All 5 clear WCAG AA
      (about 5:1 or better) as small text on the panel. */

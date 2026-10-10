@@ -17,10 +17,10 @@
  * aligned to the content width; the map scrolls sideways on phones.
  * Token-only CSS.
  *
- *   <AgentMap id="agents" rules={['…', '…']} />
+ *   <AgentMap id="agents" rulesTitle="How people stay in charge" rules={['…', '…']} />
  */
-interface Props { id?: string; label?: string; rules?: string[] }
-const { id, label = 'How the AI agents work across UnitPulse', rules = [] } = Astro.props;
+interface Props { id?: string; label?: string; rulesTitle?: string; rules?: string[] }
+const { id, label = 'How the AI agents work across UnitPulse', rulesTitle, rules = [] } = Astro.props;
 
 type Kind = 'agent' | 'auto' | 'person' | 'out' | 'io' | 'record';
 interface Details { job?: string; tag?: string; uses?: string[]; reads?: string; writes?: string; control?: string }
@@ -210,9 +210,12 @@ const data = JSON.stringify(nodes);
       <span class="am-hint-touch">Tap a station for details, and scroll sideways to see the whole map.</span>
     </p>
     {rules.length > 0 && (
-      <ul class="am-rules">
-        {rules.map((r) => <li>{r}</li>)}
-      </ul>
+      <div class="am-rules-wrap">
+        {rulesTitle && <p class="am-rules-t">{rulesTitle}</p>}
+        <ul class="am-rules">
+          {rules.map((r) => <li>{r}</li>)}
+        </ul>
+      </div>
     )}
   </div>
   <script type="application/json" class="am-data" set:html={data} />
@@ -327,9 +330,18 @@ const data = JSON.stringify(nodes);
     .am-hint-touch { display: inline; }
   }
 
+  .am-rules-wrap { margin-top: var(--space-2); display: grid; gap: var(--space-3); }
+  .am-rules-t {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
   .am-rules {
     list-style: none;
-    margin: var(--space-2) 0 0;
+    margin: 0;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

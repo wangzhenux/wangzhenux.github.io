@@ -1,9 +1,10 @@
 ---
 /**
  * An excerpt of a real working document (a spec, a design.md), shown as a
- * file window: path and note in the header, numbered lines below, with light
- * markdown styling (headings, quotes, list items, inline `code`). Lines are
- * trimmed from the source, not rewritten, so the excerpt stays checkable.
+ * dark code-editor window: path and note in the header, numbered lines below,
+ * with light markdown highlighting (headings, bold, list markers, quotes,
+ * inline `code`). Lines are trimmed from the source, not rewritten, so the
+ * excerpt stays checkable.
  * With slotted content (e.g. an inline <CardGrid>), the window and the slot sit
  * side by side at content width; without it, the window stays in the column.
  * Token-only CSS.
@@ -21,7 +22,11 @@ const kind = (l: string) =>
   /^#{1,6}\s/.test(l) ? 'h' : /^>\s?/.test(l) ? 'q' : /^\s*([-*]|\d+\.)\s/.test(l) ? 'li' : l.trim() === '' ? 'blank' : 'p';
 const aside = Astro.slots.has('default');
 const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const inline = (t: string) => esc(t).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+const inline = (t: string) =>
+  esc(t)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+    .replace(/^(\s*)([-*]|\d+\.)(\s)/, '$1<i class="doc-mk">$2</i>$3');
 ---
 <div class:list={['doc-wrap', { 'doc-wrap--split': aside }]}>
 <figure class="doc" aria-label={label}>
@@ -53,27 +58,29 @@ const inline = (t: string) => esc(t).replace(/`([^`]+)`/g, '<code>$1</code>').re
   }
   .doc {
     margin: 0;
-    border: 1px solid var(--rule);
+    border: 1px solid var(--code-rule);
     border-radius: var(--radius-lg);
-    background: var(--bg-primary);
+    background: var(--code-bg);
     overflow: hidden;
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--code-shadow);
   }
   .doc-head {
     display: flex;
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid var(--rule);
-    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--code-rule);
+    background: var(--code-head);
     font-family: var(--font-mono);
     font-size: 12px;
-    color: var(--ink-secondary);
+    color: var(--code-ink);
   }
-  .doc-dots { display: inline-flex; gap: var(--space-1); }
-  .doc-dots i { width: 9px; height: 9px; border-radius: 999px; background: var(--rule); }
-  .doc-path { color: var(--ink-primary); }
-  .doc-note { margin-left: auto; color: var(--ink-tertiary); }
+  .doc-dots { display: inline-flex; gap: calc(var(--space-1) + 2px); }
+  .doc-dots i { width: 10px; height: 10px; border-radius: 999px; background: var(--code-dot-1); }
+  .doc-dots i:nth-child(2) { background: var(--code-dot-2); }
+  .doc-dots i:nth-child(3) { background: var(--code-dot-3); }
+  .doc-path { color: var(--code-strong); }
+  .doc-note { margin-left: auto; color: var(--code-dim); }
   .doc-body {
     margin: 0;
     padding: var(--space-4) 0;
@@ -82,7 +89,7 @@ const inline = (t: string) => esc(t).replace(/`([^`]+)`/g, '<code>$1</code>').re
     font-family: var(--font-mono);
     font-size: 13.5px;
     line-height: 1.75;
-    color: var(--ink-secondary);
+    color: var(--code-ink);
     overflow-x: auto;
   }
   .doc-l {
@@ -93,12 +100,12 @@ const inline = (t: string) => esc(t).replace(/`([^`]+)`/g, '<code>$1</code>').re
     padding-inline: var(--space-4) var(--space-6);
     white-space: pre-wrap;
   }
-  .doc-l::before { content: counter(ln); text-align: right; color: var(--ink-tertiary); opacity: 0.6; }
-  .doc-l--h { color: var(--accent); font-weight: 600; }
-  .doc-l--q { color: var(--ink-primary); font-style: italic; }
-  .doc-l--li { color: var(--ink-primary); }
-  .doc-l :global(code) { padding: 0 var(--space-1); border-radius: 4px; background: var(--bg-secondary); }
-  .doc-l :global(b) { color: var(--ink-primary); }
+  .doc-l::before { content: counter(ln); text-align: right; color: var(--code-muted); }
+  .doc-l--h { color: var(--code-h); font-weight: 600; }
+  .doc-l--q { color: var(--code-strong); font-style: italic; }
+  .doc-l :global(code) { padding: 0 var(--space-1); border-radius: 4px; background: var(--code-inline); color: var(--code-strong); }
+  .doc-l :global(b) { color: var(--code-b); font-weight: 600; }
+  .doc-l :global(.doc-mk) { color: var(--code-mark); font-style: normal; }
   @media (max-width: 900px) {
     .doc-wrap--split { grid-template-columns: 1fr; }
   }

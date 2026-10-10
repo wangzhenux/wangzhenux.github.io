@@ -33,16 +33,17 @@ outcome:
 sections:
   - { id: ctx, num: "00", label: "Context" }
   - { id: p1, num: "01", label: "Who it serves" }
-  - { id: p2, num: "02", label: "Generate demand" }
-  - { id: p3, num: "03", label: "Convert leads" }
-  - { id: p4, num: "04", label: "Optimize operations" }
-  - { id: vc, num: "05", label: "Voice AI" }
-  - { id: p6, num: "06", label: "On the go" }
-  - { id: cp, num: "07", label: "Copilot" }
-  - { id: p5, num: "08", label: "One platform" }
-  - { id: ds, num: "09", label: "Design system" }
-  - { id: p7, num: "10", label: "Evidence" }
-  - { id: p8, num: "11", label: "Reflection" }
+  - { id: ai, num: "02", label: "AI agents" }
+  - { id: p2, num: "03", label: "Generate demand" }
+  - { id: p3, num: "04", label: "Convert leads" }
+  - { id: p4, num: "05", label: "Optimize operations" }
+  - { id: vc, num: "06", label: "Voice AI" }
+  - { id: p6, num: "07", label: "On the go" }
+  - { id: cp, num: "08", label: "Copilot" }
+  - { id: p5, num: "09", label: "One platform" }
+  - { id: ds, num: "10", label: "Design system" }
+  - { id: p7, num: "11", label: "Evidence" }
+  - { id: p8, num: "12", label: "Reflection" }
 ---
 
 import BodyText from '../../components/reading/BodyText.astro';
@@ -130,7 +131,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   - Convergence framed as a team effort I drove as design lead — the team
     stays credited, the verb matches the resume's "Drive the convergence…".
     The absorption architecture stays a shared effort with engineering, which
-    is a separate, narrower claim in Part 05.
+    is a separate, narrower claim in the One platform part (#p5).
   - Marketing surfaces: design ownership NOT claimed. ‹C-roles›
 
   CONFIRM before publish:
@@ -144,7 +145,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     folded into the PM card; split out if you want a fourth.
   ‹C-ai-behaviors› RESOLVED 2026-10-08: the segment playbook (virtual-first,
     amenity gap, engaging emails) is not in the exported flows; replaced by
-    flow-verified behaviors in Part 03.
+    flow-verified behaviors in the Leasing part (#p3).
   ‹C-split› Portal UX-layer vs absorption-architecture credit split.
 
   VISUALS (all real as of 2026-07-12):
@@ -237,8 +238,41 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   />
 </section>
 
+<section id="ai" data-reveal>
+  <PartHeader num="02" title="AI agents and human control" />
+  <BodyText>
+    The map below shows the 10 main AI agents across the 5 products, with
+    rules-based steps between them and people taking over where it matters.
+    No agent runs the others. They meet at one shared renter record, so a
+    text, a call and a tour all land in the same profile. I designed how
+    people stay in charge: the AI steps back once a person replies, and
+    Copilot waits for a yes before it changes anything.
+    {/* ‹C-agents› Verified in ~/UnitPulse/main with Codex (2026-10-10): the
+        customer wide table is the hub, with no central orchestrator. Lead
+        emails run add_leads → assign-agent → AI leasing trigger. AI reply
+        needs property + conversation + customer switches and skips when a
+        human sent the last message. Content checks, publisher, reply-task
+        router, call router and daily brief are rules-based. Insight reads
+        derived analytics, not the record. Copilot lookups run at once; every
+        write waits for a confirmation. Voice AI is a pilot (Zhen 2026-10-10).
+        Zhen led the step-back and confirm decisions (2026-10-10). Placement:
+        own part after the personas, per a Codex review (2026-10-10), so the
+        product parts' "AI agents here" lines point back to it. "10 main"
+        because some stations group sub-agents (e.g. Property strategist). */}
+  </BodyText>
+  <AgentMap
+    id="agents"
+    rulesTitle="How people stay in charge"
+    rules={[
+      "AI replies only when the property, the conversation and the renter all allow it. New properties start with it off.",
+      "Once a person replies, the AI steps back from that conversation.",
+      "Copilot looks things up right away, but every change waits for a yes.",
+    ]}
+  />
+</section>
+
 <section id="p2" data-reveal>
-  <PartHeader num="02" title="Marketing: generate demand" />
+  <PartHeader num="03" title="Marketing: generate demand" />
   <BodyText>
     Marketing was our first product and our first paying customer. It started
     as a post generator and grew into **an AI marketing team inside the
@@ -295,7 +329,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p3" data-reveal>
-  <PartHeader num="03" title="Leasing: convert leads" />
+  <PartHeader num="04" title="Leasing: convert leads" />
   <BodyText>
     UP Leasing turns that demand into signed leases. The AI answers every
     inquiry **knowing who's asking**, writes follow-ups worth reading, and books
@@ -349,7 +383,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p4" data-reveal>
-  <PartHeader num="04" title="Insight: optimize operations" />
+  <PartHeader num="05" title="Insight: optimize operations" />
   <BodyText>
     UP Insight closes the loop for owners who aren't analysts: the full funnel,
     per-prospect attribution, the biggest leak called out each morning, and a
@@ -385,7 +419,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="vc" data-reveal>
-  <PartHeader num="05" title="Voice AI: answer every call" />
+  <PartHeader num="06" title="Voice AI: answer every call" />
   <BodyText>
     When an agent is on a tour, the phone still rings. I designed the setup
     board, call review, inquiries, work orders and the conversation flows.
@@ -460,7 +494,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p6" data-reveal>
-  <PartHeader num="06" title="On the go — the agent's mobile app" />
+  <PartHeader num="07" title="On the go — the agent's mobile app" />
   <BodyText>
     Leasing happens on foot, so we built the agents' app **from scratch in 2
     weeks**, and I decided what went in first. The feature I pushed hardest for
@@ -552,7 +586,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="cp" data-reveal>
-  <PartHeader num="07" title="Copilot: one assistant for every product" />
+  <PartHeader num="08" title="Copilot: one assistant for every product" />
   {/* Today = verified in web-unitpulse-portal (2026-10-09): Insight AidenCopilot
       returns profile / KPI / chart / list answers and can open views; Marketing's
       Copilot drafts a post for a property and reports channel performance; the
@@ -582,7 +616,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p5" data-reveal>
-  <PartHeader num="08" title="Separate products, one platform" />
+  <PartHeader num="09" title="Separate products, one platform" />
   <BodyText>
     Customers came for Marketing, then asked us to run the whole journey. But
     the 3 products didn't talk to each other, **even though they shared one
@@ -594,6 +628,29 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     shell as the fourth product.
     {/* ‹C-dates› spring/summer beats */}
   </BodyText>
+
+  <SectionH small>What kept the merge safe</SectionH>
+  <CardGrid
+    label="What kept the merge safe"
+    items={[
+      {
+        icon: "grid",
+        title: "One set of components",
+        body: "Each app's own buttons, tables and forms gave way to one shared set, so the screens stopped drifting apart.",
+      },
+      {
+        icon: "shield",
+        title: "Written rules",
+        body: "A list of UI mistakes we'd already fixed once, so they don't come back.",
+      },
+      {
+        icon: "merge",
+        title: "A merge, not a rewrite",
+        body: "Products moved over in phases while the old apps kept running, so no customer had to switch overnight.",
+      },
+    ]}
+  />
+
   <BodyText>
     I owned the navigation, access states and interaction rules; engineering
     led the technical integration. As of October 2026, more than 100
@@ -619,58 +676,10 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       height={1512}
     />
   </ImageShowcase>
-
-  <SectionH small>How the AI agents work together</SectionH>
-  <BodyText>
-    Each product runs its own small team of AI agents, with rules-based steps
-    and people in between. No agent runs the others. They meet at one renter
-    record, and when one needs a person, it hands off a task. That record is
-    also what let the products merge: a text, a call and a tour all land in
-    the same profile.
-    {/* ‹C-agents› Verified in ~/UnitPulse/main with Codex (2026-10-10): the
-        customer wide table is the hub, with no central orchestrator. Lead
-        emails run add_leads → assign-agent → AI leasing trigger. AI reply
-        needs property + conversation + customer switches and skips when a
-        human sent the last message. Content checks, publisher, reply-task
-        router, call router and daily brief are rules-based. Insight reads
-        derived analytics, not the record. Copilot lookups run at once; every
-        write waits for a confirmation. Voice AI is a pilot (Zhen 2026-10-10).
-        Zhen led the 2 control decisions below. */}
-  </BodyText>
-  <AgentMap
-    id="agents"
-    rules={[
-      "AI replies only when the property, the conversation and the renter all allow it. New properties start with it off.",
-      "Once a person replies, the AI steps back from that conversation.",
-      "Copilot looks things up right away, but every change waits for a yes.",
-    ]}
-  />
-
-  <SectionH small>What made the merge safe</SectionH>
-  <CardGrid
-    label="What made the merge safe"
-    items={[
-      {
-        icon: "grid",
-        title: "One design language",
-        body: "Canonical primitives replaced each app's local variants, so the merged UI stopped drifting.",
-      },
-      {
-        icon: "shield",
-        title: "Rules that keep it coherent",
-        body: "An anti-pattern rulebook that kills recurring UI bugs instead of re-fixing them.",
-      },
-      {
-        icon: "merge",
-        title: "A merge, not a rewrite",
-        body: "Namespaced routes and a phased cutover. The legacy apps kept shipping, so customers never hit a cliff.",
-      },
-    ]}
-  />
 </section>
 
 <section id="ds" data-reveal>
-  <PartHeader num="09" title="The design system" />
+  <PartHeader num="10" title="The design system" />
   <BodyText>
     The 3 products were built fast, with AI writing Tailwind before AI was good
     at it, so every screen spoke its own dialect. I wrote the language down once
@@ -785,7 +794,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p7" data-reveal>
-  <PartHeader num="10" title="What it's done so far" />
+  <PartHeader num="11" title="What it's done so far" />
   {/* Zhen 2026-10-10: 100+ properties moved to the new platform (Oct 2026).
       7 partner accounts (Aug 2026 canonical). Pendo, May 2026: 79 accounts on
       UP Insight (52 on the core dashboard), ~45 min per user per week. */}
@@ -848,7 +857,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p8" data-reveal>
-  <PartHeader num="11" title="Reflection" />
+  <PartHeader num="12" title="Reflection" />
   <Reflection>
     <ReflectionCard label="On what I got wrong" heading="Spec first, then let AI build" art="spec">
       Early on I handed AI coding an underspecified design language and took
