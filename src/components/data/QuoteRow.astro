@@ -10,4 +10,8 @@
     gap: var(--space-4);
     margin: var(--space-6) 0;
   }
+  /* Cards stack on mobile (§9.1). */
+  @media (max-width: 767px) {
+    .quote-row { grid-template-columns: 1fr; }
+  }
 </style>

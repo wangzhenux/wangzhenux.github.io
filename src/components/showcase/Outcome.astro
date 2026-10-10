@@ -52,4 +52,8 @@ const { metric, heading } = Astro.props;
     grid-column: 1 / -1;
     margin-top: var(--space-6);
   }
+  /* Metric above the text on mobile. */
+  @media (max-width: 767px) {
+    .outcome { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-5); }
+  }
 </style>
