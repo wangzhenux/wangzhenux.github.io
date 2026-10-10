@@ -89,7 +89,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   before publish.
 
   HARD RULES honored in copy:
-  - Portal is "built & merged, pre-cutover" — never "launched."
+  - Portal: 100+ properties on the merged platform as of Oct 2026 (Zhen 2026-10-10).
   - No PR/commit counts; velocity is DATES only (from-zero Feb 2026;
     mobile app in two weeks).
   - Insight adoption [REAL] (Pendo, May 2026): 79 accounts, 78 active
@@ -313,10 +313,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   </BodyText>
   <BodyText>
     I owned the navigation, access states and interaction rules; engineering
-    led the technical integration. It's built and merged. The property in the
-    results below already runs on it, and other customers move over in phases.
-    {/* ‹C-split› Cohort property ran the MERGED platform (Zhen 2026-08-02);
-        "not fully cut over" refers to other customers. */}
+    led the technical integration. As of October 2026, more than 100
+    properties run on the merged platform.
+    {/* ‹C-split› Zhen 2026-10-10: 100+ properties moved over. */}
   </BodyText>
 
   {/* EXAMPLE VISUAL — token-built timeline; replace with final Figma export */}
@@ -807,7 +806,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     label="From a call or tour to a follow-up"
     steps={[
       { label: "Capture", desc: "A call is recorded, or a tour on the app.", tag: "code", shot: { src: "/cases/unitpulse-platform/calls/capture.jpg", alt: "Jordan Lee's timeline: the tour booked on Oct 2 for Unit 204 with Alex Rivera, then Jordan's inbound call on Oct 3, completed, and its recording playing", width: 1200, height: 1500 } },
-      { label: "Transcribe", desc: "Every speaker, word for word.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/transcript.jpg", alt: "The call transcript, Caller and Agent: Jordan confirms the 2 PM tour of Unit 204, hears street parking is easy after 6 pm, and asks whether a small dog is okay", width: 1200, height: 1500 } },
+      { label: "Transcribe", desc: "Every speaker, word for word.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/transcript.jpg", alt: "The call transcript, each line labelled Agent or Caller with its time into the call: Jordan confirms the 2 PM tour of Unit 204, hears street parking is easy after 6 pm, and asks whether a small dog is okay", width: 1200, height: 1500 } },
       { label: "Summarize", desc: "A summary card on the prospect's timeline.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/summary.jpg", alt: "The phone call summary card: the 2 PM tour of Unit 204 confirmed, no assigned parking but street parking after 6 pm, the small dog fine with a pet deposit, with View transcript and the recording", width: 1200, height: 1500 } },
       { label: "Follow up", desc: "After a tour, the app suggests next steps and an email.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/followup.jpg", alt: "The agents' app suggests a follow-up for this week: send the pet policy and dog deposit, share street parking, hold Unit 204 through Friday, Oct 9, with a drafted email and a Copy email button", width: 1200, height: 1500 } },
     ]}
@@ -816,12 +815,25 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p7" data-reveal>
-  <PartHeader num="10" title="What it's done so far — honestly" />
+  <PartHeader num="10" title="What it's done so far" />
+  {/* Zhen 2026-10-10: 100+ properties moved to the new platform (Oct 2026).
+      7 partner accounts (Aug 2026 canonical). Pendo, May 2026: 79 accounts on
+      UP Insight (52 on the core dashboard), ~45 min per user per week. */}
+  <ResearchStats cols={3}>
+    <Stat num="100+" label="Properties on the platform">
+      <span class="item">As of October 2026</span>
+    </Stat>
+    <Stat num="7" label="Partner accounts">
+      <span class="item">Owners and operators leasing through it</span>
+    </Stat>
+    <Stat num="~45 min" label="Insight use per user, weekly">
+      <span class="item">79 accounts, May 2026</span>
+    </Stat>
+  </ResearchStats>
   <BodyText>
-    The sharpest evidence is one property that ran entirely on the merged
-    platform: **93 units, 3 leasing agents, 2 months**. Every one of these
-    leads entered in that window, and every signed lease came from that same
-    group, so it's one funnel I can follow end to end.
+    One property shows the whole funnel: a new 93-unit building, 3 leasing
+    agents, 2 months. Every lead came in during that window, and every signed
+    lease came from those leads.
     {/* ‹C-funnel› numbers from Zhen 2026-08-02, Superset dashboard.
         Cohort confirmed clean (all leads in-window, all leases from them);
         property ran the MERGED platform during the window. */}
@@ -842,37 +854,15 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       cutoff, so the cohort is still maturing. Reference: ResMan 2024, 8.7%
       average lead-to-lease across 1.5M leads / 4,300 properties
       (https://www.myresman.com/blog/maximizing-lease-conversions-data-insights-from-the-leasing-funnel/);
-      lead definitions differ across operators, so comparison is directional. */}
+      lead definitions differ across operators, so comparison is directional.
+      ‹C-completed-tours› 48.7% is tours SCHEDULED; the 25% benchmark counts
+      COMPLETED showings, so it is deliberately not compared here. */}
   <BodyText>
-    Worth knowing how to read that last number: this is a **new property in
-    lease-up**, so we were leasing all 93 units at once. That's context for
-    the back half, not an explanation of it; I can't say how much of the gap
-    it accounts for. It's also why there's no before-and-after here. There
-    was no before.
-  </BodyText>
-  <BodyText>
-    The recordings are what made the drop-off legible. The same objections
-    kept coming back: no parking, bedrooms with windows facing the stairwell
-    or the elevator. I can't say those cost us every lost lease, and I'm not
-    claiming the platform caused a lift, there's no clean baseline for that.
-    What it did was run the whole funnel and show me where it leaked.
-  </BodyText>
-  {/* ‹C-completed-tours› 48.7% is tours SCHEDULED. The commonly cited 25%
-      inquiry-to-showing benchmark (RentViewer via Leasey.AI) counts COMPLETED
-      showings, so it is deliberately NOT compared here. Restore only with a
-      completed-tour count for this property, labeled "vendor-reported." */}
-  <BodyText>
-    Across the platform: **7 partner accounts** lease through it, and UP
-    Insight has 79 accounts, with about 45 minutes of use per user a week.
-    {/* SOURCE (internal): Pendo, May 2026. 52 of the 79 on the core dashboard. */}
-  </BodyText>
-  {/* ‹C-mkt› ‹C-mobile› add when ready: marketing traffic/leads/GBP views,
-      tours booked via AI, recap-email engagement, mobile usage — each with
-      its measurement window. */}
-  <BodyText>
-    The property above already runs on the merged portal; other customers move
-    over in phases. The convergence was **a team effort I drove** as design
-    lead.
+    The building was in lease-up, filling all 93 units at once, so there's no
+    before to compare against, and I don't claim the platform caused a lift.
+    What it did was run the whole funnel and show where it leaked. Tour
+    recordings kept surfacing the same objections: no parking, and bedrooms
+    facing the stairwell or the elevator.
   </BodyText>
   <SectionH small>What I'd hold it to</SectionH>
   {/* Zhen 2026-10-08: no formal AI PRD. ~70% = share of inquiry-to-tour
@@ -890,7 +880,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 <section id="p8" data-reveal>
   <PartHeader num="11" title="Reflection" />
   <Reflection>
-    <ReflectionCard label="On what I got wrong" heading="Spec first, then let AI build">
+    <ReflectionCard label="On what I got wrong" heading="Spec first, then let AI build" art="spec">
       Early on I handed AI coding an underspecified design language and took
       the speed. The drift and rework that followed taught me the order:
       write the system down first — a design.md, tokens, tested components —
@@ -898,7 +888,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       still need to define the behavior, review the details, and test whether
       it works for the person using it.
     </ReflectionCard>
-    <ReflectionCard label="What I'd fix next" heading="Recovery at the edges">
+    <ReflectionCard label="What I'd fix next" heading="Recovery at the edges" art="recovery">
       Two missed keypresses at the phone menu still end a call; they should
       reach voicemail. And text written by code should answer in the renter's
       language, the way the AI's own replies do.
