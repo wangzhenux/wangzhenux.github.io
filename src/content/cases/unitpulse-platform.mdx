@@ -158,7 +158,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     via Gemini) — fictional stand-ins for landlord / property manager /
     leasing agent, not real people. bento/personas/*.jpg.
   - Context <FieldBento>: transparent product windows (bento/win-*.png, vNext
-    coded mocks, fictional data) on tiles in the product's own surfaces, under
+    coded mocks, fictional data) on emerald and mint tiles, under
     one contour field (bento/field.svg). mobile/phone-recording.jpg was PULLED
     2026-10-08 (real customer data).
   - PRODUCT VIDEOS: marketing.mp4, leasing.mp4 and insight.mp4 (and copilot.mp4) are coded
@@ -190,10 +190,10 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     later**.
     {/* ‹C-dates› */}
   </BodyText>
-  {/* Bento v3 (2026-10-09, round 5): transparent product windows (coded mocks
-      in the vNext system, scratchpad mocks/bento3/) on tiles that alternate the
-      product's own surfaces, with one contour field running across all tiles
-      (bento/field.svg, scratchpad field/gen.mjs). */}
+  {/* Bento v3 (2026-10-09): transparent product windows (coded mocks in the
+      vNext system, scratchpad mocks/bento3/) on tiles in 2 of the product's own
+      surfaces, emerald and mint, under one calm contour field that runs across
+      all tiles (bento/field.svg, scratchpad field/gen.mjs). */}
   <FieldBento
     label="The platform's primary capabilities"
     field="/cases/unitpulse-platform/bento/field.svg"
@@ -201,14 +201,14 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       {
         tone: "emerald", col: 1, row: 1, cols: 2, rows: 2, win: 97.74, mw: 108, mh: 360,
         image: "/cases/unitpulse-platform/bento/win-kanban.png", width: 1560, height: 1512,
-        alt: "The Customers pipeline with Inquiry, Tour and Application columns of lead cards; Jordan Lee's card is selected",
+        alt: "The Customers pipeline with Inquiry and Tour columns of lead cards and the Application column running off the edge",
         title: "Every lead, inquiry to signed",
         sub: "One pipeline across every property",
       },
       {
-        tone: "lavender", col: 3, row: 1, win: 98.45, mw: 92, mh: 230,
+        tone: "mint", col: 3, row: 1, win: 98.45, mw: 92, mh: 230,
         image: "/cases/unitpulse-platform/bento/win-copilot.png", width: 762, height: 630,
-        alt: "The Copilot greeting Alex with a suggested question, and Why did applications drop? typed into the ask box",
+        alt: "A Copilot answer: applications fell from 9 to 4 this week, mostly 2B2B at Maple Court, above a bar chart of 2B2B tours by day",
         title: "Just ask Copilot",
         sub: "Answers from live data",
       },
@@ -220,14 +220,14 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         sub: "Drafted from the analysis",
       },
       {
-        tone: "violet", col: 4, row: 1, rows: 2, win: 98.45, mw: 92, mh: 340,
+        tone: "emerald", col: 4, row: 1, rows: 2, win: 98.45, mw: 92, mh: 340,
         image: "/cases/unitpulse-platform/bento/win-ai-reply.png", width: 762, height: 1512,
-        alt: "An inbox thread: the team offers 3 tour times for Unit 204, Jordan replies 2 PM works, and the tour is booked at Maple Court for Saturday, Oct 3, with an SMS confirmation",
+        alt: "An inbox thread: the team offers Saturday tour times for Unit 204, Jordan replies 2 PM works, and the tour is booked at Maple Court with Alex Rivera hosting",
         title: "AI leasing",
         sub: "Replies and books tours",
       },
       {
-        tone: "brief", col: 1, row: 3, cols: 4, win: 68.15, mw: 150, mh: 220,
+        tone: "mint", col: 1, row: 3, cols: 4, win: 68.15, mw: 150, mh: 220,
         image: "/cases/unitpulse-platform/bento/win-funnel.png", width: 2208, height: 846,
         alt: "The customer journey flow with drop-offs highlighted: 57 leads, 40.1%, leave before the tour",
         title: "Look into drop-offs",
@@ -318,10 +318,10 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     blocks={[
       {
         principle: "Cooperative principle",
-        quote: "Ready to tour at Maple Court, 2410 Larkhaven Blvd.",
+        quote: "Ready to tour at Maple Court, 2410 Wren Hollow Ave.",
         happened: "Drafts went out with the property on the wrong street.",
         designed: "A fact check now flags any address that doesn't match the confirmed one, and any price or special the property data doesn't back, before anything posts.",
-        image: { src: "/cases/unitpulse-platform/marketing/factcheck.jpg", alt: "A draft with the fact check flagging a street address that doesn't match the confirmed address", width: 1800, height: 1260 },
+        image: { src: "/cases/unitpulse-platform/marketing/factcheck.jpg", alt: "A post preview with 2 property photos, where the fact check highlights the wrong street in the post copy and flags that it doesn't match the confirmed address", width: 1800, height: 1260 },
       },
     ]}
   />
@@ -333,7 +333,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     UP Leasing turns that demand into signed leases. The AI answers every
     inquiry **knowing who's asking**, writes follow-ups worth reading, and books
     the tour itself on the on-shift agent's calendar. When the system doesn't
-    have the answer, usually pricing, the question goes to an agent as a task.
+    have the answer, the question goes to an agent as a task.
     {/* ‹C-ai-behaviors› */}
   </BodyText>
 
@@ -361,7 +361,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       { label: "Reply", desc: "A warm, short answer in the renter's language.", tag: "ai" },
       { label: "Hand off", desc: "Lead, chat and preferences go to the on-duty agent.", tag: "person" },
     ]}
-    lanes={[{ label: "People", tone: "person", cells: [null, null, null, "Missing data, often pricing, becomes a task for an agent", null, "The agent takes over the thread"] }]}
+    lanes={[{ label: "People", tone: "person", cells: [null, null, null, "Missing data becomes a task for an agent", null, "The agent takes over the thread"] }]}
     rails={["Any time an agent replies, the AI goes quiet. Agents can switch it off per conversation."]}
   />
 
@@ -370,31 +370,28 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     label="AI leasing behaviors"
     autoplay={false}
     slides={[
-      { eyebrow: "Cooperative principle", title: "“Can I come see it Saturday at 2?”", body: "Renters ask to tour at any hour, often after the office closes. The AI checks the on-shift agent's calendar and books the slot, or offers the nearest open times.", image: "/cases/unitpulse-platform/leasing/request.jpg", imageAlt: "The AI booking a Saturday tour of unit 204 on the leasing agent's calendar", width: 1680, height: 1641, bg: "var(--bg-secondary)" },
-      { eyebrow: "Move the conversation forward", title: "“A 2 bedroom under $2,400 at Maple Court?”", body: "Nothing at this building fits. It says so, then lists matching units at sister properties, each under its own name, with the same filters.", image: "/cases/unitpulse-platform/leasing/nomatch.jpg", imageAlt: "The AI saying Maple Court has nothing under $2,400 and listing matching units at The Linden and Harbor View Lofts", width: 1680, height: 1560, bg: "var(--bg-secondary)" },
-      { eyebrow: "Listen between the lines", title: "“Does unit 204 have parking?”", body: "Curiosity isn't a requirement. A question gets an answer; only “I need parking” becomes a filter, and a tour date is never read as a move-in date.", image: "/cases/unitpulse-platform/leasing/asking.jpg", imageAlt: "A parking question answered without adding a filter, then I need parking adds a Parking preference", width: 1680, height: 1521, bg: "var(--bg-secondary)" },
-      { eyebrow: "Turn-taking", title: "“Is there a move-in special if I sign by Oct 15?”", body: "Pricing isn't in the property data, and a guess would be a promise. The AI says it will check and opens a Need Reply task; when the agent answers, the AI goes quiet.", image: "/cases/unitpulse-platform/leasing/handoff.jpg", imageAlt: "A pricing question the AI can't answer becomes a Need Reply task; the agent answers and AI leasing turns off for the conversation", width: 1680, height: 1737, bg: "var(--bg-secondary)" },
+      { eyebrow: "Cooperative principle", title: "“Can I come see it Saturday at 2?”", parts: [{ label: "What happened", text: "Renters ask to tour at any hour, often after the office closes." }, { label: "What we designed", text: "The AI checks the on-shift agent's calendar and books the slot, or offers the nearest open times. The tour lands on the agent's calendar." }], image: "/cases/unitpulse-platform/leasing/request.jpg", imageAlt: "The AI booking a Saturday tour of unit 204 on the leasing agent's calendar", width: 1680, height: 1641, bg: "var(--bg-secondary)" },
+      { eyebrow: "Move the conversation forward", title: "“A 2 bedroom under $2,400 at Maple Court?”", parts: [{ label: "What happened", text: "Nothing at this building fits." }, { label: "What we designed", text: "It says so, then lists matching units at sister properties, each under its own name, with the same filters." }], image: "/cases/unitpulse-platform/leasing/nomatch.jpg", imageAlt: "The AI saying Maple Court has nothing under $2,400 and listing matching units at The Linden and Harbor View Lofts", width: 1680, height: 1560, bg: "var(--bg-secondary)" },
+      { eyebrow: "Listen between the lines", title: "“Does unit 204 have parking?”", parts: [{ label: "What happened", text: "Curiosity isn't a requirement." }, { label: "What we designed", text: "A question gets an answer. Only “I need parking” becomes a filter, and a tour date is never read as a move-in date." }], image: "/cases/unitpulse-platform/leasing/asking.jpg", imageAlt: "A parking question answered without adding a filter, then I need parking adds a Parking preference", width: 1680, height: 1521, bg: "var(--bg-secondary)" },
+      { eyebrow: "Turn-taking", title: "“Is there a move-in special if I sign by Oct 15?”", parts: [{ label: "What happened", text: "Pricing isn't in the property data, and a guess would be a promise." }, { label: "What we designed", text: "The AI says it will check and opens a Need Reply task for the agent. When the agent answers, the AI goes quiet for the rest of the thread." }], image: "/cases/unitpulse-platform/leasing/handoff.jpg", imageAlt: "A pricing question the AI can't answer becomes a Need Reply task; the agent answers and AI leasing turns off for the conversation", width: 1680, height: 1737, bg: "var(--bg-secondary)" },
     ]}
   />
 
   <SectionH small>Every call and tour lands in the profile</SectionH>
+  {/* Step shots (2026-10-09, round 6): coded mocks from the real Portal timeline,
+      transcript dialog and summary card, and the agents' app tour follow-up
+      (scratchpad mocks/call-steps/). The Portal has no reviewable follow-up
+      email; the app suggests one after a recorded tour. */}
   <StageFlow
+    wide
     label="From a call or tour to a follow-up"
     steps={[
-      { label: "Capture", desc: "A call is recorded, or a tour on the app.", tag: "code" },
-      { label: "Transcribe", desc: "Every speaker, word for word.", tag: "ai" },
-      { label: "Summarize", desc: "A summary card on the prospect's timeline.", tag: "ai" },
-      { label: "Follow up", desc: "A drafted email with next steps.", tag: "ai" },
+      { label: "Capture", desc: "A call is recorded, or a tour on the app.", tag: "code", shot: { src: "/cases/unitpulse-platform/calls/capture.jpg", alt: "Jordan Lee's timeline: the tour booked on Oct 2 for Unit 204 with Alex Rivera, then Jordan's inbound call on Oct 3, completed, and its recording playing", width: 1200, height: 1500 } },
+      { label: "Transcribe", desc: "Every speaker, word for word.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/transcript.jpg", alt: "The call transcript, Caller and Agent: Jordan confirms the 2 PM tour of Unit 204, hears street parking is easy after 6 pm, and asks whether a small dog is okay", width: 1200, height: 1500 } },
+      { label: "Summarize", desc: "A summary card on the prospect's timeline.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/summary.jpg", alt: "The phone call summary card: the 2 PM tour of Unit 204 confirmed, no assigned parking but street parking after 6 pm, the small dog fine with a pet deposit, with View transcript and the recording", width: 1200, height: 1500 } },
+      { label: "Follow up", desc: "After a tour, the app suggests next steps and an email.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/followup.jpg", alt: "The agents' app suggests a follow-up for this week: send the pet policy and dog deposit, share street parking, hold Unit 204 through Friday, Oct 9, with a drafted email and a Copy email button", width: 1200, height: 1500 } },
     ]}
-    lanes={[{ label: "The agent", tone: "person", cells: ["Asks consent before a tour recording", null, "Reads it and corrects any preference", "Reviews and sends it"] }]}
-  />
-  <ShowcaseWall
-    cols={2}
-    label="Call summaries and preferences in the Portal"
-    items={[
-      { src: "/cases/unitpulse-platform/leasing/call-summary.jpg", alt: "A phone call summary card on the prospect's timeline with the audio and a View transcript link", width: 1800, height: 789 },
-      { src: "/cases/unitpulse-platform/leasing/preferences.jpg", alt: "The prospect's preferences with an edit history showing each change and who made it", width: 1640, height: 1296 },
-    ]}
+    lanes={[{ label: "The agent", tone: "person", cells: ["Asks consent before a tour recording", null, "Reads it and corrects any preference", "Copies the email, edits it and sends it"] }]}
   />
 
 </section>
@@ -706,6 +703,11 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 
+  <SectionH small>One page, before and after</SectionH>
+  <BodyText>
+    The For You page on the first version of the system, and the same page
+    today. Drag the handle to compare.
+  </BodyText>
   {/* Before = the For You page in the first, brief-based system (main's
       hero-cover.png); after = the same page today (vNext coded mock). */}
   <BeforeAfter

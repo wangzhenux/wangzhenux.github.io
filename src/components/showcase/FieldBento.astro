@@ -3,7 +3,7 @@
  * A 4×3 bento of product windows on coloured tiles. One contour-line field
  * (`field`, an SVG of lines on transparent) is laid over the whole grid and
  * sliced per tile, so the pattern runs continuously across tiles while each
- * tile tints it in its own colour. Titles are live text, top left; each window
+ * tile tints it in its own colour (emerald or mint). Titles are live text, top left; each window
  * is a transparent PNG anchored bottom right and cut flush at those edges.
  *
  * Tile geometry follows the design the windows were drawn for: 4 columns with
@@ -22,7 +22,7 @@ interface Tile {
   /** Intrinsic size of the window PNG. */
   width: number;
   height: number;
-  tone: 'emerald' | 'mint' | 'lavender' | 'violet' | 'brief';
+  tone: 'emerald' | 'mint';
   /** 1-based grid start and span on the 4×3 desktop grid. */
   col: number;
   row: number;
@@ -96,9 +96,6 @@ const { items, field, label = 'Highlights' } = Astro.props;
     background: var(--bg);
   }
   .fb-tile--mint { --bg: var(--up-mint); --line: var(--up-line-emerald); --ink: var(--up-emerald-ink); --ink-soft: var(--up-emerald-ink); }
-  .fb-tile--lavender { --bg: var(--up-lavender); --line: var(--up-line-violet); --ink: var(--up-violet-ink); --ink-soft: var(--up-violet-ink); }
-  .fb-tile--violet { --bg: var(--up-violet); --line: var(--up-line-on-violet); }
-  .fb-tile--brief { --bg: var(--up-brief); }
   /* The shared field: sized to the whole grid and offset by this tile's place
      in it, so neighbouring tiles continue each other's lines. */
   .fb-tile::before {
