@@ -55,17 +55,37 @@
   --bento-card-bg: #FAF9F5;
   --bento-img-fade: linear-gradient(to bottom, rgba(255, 255, 255, 0) 67%, #FBFAF7 97%);
 
-  /* === UnitPulse field bento (design literals, from the vNext design.md) ===
-     Tiles use 2 of the product's own surfaces, accent emerald and accent-soft
-     mint, each with its text inks and a tint for the contour lines that run
-     across tiles. */
+  /* === UnitPulse bento (design literals, from the vNext design.md) ===
+     Flat tiles in 2 of the product's surfaces (accent emerald, accent-soft
+     mint). Screens sit in white frames with one shared shadow; the floating
+     objects use the product's own inks, the AI violet and the attention amber. */
   --up-emerald: #006045;
   --up-emerald-ink: #004F3B;
   --up-mint: #E8F4F0;
+  --up-paper: #FFFFFF;
+  --up-ink: #18181B;
+  --up-muted: #71717B;
+  --up-sub: #3F6B5D;
+  --up-ai: #4A3F8C;
+  --up-amber: #B7791F;
+  --up-amber-ink: #8A5A00;
+  --up-bezel: #111111;
   --up-on-dark: #FFFFFF;
   --up-on-dark-soft: rgba(255, 255, 255, 0.76);
-  --up-line-on-dark: rgba(138, 234, 199, 0.18);
-  --up-line-emerald: rgba(0, 96, 69, 0.13);
+  --up-frame-shadow: 0 18px 40px -20px rgba(0, 50, 35, 0.42), 0 0 0 1px rgba(0, 60, 40, 0.1);
+  --up-float-shadow: 0 14px 30px -12px rgba(0, 50, 35, 0.48), 0 0 0 1px rgba(0, 60, 40, 0.1);
+
+  /* === AI agent map (design literals) ===
+     One line color per product on a warm near-white panel. All 5 clear WCAG AA
+     (about 5:1 or better) as small text on the panel. */
+  --am-panel: #FFFDF7;
+  --am-station: #FFFFFF;
+  --am-mkt: #C2551E;
+  --am-lea: #00704F;
+  --am-voi: #5B4BC4;
+  --am-ins: #2563B0;
+  --am-cop: #8A6A00;
+  --am-pop-shadow: 0 22px 48px -20px rgba(20, 14, 8, 0.45);
 
   /* === Product-mock literals (design literals, from the shipped UnitPulse UIs) ===
      Reconstructed chat states and small product vignettes are drawn in the

@@ -33,14 +33,14 @@ outcome:
 sections:
   - { id: ctx, num: "00", label: "Context" }
   - { id: p1, num: "01", label: "Who it serves" }
-  - { id: p5, num: "02", label: "One platform" }
-  - { id: p2, num: "03", label: "Generate demand" }
-  - { id: p3, num: "04", label: "Convert leads" }
-  - { id: p4, num: "05", label: "Optimize operations" }
-  - { id: vc, num: "06", label: "Voice AI" }
+  - { id: p2, num: "02", label: "Generate demand" }
+  - { id: p3, num: "03", label: "Convert leads" }
+  - { id: p4, num: "04", label: "Optimize operations" }
+  - { id: vc, num: "05", label: "Voice AI" }
+  - { id: p6, num: "06", label: "On the go" }
   - { id: cp, num: "07", label: "Copilot" }
-  - { id: ds, num: "08", label: "Design system" }
-  - { id: p6, num: "09", label: "On the go" }
+  - { id: p5, num: "08", label: "One platform" }
+  - { id: ds, num: "09", label: "Design system" }
   - { id: p7, num: "10", label: "Evidence" }
   - { id: p8, num: "11", label: "Reflection" }
 ---
@@ -48,7 +48,9 @@ sections:
 import BodyText from '../../components/reading/BodyText.astro';
 import SectionH from '../../components/reading/SectionH.astro';
 import PartHeader from '../../components/showcase/PartHeader.astro';
-import FieldBento from '../../components/showcase/FieldBento.astro';
+import PortalBento from '../../components/showcase/PortalBento.astro';
+import AgentMap from '../../components/showcase/AgentMap.astro';
+import AgentNote from '../../components/showcase/AgentNote.astro';
 import CardGrid from '../../components/showcase/CardGrid.astro';
 import PersonaGrid from '../../components/showcase/PersonaGrid.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
@@ -158,10 +160,10 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   - PERSONA HEADSHOTS: AI-generated synthetic faces (gen-platform-personas.mjs
     via Gemini) — fictional stand-ins for landlord / property manager /
     leasing agent, not real people. bento/personas/*.jpg.
-  - Context <FieldBento>: transparent product windows (bento/win-*.png, vNext
-    coded mocks, fictional data) on emerald and mint tiles, under
-    one contour field (bento/field.svg). mobile/phone-recording.jpg was PULLED
-    2026-10-08 (real customer data).
+  - Context <PortalBento>: real screens (ds/foryou-after, mobile/phone-details,
+    marketing/draft, bento/chat|kanban|funnel 3x renders from scratchpad
+    mocks/bento3/flat) in frames on emerald and mint tiles. mobile/phone-recording.jpg was PULLED 2026-10-08 (real
+    customer data).
   - PRODUCT VIDEOS: marketing.mp4, leasing.mp4 and insight.mp4 (and copilot.mp4) are coded
     mocks in the CURRENT vNext system (2026-10-09), 1920×1080 H.264, local
     files, 3 s end hold so the player's loop reads cleanly. Sources: scratchpad
@@ -188,78 +190,15 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     An AI-native leasing platform for property owners and their teams. It finds
     renters, converts them, and measures the funnel. We built it from zero
     starting February 2026, and the **first paying customer signed a month
-    later**.
-    {/* ‹C-dates› */}
+    later**. It started as separate products built fast. As design lead, I
+    brought them into **one platform with one design system**.
+    {/* ‹C-dates› ‹C-arc› Zhen 2026-10-10: arc + role up front; the platform
+        part is the payoff after the products. */}
   </BodyText>
-  {/* Bento v3 (2026-10-09): transparent product windows (coded mocks in the
-      vNext system, scratchpad mocks/bento3/) on tiles in 2 of the product's own
-      surfaces, emerald and mint, under one calm contour field that runs across
-      all tiles (bento/field.svg, scratchpad field/gen.mjs). */}
-  <FieldBento
-    wide
-    cols={4}
-    rows={4}
-    ratio={220 / 288}
-    label="The platform's primary capabilities"
-    field="/cases/unitpulse-platform/bento/field.svg"
-    items={[
-      {
-        tone: "emerald", col: 1, row: 1, cols: 2, rows: 2, win: 98.65, mw: 108, mh: 340,
-        image: "/cases/unitpulse-platform/bento/win-kanban.png", width: 1752, height: 1128,
-        alt: "The Customers pipeline with Inquiry, Tour and Application columns of lead cards; Jordan Lee is selected in Tour",
-        title: "Every lead, inquiry to signed",
-        sub: "One pipeline across every property",
-      },
-      {
-        tone: "mint", col: 3, row: 1, rows: 2, win: 98.61, mw: 92, mh: 340,
-        image: "/cases/unitpulse-platform/bento/win-ai-reply.png", width: 852, height: 1128,
-        alt: "An inbox thread: the team offers Saturday tour times for Unit 204, Jordan replies 2 PM works, the tour is scheduled at Maple Court for Oct 3, and a confirmation goes out",
-        title: "AI leasing",
-        sub: "Replies and books tours",
-      },
-      {
-        tone: "emerald", col: 4, row: 1,
-        eyebrow: "One platform",
-        big: "1 login",
-        chips: ["Marketing", "Leasing", "Insight", "Voice AI"],
-      },
-      {
-        tone: "mint", col: 4, row: 2, win: 98.61, mw: 92, mh: 150,
-        image: "/cases/unitpulse-platform/bento/win-voice.png", width: 852, height: 432,
-        alt: "Voice AI routing for leasing calls: the on-duty agent rings first, then the coverage team, then the AI leasing assistant picks up",
-        title: "Every call answered",
-        sub: "People first, AI as the overflow",
-      },
-      {
-        tone: "mint", col: 1, row: 3, rows: 2, win: 98.61, mw: 92, mh: 340,
-        image: "/cases/unitpulse-platform/bento/win-copilot.png", width: 852, height: 1128,
-        alt: "A Copilot answer to why applications dropped at Maple Court this week: they fell from 9 to 4, mostly 2B2B, above a bar chart of 2B2B tours by day",
-        title: "Just ask Copilot",
-        sub: "Answers from live data",
-      },
-      {
-        tone: "emerald", col: 2, row: 3, cols: 2, win: 62.84, copy: 38, mw: 120, mh: 220,
-        image: "/cases/unitpulse-platform/bento/win-funnel.png", width: 1116, height: 636,
-        alt: "The customer journey flow with drop-offs highlighted: of 88 engaged renters, 31 schedule a tour and 57, 40.1%, drop off before touring",
-        title: "Look into drop‑offs",
-        sub: "See where renters leave the funnel",
-      },
-      {
-        tone: "mint", col: 2, row: 4, cols: 2, win: 62.84, copy: 38, mw: 120, mh: 220,
-        image: "/cases/unitpulse-platform/bento/win-marketing.png", width: 1116, height: 636,
-        alt: "A post being created, with a Check before posting flag: the draft's address doesn't match the confirmed address, above the drafted post",
-        title: "Posts on market data",
-        sub: "Drafted from the analysis, fact-checked",
-      },
-      {
-        tone: "emerald", col: 4, row: 3, rows: 2, win: 97.22, mw: 92, mh: 360,
-        image: "/cases/unitpulse-platform/bento/win-mobile.png", width: 840, height: 1128,
-        alt: "The agents' app on a phone: tour details for Jordan Lee at Maple Court, with the tour summary and budget",
-        title: "Tours, summarized",
-        sub: "On the agents' app",
-      },
-    ]}
-  />
+  {/* Bento (2026-10-10): real screens in consistent frames cropped by flat
+      emerald and mint tiles, with a few floating objects, inside the text
+      column. */}
+  <PortalBento />
 </section>
 
 <section id="p1" data-reveal>
@@ -298,70 +237,8 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   />
 </section>
 
-<section id="p5" data-reveal>
-  <PartHeader num="02" title="Separate products, one platform" />
-  <BodyText>
-    Customers came for Marketing, then asked us to run the whole journey. But
-    the 3 products didn't talk to each other — **even though they consumed the
-    same backend**. 3 logins, 3 user-management systems, no shared front door
-    for the AI. So we merged them behind one login and one design system, with
-    the Copilot as the shared command layer — and rebuilt the IA so each
-    persona sees what's theirs without wading through everyone else's. A
-    phased merge, not a rewrite. Voice AI later joined the same shell as the
-    fourth product.
-    {/* ‹C-dates› spring/summer beats */}
-  </BodyText>
-  <BodyText>
-    I owned the navigation, access states and interaction rules; engineering
-    led the technical integration. As of October 2026, more than 100
-    properties run on the merged platform.
-    {/* ‹C-split› Zhen 2026-10-10: 100+ properties moved over. */}
-  </BodyText>
-
-  {/* EXAMPLE VISUAL — token-built timeline; replace with final Figma export */}
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-platform/timeline.svg"
-      alt="Timeline: kickoff from zero in February 2026, first customer on the marketing product in March, three products live by spring, one platform by summer, and Voice AI joining the same platform as the fourth product in August"
-      width={1600}
-      height={457}
-    />
-  </ImageShowcase>
-
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-platform/platform-nav.png"
-      alt="The unified platform's navigation, annotated: one sidebar with 5 groups (Insight, Leasing, Voice AI, Marketing, Settings), each labeled with the pages it holds"
-      width={2858}
-      height={1512}
-    />
-  </ImageShowcase>
-
-  <SectionH small>What made the merge safe</SectionH>
-  <CardGrid
-    label="What made the merge safe"
-    items={[
-      {
-        icon: "grid",
-        title: "One design language",
-        body: "Canonical primitives replaced each app's local variants, so the merged UI stopped drifting.",
-      },
-      {
-        icon: "shield",
-        title: "Rules that keep it coherent",
-        body: "An anti-pattern rulebook that kills recurring UI bugs instead of re-fixing them.",
-      },
-      {
-        icon: "merge",
-        title: "A merge, not a rewrite",
-        body: "Namespaced routes and a phased cutover. The legacy apps kept shipping, so customers never hit a cliff.",
-      },
-    ]}
-  />
-</section>
-
 <section id="p2" data-reveal>
-  <PartHeader num="03" title="Marketing: generate demand" />
+  <PartHeader num="02" title="Marketing: generate demand" />
   <BodyText>
     Marketing was our first product and our first paying customer. It started
     as a post generator and grew into **an AI marketing team inside the
@@ -371,6 +248,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         2026-08-26 (#2747); native content merged into its feed 08-27/28;
         projects from Portal properties 09-10 (#3405). */}
   </BodyText>
+  <AgentNote agents={["Property strategist", "Post writer"]} />
   <MoreDetail title="How Marketing evolved in 2026">
     <StageFlow
       label="How Marketing evolved in 2026"
@@ -417,7 +295,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p3" data-reveal>
-  <PartHeader num="04" title="Leasing: convert leads" />
+  <PartHeader num="03" title="Leasing: convert leads" />
   <BodyText>
     UP Leasing turns that demand into signed leases. The AI answers every
     inquiry **knowing who's asking**, writes follow-ups worth reading, and books
@@ -425,6 +303,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     have the answer, the question goes to an agent as a task.
     {/* ‹C-ai-behaviors› */}
   </BodyText>
+  <AgentNote agents={["Lead email reader", "Leasing assistant", "Follow-up reply writer"]} />
 
   <ShowcaseVideo
     src="/cases/unitpulse-platform/video/leasing.mp4"
@@ -470,13 +349,14 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p4" data-reveal>
-  <PartHeader num="05" title="Insight: optimize operations" />
+  <PartHeader num="04" title="Insight: optimize operations" />
   <BodyText>
     UP Insight closes the loop for owners who aren't analysts: the full funnel,
     per-prospect attribution, the biggest leak called out each morning, and a
     plain-language Data Copilot. Attribution shows **which segments and channels
     actually sign leases**, so the team can decide what Marketing writes next.
   </BodyText>
+  <AgentNote agents={["Data Copilot"]} />
 
   <ShowcaseVideo
     src="/cases/unitpulse-platform/video/insight.mp4"
@@ -505,7 +385,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="vc" data-reveal>
-  <PartHeader num="06" title="Voice AI: answer every call" />
+  <PartHeader num="05" title="Voice AI: answer every call" />
   <BodyText>
     When an agent is on a tour, the phone still rings. I designed the setup
     board, call review, inquiries, work orders and the conversation flows.
@@ -515,6 +395,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         default 09-23; press 3 09-28; connect-live merged 10-06 (publish
         [CONFIRM]). Nav label: "Voice AI". */}
   </BodyText>
+  <AgentNote agents={["Leasing phone assistant", "Maintenance phone assistant", "Post-call summarizer"]} />
 
   <SectionH small>How a call reaches a person</SectionH>
   <LadderFigure
@@ -578,6 +459,98 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   </MoreDetail>
 </section>
 
+<section id="p6" data-reveal>
+  <PartHeader num="06" title="On the go — the agent's mobile app" />
+  <BodyText>
+    Leasing happens on foot, so we built the agents' app **from scratch in 2
+    weeks**, and I decided what went in first. The feature I pushed hardest for
+    was tour recording: it summarizes the visit and drafts a follow-up the
+    agent sends, so leasing's highest-signal moment becomes data instead of a
+    fading memory. Around it sit chat and calls, tour scheduling, prospect management,
+    and the Copilot.
+    {/* ‹C-mobile› */}
+  </BodyText>
+  <AgentNote agents={["Workspace assistant"]} />
+  <ShowcasePhones
+    label="The agent's mobile app"
+    phones={[
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-tours.jpg",
+        alt: "The mobile Tours tab: tours today, completed and minutes-per-tour stats, today's upcoming tours with Start buttons, and a completed tour tagged Hot with budget and move-in",
+        caption: "Today's tours, one tap to start",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-consent.jpg",
+        alt: "Before a tour recording: an Ask for consent sheet with a suggested script and three checks, over the tour's prospect and property",
+        caption: "Ask first, then record",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-analyzing.jpg",
+        alt: "Analyzing your tour: upload done, transcription in progress, AI analysis next",
+        caption: "The tour, analyzed",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-details.jpg",
+        alt: "Tour details: a warm-lead score, a summary, budget and move-in, next steps, and a suggested follow-up email with a Copy email button",
+        caption: "A follow-up, ready to send",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-chat.jpg",
+        alt: "The Inbox tab: prospect conversations with status tags (tour finished, tour scheduled, submitted, fully executed), stars and unread counts",
+        caption: "Every conversation, one inbox",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-sms.jpg",
+        alt: "An SMS thread: the AI books a Saturday tour, then the agent picks up a move-in special question from the field, with call, note and schedule actions",
+        caption: "Message and call from the field",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-insights.jpg",
+        alt: "Mobile Insights for Maple Court over 7 days: 94% occupancy, 22 tours, 4 applications, 3 leases, leasing velocity and lead sources",
+        caption: "The funnel, in your pocket",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-copilot.jpg",
+        alt: "The Copilot tab: ask about prospects, analytics or tasks, with four suggested questions",
+        caption: "The Copilot, in a pocket",
+        width: 1206,
+        height: 2622,
+      },
+    ]}
+  />
+
+  <SectionH small>Every call and tour lands in the profile</SectionH>
+  {/* Step shots (2026-10-09, round 6): coded mocks from the real Portal timeline,
+      transcript dialog and summary card, and the agents' app tour follow-up
+      (scratchpad mocks/call-steps/). The Portal has no reviewable follow-up
+      email; the app suggests one after a recorded tour. */}
+  <StageFlow
+    wide
+    label="From a call or tour to a follow-up"
+    steps={[
+      { label: "Capture", desc: "A call is recorded, or a tour on the app.", tag: "code", shot: { src: "/cases/unitpulse-platform/calls/capture.jpg", alt: "Jordan Lee's timeline: the tour booked on Oct 2 for Unit 204 with Alex Rivera, then Jordan's inbound call on Oct 3, completed, and its recording playing", width: 1200, height: 1500 } },
+      { label: "Transcribe", desc: "Every speaker, word for word.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/transcript.jpg", alt: "The call transcript, each line labelled Agent or Caller with its time into the call: Jordan confirms the 2 PM tour of Unit 204, hears street parking is easy after 6 pm, and asks whether a small dog is okay", width: 1200, height: 1500 } },
+      { label: "Summarize", desc: "A summary card on the prospect's timeline.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/summary.jpg", alt: "The phone call summary card: the 2 PM tour of Unit 204 confirmed, no assigned parking but street parking after 6 pm, the small dog fine with a pet deposit, with View transcript and the recording", width: 1200, height: 1500 } },
+      { label: "Follow up", desc: "After a tour, the app suggests next steps and an email.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/followup.jpg", alt: "The agents' app suggests a follow-up for this week: send the pet policy and dog deposit, share street parking, hold Unit 204 through Friday, Oct 9, with a drafted email and a Copy email button", width: 1200, height: 1500 } },
+    ]}
+    lanes={[{ label: "The agent", tone: "person", cells: ["Asks consent before a tour recording", null, "Reads it and corrects any preference", "Copies the email, edits it and sends it"] }]}
+  />
+</section>
+
 <section id="cp" data-reveal>
   <PartHeader num="07" title="Copilot: one assistant for every product" />
   {/* Today = verified in web-unitpulse-portal (2026-10-09): Insight AidenCopilot
@@ -608,8 +581,96 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   </ShowcaseVideo>
 </section>
 
+<section id="p5" data-reveal>
+  <PartHeader num="08" title="Separate products, one platform" />
+  <BodyText>
+    Customers came for Marketing, then asked us to run the whole journey. But
+    the 3 products didn't talk to each other, **even though they shared one
+    backend**: 3 logins, 3 user-management systems, no shared front door for
+    the AI. So we merged them behind one login and one design system, with the
+    Copilot as the shared command layer, and rebuilt the navigation so each
+    persona sees what's theirs without wading through everyone else's. We
+    merged in phases instead of rewriting, and Voice AI later joined the same
+    shell as the fourth product.
+    {/* ‹C-dates› spring/summer beats */}
+  </BodyText>
+  <BodyText>
+    I owned the navigation, access states and interaction rules; engineering
+    led the technical integration. As of October 2026, more than 100
+    properties run on the merged platform.
+    {/* ‹C-split› Zhen 2026-10-10: 100+ properties moved over. */}
+  </BodyText>
+
+  {/* EXAMPLE VISUAL — token-built timeline; replace with final Figma export */}
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/unitpulse-platform/timeline.svg"
+      alt="Timeline: kickoff from zero in February 2026, first customer on the marketing product in March, three products live by spring, one platform by summer, and Voice AI joining the same platform as the fourth product in August"
+      width={1600}
+      height={457}
+    />
+  </ImageShowcase>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/unitpulse-platform/platform-nav.png"
+      alt="The unified platform's navigation, annotated: one sidebar with 5 groups (Insight, Leasing, Voice AI, Marketing, Settings), each labeled with the pages it holds"
+      width={2858}
+      height={1512}
+    />
+  </ImageShowcase>
+
+  <SectionH small>How the AI agents work together</SectionH>
+  <BodyText>
+    Each product runs its own small team of AI agents, with rules-based steps
+    and people in between. No agent runs the others. They meet at one renter
+    record, and when one needs a person, it hands off a task. That record is
+    also what let the products merge: a text, a call and a tour all land in
+    the same profile.
+    {/* ‹C-agents› Verified in ~/UnitPulse/main with Codex (2026-10-10): the
+        customer wide table is the hub, with no central orchestrator. Lead
+        emails run add_leads → assign-agent → AI leasing trigger. AI reply
+        needs property + conversation + customer switches and skips when a
+        human sent the last message. Content checks, publisher, reply-task
+        router, call router and daily brief are rules-based. Insight reads
+        derived analytics, not the record. Copilot lookups run at once; every
+        write waits for a confirmation. Voice AI is a pilot (Zhen 2026-10-10).
+        Zhen led the 2 control decisions below. */}
+  </BodyText>
+  <AgentMap
+    id="agents"
+    rules={[
+      "AI replies only when the property, the conversation and the renter all allow it. New properties start with it off.",
+      "Once a person replies, the AI steps back from that conversation.",
+      "Copilot looks things up right away, but every change waits for a yes.",
+    ]}
+  />
+
+  <SectionH small>What made the merge safe</SectionH>
+  <CardGrid
+    label="What made the merge safe"
+    items={[
+      {
+        icon: "grid",
+        title: "One design language",
+        body: "Canonical primitives replaced each app's local variants, so the merged UI stopped drifting.",
+      },
+      {
+        icon: "shield",
+        title: "Rules that keep it coherent",
+        body: "An anti-pattern rulebook that kills recurring UI bugs instead of re-fixing them.",
+      },
+      {
+        icon: "merge",
+        title: "A merge, not a rewrite",
+        body: "Namespaced routes and a phased cutover. The legacy apps kept shipping, so customers never hit a cliff.",
+      },
+    ]}
+  />
+</section>
+
 <section id="ds" data-reveal>
-  <PartHeader num="08" title="The design system" />
+  <PartHeader num="09" title="The design system" />
   <BodyText>
     The 3 products were built fast, with AI writing Tailwind before AI was good
     at it, so every screen spoke its own dialect. I wrote the language down once
@@ -720,97 +781,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     before={{ src: "/cases/unitpulse-platform/ds/foryou-before.jpg", alt: "The For You page in the first design system: olive on cream, Inter, square uppercase chips" }}
     after={{ src: "/cases/unitpulse-platform/ds/foryou-after.jpg", alt: "The same page today: emerald on neutral, Manrope and Newsreader, the dark daily brief and pill badges" }}
     notes={["The first version: olive on cream, Inter, square uppercase chips and mono trend pills.", "Today: emerald on neutral, Newsreader for titles and numbers, Manrope for the UI, pill badges, flat cards on hairline borders."]}
-  />
-</section>
-
-<section id="p6" data-reveal>
-  <PartHeader num="09" title="On the go — the agent's mobile app" />
-  <BodyText>
-    Leasing happens on foot, so we built the agents' app **from scratch in 2
-    weeks**, and I decided what went in first. The feature I pushed hardest for
-    was tour recording: it summarizes the visit and drafts a follow-up the
-    agent sends, so leasing's highest-signal moment becomes data instead of a
-    fading memory. Around it sit chat and calls, tour scheduling, prospect management,
-    and the Copilot.
-    {/* ‹C-mobile› */}
-  </BodyText>
-  <ShowcasePhones
-    label="The agent's mobile app"
-    phones={[
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-tours.jpg",
-        alt: "The mobile Tours tab: tours today, completed and minutes-per-tour stats, today's upcoming tours with Start buttons, and a completed tour tagged Hot with budget and move-in",
-        caption: "Today's tours, one tap to start",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-consent.jpg",
-        alt: "Before a tour recording: an Ask for consent sheet with a suggested script and three checks, over the tour's prospect and property",
-        caption: "Ask first, then record",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-analyzing.jpg",
-        alt: "Analyzing your tour: upload done, transcription in progress, AI analysis next",
-        caption: "The tour, analyzed",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-details.jpg",
-        alt: "Tour details: a warm-lead score, a summary, budget and move-in, next steps, and a suggested follow-up email with a Copy email button",
-        caption: "A follow-up, ready to send",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-chat.jpg",
-        alt: "The Inbox tab: prospect conversations with status tags (tour finished, tour scheduled, submitted, fully executed), stars and unread counts",
-        caption: "Every conversation, one inbox",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-sms.jpg",
-        alt: "An SMS thread: the AI books a Saturday tour, then the agent picks up a move-in special question from the field, with call, note and schedule actions",
-        caption: "Message and call from the field",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-insights.jpg",
-        alt: "Mobile Insights for Maple Court over 7 days: 94% occupancy, 22 tours, 4 applications, 3 leases, leasing velocity and lead sources",
-        caption: "The funnel, in your pocket",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-copilot.jpg",
-        alt: "The Copilot tab: ask about prospects, analytics or tasks, with four suggested questions",
-        caption: "The Copilot, in a pocket",
-        width: 1206,
-        height: 2622,
-      },
-    ]}
-  />
-
-  <SectionH small>Every call and tour lands in the profile</SectionH>
-  {/* Step shots (2026-10-09, round 6): coded mocks from the real Portal timeline,
-      transcript dialog and summary card, and the agents' app tour follow-up
-      (scratchpad mocks/call-steps/). The Portal has no reviewable follow-up
-      email; the app suggests one after a recorded tour. */}
-  <StageFlow
-    wide
-    label="From a call or tour to a follow-up"
-    steps={[
-      { label: "Capture", desc: "A call is recorded, or a tour on the app.", tag: "code", shot: { src: "/cases/unitpulse-platform/calls/capture.jpg", alt: "Jordan Lee's timeline: the tour booked on Oct 2 for Unit 204 with Alex Rivera, then Jordan's inbound call on Oct 3, completed, and its recording playing", width: 1200, height: 1500 } },
-      { label: "Transcribe", desc: "Every speaker, word for word.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/transcript.jpg", alt: "The call transcript, each line labelled Agent or Caller with its time into the call: Jordan confirms the 2 PM tour of Unit 204, hears street parking is easy after 6 pm, and asks whether a small dog is okay", width: 1200, height: 1500 } },
-      { label: "Summarize", desc: "A summary card on the prospect's timeline.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/summary.jpg", alt: "The phone call summary card: the 2 PM tour of Unit 204 confirmed, no assigned parking but street parking after 6 pm, the small dog fine with a pet deposit, with View transcript and the recording", width: 1200, height: 1500 } },
-      { label: "Follow up", desc: "After a tour, the app suggests next steps and an email.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/followup.jpg", alt: "The agents' app suggests a follow-up for this week: send the pet policy and dog deposit, share street parking, hold Unit 204 through Friday, Oct 9, with a drafted email and a Copy email button", width: 1200, height: 1500 } },
-    ]}
-    lanes={[{ label: "The agent", tone: "person", cells: ["Asks consent before a tour recording", null, "Reads it and corrects any preference", "Copies the email, edits it and sends it"] }]}
   />
 </section>
 
