@@ -6,9 +6,11 @@
  * tile tints it in its own colour (emerald or mint). Titles are live text, top left; each window
  * is a transparent PNG anchored bottom right and cut flush at those edges.
  *
- * Tile geometry follows the design the windows were drawn for: `cols` columns
- * (default 4) with rows at 290/258 of a column, so window positions hold at any
- * width. `wide` lets the grid run past the text column, up to 1200px. Below
+ * Tile geometry follows the design the windows were drawn for: `cols` × `rows`
+ * cells, each row `ratio` × a column tall, so window positions hold at any
+ * width. `wide` lets the grid run past the text column, up to 1200px. A tile
+ * without an image is a type tile: an eyebrow, one big line and a few chips.
+ * On wide, short tiles `copy` narrows the title to a left column. Below
  * 1120px the tiles stack in one column (capped at 560px so the windows stay
  * sharp) and each window sits under its title.
  * Token-only CSS.
@@ -17,13 +19,19 @@
  *     height, tone: 'emerald', col: 1, row: 1, cols: 2, rows: 2, win: 97.7 }, …]} />
  */
 interface Tile {
-  title: string;
-  sub: string;
-  image: string;
-  alt: string;
+  title?: string;
+  sub?: string;
+  image?: string;
+  alt?: string;
   /** Intrinsic size of the window PNG. */
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
+  /** Type tile (no image): small label, one big line, and chips. */
+  eyebrow?: string;
+  big?: string;
+  chips?: string[];
+  /** Title column width as a % of the tile (for wide, short tiles). */
+  copy?: number;
   tone: 'emerald' | 'mint';
   /** 1-based grid start and span on the desktop grid (`cols` × 3). */
   col: number;
@@ -31,7 +39,7 @@ interface Tile {
   cols?: number;
   rows?: number;
   /** Window width as a % of the tile width (desktop). */
-  win: number;
+  win?: number;
   /** Stacked layout: window width as a % of the tile, and its max height. */
   mw?: number;
   mh?: number;
@@ -41,23 +49,38 @@ interface Props {
   field: string;
   label?: string;
   cols?: number;
+  rows?: number;
+  /** Row height as a fraction of the column width. */
+  ratio?: number;
   wide?: boolean;
 }
-const { items, field, label = 'Highlights', cols = 4, wide = false } = Astro.props;
+const { items, field, label = 'Highlights', cols = 4, rows = 3, ratio = 290 / 258, wide = false } = Astro.props;
 ---
-<section class:list={['fb', { 'fb--wide': wide }]} aria-label={label} style={`--field: url(${field}); --n: ${cols}`}>
+<section class:list={['fb', { 'fb--wide': wide }]} aria-label={label} style={`--field: url(${field}); --n: ${cols}; --m: ${rows}; --ratio: ${ratio}`}>
   <div class="fb-inner">
     <ul class="fb-grid">
       {items.map((it, i) => (
         <li
-          class={`fb-tile fb-tile--${it.tone}`}
-          style={`grid-column:${it.col} / span ${it.cols ?? 1};grid-row:${it.row} / span ${it.rows ?? 1};--c:${it.col - 1};--r:${it.row - 1};--win:${it.win}%;--mw:${it.mw ?? 90}%;--mh:${it.mh ?? 260}px;--i:${i}`}
+          class:list={['fb-tile', `fb-tile--${it.tone}`, { 'fb-tile--type': !it.image }]}
+          style={`grid-column:${it.col} / span ${it.cols ?? 1};grid-row:${it.row} / span ${it.rows ?? 1};--c:${it.col - 1};--r:${it.row - 1};--win:${it.win ?? 90}%;--mw:${it.mw ?? 90}%;--mh:${it.mh ?? 260}px;--copy:${it.copy ?? 100}%;--i:${i}`}
         >
-          <div class="fb-copy">
-            <h3 class="fb-title">{it.title}</h3>
-            <p class="fb-sub">{it.sub}</p>
-          </div>
-          <img class="fb-win" src={it.image} alt={it.alt} width={it.width} height={it.height} loading="lazy" decoding="async" />
+          {it.image ? (
+            <>
+              <div class="fb-copy">
+                <h3 class="fb-title">{it.title}</h3>
+                {it.sub && <p class="fb-sub">{it.sub}</p>}
+              </div>
+              <img class="fb-win" src={it.image} alt={it.alt} width={it.width} height={it.height} loading="lazy" decoding="async" />
+            </>
+          ) : (
+            <div class="fb-type">
+              {it.eyebrow && <p class="fb-eyebrow">{it.eyebrow}</p>}
+              {it.big && <p class="fb-big">{it.big}</p>}
+              {it.chips && (
+                <ul class="fb-chips">{it.chips.map((c) => <li>{c}</li>)}</ul>
+              )}
+            </div>
+          )}
         </li>
       ))}
     </ul>
@@ -80,7 +103,7 @@ const { items, field, label = 'Highlights', cols = 4, wide = false } = Astro.pro
     /* Column and row size from the container width; rows keep the 258:290
        proportion the windows were drawn at. */
     --cw: calc((100cqw - (var(--n) - 1) * var(--g)) / var(--n));
-    --rh: calc(var(--cw) * 290 / 258);
+    --rh: calc(var(--cw) * var(--ratio));
     list-style: none;
     margin: 0;
     padding: 0;
@@ -111,8 +134,8 @@ const { items, field, label = 'Highlights', cols = 4, wide = false } = Astro.pro
     background: var(--line);
     -webkit-mask: var(--field) no-repeat;
     mask: var(--field) no-repeat;
-    -webkit-mask-size: 100cqw calc(3 * var(--rh) + 2 * var(--g));
-    mask-size: 100cqw calc(3 * var(--rh) + 2 * var(--g));
+    -webkit-mask-size: 100cqw calc(var(--m) * var(--rh) + (var(--m) - 1) * var(--g));
+    mask-size: 100cqw calc(var(--m) * var(--rh) + (var(--m) - 1) * var(--g));
     -webkit-mask-position: calc(var(--c) * (var(--cw) + var(--g)) * -1) calc(var(--r) * (var(--rh) + var(--g)) * -1);
     mask-position: calc(var(--c) * (var(--cw) + var(--g)) * -1) calc(var(--r) * (var(--rh) + var(--g)) * -1);
   }
@@ -120,7 +143,8 @@ const { items, field, label = 'Highlights', cols = 4, wide = false } = Astro.pro
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
+    width: var(--copy);
+    box-sizing: border-box;
     padding: clamp(var(--space-4), 2.2cqw, var(--space-6)) clamp(var(--space-4), 1.9cqw, var(--space-5));
   }
   .fb-title {
@@ -140,6 +164,46 @@ const { items, field, label = 'Highlights', cols = 4, wide = false } = Astro.pro
     color: var(--ink-soft);
     opacity: 0.9;
   }
+  /* Type tile: a label, one big line, chips at the foot. */
+  .fb-type {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(var(--space-4), 2.2cqw, var(--space-6)) clamp(var(--space-4), 1.9cqw, var(--space-5));
+  }
+  .fb-eyebrow {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .fb-big {
+    margin: var(--space-2) 0 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(40px, calc(var(--cw) * 0.24), 72px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .fb-chips {
+    list-style: none;
+    margin: auto 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .fb-chips li {
+    padding: var(--space-1) var(--space-3);
+    border-radius: 999px;
+    font-size: 12.5px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--ink) 14%, transparent);
+  }
   .fb-win {
     position: absolute;
     right: 0;
@@ -157,7 +221,9 @@ const { items, field, label = 'Highlights', cols = 4, wide = false } = Astro.pro
       -webkit-mask-position: calc(var(--i) * 24%) calc(var(--i) * 22%);
       mask-position: calc(var(--i) * 24%) calc(var(--i) * 22%);
     }
-    .fb-copy { position: static; padding: var(--space-5) var(--space-5) var(--space-3); }
+    .fb-copy { position: static; width: auto; padding: var(--space-5) var(--space-5) var(--space-3); }
+    .fb-type { position: static; padding: var(--space-5); gap: var(--space-4); }
+    .fb-chips { margin-top: 0; }
     .fb-title { font-size: 20px; }
     .fb-sub { font-size: 13px; }
     .fb-win {

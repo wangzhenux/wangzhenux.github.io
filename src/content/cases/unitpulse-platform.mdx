@@ -196,51 +196,66 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       all tiles (bento/field.svg, scratchpad field/gen.mjs). */}
   <FieldBento
     wide
-    cols={5}
+    cols={4}
+    rows={4}
+    ratio={220 / 288}
     label="The platform's primary capabilities"
     field="/cases/unitpulse-platform/bento/field.svg"
     items={[
       {
-        tone: "emerald", col: 1, row: 1, cols: 2, rows: 2, win: 97.74, mw: 108, mh: 360,
-        image: "/cases/unitpulse-platform/bento/win-kanban.png", width: 1560, height: 1512,
-        alt: "The Customers pipeline with Inquiry and Tour columns of lead cards and the Application column running off the edge",
+        tone: "emerald", col: 1, row: 1, cols: 2, rows: 2, win: 98.65, mw: 108, mh: 340,
+        image: "/cases/unitpulse-platform/bento/win-kanban.png", width: 1752, height: 1128,
+        alt: "The Customers pipeline with Inquiry, Tour and Application columns of lead cards; Jordan Lee is selected in Tour",
         title: "Every lead, inquiry to signed",
         sub: "One pipeline across every property",
       },
       {
-        tone: "mint", col: 3, row: 1, win: 98.45, mw: 92, mh: 230,
-        image: "/cases/unitpulse-platform/bento/win-copilot.png", width: 762, height: 630,
-        alt: "A Copilot answer: applications fell from 9 to 4 this week, mostly 2B2B at Maple Court, above a bar chart of 2B2B tours by day",
-        title: "Just ask Copilot",
-        sub: "Answers from live data",
-      },
-      {
-        tone: "mint", col: 3, row: 2, win: 98.45, mw: 92, mh: 230,
-        image: "/cases/unitpulse-platform/bento/win-marketing.png", width: 762, height: 630,
-        alt: "A market analysis panel describing hybrid workers and car-light commuters, with theme chips above the start of a drafted post",
-        title: "Posts on market data",
-        sub: "Drafted from the analysis",
-      },
-      {
-        tone: "emerald", col: 4, row: 1, rows: 2, win: 98.45, mw: 92, mh: 340,
-        image: "/cases/unitpulse-platform/bento/win-ai-reply.png", width: 762, height: 1512,
-        alt: "An inbox thread: the team offers Saturday tour times for Unit 204, Jordan replies 2 PM works, and the tour is booked at Maple Court with Alex Rivera hosting",
+        tone: "mint", col: 3, row: 1, rows: 2, win: 98.61, mw: 92, mh: 340,
+        image: "/cases/unitpulse-platform/bento/win-ai-reply.png", width: 852, height: 1128,
+        alt: "An inbox thread: the team offers Saturday tour times for Unit 204, Jordan replies 2 PM works, the tour is scheduled at Maple Court for Oct 3, and a confirmation goes out",
         title: "AI leasing",
         sub: "Replies and books tours",
       },
       {
-        tone: "mint", col: 5, row: 1, rows: 2, win: 98.45, mw: 92, mh: 360,
-        image: "/cases/unitpulse-platform/bento/win-mobile.png", width: 762, height: 1524,
-        alt: "The agents' app on a phone: tour details for Jordan Lee at Maple Court, with the tour summary, a $3,000 to $3,200 budget and a suggested follow-up",
-        title: "Tours, summarized",
-        sub: "On the agents' app",
+        tone: "emerald", col: 4, row: 1,
+        eyebrow: "One platform",
+        big: "1 login",
+        chips: ["Marketing", "Leasing", "Insight", "Voice AI"],
       },
       {
-        tone: "mint", col: 1, row: 3, cols: 5, win: 74.6, mw: 170, mh: 220,
-        image: "/cases/unitpulse-platform/bento/win-funnel.png", width: 3030, height: 846,
-        alt: "The customer journey flow with drop-offs highlighted, from 142 inquiries through tour scheduled, tour finished and application submitted, with 57 leads, 40.1%, leaving before the tour",
-        title: "Look into drop-offs",
+        tone: "mint", col: 4, row: 2, win: 98.61, mw: 92, mh: 150,
+        image: "/cases/unitpulse-platform/bento/win-voice.png", width: 852, height: 432,
+        alt: "Voice AI routing for leasing calls: the on-duty agent rings first, then the coverage team, then the AI leasing assistant picks up",
+        title: "Every call answered",
+        sub: "People first, AI as the overflow",
+      },
+      {
+        tone: "mint", col: 1, row: 3, rows: 2, win: 98.61, mw: 92, mh: 340,
+        image: "/cases/unitpulse-platform/bento/win-copilot.png", width: 852, height: 1128,
+        alt: "A Copilot answer to why applications dropped at Maple Court this week: they fell from 9 to 4, mostly 2B2B, above a bar chart of 2B2B tours by day",
+        title: "Just ask Copilot",
+        sub: "Answers from live data",
+      },
+      {
+        tone: "emerald", col: 2, row: 3, cols: 2, win: 62.84, copy: 38, mw: 120, mh: 220,
+        image: "/cases/unitpulse-platform/bento/win-funnel.png", width: 1116, height: 636,
+        alt: "The customer journey flow with drop-offs highlighted: of 88 engaged renters, 31 schedule a tour and 57, 40.1%, drop off before touring",
+        title: "Look into drop‑offs",
         sub: "See where renters leave the funnel",
+      },
+      {
+        tone: "mint", col: 2, row: 4, cols: 2, win: 62.84, copy: 38, mw: 120, mh: 220,
+        image: "/cases/unitpulse-platform/bento/win-marketing.png", width: 1116, height: 636,
+        alt: "A post being created, with a Check before posting flag: the draft's address doesn't match the confirmed address, above the drafted post",
+        title: "Posts on market data",
+        sub: "Drafted from the analysis, fact-checked",
+      },
+      {
+        tone: "emerald", col: 4, row: 3, rows: 2, win: 97.22, mw: 92, mh: 360,
+        image: "/cases/unitpulse-platform/bento/win-mobile.png", width: 840, height: 1128,
+        alt: "The agents' app on a phone: tour details for Jordan Lee at Maple Court, with the tour summary and budget",
+        title: "Tours, summarized",
+        sub: "On the agents' app",
       },
     ]}
   />
