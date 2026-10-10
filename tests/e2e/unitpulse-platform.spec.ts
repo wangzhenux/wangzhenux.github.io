@@ -7,25 +7,45 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
   // a11y scan runs against the instant-reveal experience.
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/work/unitpulse-platform');
-  await expect(page.locator('.hero-title')).toContainText('UnitPulse Platform');
+  await expect(page.locator('.hero-title')).toContainText('UnitPulse Portal');
 
   // The 10-second layer: a real product hero + the user-oriented outcome.
   await expect(page.locator('.hero-cover img')).toHaveAttribute('src', /hero-cover\.png/);
   await expect(page.locator('.meta-strip')).toContainText('821 → 400 → 59');
 
-  // The spine: Context + Parts 01–09 (ten PartHeaders), with the funnel
-  // chapters — generate demand → convert leads → optimize operations — in
-  // order, then the convergence and the design system that made it hold.
+  // The spine: Context + Parts 01–12 (thirteen PartHeaders). Who it serves,
+  // then the AI agents as the system overview, the product chapters
+  // (generate demand → convert leads → optimize operations → answer every
+  // call → on the go), the Copilot as the bridge, the platform as the payoff,
+  // and the design system.
   const parts = page.locator('.part-title');
-  await expect(parts).toHaveCount(10);
-  await expect(parts.nth(2)).toContainText('Marketing: generate demand');
-  await expect(parts.nth(3)).toContainText('Leasing: convert leads');
-  await expect(parts.nth(4)).toContainText('Insight: optimize operations');
-  await expect(parts.nth(5)).toContainText('3 products to one platform');
-  await expect(parts.nth(6)).toContainText('The design system');
+  await expect(parts).toHaveCount(13);
+  await expect(parts.nth(2)).toContainText('AI agents and human control');
+  await expect(parts.nth(3)).toContainText('Marketing: generate demand');
+  await expect(parts.nth(4)).toContainText('Leasing: convert leads');
+  await expect(parts.nth(5)).toContainText('Insight: optimize operations');
+  await expect(parts.nth(6)).toContainText('Voice AI: answer every call');
+  await expect(parts.nth(7)).toContainText('mobile app');
+  await expect(parts.nth(8)).toContainText('Copilot');
+  await expect(parts.nth(9)).toContainText('Separate products, one platform');
+  await expect(parts.nth(10)).toContainText('The design system');
 
-  // The specimen wall renders its high-res tiles.
-  await expect(page.locator('.wall-tile img[src*="ds/buttons.png"]')).toBeAttached();
+  // The AI agent map: 10 AI stations, and a station opens its popover.
+  await expect(page.locator('#agents .am-node[aria-label^="AI agent:"]')).toHaveCount(10);
+
+  // The Copilot has its own part with its clip, and the escalation ladder
+  // shows the 3 ways a call reaches a person.
+  await expect(page.locator('#cp video[aria-label^="The Copilot"]')).toHaveCount(1);
+  await expect(page.locator('#vc .lf-lane')).toHaveCount(3);
+
+  // Nothing internal or client-identifying leaks onto the page.
+  await expect(page.locator('body')).not.toContainText(/Odessia|Motor Tides|Retell|Twilio|Dify|Gemini/i);
+
+  // The design-system showcase renders its specimens and switches to dark.
+  await expect(page.locator('.dss img[src*="ds/system/buttons.png"]')).toBeAttached();
+  await page.locator('.dss-btn[data-set="dark"]').click();
+  await expect(page.locator('.dss')).toHaveAttribute('data-mode', 'dark');
+  await page.locator('.dss-btn[data-set="light"]').click();
 
   // The Feb→summer 2026 timeline (the one bespoke artifact) is present.
   await expect(page.locator('img[src*="timeline.svg"]')).toBeVisible();

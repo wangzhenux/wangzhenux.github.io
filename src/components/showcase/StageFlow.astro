@@ -9,6 +9,9 @@
  *             rows line up across columns via CSS subgrid
  *   - `rails` full-width bars for rules that apply on any turn
  *   - `loop`  a small return note at the end of the rule ("next turn")
+ *   - `shot`  a screenshot under a stage, in its column and tagged with its
+ *             number, so the diagram and the screens read as one (zoomable)
+ *   - `wide`  break out of the column to up to 1200px (for strips with shots)
  *
  * Motion (in-view island): the rule draws left to right, nodes pop in stage by
  * stage, a pulse travels the line once, then exits and lanes settle in. Static
@@ -28,6 +31,8 @@ interface Step {
   badge?: string;
   /** Dashed early exit under this stage. */
   exit?: string;
+  /** A screenshot of this stage, shown at the foot of its column. */
+  shot?: { src: string; alt: string; width: number; height: number };
 }
 interface Lane {
   label: string;
@@ -43,14 +48,16 @@ interface Props {
   legend?: boolean;
   caption?: string;
   label?: string;
+  wide?: boolean;
 }
-const { steps, lanes = [], rails = [], loop, legend = false, caption, label = 'How it works' } = Astro.props;
+const { steps, lanes = [], rails = [], loop, legend = false, caption, label = 'How it works', wide = false } = Astro.props;
 const tagText: Record<Tag, string> = { ai: 'AI', code: 'Code', mixed: 'AI + code', person: 'Person', rule: 'Rule' };
 const hasExit = steps.some((s) => s.exit);
-const rows = 1 + (hasExit ? 1 : 0) + lanes.length;
+const hasShot = steps.some((s) => s.shot);
+const rows = 1 + (hasExit ? 1 : 0) + lanes.length + (hasShot ? 1 : 0);
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
-<figure class="sf" data-inview aria-label={label} style={`--sf-n: ${steps.length}; --sf-rows: ${rows}`}>
+<figure class:list={['sf', { 'sf--wide': wide }]} data-inview aria-label={label} style={`--sf-n: ${steps.length}; --sf-rows: ${rows}`}>
   <ol class="sf-grid">
     {steps.map((s, i) => (
       <li class="sf-col" style={`--i: ${i}`}>
@@ -77,6 +84,16 @@ const pad = (n: number) => String(n).padStart(2, '0');
             {ln.cells[i] && <span class="sf-cell-text">{ln.cells[i]}</span>}
           </div>
         ))}
+        {hasShot && (
+          s.shot ? (
+            <div class="sf-shot">
+              <span class="sf-shot-num" aria-hidden="true">{s.num ?? pad(i + 1)}</span>
+              <div class="sf-shot-frame" data-zoomable>
+                <img src={s.shot.src} alt={s.shot.alt} width={s.shot.width} height={s.shot.height} loading="lazy" decoding="async" />
+              </div>
+            </div>
+          ) : <div class="sf-shot sf-shot--none"></div>
+        )}
       </li>
     ))}
   </ol>
@@ -97,6 +114,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
 </figure>
 <style>
   .sf { margin: var(--space-8) 0; }
+  .sf--wide {
+    --sf-w: min(1200px, calc(100vw - var(--sbw) - 2 * var(--pad-page-x)));
+    width: var(--sf-w);
+    margin-inline: calc((100% - var(--sf-w)) / 2);
+  }
   .sf-grid {
     list-style: none;
     margin: 0;
@@ -249,6 +271,32 @@ const pad = (n: number) => String(n).padStart(2, '0');
   }
   .sf-cell-text { font-size: 14px; line-height: 1.45; color: var(--ink-primary); }
 
+  /* --- shots: each stage's screen, at the foot of its column --- */
+  .sf-shot { position: relative; margin-top: var(--space-2); }
+  .sf-shot-frame {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--rule);
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow-card);
+  }
+  .sf-shot-frame img { display: block; width: 100%; height: auto; }
+  /* The step number sits on the frame's top edge, clear of the screen. */
+  .sf-shot-num {
+    position: absolute;
+    z-index: 1;
+    top: calc(-1 * var(--space-3));
+    left: var(--space-3);
+    padding: 2px var(--space-2);
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--ink-on-dark);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+  }
+
   /* --- after the grid --- */
   .sf-loop {
     margin: var(--space-3) 0 0;
@@ -299,14 +347,14 @@ const pad = (n: number) => String(n).padStart(2, '0');
     transition: opacity 0.5s ease, transform 0.5s ease;
     transition-delay: calc(var(--i) * 0.12s + 0.25s);
   }
-  .sf-exit, .sf-cell {
+  .sf-exit, .sf-cell, .sf-shot {
     transition: opacity 0.5s ease, transform 0.5s ease;
     transition-delay: calc(var(--sf-n) * 0.12s + 0.35s + var(--i) * 0.06s);
   }
   .sf-rails, .sf-loop, .sf-legend { transition: opacity 0.5s ease; transition-delay: calc(var(--sf-n) * 0.12s + 0.6s); }
   :global(html.inview-armed) .sf:not(.is-in) .sf-step::before { transform: scaleX(0); }
   :global(html.inview-armed) .sf:not(.is-in) .sf-node { transform: scale(0); }
-  :global(html.inview-armed) .sf:not(.is-in) :is(.sf-num, .sf-label, .sf-desc, .sf-meta, .sf-exit, .sf-cell) {
+  :global(html.inview-armed) .sf:not(.is-in) :is(.sf-num, .sf-label, .sf-desc, .sf-meta, .sf-exit, .sf-cell, .sf-shot) {
     opacity: 0;
     transform: translateY(var(--space-2));
   }
@@ -351,7 +399,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
     .sf-step { padding-top: 0; }
     .sf-step::before { display: none; }
     .sf-node { top: var(--space-1); left: calc(-1 * var(--space-5) - var(--space-1)); }
-    .sf-exit--none, .sf-cell--empty { display: none; }
+    .sf-exit--none, .sf-cell--empty, .sf-shot--none { display: none; }
+    .sf-shot { max-width: 360px; }
     .sf-col:not(:first-child) .sf-cell-lab { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
     .sf-grid::after { display: none; }
   }

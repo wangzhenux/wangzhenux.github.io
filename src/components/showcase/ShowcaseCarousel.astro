@@ -29,7 +29,10 @@ interface Slide {
   /** Small label above the title (e.g. "01", or a category). */
   eyebrow?: string;
   title: string;
-  body: string;
+  body?: string;
+  /** Two labelled parts in place of `body` (e.g. What happened / What we
+   *  designed); the second reads as the answer. */
+  parts?: { label: string; text: string }[];
   /** Caption for the placeholder until a real screenshot is supplied. */
   label?: string;
   /** Real screenshot src (public path). When set, replaces the placeholder. */
@@ -115,7 +118,18 @@ const count = slides.length;
           <div class="scar-cap">
             {s.eyebrow && <span class="scar-eyebrow">{s.eyebrow}</span>}
             <h4 class="scar-title">{s.title}</h4>
-            <p class="scar-body">{s.body}</p>
+            {s.parts ? (
+              <dl class="scar-parts">
+                {s.parts.map((pt) => (
+                  <div class="scar-part">
+                    <dt>{pt.label}</dt>
+                    <dd>{pt.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            ) : (
+              <p class="scar-body">{s.body}</p>
+            )}
           </div>
         </div>
       ))}
@@ -289,6 +303,19 @@ const count = slides.length;
     margin: 0;
     max-width: 46ch;
   }
+  .scar-parts { margin: 0; display: grid; gap: var(--space-4); max-width: 46ch; }
+  .scar-part { padding-top: var(--space-3); border-top: 1px solid var(--rule); }
+  .scar-part dt {
+    margin-bottom: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .scar-part dd { margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink-secondary); }
+  .scar-part:last-child dt { color: var(--accent-ink); }
+  .scar-part:last-child dd { color: var(--ink-primary); }
 
   /* Controls — aligned to the content column (under the card's left edge). */
   .scar-foot {

@@ -1,7 +1,7 @@
 /**
  * In-view island for the storytelling components (StageFlow, ChatMock,
  * StoryBlocks, BrokeCarousel, ProcessStrip, LadderFigure, ThresholdCards,
- * AiRoleTable, CompareTable).
+ * CompareTable).
  *
  * Same contract as reveal.ts: every component is fully visible by default. Only
  * when this island runs AND motion is allowed does it add `inview-armed` to

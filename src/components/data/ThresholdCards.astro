@@ -72,10 +72,14 @@ const { items, checks = [], label = "What I'd hold it to", checksLabel = 'Every 
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: var(--space-4);
   }
+  /* Each card spans the grid's 4 rows (measure, today, line, rule) through
+     subgrid, so the same row lines up across cards whatever the text length. */
   .tc-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+    row-gap: var(--space-3);
+    align-content: start;
     padding: var(--space-5);
     background: var(--bg-secondary);
     border: 1px solid var(--rule);
@@ -95,6 +99,7 @@ const { items, checks = [], label = "What I'd hold it to", checksLabel = 'Every 
   .tc-today { margin: 0; font-size: var(--fs-card); line-height: 1.45; color: var(--ink-secondary); }
   .tc-line {
     display: block;
+    align-self: center;
     height: 2px;
     background: linear-gradient(90deg, var(--accent) 55%, transparent 55%) 0 0 / 10px 2px repeat-x;
     transform-origin: left center;

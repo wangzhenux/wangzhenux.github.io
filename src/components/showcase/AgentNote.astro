@@ -1,0 +1,54 @@
+---
+/**
+ * One line naming the AI agents at work in a product part, linking to the
+ * platform's "how the agents work together" map. Token-only CSS.
+ *
+ *   <AgentNote agents={['Leasing assistant', 'Follow-up reply writer']} href="#agents" />
+ */
+interface Props { agents: string[]; href?: string }
+const { agents, href = '#agents' } = Astro.props;
+---
+<p class="an">
+  <span class="an-lab">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    AI agents here
+  </span>
+  {agents.map((a) => <span class="an-chip">{a}</span>)}
+  <a class="an-link" href={href}>How they work together</a>
+</p>
+<style>
+  .an {
+    margin: var(--space-5) 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+  }
+  .an-lab {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+  .an-lab svg { width: 14px; height: 14px; }
+  .an-chip {
+    padding: 2px var(--space-3);
+    border-radius: 999px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-medium);
+    font-size: 13px;
+    color: var(--ink-primary);
+  }
+  .an-link {
+    font-size: 13px;
+    color: var(--ink-secondary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .an-link:hover { color: var(--ink-primary); }
+  .an-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
