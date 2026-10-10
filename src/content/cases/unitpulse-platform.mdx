@@ -33,12 +33,12 @@ outcome:
 sections:
   - { id: ctx, num: "00", label: "Context" }
   - { id: p1, num: "01", label: "Who it serves" }
-  - { id: p2, num: "02", label: "Generate demand" }
-  - { id: p3, num: "03", label: "Convert leads" }
-  - { id: p4, num: "04", label: "Optimize operations" }
-  - { id: vc, num: "05", label: "Voice AI" }
-  - { id: cp, num: "06", label: "Copilot" }
-  - { id: p5, num: "07", label: "One platform" }
+  - { id: p5, num: "02", label: "One platform" }
+  - { id: p2, num: "03", label: "Generate demand" }
+  - { id: p3, num: "04", label: "Convert leads" }
+  - { id: p4, num: "05", label: "Optimize operations" }
+  - { id: vc, num: "06", label: "Voice AI" }
+  - { id: cp, num: "07", label: "Copilot" }
   - { id: ds, num: "08", label: "Design system" }
   - { id: p6, num: "09", label: "On the go" }
   - { id: p7, num: "10", label: "Evidence" }
@@ -63,6 +63,7 @@ import ResearchStats from '../../components/data/ResearchStats.astro';
 import Stat from '../../components/data/Stat.astro';
 import Reflection from '../../components/showcase/Reflection.astro';
 import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
+import MoreDetail from '../../components/reading/MoreDetail.astro';
 import ShowcaseCarousel from '../../components/showcase/ShowcaseCarousel.astro';
 import StageFlow from '../../components/showcase/StageFlow.astro';
 import StoryBlocks from '../../components/showcase/StoryBlocks.astro';
@@ -297,278 +298,8 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   />
 </section>
 
-<section id="p2" data-reveal>
-  <PartHeader num="02" title="Marketing: generate demand" />
-  <BodyText>
-    Marketing was our first product and our first paying customer. It started
-    as a post generator and grew into **an AI marketing team inside the
-    Portal**.
-    {/* Evolution confirmed in code (2026-10-08): native Marketing Phase 1
-        2026-07-07; Aiden in monorepo 2026-07-26; ported into Portal Marketing
-        2026-08-26 (#2747); native content merged into its feed 08-27/28;
-        projects from Portal properties 09-10 (#3405). */}
-  </BodyText>
-  <StageFlow
-    label="How Marketing evolved in 2026"
-    steps={[
-      { num: "Mar", label: "First product", desc: "Marketing signs our first paying customer." },
-      { num: "Jul", label: "Posts from a market read", desc: "AI drafts posts from an analysis of the property's name and address.", tag: "ai" },
-      { num: "Aug", label: "An AI marketing team", desc: "Brand guide, local market, channel plan and photo-aware drafts.", tag: "ai" },
-      { num: "Sep", label: "Any property can start", desc: "No website needed; a Portal property is enough." },
-    ]}
-  />
-  <ShowcaseVideo
-    src="/cases/unitpulse-platform/video/marketing.mp4"
-    poster="/cases/unitpulse-platform/video/marketing-poster.jpg"
-    label="UP Marketing: picking channels, adding photos, generating a warm draft that matches them, fixing a fact-check flag, then posting to both channels"
-    width={1920}
-    height={1080}
-  />
-
-  <SectionH small>How a post gets made today</SectionH>
-  <ShowcaseCarousel
-    label="Marketing today, in 5 steps"
-    slides={[
-      { eyebrow: "01 · AI", title: "Learn the property", body: "From the website or a Portal property and a confirmed address, AI writes a brand guide and a local market profile.", image: "/cases/unitpulse-platform/marketing/learn.jpg", imageAlt: "The setup board reading the property's site beside a brand guide with voice, do's and don'ts, colors and fonts", width: 2400, height: 1500 },
-      { eyebrow: "02", title: "Connect channels", body: "Google Business, Facebook, Instagram, TikTok and Reddit, with what's live, what needs attention and 30-day reach.", image: "/cases/unitpulse-platform/marketing/channels.jpg", imageAlt: "The Channels list grouped into needs attention, healthy and connected, and get connected", width: 2400, height: 1500 },
-      { eyebrow: "03 · AI", title: "Plan each channel", body: "For each channel, AI scouts where and what to post. A rhythm check turns gaps into suggested drafts.", image: "/cases/unitpulse-platform/marketing/plan.jpg", imageAlt: "Suggested venues and topics for each channel, the do-these-first list from the rhythm check, and a draft waiting for review", width: 2400, height: 1500 },
-      { eyebrow: "04 · AI", title: "Draft with photos", body: "Pick a channel, add photos, set the tone and length. The copy matches the photos, and a fact check flags what the data doesn't back.", image: "/cases/unitpulse-platform/marketing/draft.jpg", imageAlt: "The composer with channel chips, attached photos, tone and length chips, an AI draft, a preview and a fact-check flag", width: 2400, height: 1500 },
-      { eyebrow: "05", title: "Approve and publish", body: "Every draft waits for a person: edit, reject or approve. Approving publishes now.", image: "/cases/unitpulse-platform/marketing/approve.jpg", imageAlt: "A draft in the work queue with Reject, Edit and Approve, and the confirm dialog before it publishes", width: 2400, height: 1500 },
-    ]}
-  />
-
-  <StoryBlocks
-    label="A fix in Marketing"
-    blocks={[
-      {
-        principle: "Cooperative principle",
-        quote: "Ready to tour at Maple Court, 2410 Wren Hollow Ave.",
-        happened: "Drafts went out with the property on the wrong street.",
-        designed: "A fact check now flags any address that doesn't match the confirmed one, and any price or special the property data doesn't back, before anything posts.",
-        image: { src: "/cases/unitpulse-platform/marketing/factcheck.jpg", alt: "A post preview with 2 property photos, where the fact check highlights the wrong street in the post copy and flags that it doesn't match the confirmed address", width: 1800, height: 1260 },
-      },
-    ]}
-  />
-</section>
-
-<section id="p3" data-reveal>
-  <PartHeader num="03" title="Leasing: convert leads" />
-  <BodyText>
-    UP Leasing turns that demand into signed leases. The AI answers every
-    inquiry **knowing who's asking**, writes follow-ups worth reading, and books
-    the tour itself on the on-shift agent's calendar. When the system doesn't
-    have the answer, the question goes to an agent as a task.
-    {/* ‹C-ai-behaviors› */}
-  </BodyText>
-
-  <ShowcaseVideo
-    src="/cases/unitpulse-platform/video/leasing.mp4"
-    poster="/cases/unitpulse-platform/video/leasing-poster.jpg"
-    label="UP Leasing in the Portal inbox: the AI answers with a specific unit, adds parking as a preference, books the tour on the agent's calendar, hands a pricing question to an agent as a task, then turns itself off when the agent replies"
-    width={1920}
-    height={1080}
-  />
-
-  <SectionH small>From first message to booked tour</SectionH>
-  {/* [REAL] Tripalink + larger production flows: 5/24 and 9/44 model steps;
-      fair housing first; the AI books the tour on the on-shift agent's calendar
-      (Zhen 2026-10-09: no agent confirmation step); data the system lacks,
-      esp. pricing, becomes a task for an agent; lead sync to an on-duty agent;
-      AI stops once an agent replies (leasing bot guard). */}
-  <StageFlow
-    label="How AI leasing answers, and where people take over"
-    steps={[
-      { label: "Listen", desc: "Loads the home in view and the chat so far.", tag: "code" },
-      { label: "Collect", desc: "Reads what the renter wants. Asking isn't requiring.", tag: "ai" },
-      { label: "Route", desc: "Sorts the message.", tag: "ai", badge: "Fair housing first" },
-      { label: "Act", desc: "Answers from property data, or books the tour on the agent's calendar.", tag: "code" },
-      { label: "Reply", desc: "A warm, short answer in the renter's language.", tag: "ai" },
-      { label: "Hand off", desc: "Lead, chat and preferences go to the on-duty agent.", tag: "person" },
-    ]}
-    lanes={[{ label: "People", tone: "person", cells: [null, null, null, "Missing data becomes a task for an agent", null, "The agent takes over the thread"] }]}
-    rails={["Any time an agent replies, the AI goes quiet. Agents can switch it off per conversation."]}
-  />
-
-  <SectionH small>4 behaviors we designed</SectionH>
-  <ShowcaseCarousel
-    label="AI leasing behaviors"
-    autoplay={false}
-    slides={[
-      { eyebrow: "Cooperative principle", title: "“Can I come see it Saturday at 2?”", parts: [{ label: "What happened", text: "Renters ask to tour at any hour, often after the office closes." }, { label: "What we designed", text: "The AI checks the on-shift agent's calendar and books the slot, or offers the nearest open times. The tour lands on the agent's calendar." }], image: "/cases/unitpulse-platform/leasing/request.jpg", imageAlt: "The AI booking a Saturday tour of unit 204 on the leasing agent's calendar", width: 1680, height: 1641, bg: "var(--bg-secondary)" },
-      { eyebrow: "Move the conversation forward", title: "“A 2 bedroom under $2,400 at Maple Court?”", parts: [{ label: "What happened", text: "Nothing at this building fits." }, { label: "What we designed", text: "It says so, then lists matching units at sister properties, each under its own name, with the same filters." }], image: "/cases/unitpulse-platform/leasing/nomatch.jpg", imageAlt: "The AI saying Maple Court has nothing under $2,400 and listing matching units at The Linden and Harbor View Lofts", width: 1680, height: 1560, bg: "var(--bg-secondary)" },
-      { eyebrow: "Listen between the lines", title: "“Does unit 204 have parking?”", parts: [{ label: "What happened", text: "Curiosity isn't a requirement." }, { label: "What we designed", text: "A question gets an answer. Only “I need parking” becomes a filter, and a tour date is never read as a move-in date." }], image: "/cases/unitpulse-platform/leasing/asking.jpg", imageAlt: "A parking question answered without adding a filter, then I need parking adds a Parking preference", width: 1680, height: 1521, bg: "var(--bg-secondary)" },
-      { eyebrow: "Turn-taking", title: "“Is there a move-in special if I sign by Oct 15?”", parts: [{ label: "What happened", text: "Pricing isn't in the property data, and a guess would be a promise." }, { label: "What we designed", text: "The AI says it will check and opens a Need Reply task for the agent. When the agent answers, the AI goes quiet for the rest of the thread." }], image: "/cases/unitpulse-platform/leasing/handoff.jpg", imageAlt: "A pricing question the AI can't answer becomes a Need Reply task; the agent answers and AI leasing turns off for the conversation", width: 1680, height: 1737, bg: "var(--bg-secondary)" },
-    ]}
-  />
-
-  <SectionH small>Every call and tour lands in the profile</SectionH>
-  {/* Step shots (2026-10-09, round 6): coded mocks from the real Portal timeline,
-      transcript dialog and summary card, and the agents' app tour follow-up
-      (scratchpad mocks/call-steps/). The Portal has no reviewable follow-up
-      email; the app suggests one after a recorded tour. */}
-  <StageFlow
-    wide
-    label="From a call or tour to a follow-up"
-    steps={[
-      { label: "Capture", desc: "A call is recorded, or a tour on the app.", tag: "code", shot: { src: "/cases/unitpulse-platform/calls/capture.jpg", alt: "Jordan Lee's timeline: the tour booked on Oct 2 for Unit 204 with Alex Rivera, then Jordan's inbound call on Oct 3, completed, and its recording playing", width: 1200, height: 1500 } },
-      { label: "Transcribe", desc: "Every speaker, word for word.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/transcript.jpg", alt: "The call transcript, Caller and Agent: Jordan confirms the 2 PM tour of Unit 204, hears street parking is easy after 6 pm, and asks whether a small dog is okay", width: 1200, height: 1500 } },
-      { label: "Summarize", desc: "A summary card on the prospect's timeline.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/summary.jpg", alt: "The phone call summary card: the 2 PM tour of Unit 204 confirmed, no assigned parking but street parking after 6 pm, the small dog fine with a pet deposit, with View transcript and the recording", width: 1200, height: 1500 } },
-      { label: "Follow up", desc: "After a tour, the app suggests next steps and an email.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/followup.jpg", alt: "The agents' app suggests a follow-up for this week: send the pet policy and dog deposit, share street parking, hold Unit 204 through Friday, Oct 9, with a drafted email and a Copy email button", width: 1200, height: 1500 } },
-    ]}
-    lanes={[{ label: "The agent", tone: "person", cells: ["Asks consent before a tour recording", null, "Reads it and corrects any preference", "Copies the email, edits it and sends it"] }]}
-  />
-
-</section>
-
-<section id="p4" data-reveal>
-  <PartHeader num="04" title="Insight: optimize operations" />
-  <BodyText>
-    UP Insight closes the loop for owners who aren't analysts: the full funnel,
-    per-prospect attribution, the biggest leak called out each morning, and a
-    plain-language Data Copilot. Attribution shows **which segments and channels
-    actually sign leases**, so the team can decide what Marketing writes next.
-  </BodyText>
-
-  <ShowcaseVideo
-    src="/cases/unitpulse-platform/video/insight.mp4"
-    poster="/cases/unitpulse-platform/video/insight-poster.jpg"
-    label="UP Insight: from the daily brief's biggest leak to the customer journey, drop-offs highlighted, the Copilot explaining the drop with a chart and opening the stage, and which lead sources sign leases"
-    width={1920}
-    height={1080}
-  />
-
-  <SectionH small>Find the stage that leaks</SectionH>
-  <StageFlow
-    label="From the whole funnel to the next action"
-    steps={[
-      { label: "See the funnel", desc: "Every lead, from inquiry to signed lease.", tag: "code" },
-      { label: "Flag the leak", desc: "The stage that slipped most this week. It says where, never guesses why.", tag: "rule" },
-      { label: "Ask why", desc: "The Copilot answers in charts and opens the stage.", tag: "ai" },
-      { label: "Act", desc: "A person decides. AI-proposed process changes come next.", tag: "person" },
-    ]}
-  />
-  <SectionH small>What a manager sees each morning</SectionH>
-  {/* For You panels in product order (2026-10-09, round 5). inventory, agents,
-      tasks and afterhours are coded mocks from the real panel markup
-      (scratchpad mocks/insight-panels/); numbers match the rest of the week. */}
-  <ShowcaseCarousel
-    label="The For You page, panel by panel"
-    autoplay={false}
-    slides={[
-      { eyebrow: "Daily brief", title: "The biggest leak, first thing", body: "Each morning the brief names the stage that slipped most this week, with the numbers behind it and where to look.", image: "/cases/unitpulse-platform/insight/leak.jpg", imageAlt: "The morning brief calling out the biggest leak this week and where to look, with action-first bullets", width: 2400, height: 1033 },
-      { eyebrow: "Funnel", title: "See where renters leave", body: "The customer journey highlights every drop-off, and the stage panel lists why leads left.", image: "/cases/unitpulse-platform/insight/dropoffs.jpg", imageAlt: "The customer journey with drop-offs highlighted and a stage panel showing dropout reasons", width: 2400, height: 1433 },
-      { eyebrow: "Inventory", title: "Where the demand has to land", body: "7 of the 13 empty units are two-bedrooms, so that's where pricing and marketing effort go first.", image: "/cases/unitpulse-platform/insight/inventory.jpg", imageAlt: "Vacancy by unit type for Maple Court: 2B2B with 7 of 64 vacant at $3,150 to $3,350, then 1B1B, 3B2B and Studio with 2 vacant each, each row with an occupancy bar", width: 2400, height: 1500 },
-      { eyebrow: "Team", title: "Who is carrying the week", body: "Tours, applications and contracts by agent, always over the last 7 days.", image: "/cases/unitpulse-platform/insight/agents.jpg", imageAlt: "Tours, applications and contracts by manager for the last 7 days: Alex Rivera 9, 2 and 1, Sam Okafor 7, 1 and 1, Dana Ruiz 6, 1 and 1", width: 2400, height: 1500 },
-      { eyebrow: "Tasks", title: "What still needs a person", body: "Every conversation waiting on the team, ranked by urgency, with the renter's actual question and the agent who owns it.", image: "/cases/unitpulse-platform/insight/tasks.jpg", imageAlt: "9 outstanding tasks, 1 urgent: Jordan Lee's move-in special question first, then a missing pay stub, parking details, a tour time and an early key pickup, each with a priority, a stage and an owner", width: 2400, height: 1500 },
-      { eyebrow: "After hours", title: "The work that happens after close", body: "40% of chat messages and 42% of tour bookings came outside office hours. The AI booked 9 of those 11 tours.", image: "/cases/unitpulse-platform/insight/afterhours.jpg", imageAlt: "After-hours activity for 7 days: 318 of 794 chat messages, 11 of 26 tour bookings and 8 of 22 tours held came outside business hours, above a chart of activity by hour", width: 2400, height: 1500 },
-    ]}
-  />
-</section>
-
-<section id="vc" data-reveal>
-  <PartHeader num="05" title="Voice AI: answer every call" />
-  <BodyText>
-    When an agent is on a tour, the phone still rings. I designed the setup
-    board, call review, inquiries, work orders and the conversation flows.
-    The AI is **the overflow, not the front line**.
-    {/* Zhen 2026-10-08: designed setup board, call log review, inquiries,
-        work order, conversation flows. Shipped 2026-08-27 onward; human-first
-        default 09-23; press 3 09-28; connect-live merged 10-06 (publish
-        [CONFIRM]). Nav label: "Voice AI". */}
-  </BodyText>
-
-  <SectionH small>How a call reaches a person</SectionH>
-  <LadderFigure
-    lanes={[
-      { label: "Every call", sub: "After hours, the AI picks up", nodes: [ { label: "On-duty agent", kind: "person", note: "10 seconds" }, { label: "Coverage team", kind: "person" }, { label: "AI assistant", kind: "ai" }, { label: "Voicemail", kind: "fallback" } ] },
-      { label: "Press 3", sub: "A person, no AI", nodes: [ { label: "On-duty agent", kind: "person" }, { label: "Voicemail", kind: "fallback" } ] },
-      { label: "Asks the AI", sub: "For a person", status: "Live connect in progress", nodes: [ { label: "Offers a callback", kind: "ai" }, { label: "Filed after a yes", kind: "end" }, { label: "Need-reply task + email", kind: "person" } ], branch: "Emergencies: hang up and dial 911" },
-    ]}
-  />
-
-  <SectionH small>How a call goes</SectionH>
-  <StageFlow
-    label="The voice conversation, simplified"
-    steps={[
-      { label: "Front door", desc: "Welcome, language, recording notice, menu.", tag: "rule" },
-      { label: "People first", desc: "The on-duty agent and the team ring first.", tag: "person" },
-      { label: "Open", desc: "A virtual assistant introduces itself, asks one question.", tag: "ai" },
-      { label: "Understand", desc: "Finds the building, confirms it aloud.", tag: "ai" },
-      { label: "Act", desc: "Answers, books on real calendars, logs repairs, files callbacks.", tag: "mixed" },
-      { label: "Close", desc: "Reads it back, offers help once, one goodbye.", tag: "ai" },
-    ]}
-    rails={["Unclear or silent: a shorter re-ask, then “could you speak up”, then a callback offer. It never hangs up over bad audio.", "Every call ends in the Portal: an AI summary to review, an email to the on-duty agent, and a task or work order."]}
-    caption="Simplified from 147 steps in the leasing flow."
-  />
-
-  <SectionH small>What broke, and what we changed</SectionH>
-  <BrokeCarousel
-    label="What broke in Voice AI, and what we changed"
-    cards={[
-      {
-        principle: "Hand-off to a person",
-        title: "Can I talk to someone?",
-        status: "Live connect in progress",
-        before: [
-          { from: "renter", text: "Can I talk to someone?" },
-          { from: "ai", text: "Transferring you now…" },
-          { from: "event", text: "No one on the team picks up", flag: "bad" },
-        ],
-        after: [
-          { from: "ai", text: "I can have the leasing team call you back. Is this the best number?" },
-          { from: "renter", text: "Yes, this number." },
-          { from: "event", text: "Callback filed · Need-reply task · email to the on-duty agent", flag: "good" },
-        ],
-        happened: "The client's leasing team was short-staffed, so a live transfer would often ring nobody.",
-        changed: "With the client, I made a consented callback the hand-off. Connecting live, for routes with people on duty, came later.",
-      },
-    ]}
-  />
-
-  <SectionH small>Managers stay in control</SectionH>
-  <ShowcaseCarousel
-    label="Voice AI in the Portal"
-    slides={[
-      { eyebrow: "Setup board", title: "Every line, drawn as a call", body: "Welcome, language, recording notice, menu, then who answers in what order. The board won't let a person sit behind the AI.", image: "/cases/unitpulse-platform/voice/setup-board.jpg", imageAlt: "The phone-line setup board drawn as a caller journey with person, AI and fallback steps", width: 2400, height: 1635 },
-      { eyebrow: "Call review", title: "Read any call in seconds", body: "An AI summary with a verdict, action items and preferences, beside the transcript and recording.", image: "/cases/unitpulse-platform/voice/call-review.jpg", imageAlt: "The call log with an AI summary band, action items, verdict and preferences beside the transcript", width: 2400, height: 1955 },
-      { eyebrow: "Inquiries", title: "Leasing calls, ready to follow up", body: "Each caller with their preferences, landing on the leasing desk.", image: "/cases/unitpulse-platform/voice/inquiries.jpg", imageAlt: "The leasing desk listing voice inquiries with rental preferences", width: 2400, height: 1636 },
-      { eyebrow: "Work orders", title: "Repairs, captured from the call", body: "Unit, issue and permission to enter, marked for review.", image: "/cases/unitpulse-platform/voice/work-order.jpg", imageAlt: "A work order captured from a call with permission to enter and review required", width: 2400, height: 1898 },
-    ]}
-  />
-</section>
-
-<section id="cp" data-reveal>
-  <PartHeader num="06" title="Copilot: one assistant for every product" />
-  {/* Today = verified in web-unitpulse-portal (2026-10-09): Insight AidenCopilot
-      returns profile / KPI / chart / list answers and can open views; Marketing's
-      Copilot drafts a post for a property and reports channel performance; the
-      agent app has a Copilot tab. Next = Zhen: one Copilot serving all products.
-      Clip: coded mock (copilot/anim-tall.html), the deck's Insight clip, taller. */}
-  <ShowcaseVideo
-    src="/cases/unitpulse-platform/video/copilot.mp4"
-    poster="/cases/unitpulse-platform/video/copilot-poster.jpg"
-    label="The Copilot: a manager asks about tour drop-offs, gets the cluster and its cause, then turns the fix into an automated follow-up rule"
-    width={1050}
-    height={1500}
-    tone="callout"
-  >
-    <h3>Ask once, get the answer with the data behind it</h3>
-    <p>The Copilot is the command layer the products share. Managers and agents ask in plain language instead of digging through menus.</p>
-    <h4>Today</h4>
-    <ul>
-      <li><strong>Insight:</strong> leasing performance, drop-offs or a single prospect, answered as charts, KPIs, lists and prospect profiles, with the view one click away.</li>
-      <li><strong>Marketing:</strong> draft a post for a property, or check how a channel is doing.</li>
-      <li><strong>On the go:</strong> the same Copilot is a tab in the agents' app.</li>
-    </ul>
-    <h4>Next</h4>
-    <ul>
-      <li>One Copilot across Marketing, Leasing and Insight, so a question asked anywhere can act on any product.</li>
-    </ul>
-  </ShowcaseVideo>
-</section>
-
 <section id="p5" data-reveal>
-  <PartHeader num="07" title="Separate products, one platform" />
+  <PartHeader num="02" title="Separate products, one platform" />
   <BodyText>
     Customers came for Marketing, then asked us to run the whole journey. But
     the 3 products didn't talk to each other — **even though they consumed the
@@ -579,6 +310,13 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     phased merge, not a rewrite. Voice AI later joined the same shell as the
     fourth product.
     {/* ‹C-dates› spring/summer beats */}
+  </BodyText>
+  <BodyText>
+    I owned the navigation, access states and interaction rules; engineering
+    led the technical integration. It's built and merged. The property in the
+    results below already runs on it, and other customers move over in phases.
+    {/* ‹C-split› Cohort property ran the MERGED platform (Zhen 2026-08-02);
+        "not fully cut over" refers to other customers. */}
   </BodyText>
 
   {/* EXAMPLE VISUAL — token-built timeline; replace with final Figma export */}
@@ -621,12 +359,254 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       },
     ]}
   />
+</section>
+
+<section id="p2" data-reveal>
+  <PartHeader num="03" title="Marketing: generate demand" />
   <BodyText>
-    I owned the navigation, access states and interaction rules; engineering
-    led the technical integration. It's built and merged today, but **not yet
-    cut over**.
-    {/* ‹C-split› */}
+    Marketing was our first product and our first paying customer. It started
+    as a post generator and grew into **an AI marketing team inside the
+    Portal**.
+    {/* Evolution confirmed in code (2026-10-08): native Marketing Phase 1
+        2026-07-07; Aiden in monorepo 2026-07-26; ported into Portal Marketing
+        2026-08-26 (#2747); native content merged into its feed 08-27/28;
+        projects from Portal properties 09-10 (#3405). */}
   </BodyText>
+  <MoreDetail title="How Marketing evolved in 2026">
+    <StageFlow
+      label="How Marketing evolved in 2026"
+      steps={[
+        { num: "Mar", label: "First product", desc: "Marketing signs our first paying customer." },
+        { num: "Jul", label: "Posts from a market read", desc: "AI drafts posts from an analysis of the property's name and address.", tag: "ai" },
+        { num: "Aug", label: "An AI marketing team", desc: "Brand guide, local market, channel plan and photo-aware drafts.", tag: "ai" },
+        { num: "Sep", label: "Any property can start", desc: "No website needed; a Portal property is enough." },
+      ]}
+    />
+  </MoreDetail>
+  <ShowcaseVideo
+    src="/cases/unitpulse-platform/video/marketing.mp4"
+    poster="/cases/unitpulse-platform/video/marketing-poster.jpg"
+    label="UP Marketing: picking channels, adding photos, generating a warm draft that matches them, fixing a fact-check flag, then posting to both channels"
+    width={1920}
+    height={1080}
+  />
+
+  <SectionH small>How a post gets made today</SectionH>
+  <ShowcaseCarousel
+    label="Marketing today, in 5 steps"
+    slides={[
+      { eyebrow: "01 · AI", title: "Learn the property", body: "From the website or a Portal property and a confirmed address, AI writes a brand guide and a local market profile.", image: "/cases/unitpulse-platform/marketing/learn.jpg", imageAlt: "The setup board reading the property's site beside a brand guide with voice, do's and don'ts, colors and fonts", width: 2400, height: 1500 },
+      { eyebrow: "02", title: "Connect channels", body: "Google Business, Facebook, Instagram, TikTok and Reddit, with what's live, what needs attention and 30-day reach.", image: "/cases/unitpulse-platform/marketing/channels.jpg", imageAlt: "The Channels list grouped into needs attention, healthy and connected, and get connected", width: 2400, height: 1500 },
+      { eyebrow: "03 · AI", title: "Plan each channel", body: "For each channel, AI scouts where and what to post. A rhythm check turns gaps into suggested drafts.", image: "/cases/unitpulse-platform/marketing/plan.jpg", imageAlt: "Suggested venues and topics for each channel, the do-these-first list from the rhythm check, and a draft waiting for review", width: 2400, height: 1500 },
+      { eyebrow: "04 · AI", title: "Draft with photos", body: "Pick a channel, add photos, set the tone and length. The copy matches the photos, and a fact check flags what the data doesn't back.", image: "/cases/unitpulse-platform/marketing/draft.jpg", imageAlt: "The composer with channel chips, attached photos, tone and length chips, an AI draft, a preview and a fact-check flag", width: 2400, height: 1500 },
+      { eyebrow: "05", title: "Approve and publish", body: "Every draft waits for a person: edit, reject or approve. Approving publishes now.", image: "/cases/unitpulse-platform/marketing/approve.jpg", imageAlt: "A draft in the work queue with Reject, Edit and Approve, and the confirm dialog before it publishes", width: 2400, height: 1500 },
+    ]}
+  />
+
+  <StoryBlocks
+    label="A fix in Marketing"
+    blocks={[
+      {
+        principle: "Cooperative principle",
+        quote: "Ready to tour at Maple Court, 2410 Wren Hollow Ave.",
+        happened: "Drafts went out with the property on the wrong street.",
+        designed: "A fact check now flags any address that doesn't match the confirmed one, and any price or special the property data doesn't back, before anything posts.",
+        image: { src: "/cases/unitpulse-platform/marketing/factcheck.jpg", alt: "A post preview with 2 property photos, where the fact check highlights the wrong street in the post copy and flags that it doesn't match the confirmed address", width: 1800, height: 1260 },
+      },
+    ]}
+  />
+</section>
+
+<section id="p3" data-reveal>
+  <PartHeader num="04" title="Leasing: convert leads" />
+  <BodyText>
+    UP Leasing turns that demand into signed leases. The AI answers every
+    inquiry **knowing who's asking**, writes follow-ups worth reading, and books
+    the tour itself on the on-shift agent's calendar. When the system doesn't
+    have the answer, the question goes to an agent as a task.
+    {/* ‹C-ai-behaviors› */}
+  </BodyText>
+
+  <ShowcaseVideo
+    src="/cases/unitpulse-platform/video/leasing.mp4"
+    poster="/cases/unitpulse-platform/video/leasing-poster.jpg"
+    label="UP Leasing in the Portal inbox: the AI answers with a specific unit, adds parking as a preference, books the tour on the agent's calendar, hands a pricing question to an agent as a task, then turns itself off when the agent replies"
+    width={1920}
+    height={1080}
+  />
+
+  <MoreDetail title="From first message to booked tour">
+    {/* [REAL] Tripalink + larger production flows: 5/24 and 9/44 model steps;
+        fair housing first; the AI books the tour on the on-shift agent's calendar
+        (Zhen 2026-10-09: no agent confirmation step); data the system lacks,
+        esp. pricing, becomes a task for an agent; lead sync to an on-duty agent;
+        AI stops once an agent replies (leasing bot guard). */}
+    <StageFlow
+      label="How AI leasing answers, and where people take over"
+      steps={[
+        { label: "Listen", desc: "Loads the home in view and the chat so far.", tag: "code" },
+        { label: "Collect", desc: "Reads what the renter wants. Asking isn't requiring.", tag: "ai" },
+        { label: "Route", desc: "Sorts the message.", tag: "ai", badge: "Fair housing first" },
+        { label: "Act", desc: "Answers from property data, or books the tour on the agent's calendar.", tag: "code" },
+        { label: "Reply", desc: "A warm, short answer in the renter's language.", tag: "ai" },
+        { label: "Hand off", desc: "Lead, chat and preferences go to the on-duty agent.", tag: "person" },
+      ]}
+      lanes={[{ label: "People", tone: "person", cells: [null, null, null, "Missing data becomes a task for an agent", null, "The agent takes over the thread"] }]}
+      rails={["Any time an agent replies, the AI goes quiet. Agents can switch it off per conversation."]}
+    />
+  </MoreDetail>
+
+  <SectionH small>4 behaviors we designed</SectionH>
+  <ShowcaseCarousel
+    label="AI leasing behaviors"
+    autoplay={false}
+    slides={[
+      { eyebrow: "Cooperative principle", title: "“Can I come see it Saturday at 2?”", parts: [{ label: "What happened", text: "Renters ask to tour at any hour, often after the office closes." }, { label: "What we designed", text: "The AI checks the on-shift agent's calendar and books the slot, or offers the nearest open times. The tour lands on the agent's calendar." }], image: "/cases/unitpulse-platform/leasing/request.jpg", imageAlt: "The AI booking a Saturday tour of unit 204 on the leasing agent's calendar", width: 1680, height: 1641, bg: "var(--bg-secondary)" },
+      { eyebrow: "Move the conversation forward", title: "“A 2 bedroom under $2,400 at Maple Court?”", parts: [{ label: "What happened", text: "Nothing at this building fits." }, { label: "What we designed", text: "It says so, then lists matching units at sister properties, each under its own name, with the same filters." }], image: "/cases/unitpulse-platform/leasing/nomatch.jpg", imageAlt: "The AI saying Maple Court has nothing under $2,400 and listing matching units at The Linden and Harbor View Lofts", width: 1680, height: 1560, bg: "var(--bg-secondary)" },
+      { eyebrow: "Listen between the lines", title: "“Does unit 204 have parking?”", parts: [{ label: "What happened", text: "Curiosity isn't a requirement." }, { label: "What we designed", text: "A question gets an answer. Only “I need parking” becomes a filter, and a tour date is never read as a move-in date." }], image: "/cases/unitpulse-platform/leasing/asking.jpg", imageAlt: "A parking question answered without adding a filter, then I need parking adds a Parking preference", width: 1680, height: 1521, bg: "var(--bg-secondary)" },
+      { eyebrow: "Turn-taking", title: "“Is there a move-in special if I sign by Oct 15?”", parts: [{ label: "What happened", text: "Pricing isn't in the property data, and a guess would be a promise." }, { label: "What we designed", text: "The AI says it will check and opens a Need Reply task for the agent. When the agent answers, the AI goes quiet for the rest of the thread." }], image: "/cases/unitpulse-platform/leasing/handoff.jpg", imageAlt: "A pricing question the AI can't answer becomes a Need Reply task; the agent answers and AI leasing turns off for the conversation", width: 1680, height: 1737, bg: "var(--bg-secondary)" },
+    ]}
+  />
+
+</section>
+
+<section id="p4" data-reveal>
+  <PartHeader num="05" title="Insight: optimize operations" />
+  <BodyText>
+    UP Insight closes the loop for owners who aren't analysts: the full funnel,
+    per-prospect attribution, the biggest leak called out each morning, and a
+    plain-language Data Copilot. Attribution shows **which segments and channels
+    actually sign leases**, so the team can decide what Marketing writes next.
+  </BodyText>
+
+  <ShowcaseVideo
+    src="/cases/unitpulse-platform/video/insight.mp4"
+    poster="/cases/unitpulse-platform/video/insight-poster.jpg"
+    label="UP Insight: from the daily brief's biggest leak to the customer journey, drop-offs highlighted, the Copilot explaining the drop with a chart and opening the stage, and which lead sources sign leases"
+    width={1920}
+    height={1080}
+  />
+
+  <SectionH small>What a manager sees each morning</SectionH>
+  {/* For You panels in product order (2026-10-09, round 5). inventory, agents,
+      tasks and afterhours are coded mocks from the real panel markup
+      (scratchpad mocks/insight-panels/); numbers match the rest of the week. */}
+  <ShowcaseCarousel
+    label="The For You page, panel by panel"
+    autoplay={false}
+    slides={[
+      { eyebrow: "Daily brief", title: "The biggest leak, first thing", body: "Each morning the brief names the stage that slipped most this week, with the numbers behind it and where to look.", image: "/cases/unitpulse-platform/insight/leak.jpg", imageAlt: "The morning brief calling out the biggest leak this week and where to look, with action-first bullets", width: 2400, height: 1033 },
+      { eyebrow: "Funnel", title: "See where renters leave", body: "The customer journey highlights every drop-off, and the stage panel lists why leads left.", image: "/cases/unitpulse-platform/insight/dropoffs.jpg", imageAlt: "The customer journey with drop-offs highlighted and a stage panel showing dropout reasons", width: 2400, height: 1433 },
+      { eyebrow: "Inventory", title: "Where the demand has to land", body: "7 of the 13 empty units are two-bedrooms, so that's where pricing and marketing effort go first.", image: "/cases/unitpulse-platform/insight/inventory.jpg", imageAlt: "Vacancy by unit type for Maple Court: 2B2B with 7 of 64 vacant at $3,150 to $3,350, then 1B1B, 3B2B and Studio with 2 vacant each, each row with an occupancy bar", width: 2400, height: 1500 },
+      { eyebrow: "Team", title: "Who is carrying the week", body: "Tours, applications and contracts by agent, always over the last 7 days.", image: "/cases/unitpulse-platform/insight/agents.jpg", imageAlt: "Tours, applications and contracts by manager for the last 7 days: Alex Rivera 9, 2 and 1, Sam Okafor 7, 1 and 1, Dana Ruiz 6, 1 and 1", width: 2400, height: 1500 },
+      { eyebrow: "Tasks", title: "What still needs a person", body: "Every conversation waiting on the team, ranked by urgency, with the renter's actual question and the agent who owns it.", image: "/cases/unitpulse-platform/insight/tasks.jpg", imageAlt: "9 outstanding tasks, 1 urgent: Jordan Lee's move-in special question first, then a missing pay stub, parking details, a tour time and an early key pickup, each with a priority, a stage and an owner", width: 2400, height: 1500 },
+      { eyebrow: "After hours", title: "The work that happens after close", body: "40% of chat messages and 42% of tour bookings came outside office hours. The AI booked 9 of those 11 tours.", image: "/cases/unitpulse-platform/insight/afterhours.jpg", imageAlt: "After-hours activity for 7 days: 318 of 794 chat messages, 11 of 26 tour bookings and 8 of 22 tours held came outside business hours, above a chart of activity by hour", width: 2400, height: 1500 },
+    ]}
+  />
+</section>
+
+<section id="vc" data-reveal>
+  <PartHeader num="06" title="Voice AI: answer every call" />
+  <BodyText>
+    When an agent is on a tour, the phone still rings. I designed the setup
+    board, call review, inquiries, work orders and the conversation flows.
+    The AI is **the overflow, not the front line**.
+    {/* Zhen 2026-10-08: designed setup board, call log review, inquiries,
+        work order, conversation flows. Shipped 2026-08-27 onward; human-first
+        default 09-23; press 3 09-28; connect-live merged 10-06 (publish
+        [CONFIRM]). Nav label: "Voice AI". */}
+  </BodyText>
+
+  <SectionH small>How a call reaches a person</SectionH>
+  <LadderFigure
+    lanes={[
+      { label: "Every call", sub: "After hours, the AI picks up", nodes: [ { label: "On-duty agent", kind: "person", note: "10 seconds" }, { label: "Coverage team", kind: "person" }, { label: "AI assistant", kind: "ai" }, { label: "Voicemail", kind: "fallback" } ] },
+      { label: "Press 3", sub: "A person, no AI", nodes: [ { label: "On-duty agent", kind: "person" }, { label: "Voicemail", kind: "fallback" } ] },
+      { label: "Asks the AI", sub: "For a person", status: "Live connect in progress", nodes: [ { label: "Offers a callback", kind: "ai" }, { label: "Filed after a yes", kind: "end" }, { label: "Need-reply task + email", kind: "person" } ], branch: "Emergencies: hang up and dial 911" },
+    ]}
+  />
+
+  <MoreDetail title="How a call goes, step by step">
+    <StageFlow
+      label="The voice conversation, simplified"
+      steps={[
+        { label: "Front door", desc: "Welcome, language, recording notice, menu.", tag: "rule" },
+        { label: "People first", desc: "The on-duty agent and the team ring first.", tag: "person" },
+        { label: "Open", desc: "A virtual assistant introduces itself, asks one question.", tag: "ai" },
+        { label: "Understand", desc: "Finds the building, confirms it aloud.", tag: "ai" },
+        { label: "Act", desc: "Answers, books on real calendars, logs repairs, files callbacks.", tag: "mixed" },
+        { label: "Close", desc: "Reads it back, offers help once, one goodbye.", tag: "ai" },
+      ]}
+      rails={["Unclear or silent: a shorter re-ask, then “could you speak up”, then a callback offer. It never hangs up over bad audio.", "Every call ends in the Portal: an AI summary to review, an email to the on-duty agent, and a task or work order."]}
+      caption="Simplified from 147 steps in the leasing flow."
+    />
+  </MoreDetail>
+
+  <SectionH small>What broke, and what we changed</SectionH>
+  <BrokeCarousel
+    label="What broke in Voice AI, and what we changed"
+    cards={[
+      {
+        principle: "Hand-off to a person",
+        title: "Can I talk to someone?",
+        status: "Live connect in progress",
+        before: [
+          { from: "renter", text: "Can I talk to someone?" },
+          { from: "ai", text: "Transferring you now…" },
+          { from: "event", text: "No one on the team picks up", flag: "bad" },
+        ],
+        after: [
+          { from: "ai", text: "I can have the leasing team call you back. Is this the best number?" },
+          { from: "renter", text: "Yes, this number." },
+          { from: "event", text: "Callback filed · Need-reply task · email to the on-duty agent", flag: "good" },
+        ],
+        happened: "The client's leasing team was short-staffed, so a live transfer would often ring nobody.",
+        changed: "With the client, I made a consented callback the hand-off. Connecting live, for routes with people on duty, came later.",
+      },
+    ]}
+  />
+
+  <MoreDetail title="Managers stay in control">
+    <ShowcaseCarousel
+      label="Voice AI in the Portal"
+      slides={[
+        { eyebrow: "Setup board", title: "Every line, drawn as a call", body: "Welcome, language, recording notice, menu, then who answers in what order. The board won't let a person sit behind the AI.", image: "/cases/unitpulse-platform/voice/setup-board.jpg", imageAlt: "The phone-line setup board drawn as a caller journey with person, AI and fallback steps", width: 2400, height: 1635 },
+        { eyebrow: "Call review", title: "Read any call in seconds", body: "An AI summary with a verdict, action items and preferences, beside the transcript and recording.", image: "/cases/unitpulse-platform/voice/call-review.jpg", imageAlt: "The call log with an AI summary band, action items, verdict and preferences beside the transcript", width: 2400, height: 1955 },
+        { eyebrow: "Inquiries", title: "Leasing calls, ready to follow up", body: "Each caller with their preferences, landing on the leasing desk.", image: "/cases/unitpulse-platform/voice/inquiries.jpg", imageAlt: "The leasing desk listing voice inquiries with rental preferences", width: 2400, height: 1636 },
+        { eyebrow: "Work orders", title: "Repairs, captured from the call", body: "Unit, issue and permission to enter, marked for review.", image: "/cases/unitpulse-platform/voice/work-order.jpg", imageAlt: "A work order captured from a call with permission to enter and review required", width: 2400, height: 1898 },
+      ]}
+    />
+  </MoreDetail>
+</section>
+
+<section id="cp" data-reveal>
+  <PartHeader num="07" title="Copilot: one assistant for every product" />
+  {/* Today = verified in web-unitpulse-portal (2026-10-09): Insight AidenCopilot
+      returns profile / KPI / chart / list answers and can open views; Marketing's
+      Copilot drafts a post for a property and reports channel performance; the
+      agent app has a Copilot tab. Next = Zhen: one Copilot serving all products.
+      Clip: coded mock (copilot/anim-tall.html), the deck's Insight clip, taller. */}
+  <ShowcaseVideo
+    src="/cases/unitpulse-platform/video/copilot.mp4"
+    poster="/cases/unitpulse-platform/video/copilot-poster.jpg"
+    label="The Copilot: a manager asks about tour drop-offs, gets the cluster and its cause, then turns the fix into an automated follow-up rule"
+    width={1050}
+    height={1500}
+    tone="callout"
+  >
+    <h3>Ask once, get the answer with the data behind it</h3>
+    <p>The Copilot is the command layer the products share. Managers and agents ask in plain language instead of digging through menus.</p>
+    <h4>Today</h4>
+    <ul>
+      <li><strong>Insight:</strong> leasing performance, drop-offs or a single prospect, answered as charts, KPIs, lists and prospect profiles, with the view one click away.</li>
+      <li><strong>Marketing:</strong> draft a post for a property, or check how a channel is doing.</li>
+      <li><strong>On the go:</strong> the same Copilot is a tab in the agents' app.</li>
+    </ul>
+    <h4>Next</h4>
+    <ul>
+      <li>One Copilot across Marketing, Leasing and Insight, so a question asked anywhere can act on any product.</li>
+    </ul>
+  </ShowcaseVideo>
 </section>
 
 <section id="ds" data-reveal>
@@ -742,19 +722,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     after={{ src: "/cases/unitpulse-platform/ds/foryou-after.jpg", alt: "The same page today: emerald on neutral, Manrope and Newsreader, the dark daily brief and pill badges" }}
     notes={["The first version: olive on cream, Inter, square uppercase chips and mono trend pills.", "Today: emerald on neutral, Newsreader for titles and numbers, Manrope for the UI, pill badges, flat cards on hairline borders."]}
   />
-
-  <SectionH small>Where AI helped, and what I decided</SectionH>
-  {/* [REAL] Define: design.md (s18). Develop: Claude Design boards (s17) +
-      AI coding tools (s06/s49). Deliver: AI-co-authored change PR #3171 (s49);
-      weekly releases through a staged merge (s16). Discover: no AI claim. */}
-  <ProcessStrip
-    steps={[
-      { label: "Discover", none: "People first: I start from customer and manager feedback.", me: "Customer feedback drove the merge; 3 manager conversations shaped For You." },
-      { label: "Define", ai: "design.md: the rules, written once, for the team and AI coding tools.", me: "Navigation, access states and interaction rules." },
-      { label: "Develop", ai: "Boards in Claude Design, and frontend changes with AI coding tools.", me: "The behavior, and every detail I review." },
-      { label: "Deliver", ai: "A frontend change co-authored with AI, in a pull request.", me: "Weekly releases through a staged merge, then changes from manager feedback." },
-    ]}
-  />
 </section>
 
 <section id="p6" data-reveal>
@@ -829,6 +796,23 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       },
     ]}
   />
+
+  <SectionH small>Every call and tour lands in the profile</SectionH>
+  {/* Step shots (2026-10-09, round 6): coded mocks from the real Portal timeline,
+      transcript dialog and summary card, and the agents' app tour follow-up
+      (scratchpad mocks/call-steps/). The Portal has no reviewable follow-up
+      email; the app suggests one after a recorded tour. */}
+  <StageFlow
+    wide
+    label="From a call or tour to a follow-up"
+    steps={[
+      { label: "Capture", desc: "A call is recorded, or a tour on the app.", tag: "code", shot: { src: "/cases/unitpulse-platform/calls/capture.jpg", alt: "Jordan Lee's timeline: the tour booked on Oct 2 for Unit 204 with Alex Rivera, then Jordan's inbound call on Oct 3, completed, and its recording playing", width: 1200, height: 1500 } },
+      { label: "Transcribe", desc: "Every speaker, word for word.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/transcript.jpg", alt: "The call transcript, Caller and Agent: Jordan confirms the 2 PM tour of Unit 204, hears street parking is easy after 6 pm, and asks whether a small dog is okay", width: 1200, height: 1500 } },
+      { label: "Summarize", desc: "A summary card on the prospect's timeline.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/summary.jpg", alt: "The phone call summary card: the 2 PM tour of Unit 204 confirmed, no assigned parking but street parking after 6 pm, the small dog fine with a pet deposit, with View transcript and the recording", width: 1200, height: 1500 } },
+      { label: "Follow up", desc: "After a tour, the app suggests next steps and an email.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/followup.jpg", alt: "The agents' app suggests a follow-up for this week: send the pet policy and dog deposit, share street parking, hold Unit 204 through Friday, Oct 9, with a drafted email and a Copy email button", width: 1200, height: 1500 } },
+    ]}
+    lanes={[{ label: "The agent", tone: "person", cells: ["Asks consent before a tour recording", null, "Reads it and corrects any preference", "Copies the email, edits it and sends it"] }]}
+  />
 </section>
 
 <section id="p7" data-reveal>
@@ -877,25 +861,18 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       inquiry-to-showing benchmark (RentViewer via Leasey.AI) counts COMPLETED
       showings, so it is deliberately NOT compared here. Restore only with a
       completed-tour count for this property, labeled "vendor-reported." */}
-  <ResearchStats cols={3}>
-    <Stat num="7" label="Partner accounts">
-      <span class="item">owners &amp; operators leasing through the platform</span>
-    </Stat>
-    <Stat num="79" label="Accounts on UP Insight">
-      <span class="item">52 on the core dashboard (~66%)</span>
-    </Stat>
-    <Stat num="~45 min" label="Analytics engagement">
-      <span class="item">per user per week</span>
-    </Stat>
-    {/* SOURCE (internal): Pendo, May 2026. "High for B2B analytics" removed
-        2026-10-08: no source. */}
-  </ResearchStats>
+  <BodyText>
+    Across the platform: **7 partner accounts** lease through it, and UP
+    Insight has 79 accounts, with about 45 minutes of use per user a week.
+    {/* SOURCE (internal): Pendo, May 2026. 52 of the 79 on the core dashboard. */}
+  </BodyText>
   {/* ‹C-mkt› ‹C-mobile› add when ready: marketing traffic/leads/GBP views,
       tours booked via AI, recap-email engagement, mobile usage — each with
       its measurement window. */}
   <BodyText>
-    The portal is built and merged, but not yet cut over, and the convergence
-    was **a team effort I drove** as design lead.
+    The property above already runs on the merged portal; other customers move
+    over in phases. The convergence was **a team effort I drove** as design
+    lead.
   </BodyText>
   <SectionH small>What I'd hold it to</SectionH>
   {/* Zhen 2026-10-08: no formal AI PRD. ~70% = share of inquiry-to-tour
@@ -913,17 +890,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 <section id="p8" data-reveal>
   <PartHeader num="11" title="Reflection" />
   <Reflection>
-    <ReflectionCard label="On the real problem" heading="The system was the design problem">
-      The interesting problem was never one screen. It was turning 3 fast,
-      separate bets into one coherent platform without a rewrite or a drop in
-      quality, because that's what customers were asking for.
-    </ReflectionCard>
-    <ReflectionCard label="On the industry" heading="Renters aren't one audience">
-      Renters don't want the same things, so the AI shouldn't hand them the
-      same answer. The segment work is where the product earns trust: a virtual
-      tour for someone across the world, an honest alternative when a box isn't
-      ticked.
-    </ReflectionCard>
     <ReflectionCard label="On what I got wrong" heading="Spec first, then let AI build">
       Early on I handed AI coding an underspecified design language and took
       the speed. The drift and rework that followed taught me the order:
@@ -938,4 +904,17 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       language, the way the AI's own replies do.
     </ReflectionCard>
   </Reflection>
+
+  <SectionH small>Where AI helped, and what I decided</SectionH>
+  {/* [REAL] Define: design.md (s18). Develop: Claude Design boards (s17) +
+      AI coding tools (s06/s49). Deliver: AI-co-authored change PR #3171 (s49);
+      weekly releases through a staged merge (s16). Discover: no AI claim. */}
+  <ProcessStrip
+    steps={[
+      { label: "Discover", none: "People first: I start from customer and manager feedback.", me: "Customer feedback drove the merge; 3 manager conversations shaped For You." },
+      { label: "Define", ai: "design.md: the rules, written once, for the team and AI coding tools.", me: "Navigation, access states and interaction rules." },
+      { label: "Develop", ai: "Boards in Claude Design, and frontend changes with AI coding tools.", me: "The behavior, and every detail I review." },
+      { label: "Deliver", ai: "A frontend change co-authored with AI, in a pull request.", me: "Weekly releases through a staged merge, then changes from manager feedback." },
+    ]}
+  />
 </section>
