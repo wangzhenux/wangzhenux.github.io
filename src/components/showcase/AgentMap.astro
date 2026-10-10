@@ -279,28 +279,30 @@ const data = JSON.stringify(nodes);
   .am-map :global(.am-node:hover .am-halo) { opacity: 0.55; transform: scale(0.9); }
   .am-map :global(.am-node.is-sel .am-halo) { opacity: 1; transform: scale(1); }
 
-  .am-map :global(.am-pop) {
-    position: absolute;
-    z-index: 5;
-    width: 290px;
+  /* The popover sits on <body> (fixed, anchored to its station), so the map's
+     scroll container never clips it. */
+  :global(.am-pop) {
+    position: fixed;
+    z-index: 90;
+    width: min(290px, calc(100vw - var(--space-4)));
     padding: var(--space-4);
     border: 1px solid var(--rule);
     border-radius: 16px;
     background: var(--am-panel);
     box-shadow: var(--am-pop-shadow);
   }
-  .am-map :global(.am-pop-top) { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-2); padding-right: var(--space-6); }
-  .am-map :global(.am-pop-ic) { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; color: var(--am-panel); }
-  .am-map :global(.am-pop-ic svg) { width: 18px; height: 18px; }
-  .am-map :global(.am-pop-k) { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
-  .am-map :global(.am-pop h4) { margin: 0; font-family: var(--font-display); font-size: 19px; font-weight: 500; line-height: 1.2; color: var(--ink-primary); }
-  .am-map :global(.am-pop p) { margin: 0 0 var(--space-1); font-size: 13.5px; line-height: 1.5; color: var(--ink-secondary); }
-  .am-map :global(.am-pop dl) { margin: 0; display: grid; gap: 2px; font-size: 13px; line-height: 1.45; }
-  .am-map :global(.am-pop dt) { margin-top: var(--space-2); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
-  .am-map :global(.am-pop dd) { margin: 0; color: var(--ink-secondary); }
-  .am-map :global(.am-chips) { display: flex; flex-wrap: wrap; gap: var(--space-1); }
-  .am-map :global(.am-chips span) { padding: 0 var(--space-2); border: 1px solid var(--rule); border-radius: var(--radius); font-size: 12px; }
-  .am-map :global(.am-pop-x) {
+  :global(.am-pop-top) { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-2); padding-right: var(--space-6); }
+  :global(.am-pop-ic) { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; color: var(--am-panel); }
+  :global(.am-pop-ic svg) { width: 18px; height: 18px; }
+  :global(.am-pop-k) { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
+  :global(.am-pop h4) { margin: 0; font-family: var(--font-display); font-size: 19px; font-weight: 500; line-height: 1.2; color: var(--ink-primary); }
+  :global(.am-pop p) { margin: 0 0 var(--space-1); font-size: 13.5px; line-height: 1.5; color: var(--ink-secondary); }
+  :global(.am-pop dl) { margin: 0; display: grid; gap: 2px; font-size: 13px; line-height: 1.45; }
+  :global(.am-pop dt) { margin-top: var(--space-2); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
+  :global(.am-pop dd) { margin: 0; color: var(--ink-secondary); }
+  :global(.am-pop .am-chips) { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+  :global(.am-pop .am-chips span) { padding: 0 var(--space-2); border: 1px solid var(--rule); border-radius: var(--radius); font-size: 12px; }
+  :global(.am-pop-x) {
     position: absolute;
     top: var(--space-2);
     right: var(--space-2);
@@ -314,9 +316,9 @@ const data = JSON.stringify(nodes);
     color: var(--ink-tertiary);
     cursor: pointer;
   }
-  .am-map :global(.am-pop-x:hover) { color: var(--ink-primary); background: var(--rule-soft); }
-  .am-map :global(.am-pop-x:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .am-map :global(.am-pop-x svg) { width: 16px; height: 16px; }
+  :global(.am-pop-x:hover) { color: var(--ink-primary); background: var(--rule-soft); }
+  :global(.am-pop-x:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+  :global(.am-pop-x svg) { width: 16px; height: 16px; }
 
   .am-hint { margin: 0; font-size: 13px; color: var(--ink-tertiary); }
   .am-hint-touch { display: none; }
@@ -375,11 +377,27 @@ const data = JSON.stringify(nodes);
       map.classList.toggle('is-focus', !!p);
       map.querySelectorAll<SVGGElement>('.am-grp').forEach((g) => g.classList.toggle('is-on', g.dataset.p === p));
     };
+    let pop: HTMLElement | null = null;
+    let anchor: SVGGElement | null = null;
     const close = () => {
-      map.querySelector('.am-pop')?.remove();
+      pop?.remove();
+      pop = null;
+      anchor = null;
       map.querySelectorAll('.am-node.is-sel').forEach((n) => n.classList.remove('is-sel'));
       selected = null;
       focusLine(null);
+    };
+    // Below the station when it fits in the viewport, above it otherwise; always inside the viewport.
+    const place = () => {
+      if (!pop || !anchor) return;
+      const r = (anchor.querySelector('.am-ring') ?? anchor).getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) { close(); return; }
+      const w = pop.offsetWidth, h = pop.offsetHeight, vw = document.documentElement.clientWidth;
+      const left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, vw - w - 8));
+      let top = r.bottom + 12;
+      if (top + h > innerHeight - 8 && r.top - 12 - h >= 8) top = r.top - 12 - h;
+      pop.style.left = `${left}px`;
+      pop.style.top = `${Math.max(8, top)}px`;
     };
     const open = (el: SVGGElement) => {
       close();
@@ -391,7 +409,7 @@ const data = JSON.stringify(nodes);
       focusLine(el.closest<SVGGElement>('.am-grp')?.dataset.p ?? null);
       const d = n.d;
       const row = (k: string, v?: string) => (v ? `<dt>${k}</dt><dd>${esc(v)}</dd>` : '');
-      const pop = document.createElement('div');
+      pop = document.createElement('div');
       pop.className = 'am-pop';
       pop.setAttribute('role', 'dialog');
       pop.setAttribute('aria-label', n.name);
@@ -400,20 +418,11 @@ const data = JSON.stringify(nodes);
         <div><span class="am-pop-k">${KIND[n.kind]} · ${esc(n.line)}</span><h4>${esc(n.name)}</h4></div></div>
         ${d.job ? `<p>${esc(d.job)}</p>` : ''}
         <dl>${row('Type', d.tag)}${d.uses ? `<dt>Tools</dt><dd class="am-chips">${d.uses.map((u) => `<span>${esc(u)}</span>`).join('')}</dd>` : ''}${row('Reads', d.reads)}${row('Writes', d.writes)}${row(n.kind === 'record' ? 'Why it matters' : 'Control', d.control)}</dl>`;
-      map.appendChild(pop);
-      const mr = map.getBoundingClientRect();
-      const r = (el.querySelector('.am-ring') ?? el).getBoundingClientRect();
-      // Keep the popover inside the part of the map that's on screen (it scrolls sideways on phones).
-      const visL = map.scrollLeft + 8, visR = map.scrollLeft + map.clientWidth - 8;
-      let w = pop.offsetWidth;
-      if (w > visR - visL) { w = visR - visL; pop.style.width = `${w}px`; }
-      let left = r.left - mr.left + map.scrollLeft + r.width / 2 - w / 2;
-      left = Math.max(visL, Math.min(left, visR - w));
-      let top = r.bottom - mr.top + 12;
-      if (top + pop.offsetHeight > map.clientHeight - 8) top = r.top - mr.top - pop.offsetHeight - 12;
-      pop.style.left = `${left}px`;
-      pop.style.top = `${Math.max(8, top)}px`;
+      document.body.appendChild(pop);
+      anchor = el;
+      place();
       pop.querySelector('.am-pop-x')?.addEventListener('click', () => { close(); el.focus(); });
+      pop.querySelector<HTMLElement>('.am-pop-x')?.focus({ preventScroll: true });
     };
 
     map.addEventListener('click', (e) => {
@@ -431,7 +440,19 @@ const data = JSON.stringify(nodes);
         el?.focus();
       }
     });
-    document.addEventListener('click', (e) => { if (selected && !map.contains(e.target as Node)) close(); });
+    document.addEventListener('click', (e) => {
+      const t = e.target as Node;
+      if (selected && !map.contains(t) && !pop?.contains(t)) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !selected || !pop?.contains(e.target as Node)) return;
+      const el = anchor;
+      close();
+      el?.focus();
+    });
+    // Follow the station as the page or the map scrolls.
+    addEventListener('scroll', place, { capture: true, passive: true });
+    addEventListener('resize', place, { passive: true });
     map.addEventListener('pointerover', (e) => {
       if (selected) return;
       focusLine((e.target as Element).closest<SVGGElement>('.am-grp')?.dataset.p ?? null);
