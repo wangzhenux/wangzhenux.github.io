@@ -27,7 +27,9 @@ export function init(): void {
         }
       }
     },
-    { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+    // threshold 0 (not a ratio): a Part taller than ~10 viewports could never
+    // reach a 10% intersection ratio on a phone and would stay hidden.
+    { rootMargin: '0px 0px -10% 0px', threshold: 0 }
   );
 
   // Anything already in (or above) the viewport on load shows immediately so the

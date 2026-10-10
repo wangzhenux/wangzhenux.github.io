@@ -159,5 +159,8 @@ const { blocks, label = 'Storyboard' } = Astro.props;
     .sb { gap: var(--space-10); }
     .sb-block, .sb-block--flip { grid-template-columns: 1fr; gap: var(--space-6); }
     .sb-block--flip .sb-visual { order: 0; }
+    /* Stacked: the visual rises in instead of sliding from the side. */
+    :global(html.inview-armed) .sb-block:not(.is-in) .sb-visual,
+    :global(html.inview-armed) .sb-block--flip:not(.is-in) .sb-visual { transform: translateY(var(--space-6)); }
   }
 </style>

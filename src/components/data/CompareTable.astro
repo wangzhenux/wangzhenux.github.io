@@ -32,7 +32,7 @@ const { rows, columns, caption, emphasize = 'b', contained = false } = Astro.pro
     <caption class="ct-cap">{caption}</caption>
     <thead>
       <tr>
-        <th scope="col">{columns[0]}</th>
+        <th scope="col">{columns[0] || <span class="ct-sr">Aspect</span>}</th>
         <th scope="col">{columns[1]}</th>
         <th scope="col" class="ct-b-head">{columns[2]}</th>
       </tr>
@@ -66,7 +66,8 @@ const { rows, columns, caption, emphasize = 'b', contained = false } = Astro.pro
     table-layout: fixed;
   }
   .ct--contained .ct-table { padding-inline: 0; }
-  .ct-cap {
+  .ct-cap,
+  .ct-sr {
     position: absolute;
     width: 1px;
     height: 1px;
