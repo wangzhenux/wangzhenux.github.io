@@ -82,8 +82,10 @@ const { steps, label = 'Where AI helped, and what I decided', aiLabel = 'AI did'
   .ps-cell--ai { background: var(--accent-soft); }
   .ps-cell--none { border: 1px dashed var(--rule); }
   .ps-cell--none .ps-text { color: var(--ink-tertiary); }
-  /* the human decision: a plain outlined card, no accent bar */
-  .ps-cell--me { background: var(--bg-primary); border: 1px solid var(--ink-tertiary); }
+  /* the human decision: a solid ink card, so the decisions read as the layer that holds */
+  .ps-cell--me { background: var(--bg-inverse); }
+  .ps-cell--me .ps-lab { color: var(--accent-on-dark); }
+  .ps-cell--me .ps-text { color: var(--ink-on-dark); }
   .ps-lab {
     font-family: var(--font-mono);
     font-size: 10px;
