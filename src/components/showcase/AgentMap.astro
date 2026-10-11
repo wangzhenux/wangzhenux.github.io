@@ -68,7 +68,7 @@ const LINES: Line[] = [
       ['m-strat', 200, 92, 'agent', 'Property strategist', 'compass', { job: 'Studies the property and its market, then plans what to post.', uses: ['Site reader', 'Photo library', 'Local market map'], reads: 'Property website, real photos, the confirmed address', control: 'Waits for a person to confirm the address before planning.' }],
       ['m-writer', 330, 92, 'agent', 'Post writer', 'pen', { job: 'Drafts a post for each channel from the plan.', uses: ['Channel formats'], reads: 'The plan, property facts, real photos' }],
       ['m-checks', 460, 92, 'auto', 'Content checks', 'shield', { job: 'Checks every draft before a person sees it.', uses: ['Fair Housing word list', 'Fact check'], reads: 'Each draft against confirmed property facts: prices, claims, the address' }],
-      ['m-approve', 740, 92, 'person', 'Marketer approves', 'user', { job: 'Approves, edits or rejects each draft.', control: 'Low-risk posts skip this only when the channel opts in.' }],
+      ['m-approve', 740, 92, 'person', 'Marketer approves', 'user', { job: 'Approves, edits or rejects each draft.', control: 'Every draft waits for a person. Nothing posts without a yes.' }],
       ['m-pub', 870, 92, 'auto', 'Publisher', 'send', { job: 'Publishes approved posts and tracks how they do. Some channels still need a person to post.' }],
       ['m-end', 1040, 92, 'out', 'Published or ready to post', 'check', { job: 'Posted, or queued for a person on channels that need a manual post.' }],
     ] },

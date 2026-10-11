@@ -5,6 +5,13 @@
  * optional next-step chips or a summary card, and centered system events. Used
  * for reconstructed "before" states and short storyboard moments.
  *
+ * With `call`, the same messages read as a phone call: a call header, then
+ * Caller / AI / Agent transcript rows.
+ *
+ * A flagged event is the line the story turns on, drawn as an outcome card:
+ * `bad` (what went wrong) or `good` (the fix, optionally with `items`, the
+ * things that happen as a result, each with a Lucide icon).
+ *
  * Messages play in one by one when the vignette scrolls into view (in-view
  * island). Without JS, or with reduced motion, the whole exchange simply shows.
  * Colors come from the --mock-* product literals. Token-only CSS.
@@ -18,6 +25,8 @@ export interface ChatMsg {
   card?: { title: string; meta?: string };
   /** Marks the line the story turns on: `bad` = what went wrong, `good` = the fix. */
   flag?: 'bad' | 'good';
+  /** For a flagged event: what follows from it, one row each. */
+  items?: { icon: 'task' | 'mail' | 'check'; text: string }[];
 }
 interface Props {
   messages: ChatMsg[];
@@ -26,25 +35,60 @@ interface Props {
   /** Small mono tag above the log, e.g. "Reconstructed from the fix". */
   tag?: string;
   compact?: boolean;
+  /** Read the exchange as a phone call (header + transcript rows). */
+  call?: boolean;
 }
-const { messages, label = 'Chat example', tag, compact = false } = Astro.props;
+const { messages, label = 'Chat example', tag, compact = false, call = false } = Astro.props;
 const who: Record<ChatMsg['from'], string> = {
-  renter: 'Renter',
-  ai: 'Assistant',
-  agent: 'Leasing agent',
+  renter: call ? 'Caller' : 'Renter',
+  ai: call ? 'AI' : 'Assistant',
+  agent: call ? 'Agent' : 'Leasing agent',
   event: 'System',
 };
+/* Lucide paths (24 × 24, stroke). */
+const ICON = {
+  phoneIn: '<polyline points="16 2 16 8 22 8"/><line x1="22" x2="16" y1="2" y2="8"/><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  phoneMissed: '<path d="M22 2 16 8"/><path d="m16 2 6 6"/><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  alert: '<circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/>',
+  check: '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+  task: '<rect x="3" y="5" width="6" height="6" rx="1"/><path d="m3 17 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/>',
+  mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+};
+const svg = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 ---
-<figure class:list={['cm', compact && 'cm--compact']} data-inview aria-label={label}>
-  {tag && <span class="cm-tag">{tag}</span>}
+<figure class:list={['cm', compact && 'cm--compact', call && 'cm--call']} data-inview aria-label={label}>
+  {call ? (
+    <p class="cm-call">
+      <span class="cm-call-ic" set:html={svg(ICON.phoneIn)} />
+      Incoming call
+      {tag && <span class="cm-tag cm-tag--inline">{tag}</span>}
+    </p>
+  ) : (
+    tag && <span class="cm-tag">{tag}</span>
+  )}
   <ol class="cm-log">
     {messages.map((m, i) => (
       <li
         class:list={['cm-msg', `cm-msg--${m.from}`, m.flag && `cm-flag cm-flag--${m.flag}`]}
         style={`--i: ${i}`}
       >
-        {m.from === 'agent' && <span class="cm-who" aria-hidden="true">Agent</span>}
-        <p class="cm-text"><span class="cm-sr">{who[m.from]}: </span>{m.text}</p>
+        {m.flag ? (
+          <div class="cm-out">
+            <p class="cm-out-t"><span class="cm-out-ic" set:html={svg(m.flag === 'good' ? ICON.check : call ? ICON.phoneMissed : ICON.alert)} />{m.text}</p>
+            {m.items && m.items.length > 0 && (
+              <ul class="cm-out-items">
+                {m.items.map((it) => <li><span class="cm-out-ic" set:html={svg(ICON[it.icon])} />{it.text}</li>)}
+              </ul>
+            )}
+          </div>
+        ) : call && m.from !== 'event' ? (
+          <p class="cm-row"><span class="cm-row-who" aria-hidden="true">{who[m.from]}</span><span class="cm-sr">{who[m.from]}: </span><span>{m.text}</span></p>
+        ) : (
+          <>
+            {m.from === 'agent' && <span class="cm-who" aria-hidden="true">Agent</span>}
+            <p class="cm-text"><span class="cm-sr">{who[m.from]}: </span>{m.text}</p>
+          </>
+        )}
         {m.card && (
           <div class="cm-card">
             <span class="cm-card-title">{m.card.title}</span>
@@ -135,17 +179,43 @@ const who: Record<ChatMsg['from'], string> = {
     text-align: center;
   }
 
-  /* The line the story turns on. */
-  .cm-flag--bad .cm-text {
-    text-decoration: underline wavy var(--mock-warn);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
+  /* The line the story turns on: an outcome card. */
+  .cm-msg.cm-flag { align-self: stretch; }
+  .cm-out { display: grid; gap: var(--space-2); padding: var(--space-3); border-radius: 10px; font-size: 13px; line-height: 1.4; }
+  .cm-flag--bad .cm-out { background: var(--mock-warn-soft); color: var(--mock-warn); }
+  .cm-flag--good .cm-out { background: var(--mock-chip); color: var(--mock-green); }
+  .cm-out-t { margin: 0; display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
+  .cm-out-items { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+  .cm-out-items li { display: flex; align-items: center; gap: var(--space-2); font-weight: 500; }
+  .cm-out-ic { display: inline-flex; flex: none; }
+  .cm-out-ic :global(svg) { width: 16px; height: 16px; }
+
+  /* Call mode: a call header, then transcript rows. */
+  .cm-call {
+    margin: 0 0 var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 12.5px;
+    color: var(--mock-muted);
   }
-  .cm-flag--good .cm-text {
-    text-decoration: underline var(--mock-green);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
+  .cm-call-ic { display: inline-flex; }
+  .cm-call-ic :global(svg) { width: 15px; height: 15px; }
+  .cm-tag--inline { margin: 0; }
+  .cm--call .cm-msg--renter,
+  .cm--call .cm-msg--ai,
+  .cm--call .cm-msg--agent { align-self: stretch; max-width: none; padding: 0; background: none; border: 0; border-radius: 0; }
+  .cm-row { margin: 0; display: grid; grid-template-columns: 52px 1fr; gap: var(--space-2); font-size: 14px; line-height: 1.5; }
+  .cm-row-who {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 2.1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mock-muted);
   }
+  .cm-msg--ai .cm-row-who { color: var(--up-ai); }
 
   .cm-card {
     display: flex;
