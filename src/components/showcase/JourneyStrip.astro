@@ -74,10 +74,10 @@ const { steps, label = 'Journey' } = Astro.props;
   }
   .jstrip-desc {
     display: block;
-    font-size: 13px;
+    font-size: var(--fs-card);
     line-height: 1.5;
     color: var(--ink-secondary);
-    max-width: 24ch;
+    max-width: 28ch;
   }
   @media (max-width: 700px) {
     .jstrip-row { grid-template-columns: 1fr 1fr; }

@@ -13,11 +13,23 @@ test('unitpulse-site case: card-forward structure renders, no axe violations', a
   await expect(page.locator('.hero-cover img')).toHaveAttribute('src', /welcome-hero\.jpg/);
   await expect(page.locator('.meta-strip')).toContainText('Live in production');
 
-  // The spine: Context + Parts 01–06 (seven PartHeaders in document order).
+  // The spine: Context + Parts 01–08 (nine PartHeaders in document order).
   const parts = page.locator('.part-title');
-  await expect(parts).toHaveCount(7);
+  await expect(parts).toHaveCount(9);
   await expect(parts.nth(1)).toContainText('The problem');
-  await expect(parts.nth(6)).toContainText('Early traction');
+  await expect(parts.nth(4)).toContainText('How the conversation works');
+  await expect(parts.nth(7)).toContainText('Early traction');
+  await expect(parts.nth(8)).toContainText('Reflection');
+
+  // How it talks: the comparison is a real, captioned table; the flow has 6
+  // stages; the storyboard and the fix stories render.
+  await expect(page.locator('#cw table caption').first()).toContainText('Filters alone');
+  await expect(page.locator('#cw .sf-col')).toHaveCount(6);
+  await expect(page.locator('#cw .sb-block')).toHaveCount(5);
+  await expect(page.locator('#cw .bk-card')).toHaveCount(6);
+
+  // Nothing internal leaks onto the page.
+  await expect(page.locator('body')).not.toContainText(/Odessia|Dify|Gemini|route_code/i);
 
   // Related work links to the flagship (tour-scheduling is hidden site-wide,
   // so it must NOT appear here).

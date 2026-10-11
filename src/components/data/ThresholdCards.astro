@@ -1,0 +1,145 @@
+---
+/**
+ * How I'd hold the AI to account: one card per measure, PAIR-style — the
+ * measure, where it stands today, and a rule in the form "if it crosses this
+ * line, we do that". Deliberately no big stat numerals, so a threshold never
+ * reads like a result. Optional release checks below: what every release must
+ * pass, with known gaps marked as gaps, not passes.
+ *
+ * Motion (in-view island): each card's threshold line draws across, then the
+ * rule settles in. Static without JS / with reduced motion. Token-only CSS.
+ *
+ *   <ThresholdCards items={[{ measure, today, rule }]} checks={[{ text, state: 'pass' }]} />
+ */
+interface Item {
+  measure: string;
+  /** Where it stands today, in words ("48.7%, 400 of 821 leads"), or "Not measured yet". */
+  today: string;
+  /** The "if …, we …" rule. */
+  rule: string;
+}
+interface Check {
+  text: string;
+  state: 'pass' | 'gap';
+}
+interface Props {
+  items: Item[];
+  checks?: Check[];
+  label?: string;
+  checksLabel?: string;
+}
+const { items, checks = [], label = "What I'd hold it to", checksLabel = 'Every release has to pass' } = Astro.props;
+---
+<section class="tc" aria-label={label} data-inview>
+  <ul class="tc-grid">
+    {items.map((it, i) => (
+      <li class="tc-card" style={`--i: ${i}`}>
+        <p class="tc-measure">{it.measure}</p>
+        <p class="tc-today"><span class="tc-lab">Today</span>{it.today}</p>
+        <span class="tc-line" aria-hidden="true"></span>
+        <p class="tc-rule"><span class="tc-lab tc-lab--rule">I'd hold it to</span>{it.rule}</p>
+      </li>
+    ))}
+  </ul>
+  {checks.length > 0 && (
+    <div class="tc-checks">
+      <p class="tc-checks-head">{checksLabel}</p>
+      <ul class="tc-check-list">
+        {checks.map((c, i) => (
+          <li class={`tc-check tc-check--${c.state}`} style={`--i: ${i}`}>
+            <span class="tc-mark" aria-hidden="true">
+              {c.state === 'pass' ? (
+                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              ) : (
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v6M8 12.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              )}
+            </span>
+            <span class="tc-check-text">{c.text}</span>
+            <span class="tc-state">{c.state === 'pass' ? 'Checked' : 'Gap'}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</section>
+<style>
+  .tc { margin: var(--space-8) 0; }
+  .tc-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+  /* Each card spans the grid's 4 rows (measure, today, line, rule) through
+     subgrid, so the same row lines up across cards whatever the text length. */
+  .tc-card {
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+    row-gap: var(--space-3);
+    align-content: start;
+    padding: var(--space-5);
+    background: var(--bg-secondary);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+  }
+  .tc-measure { margin: 0; font-family: var(--font-display); font-size: 19px; line-height: 1.25; font-weight: 500; color: var(--ink-primary); }
+  .tc-lab {
+    display: block;
+    margin-bottom: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .tc-lab--rule { color: var(--accent-ink); }
+  .tc-today { margin: 0; font-size: var(--fs-card); line-height: 1.45; color: var(--ink-secondary); }
+  .tc-line {
+    display: block;
+    align-self: center;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent) 55%, transparent 55%) 0 0 / 10px 2px repeat-x;
+    transform-origin: left center;
+  }
+  .tc-rule { margin: 0; font-size: var(--fs-card); line-height: 1.5; color: var(--ink-primary); }
+
+  .tc-checks { margin-top: var(--space-6); }
+  .tc-checks-head {
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .tc-check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+  .tc-check {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+  }
+  .tc-mark { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+  .tc-mark svg { width: 14px; height: 14px; }
+  .tc-check--pass .tc-mark { background: var(--ink-primary); color: var(--ink-on-dark); }
+  .tc-check--gap .tc-mark { border: 1px dashed var(--accent); color: var(--accent); }
+  .tc-check-text { font-size: var(--fs-card); line-height: 1.45; color: var(--ink-primary); }
+  .tc-state { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
+  .tc-check--gap .tc-state { color: var(--accent-ink); }
+
+  /* motion */
+  .tc-card { transition: opacity 0.5s ease, transform 0.5s ease; transition-delay: calc(var(--i) * 0.1s); }
+  .tc-line { transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); transition-delay: calc(var(--i) * 0.1s + 0.3s); }
+  .tc-rule { transition: opacity 0.5s ease; transition-delay: calc(var(--i) * 0.1s + 0.6s); }
+  .tc-check { transition: opacity 0.45s ease, transform 0.45s ease; transition-delay: calc(var(--i) * 0.12s + 0.5s); }
+  :global(html.inview-armed) .tc:not(.is-in) .tc-card { opacity: 0; transform: translateY(var(--space-3)); }
+  :global(html.inview-armed) .tc:not(.is-in) .tc-line { transform: scaleX(0); }
+  :global(html.inview-armed) .tc:not(.is-in) .tc-rule { opacity: 0; }
+  :global(html.inview-armed) .tc:not(.is-in) .tc-check { opacity: 0; transform: translateX(calc(-1 * var(--space-3))); }
+</style>

@@ -1,0 +1,106 @@
+---
+/**
+ * Where AI helped in my process, and what I still decided. One column per step
+ * (Discover · Define · Develop · Deliver): an "AI did" cell on top, an "I
+ * decided" cell below. A step where AI didn't help shows its own line in place
+ * of the AI cell (e.g. "People first"), so the strip never overclaims.
+ *
+ * Motion (in-view island): columns land left to right; the AI cell drops in
+ * from above and the decision rises from below, meeting at the step. Static
+ * without JS / with reduced motion. 4 → 2 → 1 columns. Token-only CSS.
+ *
+ *   <ProcessStrip steps={[{ label: 'Discover', me: '…', none: 'People first' }, …]} />
+ */
+interface Step {
+  label: string;
+  ai?: string;
+  me: string;
+  /** Shown instead of an AI cell when AI had no part in this step. */
+  none?: string;
+}
+interface Props {
+  steps: Step[];
+  label?: string;
+  aiLabel?: string;
+  meLabel?: string;
+}
+const { steps, label = 'Where AI helped, and what I decided', aiLabel = 'AI did', meLabel = 'I decided' } = Astro.props;
+---
+<section class="ps" aria-label={label} data-inview>
+  <ol class="ps-grid" style={`--ps-n: ${steps.length}`}>
+    {steps.map((s, i) => (
+      <li class="ps-col" style={`--i: ${i}`}>
+        <p class="ps-head"><span class="ps-num">{String(i + 1).padStart(2, '0')}</span>{s.label}</p>
+        {s.ai ? (
+          <div class="ps-cell ps-cell--ai">
+            <span class="ps-lab">{aiLabel}</span>
+            <span class="ps-text">{s.ai}</span>
+          </div>
+        ) : (
+          <div class="ps-cell ps-cell--none">
+            <span class="ps-lab">{aiLabel}</span>
+            <span class="ps-text">{s.none ?? 'No AI here'}</span>
+          </div>
+        )}
+        <div class="ps-cell ps-cell--me">
+          <span class="ps-lab">{meLabel}</span>
+          <span class="ps-text">{s.me}</span>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+<style>
+  .ps { margin: var(--space-8) 0; }
+  .ps-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--ps-n, 4), minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+  .ps-col { display: grid; grid-template-rows: auto 1fr 1fr; gap: var(--space-2); min-width: 0; }
+  .ps-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .ps-num { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent); }
+  .ps-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4);
+    border-radius: var(--radius);
+  }
+  .ps-cell--ai { background: var(--accent-soft); }
+  .ps-cell--none { border: 1px dashed var(--rule); }
+  .ps-cell--none .ps-text { color: var(--ink-tertiary); }
+  /* the human decision: a plain outlined card, no accent bar */
+  .ps-cell--me { background: var(--bg-primary); border: 1px solid var(--ink-tertiary); }
+  .ps-lab {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .ps-cell--ai .ps-lab { color: var(--accent-ink); }
+  .ps-text { font-size: var(--fs-card); line-height: 1.5; color: var(--ink-primary); }
+
+  /* motion */
+  .ps-head { transition: opacity 0.5s ease; transition-delay: calc(var(--i) * 0.14s); }
+  .ps-cell { transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1); transition-delay: calc(var(--i) * 0.14s + 0.15s); }
+  :global(html.inview-armed) .ps:not(.is-in) .ps-head { opacity: 0; }
+  :global(html.inview-armed) .ps:not(.is-in) :is(.ps-cell--ai, .ps-cell--none) { opacity: 0; transform: translateY(calc(-1 * var(--space-4))); }
+  :global(html.inview-armed) .ps:not(.is-in) .ps-cell--me { opacity: 0; transform: translateY(var(--space-4)); }
+
+  @media (max-width: 860px) { .ps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .ps-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,493 @@
+---
+/**
+ * How the AI agents work across the platform, drawn as a transit map. Each
+ * colored line is a product; a black trunk is the shared renter record. Round
+ * stations marked AI are AI agents, outlined squares are rules-based steps,
+ * black squares are where a person takes over, diamonds are outcomes. A ring
+ * where a line meets the trunk means that step reads or writes the record; a
+ * line that bridges the trunk passes by without touching it. Facts verified in
+ * the UnitPulse code with Codex (2026-10-10).
+ *
+ * Interaction: hovering a line dims the others; clicking a station opens a
+ * popover with its job, tools, data and human control (Escape or an outside
+ * click closes it). Small markers run along every line and pause offscreen.
+ *
+ * Motion (in-view island): the lines draw in product by product, then the
+ * stations land. Static without JS or with reduced motion. Full-bleed band
+ * aligned to the content width; the map scrolls sideways on phones.
+ * Token-only CSS.
+ *
+ *   <AgentMap id="agents" rulesTitle="How people stay in charge" rules={['…', '…']} />
+ */
+interface Props { id?: string; label?: string; rulesTitle?: string; rules?: string[] }
+const { id, label = 'How the AI agents work across UnitPulse', rulesTitle, rules = [] } = Astro.props;
+
+type Kind = 'agent' | 'auto' | 'person' | 'out' | 'io' | 'record';
+interface Details { job?: string; tag?: string; uses?: string[]; reads?: string; writes?: string; control?: string }
+type Station = [string, number, number, Kind, string, string, Details, ('above' | 'right')?];
+interface Line { p: string; name: string; tag?: string; ly: number; tracks: { d: string; main?: boolean }[]; junctions: number[]; bridges: number[]; stations: Station[] }
+
+/* Lucide icon paths (24 × 24, stroke). */
+const ICON: Record<string, string> = {
+  megaphone: '<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
+  compass: '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+  pen: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/>',
+  send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+  mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  inbox: '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+  message: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  reply: '<polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/>',
+  split: '<path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/>',
+  phoneIn: '<polyline points="16 2 16 8 22 8"/><line x1="22" x2="16" y1="2" y2="8"/><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  file: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  layout: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
+  sunrise: '<path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  chart: '<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+  sparkles: '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/>',
+  user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  calendar: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>',
+  eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  database: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+};
+const ico = (k: string, s: number) =>
+  `<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+const KIND: Record<Kind, string> = { agent: 'AI agent', auto: 'Rules-based step', person: 'A person takes over', out: 'Outcome', io: 'Where it starts', record: 'Shared by every product' };
+const TRUNK_X = 600, W = 1200, H = 860;
+
+const LINES: Line[] = [
+  { p: 'mkt', name: 'Marketing', ly: 62,
+    tracks: [{ d: 'M70 92 H1040', main: true }],
+    junctions: [], bridges: [92],
+    stations: [
+      ['m-start', 70, 92, 'io', 'Marketer asks for posts', 'megaphone', { job: 'A marketer asks for posts for one property. The website and photos are inputs, not triggers.' }],
+      ['m-strat', 200, 92, 'agent', 'Property strategist', 'compass', { job: 'Studies the property and its market, then plans what to post.', uses: ['Site reader', 'Photo library', 'Local market map'], reads: 'Property website, real photos, the confirmed address', control: 'Waits for a person to confirm the address before planning.' }],
+      ['m-writer', 330, 92, 'agent', 'Post writer', 'pen', { job: 'Drafts a post for each channel from the plan.', uses: ['Channel formats'], reads: 'The plan, property facts, real photos' }],
+      ['m-checks', 460, 92, 'auto', 'Content checks', 'shield', { job: 'Checks every draft before a person sees it.', uses: ['Fair Housing word list', 'Fact check'], reads: 'Each draft against confirmed property facts: prices, claims, the address' }],
+      ['m-approve', 740, 92, 'person', 'Marketer approves', 'user', { job: 'Approves, edits or rejects each draft.', control: 'Low-risk posts skip this only when the channel opts in.' }],
+      ['m-pub', 870, 92, 'auto', 'Publisher', 'send', { job: 'Publishes approved posts and tracks how they do. Some channels still need a person to post.' }],
+      ['m-end', 1040, 92, 'out', 'Published or ready to post', 'check', { job: 'Posted, or queued for a person on channels that need a manual post.' }],
+    ] },
+  { p: 'lea', name: 'Leasing', ly: 165,
+    tracks: [
+      { d: 'M70 195 H215 C252 195 258 255 295 255' },
+      { d: 'M70 255 H1040', main: true },
+      { d: 'M150 255 Q150 315 195 315 H465 Q510 315 510 255' },
+      { d: 'M640 255 Q640 315 685 315 H900' },
+    ],
+    junctions: [255], bridges: [],
+    stations: [
+      ['l-email', 70, 195, 'io', 'Lead email', 'mail', { job: 'An inquiry email arrives, from a listing site or anywhere else.' }],
+      ['l-reader', 200, 195, 'agent', 'Lead email reader', 'inbox', { job: 'Reads inquiry emails, creates the lead, assigns an agent and hands the lead to the Leasing assistant. It doesn’t handle texts.', writes: 'A new renter record' }, 'above'],
+      ['l-msg', 70, 255, 'io', 'Renter messages', 'message', { job: 'A renter texts or emails the property.' }],
+      ['l-assist', 330, 255, 'agent', 'Leasing assistant', 'message', { job: 'Picks up every new lead and message. Answers questions, matches units and books tours on the agent’s calendar.', uses: ['Unit matcher', 'Neighborhood lookup', 'Tour slot finder', 'Tour booker'], reads: 'The conversation, preferences, listings, calendars', control: 'Replies only when the property, the conversation and the renter all allow AI. Steps back once a person replies.' }],
+      ['l-follow', 400, 315, 'agent', 'Follow-up reply writer', 'reply', { job: 'Replies to renters further along, like those with a tour scheduled or done.', reads: 'Renter status, tour history, the conversation' }],
+      ['l-end', 1040, 255, 'out', 'Reply sent or tour booked', 'calendar', { job: 'The renter has an answer, or a tour on the on-shift agent’s calendar.' }],
+      ['l-router', 760, 315, 'auto', 'Reply-task router', 'split', { job: 'Turns new or unanswered messages into a Need Reply task.', reads: 'The renter record', writes: 'The team’s task list' }],
+      ['l-staff', 900, 315, 'person', 'Leasing staff', 'user', { job: 'Replies from the task. The AI stays out of that conversation from then on.' }],
+    ] },
+  { p: 'voi', name: 'Voice AI', tag: 'Pilot', ly: 405,
+    tracks: [
+      { d: 'M70 435 H1040', main: true },
+      { d: 'M330 435 Q330 390 375 390 H440' },
+      { d: 'M230 435 Q230 505 275 505 H700 Q745 505 745 435' },
+    ],
+    junctions: [435, 505], bridges: [],
+    stations: [
+      ['v-call', 70, 435, 'io', 'Incoming call', 'phoneIn', { job: 'A renter or resident calls the property line.' }],
+      ['v-router', 190, 435, 'auto', 'Call router', 'split', { job: 'Sends repair calls to maintenance. Leasing calls ring people first: the assigned agent, then the team.', control: 'The AI answers a leasing call only when no one picks up.' }],
+      ['v-staff', 440, 390, 'person', 'Staff answers', 'user', { job: 'A person picks up, and the call stays with them.' }, 'right'],
+      ['v-lease', 500, 435, 'agent', 'Leasing phone assistant', 'phone', { job: 'Answers leasing calls, matches units, and books a tour or takes a callback request.', uses: ['Unit matcher', 'Tour slots', 'Tour booker', 'Callback'], reads: 'The caller’s record, calendars', control: 'A callback request becomes a Need Reply task for a person.' }],
+      ['v-maint', 420, 505, 'agent', 'Maintenance phone assistant', 'wrench', { job: 'Takes repair requests and can transfer the call.', uses: ['Callback', 'Transfer'], reads: 'The caller’s record' }],
+      ['v-sum', 860, 435, 'agent', 'Post-call summarizer', 'file', { job: 'Writes each call into the renter record after it ends.', reads: 'The call transcript', writes: 'A call summary on the record' }],
+      ['v-end', 1040, 435, 'out', 'Call logged', 'check', { job: 'With what happened: a tour confirmed, a tour waiting for an agent, a callback requested, or a repair request.' }],
+    ] },
+  { p: 'ins', name: 'Insight', ly: 575,
+    tracks: [
+      { d: 'M70 605 H730 C760 605 770 640 800 640 H900', main: true },
+      { d: 'M70 675 H730 C760 675 770 640 800 640 H900' },
+    ],
+    junctions: [], bridges: [605, 675],
+    stations: [
+      ['i-open', 70, 605, 'io', 'Open the dashboard', 'layout', { job: 'A manager opens the dashboard.' }],
+      ['i-brief', 230, 605, 'auto', 'Daily brief', 'sunrise', { job: 'Flags any stage where the last 7 days convert below the 30-day rate.', tag: 'Rules-based, with an optional AI summary', reads: 'Funnel analytics, not the renter record' }],
+      ['i-pri', 690, 605, 'out', 'Priorities shown', 'eye', { job: 'The stage that leaked, at the top of the page.' }],
+      ['i-ask', 70, 675, 'io', 'Ask about performance', 'search', { job: 'A manager asks a question in plain words.' }],
+      ['i-assist', 230, 675, 'agent', 'Data Copilot', 'chart', { job: 'Answers by opening the right filtered view.', reads: 'Funnel, tours, conversations, agent activity', control: 'Read-only. It never changes data.' }],
+      ['i-view', 690, 675, 'out', 'Filtered view opened', 'eye', { job: 'The chart or table that answers the question.' }],
+      ['i-mgr', 900, 640, 'person', 'Manager decides', 'user', { job: 'Chooses what to change. Nothing here acts on its own.' }],
+    ] },
+  { p: 'cop', name: 'Copilot', ly: 760,
+    tracks: [
+      { d: 'M70 790 H760', main: true },
+      { d: 'M300 790 Q300 748 342 748 H380' },
+    ],
+    junctions: [790], bridges: [],
+    stations: [
+      ['c-ask', 70, 790, 'io', 'Ask in plain words', 'message', { job: 'Anyone on the team asks for information or a change.' }],
+      ['c-assist', 230, 790, 'agent', 'Workspace assistant', 'sparkles', { job: 'Finds information and takes actions across the workspace on request.', uses: ['29 lookups', '22 actions'], reads: 'Analytics, renter records, marketing' }],
+      ['c-answer', 380, 748, 'out', 'Answer or view opened', 'eye', { job: 'Lookups run right away.' }, 'right'],
+      ['c-confirm', 440, 790, 'person', 'Confirms the change', 'user', { job: 'Every action waits for a yes before anything is written.' }],
+      ['c-end', 760, 790, 'out', 'Action completed', 'check', { job: 'The change is saved, the tour moved or the message sent.' }],
+    ] },
+];
+
+const col = (p: string) => `var(--am-${p})`;
+const nodes: Record<string, { line: string; color: string; kind: Kind; name: string; icon: string; d: Details }> = {
+  record: { line: 'All products', color: 'var(--ink-primary)', kind: 'record', name: 'Shared renter record', icon: ICON.database,
+    d: { job: 'One record per renter: contact details, preferences, status, conversations, tours, calls and activity.', control: 'Every product reads the same record, so no one asks a renter the same thing twice.' } },
+};
+
+function stationLabel(name: string, x: number, y: number, side?: 'above' | 'right') {
+  if (side === 'right') return `<text class="am-lbl" x="${x + 22}" y="${y + 4}">${name}</text>`;
+  const w = name.split(' ');
+  const lines = name.length > 17 && w.length > 2
+    ? [w.slice(0, Math.ceil(w.length / 2)).join(' '), w.slice(Math.ceil(w.length / 2)).join(' ')]
+    : [name];
+  const y0 = side === 'above' ? y - 30 - (lines.length - 1) * 15 : y + 33;
+  return `<text class="am-lbl" x="${x}" y="${y0}" text-anchor="middle">${lines.map((t, i) => `<tspan x="${x}" dy="${i ? 15 : 0}">${t}</tspan>`).join('')}</text>`;
+}
+function station(L: Line, s: Station) {
+  const [sid, x, y, kind, name, icon, d, side] = s;
+  const c = col(L.p);
+  nodes[sid] = { line: L.name, color: kind === 'person' ? 'var(--ink-primary)' : c, kind, name, icon: ICON[icon], d };
+  const g = (k: string, size: number, color: string) =>
+    `<g transform="translate(${x - size / 2} ${y - size / 2})" style="color:${color}">${ico(k, size)}</g>`;
+  const hs = `style="fill:${c};stroke:${c}"`;
+  const halo = kind === 'out'
+    ? `<rect class="am-halo" x="${x - 19}" y="${y - 19}" width="38" height="38" rx="9" transform="rotate(45 ${x} ${y})" ${hs}/>`
+    : kind === 'person' || kind === 'auto'
+      ? `<rect class="am-halo" x="${x - 23}" y="${y - 23}" width="46" height="46" rx="12" ${hs}/>`
+      : `<circle class="am-halo" cx="${x}" cy="${y}" r="${kind === 'io' ? 23 : 26}" ${hs}/>`;
+  let shape: string;
+  if (kind === 'person') shape = `<rect class="am-ring" x="${x - 13}" y="${y - 13}" width="26" height="26" rx="5" style="fill:var(--ink-primary);stroke:var(--ink-primary);stroke-width:0"/>${g('user', 14, 'var(--ink-on-dark)')}`;
+  else if (kind === 'io') shape = `<circle class="am-ring" cx="${x}" cy="${y}" r="14" stroke-width="2.5" stroke-dasharray="3 3" style="fill:var(--am-panel);stroke:${c}"/>${g(icon, 14, c)}`;
+  else if (kind === 'out') shape = `<rect class="am-ring" x="${x - 12}" y="${y - 12}" width="24" height="24" rx="6" transform="rotate(45 ${x} ${y})" style="fill:${c};stroke:${c};stroke-width:0"/>${g(icon, 13, 'var(--am-panel)')}`;
+  else if (kind === 'auto') shape = `<rect class="am-ring" x="${x - 14}" y="${y - 14}" width="28" height="28" rx="7" stroke-width="3" style="fill:var(--am-station);stroke:${c}"/>${g(icon, 14, c)}`;
+  else shape = `<circle class="am-ring" cx="${x}" cy="${y}" r="16" stroke-width="4" style="fill:var(--am-station);stroke:${c}"/>${g(icon, 15, c)}<rect x="${x + 7}" y="${y - 25}" width="20" height="13" rx="6.5" style="fill:${c}"/><text class="am-ai" x="${x + 17}" y="${y - 15.6}" text-anchor="middle">AI</text>`;
+  return `<g class="am-node" tabindex="0" role="button" aria-label="${KIND[kind]}: ${name}" data-id="${sid}">${halo}${shape}${stationLabel(name, x, y, side)}</g>`;
+}
+
+let svg = `<line x1="${TRUNK_X}" y1="56" x2="${TRUNK_X}" y2="${H - 18}" stroke-width="16" stroke-linecap="round" style="stroke:var(--ink-primary)"/>`;
+LINES.forEach((L, li) => {
+  const c = col(L.p);
+  let g = '';
+  L.bridges.forEach((y) => { g += `<line x1="${TRUNK_X - 15}" y1="${y}" x2="${TRUNK_X + 15}" y2="${y}" stroke-width="15" style="stroke:var(--am-panel)"/>`; });
+  L.tracks.forEach((t) => { g += `<path class="am-trk" pathLength="1" stroke-width="${t.main ? 7 : 5}" style="stroke:${c}" d="${t.d}"/>`; });
+  L.junctions.forEach((y) => { g += `<circle class="am-jn" cx="${TRUNK_X}" cy="${y}" r="10" stroke-width="4" style="fill:var(--am-panel);stroke:var(--ink-primary)"/>`; });
+  g += `<text class="am-lp" x="56" y="${L.ly}" style="fill:${c}">${L.name}${L.tag ? ` <tspan class="am-lp-tag">· ${L.tag}</tspan>` : ''}</text>`;
+  L.tracks.forEach((t, ti) => {
+    const n = t.main ? 2 : 1, dur = (t.main ? 10 : 7) + li * 0.7;
+    for (let k = 0; k < n; k++) {
+      g += `<rect class="am-train" x="-9" y="-4" width="18" height="8" rx="4" stroke-width="2" style="fill:${c};stroke:var(--am-panel)"><animateMotion dur="${dur}s" begin="${((k * dur) / n + ti * 1.3).toFixed(2)}s" repeatCount="indefinite" rotate="auto" path="${t.d}"/></rect>`;
+    }
+  });
+  L.stations.forEach((st) => { g += station(L, st); });
+  svg += `<g class="am-grp" data-p="${L.p}" style="--li: ${li}">${g}</g>`;
+});
+svg += `<g class="am-node am-rec" tabindex="0" role="button" aria-label="Shared renter record" data-id="record"><rect class="am-halo" x="${TRUNK_X - 104}" y="7" width="208" height="48" rx="24" style="fill:var(--ink-primary);stroke:var(--ink-primary)"/><rect class="am-ring" x="${TRUNK_X - 96}" y="14" width="192" height="34" rx="17" style="fill:var(--ink-primary);stroke:var(--ink-primary);stroke-width:0"/><g transform="translate(${TRUNK_X - 78} 23)" style="color:var(--ink-on-dark)">${ico('database', 16)}</g><text class="am-lbl am-rec-t" x="${TRUNK_X + 10}" y="35.5" text-anchor="middle">Shared renter record</text></g>`;
+const svgMarkup = `<svg class="am-svg" viewBox="0 0 ${W} ${H}" role="group" aria-label="Transit map of the AI agents in 5 products and where each reads or writes the shared renter record">${svg}</svg>`;
+const data = JSON.stringify(nodes);
+---
+<figure class="am" id={id} aria-label={label} data-inview>
+  <div class="am-in">
+    <ul class="am-legend" aria-label="Legend">
+      <li><svg viewBox="0 0 30 24" aria-hidden="true"><circle cx="12" cy="13" r="8" class="lg-st"/><rect x="15" y="1" width="15" height="10" rx="5" class="lg-fill"/><text x="22.5" y="8.6" text-anchor="middle" class="lg-ai">AI</text></svg>AI agent</li>
+      <li><svg viewBox="0 0 30 24" aria-hidden="true"><rect x="5" y="4" width="17" height="17" rx="5" class="lg-auto"/></svg>Rules-based step</li>
+      <li><svg viewBox="0 0 30 24" aria-hidden="true"><rect x="5" y="4" width="17" height="17" rx="4" class="lg-person"/></svg>A person takes over</li>
+      <li><svg viewBox="0 0 30 24" aria-hidden="true"><rect x="7" y="6" width="13" height="13" rx="3" transform="rotate(45 13.5 12.5)" class="lg-fill"/></svg>Outcome</li>
+      <li><svg viewBox="0 0 30 24" aria-hidden="true"><circle cx="13" cy="12" r="8" class="lg-start"/></svg>Where it starts</li>
+      <li><svg viewBox="0 0 30 24" aria-hidden="true"><rect x="11" y="0" width="7" height="24" class="lg-trunk"/><path d="M0 12H30" class="lg-line"/><circle cx="14.5" cy="12" r="5" class="lg-jn"/></svg>Reads or writes the record</li>
+      <li><svg viewBox="0 0 30 24" aria-hidden="true"><rect x="11" y="0" width="7" height="24" class="lg-trunk"/><path d="M8 12H21" class="lg-gap"/><path d="M0 12H30" class="lg-line lg-line--ins"/></svg>Passes by without touching it</li>
+    </ul>
+    <div class="am-map" set:html={svgMarkup} />
+    <p class="am-hint">
+      <span class="am-hint-hover">Hover a line to follow it, and click a station for details. The moving markers show work flowing along each line.</span>
+      <span class="am-hint-touch">Tap a station for details, and scroll sideways to see the whole map.</span>
+    </p>
+    {rules.length > 0 && (
+      <div class="am-rules-wrap">
+        {rulesTitle && <p class="am-rules-t">{rulesTitle}</p>}
+        <ul class="am-rules">
+          {rules.map((r) => <li>{r}</li>)}
+        </ul>
+      </div>
+    )}
+  </div>
+  <script type="application/json" class="am-data" set:html={data} />
+</figure>
+<style>
+  .am {
+    width: calc(100vw - var(--sbw));
+    margin: var(--space-9) calc(50% - (100vw - var(--sbw)) / 2);
+  }
+  .am-in {
+    max-width: calc(1200px + 2 * var(--pad-page-x));
+    margin-inline: auto;
+    padding-inline: var(--pad-page-x);
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .am-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); font-size: 13px; color: var(--ink-secondary); }
+  .am-legend li { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .am-legend svg { flex: none; width: 30px; height: 24px; }
+  .lg-st { fill: var(--am-station); stroke: var(--am-lea); stroke-width: 3; }
+  .lg-fill { fill: var(--am-lea); }
+  .lg-ai { fill: var(--am-panel); font-family: var(--font-body); font-size: 7px; font-weight: 700; }
+  .lg-auto { fill: var(--am-station); stroke: var(--am-lea); stroke-width: 2.5; }
+  .lg-person { fill: var(--ink-primary); }
+  .lg-start { fill: none; stroke: var(--ink-tertiary); stroke-width: 2; stroke-dasharray: 3 3; }
+  .lg-trunk { fill: var(--ink-primary); }
+  .lg-line { stroke: var(--am-lea); stroke-width: 4; }
+  .lg-line--ins { stroke: var(--am-ins); }
+  .lg-jn { fill: var(--am-panel); stroke: var(--ink-primary); stroke-width: 2.5; }
+  .lg-gap { stroke: var(--am-panel); stroke-width: 9; }
+
+  .am-map {
+    position: relative;
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-radius: 22px;
+    background: var(--am-panel);
+  }
+  .am-map :global(.am-svg) { display: block; width: 100%; min-width: 940px; height: auto; }
+  .am-map :global(.am-trk) { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .am-map :global(.am-grp) { transition: opacity 0.25s ease; }
+  .am-map.is-focus :global(.am-grp:not(.is-on)) { opacity: 0.12; }
+  .am-map :global(.am-node) { cursor: pointer; }
+  .am-map :global(.am-node:focus) { outline: none; }
+  .am-map :global(.am-node:focus-visible .am-ring) { stroke: var(--accent); stroke-width: 4; }
+  .am-map :global(.am-lbl) { font-family: var(--font-body); font-size: 12.5px; fill: var(--ink-primary); }
+  .am-map :global(.am-rec-t) { font-weight: 600; fill: var(--ink-on-dark); }
+  .am-map :global(.am-lp) { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+  .am-map :global(.am-lp-tag) { fill: var(--ink-tertiary); }
+  .am-map :global(.am-ai) { font-family: var(--font-body); font-size: 8.5px; font-weight: 700; letter-spacing: 0.04em; fill: var(--am-panel); }
+  /* Selected and hovered stations get a soft halo in the line's color, not a heavier border. */
+  .am-map :global(.am-halo) {
+    fill-opacity: 0.16;
+    stroke-opacity: 0.5;
+    stroke-width: 1.5;
+    opacity: 0;
+    transform: scale(0.7);
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: opacity 0.2s ease, transform 0.25s ease;
+  }
+  .am-map :global(.am-rec .am-halo) { fill-opacity: 0.12; stroke-opacity: 0.35; }
+  .am-map :global(.am-node:hover .am-halo) { opacity: 0.55; transform: scale(0.9); }
+  .am-map :global(.am-node.is-sel .am-halo) { opacity: 1; transform: scale(1); }
+
+  /* The popover sits on <body> (fixed, anchored to its station), so the map's
+     scroll container never clips it. */
+  :global(.am-pop) {
+    position: fixed;
+    z-index: 90;
+    width: min(290px, calc(100vw - var(--space-4)));
+    padding: var(--space-4);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    background: var(--am-panel);
+    box-shadow: var(--am-pop-shadow);
+  }
+  :global(.am-pop-top) { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-2); padding-right: var(--space-6); }
+  :global(.am-pop-ic) { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; color: var(--am-panel); }
+  :global(.am-pop-ic svg) { width: 18px; height: 18px; }
+  :global(.am-pop-k) { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
+  :global(.am-pop h4) { margin: 0; font-family: var(--font-display); font-size: 19px; font-weight: 500; line-height: 1.2; color: var(--ink-primary); }
+  :global(.am-pop p) { margin: 0 0 var(--space-1); font-size: 13.5px; line-height: 1.5; color: var(--ink-secondary); }
+  :global(.am-pop dl) { margin: 0; display: grid; gap: 2px; font-size: 13px; line-height: 1.45; }
+  :global(.am-pop dt) { margin-top: var(--space-2); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
+  :global(.am-pop dd) { margin: 0; color: var(--ink-secondary); }
+  :global(.am-pop .am-chips) { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+  :global(.am-pop .am-chips span) { padding: 0 var(--space-2); border: 1px solid var(--rule); border-radius: var(--radius); font-size: 12px; }
+  :global(.am-pop-x) {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ink-tertiary);
+    cursor: pointer;
+  }
+  :global(.am-pop-x:hover) { color: var(--ink-primary); background: var(--rule-soft); }
+  :global(.am-pop-x:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+  :global(.am-pop-x svg) { width: 16px; height: 16px; }
+
+  .am-hint { margin: 0; font-size: 13px; color: var(--ink-tertiary); }
+  .am-hint-touch { display: none; }
+  @media (hover: none) {
+    .am-hint-hover { display: none; }
+    .am-hint-touch { display: inline; }
+  }
+
+  .am-rules-wrap { margin-top: var(--space-2); display: grid; gap: var(--space-3); }
+  .am-rules-t {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .am-rules {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+  .am-rules li {
+    padding: var(--space-3) var(--space-4);
+    border: 1px dashed var(--ink-tertiary);
+    border-radius: var(--radius);
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--ink-primary);
+  }
+  @media (max-width: 767px) {
+    .am-rules { grid-template-columns: 1fr; }
+  }
+
+  /* Motion: the lines draw in product by product, then the stations and markers land. */
+  .am-map :global(.am-trk) { transition: stroke-dashoffset 1.1s cubic-bezier(0.4, 0, 0.2, 1); transition-delay: calc(var(--li) * 0.12s); }
+  .am-map :global(:is(.am-node, .am-jn, .am-lp)) { transition: opacity 0.4s ease; transition-delay: calc(var(--li) * 0.12s + 0.55s); }
+  .am-map :global(.am-train) { transition: opacity 0.4s ease; transition-delay: calc(var(--li) * 0.12s + 1.3s); }
+  :global(html.inview-armed) .am:not(.is-in) .am-map :global(.am-trk) { stroke-dashoffset: 1; }
+  :global(html.inview-armed) .am:not(.is-in) .am-map :global(:is(.am-grp .am-node, .am-jn, .am-lp, .am-train)) { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .am-map :global(.am-train) { display: none; }
+    .am-map :global(:is(.am-trk, .am-node, .am-jn, .am-lp, .am-grp, .am-halo)) { transition: none; }
+  }
+</style>
+<script>
+  interface Details { job?: string; tag?: string; uses?: string[]; reads?: string; writes?: string; control?: string }
+  interface MapNode { line: string; color: string; kind: string; name: string; icon: string; d: Details }
+  const KIND: Record<string, string> = { agent: 'AI agent', auto: 'Rules-based step', person: 'A person takes over', out: 'Outcome', io: 'Where it starts', record: 'Shared by every product' };
+  const X_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  function init(root: HTMLElement) {
+    const map = root.querySelector<HTMLElement>('.am-map');
+    const svg = root.querySelector<SVGSVGElement>('.am-svg');
+    const raw = root.querySelector('.am-data')?.textContent;
+    if (!map || !svg || !raw) return;
+    const nodes: Record<string, MapNode> = JSON.parse(raw);
+    let selected: string | null = null;
+
+    const focusLine = (p: string | null) => {
+      map.classList.toggle('is-focus', !!p);
+      map.querySelectorAll<SVGGElement>('.am-grp').forEach((g) => g.classList.toggle('is-on', g.dataset.p === p));
+    };
+    let pop: HTMLElement | null = null;
+    let anchor: SVGGElement | null = null;
+    const close = () => {
+      pop?.remove();
+      pop = null;
+      anchor = null;
+      map.querySelectorAll('.am-node.is-sel').forEach((n) => n.classList.remove('is-sel'));
+      selected = null;
+      focusLine(null);
+    };
+    // Below the station when it fits in the viewport, above it otherwise; always inside the viewport.
+    const place = () => {
+      if (!pop || !anchor) return;
+      const r = (anchor.querySelector('.am-ring') ?? anchor).getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) { close(); return; }
+      const w = pop.offsetWidth, h = pop.offsetHeight, vw = document.documentElement.clientWidth;
+      const left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, vw - w - 8));
+      let top = r.bottom + 12;
+      if (top + h > innerHeight - 8 && r.top - 12 - h >= 8) top = r.top - 12 - h;
+      pop.style.left = `${left}px`;
+      pop.style.top = `${Math.max(8, top)}px`;
+    };
+    const open = (el: SVGGElement) => {
+      close();
+      const id = el.dataset.id!;
+      const n = nodes[id];
+      if (!n) return;
+      selected = id;
+      el.classList.add('is-sel');
+      focusLine(el.closest<SVGGElement>('.am-grp')?.dataset.p ?? null);
+      const d = n.d;
+      const row = (k: string, v?: string) => (v ? `<dt>${k}</dt><dd>${esc(v)}</dd>` : '');
+      pop = document.createElement('div');
+      pop.className = 'am-pop';
+      pop.setAttribute('role', 'dialog');
+      pop.setAttribute('aria-label', n.name);
+      pop.innerHTML = `<button type="button" class="am-pop-x" aria-label="Close">${X_ICON}</button>
+        <div class="am-pop-top"><span class="am-pop-ic" style="background:${n.color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${n.icon}</svg></span>
+        <div><span class="am-pop-k">${KIND[n.kind]} · ${esc(n.line)}</span><h4>${esc(n.name)}</h4></div></div>
+        ${d.job ? `<p>${esc(d.job)}</p>` : ''}
+        <dl>${row('Type', d.tag)}${d.uses ? `<dt>Tools</dt><dd class="am-chips">${d.uses.map((u) => `<span>${esc(u)}</span>`).join('')}</dd>` : ''}${row('Reads', d.reads)}${row('Writes', d.writes)}${row(n.kind === 'record' ? 'Why it matters' : 'Control', d.control)}</dl>`;
+      document.body.appendChild(pop);
+      anchor = el;
+      place();
+      pop.querySelector('.am-pop-x')?.addEventListener('click', () => { close(); el.focus(); });
+      pop.querySelector<HTMLElement>('.am-pop-x')?.focus({ preventScroll: true });
+    };
+
+    map.addEventListener('click', (e) => {
+      const t = e.target as Element;
+      if (t.closest('.am-pop')) return;
+      const n = t.closest<SVGGElement>('.am-node');
+      if (n) open(n); else close();
+    });
+    map.addEventListener('keydown', (e) => {
+      const n = (e.target as Element).closest<SVGGElement>('.am-node');
+      if (n && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); open(n); }
+      if (e.key === 'Escape' && selected) {
+        const el = map.querySelector<SVGGElement>(`.am-node[data-id="${selected}"]`);
+        close();
+        el?.focus();
+      }
+    });
+    document.addEventListener('click', (e) => {
+      const t = e.target as Node;
+      if (selected && !map.contains(t) && !pop?.contains(t)) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !selected || !pop?.contains(e.target as Node)) return;
+      const el = anchor;
+      close();
+      el?.focus();
+    });
+    // Follow the station as the page or the map scrolls.
+    addEventListener('scroll', place, { capture: true, passive: true });
+    addEventListener('resize', place, { passive: true });
+    map.addEventListener('pointerover', (e) => {
+      if (selected) return;
+      focusLine((e.target as Element).closest<SVGGElement>('.am-grp')?.dataset.p ?? null);
+    });
+    map.addEventListener('pointerleave', () => { if (!selected) focusLine(null); });
+    map.addEventListener('focusin', (e) => {
+      if (selected) return;
+      const g = (e.target as Element).closest<SVGGElement>('.am-grp');
+      if (g) focusLine(g.dataset.p ?? null);
+    });
+    map.addEventListener('focusout', (e) => {
+      if (!selected && !map.contains(e.relatedTarget as Node)) focusLine(null);
+    });
+
+    // The markers only run while the map is on screen, and never with reduced motion.
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) { svg.pauseAnimations(); return; }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) svg.unpauseAnimations(); else svg.pauseAnimations();
+      }).observe(svg);
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>('.am').forEach(init);
+</script>

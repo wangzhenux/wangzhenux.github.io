@@ -10,6 +10,10 @@
  *
  *   <ShowcaseVideo src="/cases/…/x.mp4" poster="/cases/…/x-poster.jpg"
  *                  label="What the clip shows" width={1920} height={1080} />
+ *
+ * Children, when given, sit in a text column on the left with the clip on the
+ * right (stacked, text first, below 900px) — for a narrow clip such as a panel.
+ * `tone="callout"` swaps the dotted band for a dark callout band.
  */
 interface Props {
   /** Video source (H.264 mp4, or a Cloudinary delivery URL). */
@@ -24,12 +28,17 @@ interface Props {
   /** Optional display cap in CSS px, centred — keeps a small clip at 2x instead
    *  of stretching it to the full band (mirrors ShowcaseImage's native-width cap). */
   maxWidth?: number;
+  /** `band` (default): the dotted band. `callout`: a dark band for a section
+   *  that stands apart from the rest of the case. */
+  tone?: 'band' | 'callout';
 }
-const { src, poster, label, width = 1920, height = 1080, maxWidth } = Astro.props;
+const { src, poster, label, width = 1920, height = 1080, maxWidth, tone = 'band' } = Astro.props;
 const ratio = `${width} / ${height}`;
+const split = Astro.slots.has('default');
 ---
-<div class="video-showcase">
-  <div class="vs-inner">
+<div class:list={['video-showcase', { 'video-showcase--callout': tone === 'callout' }]}>
+  <div class:list={['vs-inner', { 'vs-split': split }]}>
+    {split && <div class="vs-text"><slot /></div>}
     {/* src is deferred to data-src; the script attaches it when the band nears
         the viewport, then autoplays. Controls stay available for manual use. */}
     <video
@@ -42,7 +51,7 @@ const ratio = `${width} / ${height}`;
       playsinline
       preload="none"
       aria-label={label}
-      style={`aspect-ratio: ${ratio}${maxWidth ? `; max-width: ${maxWidth}px` : ''}`}
+      style={`aspect-ratio: ${ratio}${maxWidth && !split ? `; max-width: ${maxWidth}px` : ''}`}
     ></video>
   </div>
 </div>
@@ -62,6 +71,14 @@ const ratio = `${width} / ${height}`;
     background-size: 28px 28px;
     z-index: 0;
   }
+  .video-showcase--callout::before { background-color: var(--bg-inverse); background-image: none; }
+  .video-showcase--callout .vs-split { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: var(--space-12); }
+  .video-showcase--callout .vs-text :global(h3),
+  .video-showcase--callout .vs-text :global(strong) { color: var(--ink-on-dark); }
+  .video-showcase--callout .vs-text :global(p),
+  .video-showcase--callout .vs-text :global(ul) { color: var(--ink-on-dark); opacity: 0.82; }
+  .video-showcase--callout .vs-text :global(h4) { color: var(--accent-on-dark); }
+  .video-showcase--callout .vs-video { box-shadow: none; }
   .vs-inner {
     position: relative;
     z-index: 1;
@@ -71,6 +88,39 @@ const ratio = `${width} / ${height}`;
   }
   @media (max-width: 767px) {
     .vs-inner { padding-inline: var(--pad-page-x); }
+  }
+  .vs-split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-9);
+    align-items: center;
+  }
+  .vs-text { display: grid; gap: var(--space-4); }
+  .vs-text :global(h3) {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 28px;
+    line-height: 1.2;
+    font-weight: 500;
+    color: var(--ink-primary);
+    text-wrap: balance;
+  }
+  .vs-text :global(p) { margin: 0; font-size: var(--fs-body); line-height: 1.6; color: var(--ink-secondary); }
+  .vs-text :global(strong) { color: var(--ink-primary); font-weight: 600; }
+  .vs-text :global(ul) { margin: 0; padding-left: var(--space-5); display: grid; gap: var(--space-2); color: var(--ink-secondary); font-size: var(--fs-card); line-height: 1.5; }
+  .vs-text :global(h4) {
+    margin: var(--space-2) 0 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  @media (max-width: 900px) {
+    .vs-split,
+    .video-showcase--callout .vs-split { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+    .video-showcase--callout .vs-video { max-width: 420px; }
   }
   .vs-video {
     display: block;

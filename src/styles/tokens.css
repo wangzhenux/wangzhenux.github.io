@@ -4,6 +4,14 @@
   --bg-secondary: #F1E9D5;
   --bg-inverse: #181210;
   --stage-bg: #DDD3C2;
+  /* Wireframe bands (ImageShowcase variant): the same dotted band in two tones.
+     Light = --stage-bg with slightly stronger dots, plus a hairline that follows
+     each screen's outline so white pages don't dissolve into the band. Dark =
+     for wireframes exported with light labels (Pool My Ride). */
+  --stage-dot: #1A141022;
+  --stage-bg-dark: #2A221D;
+  --stage-dot-dark: #FAF5E81F;
+  --wire-edge: drop-shadow(0 0 0.6px rgba(26, 20, 16, 0.55)) drop-shadow(0 2px 6px rgba(26, 20, 16, 0.14));
 
   /* === Ink === */
   --ink-primary: #1A1410;
@@ -55,6 +63,74 @@
   --bento-card-bg: #FAF9F5;
   --bento-img-fade: linear-gradient(to bottom, rgba(255, 255, 255, 0) 67%, #FBFAF7 97%);
 
+  /* === UnitPulse bento (design literals, from the vNext design.md) ===
+     Flat tiles in 2 of the product's surfaces (accent emerald, accent-soft
+     mint). Screens sit in white frames with one shared shadow; the floating
+     objects use the product's own inks, the AI violet and the attention amber. */
+  --up-emerald: #006045;
+  --up-emerald-ink: #004F3B;
+  --up-mint: #E8F4F0;
+  --up-paper: #FFFFFF;
+  --up-ink: #18181B;
+  --up-muted: #71717B;
+  --up-sub: #3F6B5D;
+  --up-ai: #4A3F8C;
+  --up-amber: #B7791F;
+  --up-amber-ink: #8A5A00;
+  --up-bezel: #111111;
+  --up-on-dark: #FFFFFF;
+  --up-on-dark-soft: rgba(255, 255, 255, 0.76);
+  --up-frame-shadow: 0 18px 40px -20px rgba(0, 50, 35, 0.42), 0 0 0 1px rgba(0, 60, 40, 0.1);
+  --up-float-shadow: 0 14px 30px -12px rgba(0, 50, 35, 0.48), 0 0 0 1px rgba(0, 60, 40, 0.1);
+
+  /* === Code editor window (design literals) ===
+     A dark editor for document excerpts (design.md): warm near-black ground,
+     window dots, and 3 markdown tints (headings, bold, list markers). Text
+     and tints clear WCAG AA on the editor ground; only the decorative line
+     numbers sit lower. */
+  --code-bg: #1C1714;
+  --code-head: #26201B;
+  --code-rule: rgba(240, 230, 210, 0.1);
+  --code-ink: #D9CFBD;
+  --code-strong: #FFF4E2;
+  --code-muted: rgba(240, 230, 210, 0.38); /* line numbers, decorative */
+  --code-dim: rgba(240, 230, 210, 0.62);
+  --code-h: #F08466;
+  --code-b: #F2C879;
+  --code-mark: #8CC9A9;
+  --code-inline: rgba(255, 255, 255, 0.08);
+  --code-dot-1: #FF5F57;
+  --code-dot-2: #FEBC2E;
+  --code-dot-3: #28C840;
+  --code-shadow: 0 24px 50px -24px rgba(20, 14, 8, 0.55);
+
+  /* === AI agent map (design literals) ===
+     One line color per product on a warm near-white panel. All 5 clear WCAG AA
+     (about 5:1 or better) as small text on the panel. */
+  --am-panel: #FFFDF7;
+  --am-station: #FFFFFF;
+  --am-mkt: #C2551E;
+  --am-lea: #00704F;
+  --am-voi: #5B4BC4;
+  --am-ins: #2563B0;
+  --am-cop: #8A6A00;
+  --am-pop-shadow: 0 22px 48px -20px rgba(20, 14, 8, 0.45);
+
+  /* === Product-mock literals (design literals, from the shipped UnitPulse UIs) ===
+     Reconstructed chat states and small product vignettes are drawn in the
+     product's own palette, not the portfolio's, so they read as the real UI.
+     Listing: pale panel, gray renter bubble, white cards, deep-green actions. */
+  --mock-bg: #F6F6F3;
+  --mock-surface: #FFFFFF;
+  --mock-bubble: #ECECE8;
+  --mock-ink: #1C1C1A;
+  --mock-muted: #6B6A64;
+  --mock-rule: #E2E1DC;
+  --mock-green: #1F4A38;
+  --mock-chip: #E4EEE7;
+  --mock-warn: #8A4B12;
+  --mock-warn-soft: #FBEFD9;
+
   /* === Border radius === */
   --radius-sm: 4px;
   --radius: 6px;
@@ -96,6 +172,12 @@
   --gap-stack: var(--space-6);
   --max-content: 1080px;
   --max-body: 880px;
+
+  /* === Reading sizes ===
+     Body prose steps 18 → 17 → 16 by breakpoint; card body text never drops
+     below 15px so short card copy stays as readable as the prose. */
+  --fs-body: 18px;
+  --fs-card: 15px;
   --max-toc: 144px;
 
   /* === Type families === */
@@ -119,12 +201,14 @@
   :root {
     --pad-page-x: var(--space-8);   /* → 40 */
     --pad-section-y: var(--space-10); /* → 56 */
+    --fs-body: 17px;
   }
 }
 @media (max-width: 767px) {
   :root {
     --pad-page-x: var(--space-5);   /* → 20 */
     --pad-section-y: var(--space-9); /* → 48 */
+    --fs-body: 16px;
   }
 }
 

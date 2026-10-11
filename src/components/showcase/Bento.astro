@@ -48,8 +48,11 @@ interface Props {
    *  crops (à la a high-density feature grid). Per-item `pos` picks the crop region.
    *  Implies `bleed`. */
   crop?: boolean;
+  /** `crop` mode only: set false when the tiles carry their own coloured
+   *  surface, so the image isn't dissolved into the card above the title. */
+  fade?: boolean;
 }
-const { items, label = 'Highlights', bleed = false, crop = false } = Astro.props;
+const { items, label = 'Highlights', bleed = false, crop = false, fade = true } = Astro.props;
 const glyph =
   '<svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="6" y="10" width="36" height="28" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="20" r="3" stroke="currentColor" stroke-width="2"/><path d="M9 35 L20 25 L27 31 L34 25 L39 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
@@ -66,7 +69,7 @@ const icons: Record<string, string> = {
   spark: `<svg viewBox="0 0 24 24"><path d="M12 4l1.7 4.7L18 11l-4.3 1.6L12 18l-1.7-5.4L6 11l4.3-2.3z${SI}</svg>`,
 };
 ---
-<section class:list={['bento', bleed && 'bento--bleed', crop && 'bento--crop']} aria-label={label}>
+<section class:list={['bento', bleed && 'bento--bleed', crop && 'bento--crop', crop && !fade && 'bento--nofade']} aria-label={label}>
   <div class="bento-inner">
     <ul class="bento-grid">
       {items.map((it) => (
@@ -225,7 +228,7 @@ const icons: Record<string, string> = {
   }
   .bento-card--hero .bento-title { font-size: 23px; margin-bottom: var(--space-2); }
   .bento-body {
-    font-size: 13px;
+    font-size: var(--fs-card);
     line-height: 1.5;
     color: var(--ink-secondary);
     margin: 0;
@@ -286,6 +289,7 @@ const icons: Record<string, string> = {
     background: var(--bento-img-fade);
     pointer-events: none;
   }
+  .bento--nofade .bento-visual::after { content: none; }
   /* Title strip below the image, on the card surface. */
   .bento--crop .bento-text { padding: var(--space-4); }
   .bento--crop .bento-card--hero .bento-text { padding: var(--space-5) var(--space-5) var(--space-7); }

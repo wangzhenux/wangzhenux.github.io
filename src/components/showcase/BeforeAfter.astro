@@ -1,0 +1,214 @@
+---
+/**
+ * Before / after of the same screen: the "after" image sits on top and is
+ * clipped to the right of a divider the reader drags (or moves with the arrow
+ * keys — it's a real range input). Both images must share one aspect ratio.
+ * The first time it scrolls into view, the handle sweeps left and right once
+ * and the knob pulses, so the reader sees it can be dragged (skipped under
+ * reduced motion, and stopped the moment the reader takes over).
+ * Without JS it rests at the midpoint, so both halves still show. Sits on the
+ * same full-bleed dotted band as <ImageShowcase>. Token-only CSS.
+ *
+ *   <BeforeAfter label="…" width={2940} height={1846}
+ *     before={{ src, alt }} after={{ src, alt }} notes={['…', '…']} />
+ */
+interface Shot { src: string; alt: string }
+interface Props {
+  label: string;
+  before: Shot;
+  after: Shot;
+  width: number;
+  height: number;
+  /** One line under each side, e.g. what defines that system. */
+  notes?: [string, string];
+}
+const { label, before, after, width, height, notes } = Astro.props;
+---
+<figure class="ba" aria-label={label}>
+  <div class="ba-inner">
+    <div class="ba-stage" style={`aspect-ratio: ${width} / ${height}`}>
+      <img class="ba-img" src={before.src} alt={before.alt} width={width} height={height} loading="lazy" decoding="async" />
+      <img class="ba-img ba-after" src={after.src} alt={after.alt} width={width} height={height} loading="lazy" decoding="async" />
+      <span class="ba-divider" aria-hidden="true"><span class="ba-knob">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span></span>
+      <span class="ba-tag ba-tag--before" aria-hidden="true">Before</span>
+      <span class="ba-tag ba-tag--after" aria-hidden="true">After</span>
+      <input class="ba-range" type="range" min="0" max="100" value="50" step="1" aria-label={`${label}: drag to compare before and after`} />
+    </div>
+    {notes && (
+      <div class="ba-notes">
+        <p><b>Before</b> {notes[0]}</p>
+        <p><b>After</b> {notes[1]}</p>
+      </div>
+    )}
+  </div>
+</figure>
+<style>
+  .ba {
+    position: relative;
+    width: calc(100vw - var(--sbw));
+    margin: var(--space-9) calc(50% - (100vw - var(--sbw)) / 2);
+    padding-block: var(--space-9);
+  }
+  .ba::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--bg-secondary);
+    background-image: radial-gradient(circle, var(--rule) 1px, transparent 1.5px);
+    background-size: 28px 28px;
+    z-index: 0;
+  }
+  .ba-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: var(--space-12);
+    display: grid;
+    gap: var(--space-5);
+  }
+  @media (max-width: 767px) {
+    .ba-inner { padding-inline: var(--pad-page-x); }
+  }
+  .ba-stage {
+    --pos: 50%;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-card);
+    background: var(--bg-primary);
+  }
+  .ba-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  .ba-after { clip-path: inset(0 0 0 var(--pos)); }
+  .ba-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    width: 2px;
+    margin-left: -1px;
+    background: var(--bg-primary);
+    box-shadow: 0 0 0 1px var(--rule);
+    pointer-events: none;
+  }
+  .ba-knob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--bg-primary);
+    color: var(--ink-primary);
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-card);
+  }
+  .ba-knob svg { width: 18px; height: 18px; }
+  .ba-stage.is-hinting .ba-knob { animation: ba-pulse 1.2s ease-out 2; }
+  @keyframes ba-pulse {
+    0% { box-shadow: var(--shadow-card), 0 0 0 0 var(--accent-medium); }
+    100% { box-shadow: var(--shadow-card), 0 0 0 14px transparent; }
+  }
+  .ba-tag {
+    position: absolute;
+    bottom: var(--space-3);
+    padding: var(--space-1) var(--space-3);
+    border-radius: 999px;
+    background: var(--bg-inverse);
+    color: var(--ink-on-dark);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .ba-tag--before { left: var(--space-3); }
+  .ba-tag--after { right: var(--space-3); }
+  .ba-range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+  }
+  .ba-stage:has(.ba-range:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .ba-notes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4) var(--space-8);
+  }
+  .ba-notes p { margin: 0; font-size: var(--fs-card); line-height: 1.5; color: var(--ink-secondary); }
+  .ba-notes b {
+    display: block;
+    margin-bottom: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  @media (max-width: 560px) {
+    .ba-notes { grid-template-columns: 1fr; }
+  }
+</style>
+<script>
+  function initBeforeAfter() {
+    document.querySelectorAll<HTMLElement>('.ba-stage').forEach((stage) => {
+      if (stage.dataset.baReady) return;
+      stage.dataset.baReady = '1';
+      const range = stage.querySelector<HTMLInputElement>('.ba-range');
+      if (!range) return;
+      const set = () => stage.style.setProperty('--pos', `${range.value}%`);
+      range.addEventListener('input', set);
+      set();
+
+      // One sweep (50 → 28 → 72 → 50) the first time it's in view.
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let raf = 0, touched = false;
+      const stop = () => { touched = true; cancelAnimationFrame(raf); stage.classList.remove('is-hinting'); };
+      range.addEventListener('pointerdown', stop);
+      range.addEventListener('keydown', stop);
+      const ease = (k: number) => (k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2);
+      const sweep = () => {
+        if (touched) return;
+        stage.classList.add('is-hinting');
+        const t0 = performance.now(), D = 2400;
+        const step = (t: number) => {
+          if (touched) return;
+          const k = Math.min(1, (t - t0) / D);
+          const v = 50 - 22 * Math.sin(ease(k) * Math.PI * 2);
+          stage.style.setProperty('--pos', `${v}%`);
+          if (k < 1) raf = requestAnimationFrame(step);
+          else { stage.classList.remove('is-hinting'); range.value = '50'; set(); }
+        };
+        raf = requestAnimationFrame(step);
+      };
+      const io = new IntersectionObserver((entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        setTimeout(sweep, 400);
+      }, { threshold: 0.6 });
+      io.observe(stage);
+    });
+  }
+  initBeforeAfter();
+  document.addEventListener('astro:after-swap', initBeforeAfter);
+</script>

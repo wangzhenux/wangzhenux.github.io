@@ -34,11 +34,13 @@ meta:
 sections:
   - { id: ctx, num: "00", label: "Context" }
   - { id: p1, num: "01", label: "The problem" }
-  - { id: p2, num: "02", label: "Talking to renters" }
+  - { id: p2, num: "02", label: "3 ways in" }
   - { id: p3, num: "03", label: "One search, two modes" }
-  - { id: p4, num: "04", label: "Designed to be found" }
-  - { id: p5, num: "05", label: "Built & tested" }
-  - { id: p6, num: "06", label: "Results" }
+  - { id: cw, num: "04", label: "How it talks" }
+  - { id: p4, num: "05", label: "Designed to be found" }
+  - { id: p5, num: "06", label: "Built & tested" }
+  - { id: p6, num: "07", label: "Results" }
+  - { id: rf, num: "08", label: "Reflection" }
 ---
 
 import BodyText from '../../components/reading/BodyText.astro';
@@ -46,7 +48,6 @@ import SectionH from '../../components/reading/SectionH.astro';
 import SectionDeck from '../../components/reading/SectionDeck.astro';
 import Pullquote from '../../components/reading/Pullquote.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
-import ShowcaseImage from '../../components/showcase/ShowcaseImage.astro';
 import ShowcaseCarousel from '../../components/showcase/ShowcaseCarousel.astro';
 import Bento from '../../components/showcase/Bento.astro';
 import CardGrid from '../../components/showcase/CardGrid.astro';
@@ -63,6 +64,12 @@ import Dual from '../../components/data/Dual.astro';
 import Reflection from '../../components/showcase/Reflection.astro';
 import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
 import RelatedCases from '../../components/showcase/RelatedCases.astro';
+import StageFlow from '../../components/showcase/StageFlow.astro';
+import StoryBlocks from '../../components/showcase/StoryBlocks.astro';
+import BrokeCarousel from '../../components/showcase/BrokeCarousel.astro';
+import ProcessStrip from '../../components/showcase/ProcessStrip.astro';
+import CompareTable from '../../components/data/CompareTable.astro';
+import ThresholdCards from '../../components/data/ThresholdCards.astro';
 
 {/*
   ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
@@ -106,10 +113,15 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     carry real product mockups exported from Figma.
 
   VISUALS:
-  - The hero is the conversational welcome (welcome-hero.jpg); property-detail is a
-    real screenshot. listing-map.jpg (results split-view) remains available for reuse.
-  - Part 04 principles use bespoke SVG illustrations (principles/*.svg) — conceptual
-    mini-vignettes in the warm palette, not screenshots.
+  - The hero is the conversational welcome (welcome-hero.jpg). property-detail.jpg was
+    PULLED 2026-10-08 (real property name / street addresses). bento-tour.png was
+    restored 2026-10-09 (Zhen: already anonymized).
+    listing-map.jpg (results split-view) remains available for reuse.
+  - Part 04 "How the conversation works" (2026-10-08): live captures from
+    rental.unitpulse.ai (chat/*.jpg, Oct 8 2026, unblurred: listing names, photos and
+    addresses are public listing data), plus
+    ChatMock "before" states reconstructed from each fix. The old 7-principle
+    SVG bento was retired into Google's vocabulary.
   - <ShowcaseCarousel> carries five real demo clips; <ScreenshotPlaceholder> marks
     slots still awaiting a real screenshot (the two lead-capture modals).
   - <SiteGeoArch> / <SiteTestMatrix> are EXAMPLE diagrams built from tokens; the
@@ -133,7 +145,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
         image: "/cases/unitpulse-site/bento-conversational.png",
         imageAlt: "The conversational welcome — \"Elite long-term rentals, found by conversation\" with a chat box, structured filter chips, and example prompts",
         title: "Conversational home search",
-        body: "An integrated LLM assistant that turns a vague need — \"walkable to USC, dog-friendly, under $2,500\" — into real listings on the map. Grounded on live inventory, so it never invents a home.",
+        body: "An assistant that turns a vague need — \"walkable to USC, dog-friendly, under $2,500\" — into real listings on the map. Grounded on live inventory, so it never invents a home.",
       },
       {
         image: "/cases/unitpulse-site/bento-intake.png",
@@ -142,7 +154,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
         body: "Inline stepped cards capture must-haves.",
       },
       {
-        image: "/cases/unitpulse-site/bento-map.png",
+        image: "/cases/unitpulse-site/bento-map.jpg",
         imageAlt: "A live map with price pins beside a listing card",
         title: "Map split-view",
         body: "A live map with price pins beside the result grid.",
@@ -175,8 +187,8 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
       "Refreshed visual system",
       "AI test suite + evaluation",
     ]}
-    shared={["Gemini → Dify chat-backend migration"]}
-    platform={["SSR scaffolding", "Astra / Dify data layer"]}
+    shared={["Chat-backend migration"]}
+    platform={["SSR scaffolding", "Data layer"]}
     platformLabel="Engineering"
   />
 </section>
@@ -213,12 +225,13 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 </section>
 
 <section id="p2" data-reveal>
-  <PartHeader num="02" title="Talking to renters" />
+  <PartHeader num="02" title="3 ways in" />
   <BodyText>
-    Before designing the search, I talked to renters about how they actually look
-    for a home. Three profiles surfaced — and **they want different things**.
+    Before designing the search, I mapped how people start looking for a home.
+    3 starting points shaped the design, and **they want different things**.
+    {/* Design reasoning, not research (Zhen 2026-10-08): claim no interviews. */}
   </BodyText>
-  <SectionH small>Three kinds of renters</SectionH>
+  <SectionH small>3 starting points</SectionH>
   <PersonaGrid
     label="Three kinds of renters"
     personas={[
@@ -310,64 +323,10 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
   <JourneyStrip
     label="The minimum viable renter journey"
     steps={[
-      { label: "Search", desc: "A place or a need — typed or spoken" },
+      { label: "Search", desc: "A place or a need, in your own words" },
       { label: "Browse", desc: "Map split-view + a live listing grid" },
       { label: "Detail", desc: "Floor plans, amenities, neighborhood Q&A" },
       { label: "Act", desc: "Inquire or schedule a tour" },
-    ]}
-  />
-
-  <SectionH small>The principles I designed the conversation against</SectionH>
-  {/* ‹C-latency› confirm the real in-progress/loading treatment before claiming the latency principle. */}
-  <Bento
-    bleed
-    label="Seven principles behind the conversational search"
-    items={[
-      {
-        size: "hero",
-        image: "/cases/unitpulse-site/principles/keep-user-in-control.svg",
-        imageAlt: "An editable search summary — AI-proposed criteria shown as removable chips, one being edited, with the results updating below",
-        title: "Keep the user in control",
-        body: "Every AI guess is visible and editable, and intake steps skip. The assistant proposes; the renter disposes.",
-      },
-      {
-        image: "/cases/unitpulse-site/principles/set-honest-expectations.svg",
-        imageAlt: "A result summary stating how many homes were found, with a listing and a clear next-step prompt",
-        title: "Set honest expectations",
-        body: "It says what it found, and what it can do next.",
-      },
-      {
-        image: "/cases/unitpulse-site/principles/make-latency-feel-handled.svg",
-        imageAlt: "A chat echoing the renter's intent back, with a live in-progress indicator instead of a dead UI",
-        title: "Make latency feel handled",
-        body: "An instant echo of intent — never a dead UI.",
-      },
-      {
-        size: "wide",
-        image: "/cases/unitpulse-site/principles/ground-in-real-data.svg",
-        imageAlt: "Real listings from live inventory beside an honest empty state shown when nothing matches",
-        title: "Ground every answer in real data",
-        body: "Real inventory only. No match? It says so — it never invents one.",
-      },
-      {
-        image: "/cases/unitpulse-site/principles/reduce-blank-page-burden.svg",
-        imageAlt: "A guided intake card on step one of three, offering selectable options instead of an empty text box",
-        title: "Reduce the blank-page burden",
-        body: "Guided intake and suggested follow-ups.",
-      },
-      {
-        image: "/cases/unitpulse-site/principles/bridge-to-action.svg",
-        imageAlt: "A listing with two calls to action — an inquire button and a primary schedule-a-tour button",
-        title: "Bridge to action",
-        body: "Every result links to inquire and tour — not a walled garden.",
-      },
-      {
-        size: "wide",
-        image: "/cases/unitpulse-site/principles/refuse-gracefully.svg",
-        imageAlt: "An out-of-scope request receiving a polite, compliant decline and a redirect to a safe next step",
-        title: "Refuse gracefully",
-        body: "Out-of-scope or non-compliant asks get a polite decline and a compliant next step — designed and tested.",
-      },
     ]}
   />
 
@@ -427,8 +386,181 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 
 </section>
 
+<section id="cw" data-reveal>
+  <PartHeader num="04" title="How the conversation works" />
+  <BodyText>
+    Renters don't search in fields. They say what they want, change their mind
+    halfway, and ask about the home in front of them. **The copilot has to keep
+    up with all of that** and still land on a real next step.
+  </BodyText>
+
+  <SectionH small>From filters to a conversation you can steer</SectionH>
+  <CompareTable
+    caption="Filters alone compared with a conversation you can steer"
+    columns={["", "Filters alone", "A conversation you can steer"]}
+    rows={[
+      { head: "Context-aware", a: "Every change starts over from the form.", b: "It remembers your filters and the home you're viewing. “Widen by $200” edits the saved budget." },
+      { head: "Speaks your language", a: "You translate what you need into fields.", b: "One message fills several: “2b2b under $3,000, move in Aug 23.”" },
+      { head: "Relevant to you", a: "Every listing, every field, every time.", b: "Questions about one home are answered from that home's own data, in a few sentences." },
+      { head: "Honest when nothing fits", a: "“0 results.”", b: "It says so in your terms and offers up to 3 one-tap ways to widen. It never loosens a filter on its own." },
+      { head: "Built for action", a: "A contact form at the bottom of the page.", b: "Ask to tour and the form opens in the chat. It never says a tour is booked." },
+    ]}
+  />
+
+  <SectionH small>6 steps behind every reply</SectionH>
+  {/* [REAL] v3 flow ("UP-Website-prod Leasing Copilot v3"): 94 nodes; 13 of 57
+      AI + code steps are model steps (10 LLM + 3 extractors). 9 intents, fair
+      housing is decision step 0; intake gate runs before the router. */}
+  <StageFlow
+    label="How the copilot builds each reply"
+    steps={[
+      { label: "Listen", desc: "Reads the message with what it already knows.", tag: "code" },
+      { label: "Collect", desc: "A model reads the new message; code merges it into your filters.", tag: "mixed", exit: "Essentials missing → one short, skippable form" },
+      { label: "Route", desc: "Sorts it into 1 of 9 intents.", tag: "mixed", badge: "Fair housing first", exit: "Protected-class request → a plain decline, filters cleared" },
+      { label: "Act", desc: "Searches, answers from one home's data, compares, or opens a form.", tag: "code" },
+      { label: "Reply", desc: "A short answer and up to 3 next steps.", tag: "mixed" },
+      { label: "Remember", desc: "Saves filters and history for the next turn.", tag: "code" },
+    ]}
+    legend
+    caption="Simplified from 94 production steps. A model runs 13 of them."
+  />
+
+  <SectionH small>What renters say, and what they mean</SectionH>
+  <StoryBlocks
+    label="Four moments from the live copilot"
+    blocks={[
+      {
+        principle: "Context",
+        quote: "Can you go $200 higher on my budget?",
+        happened: "Mid-search, the renter nudges one thing instead of starting over.",
+        designed: "The model reads the change, code adds it to the saved budget, and the chat, chips and map move together.",
+        image: { src: "/cases/unitpulse-site/chat/context.jpg", alt: "The live copilot after the renter asks to go $200 higher: the summary now reads Budget under $3,200, the filter chips update, and the map shows the matching homes", width: 2880, height: 1800 },
+      },
+      {
+        principle: "Listen between the lines",
+        quote: "I also have a dog.",
+        happened: "Viewing a home, it's a question about that home. Browsing, “pet-friendly” starts a search.",
+        designed: "Routing reads the context first, so the answer comes from that home's own pet policy, with next steps that keep the search alive.",
+        image: { src: "/cases/unitpulse-site/chat/listen.jpg", alt: "The live copilot answering “I also have a dog” about the home in view: dogs aren't generally allowed there, only emotional support animals, with suggestions to see listings that allow dogs", width: 1422, height: 1328 },
+      },
+      {
+        principle: "Move the conversation forward",
+        quote: "2 bedrooms under $1,200 in Los Angeles.",
+        happened: "Nothing on the market matches.",
+        designed: "The reply says so in the renter's own terms and offers up to 3 ways to widen. The renter chooses; nothing loosens quietly.",
+        image: { src: "/cases/unitpulse-site/chat/forward.jpg", alt: "The live copilot's no-results reply, written from the renter's filters, with one-tap chips to widen the budget or remove the bedroom filter", width: 1422, height: 1800 },
+      },
+      {
+        principle: "Turn-taking",
+        quote: "Can I see this one on Saturday?",
+        happened: "Asking for a date, a time and contact details one turn at a time drags on.",
+        designed: "A tour card opens in the chat for that home. The renter picks a time, and the leasing office confirms.",
+        image: { src: "/cases/unitpulse-site/chat/turn.jpg", alt: "The live copilot opening a Schedule a Tour card for the home in view, with a button to pick a time", width: 1422, height: 1800 },
+      },
+    ]}
+  />
+
+  <SectionH small>A trade we made on purpose</SectionH>
+  <StoryBlocks
+    label="Guidance versus control"
+    blocks={[
+      {
+        principle: "Guidance vs control",
+        status: "Revisit next",
+        quote: "What can you tell me about this building?",
+        happened: "Until the essentials are known, a first question gets a question back: amenities and move-in date first.",
+        designed: "One short ask, every part skippable, and none while you're viewing a home. Answering first is the next revision.",
+        image: { src: "/cases/unitpulse-site/chat/intake.jpg", alt: "Asked about a building, the copilot first asks for must-have amenities and a move-in date", width: 1422, height: 600 },
+      },
+    ]}
+  />
+
+  <SectionH small>What broke, and what we changed</SectionH>
+  {/* Stories from v3 code comments, the web fixes, and the earlier chat version
+      (CHAT_NOTES.md). "Before" states are reconstructed from each fix. */}
+  <BrokeCarousel
+    cards={[
+      {
+        principle: "Move the conversation forward",
+        title: "2 bedrooms under $1,200 in Los Angeles",
+        before: [
+          { from: "renter", text: "2 bedrooms under $1,200 in Los Angeles" },
+          { from: "ai", text: "Great news, here's what I found for you!", flag: "bad" },
+          { from: "event", text: "0 homes" },
+        ],
+        after: { src: "/cases/unitpulse-site/chat/forward.jpg", alt: "The no-results reply written from the renter's filters, with next-step chips", width: 1422, height: 1800 },
+        happened: "The reply was written as if homes were on the way, even when none came.",
+        changed: "Code now writes the no-results reply from the renter's own filters, with up to 3 next steps.",
+      },
+      {
+        principle: "Context",
+        title: "Widen my budget by $200",
+        before: [
+          { from: "renter", text: "Widen my budget by $200" },
+          { from: "event", text: "The model works out the new budget" },
+          { from: "ai", text: "Updated your budget.", flag: "bad" },
+        ],
+        after: { src: "/cases/unitpulse-site/chat/context-chat.jpg", alt: "After the renter asks to go $200 higher, the summary reads Budget under $3,200 and the chips update", width: 1422, height: 3000 },
+        happened: "The model did the budget math itself, so the result depended on the model.",
+        changed: "It now reads only the change. Code adds the $200 to the saved budget.",
+      },
+      {
+        principle: "Listen between the lines",
+        title: "Tell me about The Linden",
+        before: [
+          { from: "renter", text: "Tell me about The Linden" },
+          { from: "ai", text: "Searching for homes near Linden Ave…", flag: "bad" },
+        ],
+        after: { src: "/cases/unitpulse-site/chat/building.jpg", alt: "Asked about a building by name, the copilot answers about that building: room prices, lease terms, fees, parking and pet policy", width: 1422, height: 960 },
+        happened: "A building's name was read as a place to search near.",
+        changed: "The copilot checks every property name first, and code sends the question to that home.",
+      },
+      {
+        principle: "Move the conversation forward",
+        title: "Any bedrooms is fine",
+        before: [
+          { from: "ai", text: "Here are 3 homes.", chips: ["Raise my budget", "Any bedrooms"] },
+          { from: "renter", text: "Any bedrooms" },
+          { from: "ai", text: "Here are 3 homes.", flag: "bad" },
+        ],
+        after: [
+          { from: "ai", text: "I couldn't find any 2-bedroom rentals in Los Angeles under $1,200/mo right now.", chips: ["Widen budget by $200", "Remove bedroom filter"] },
+          { from: "event", text: "Each chip changes the filters in code" },
+        ],
+        happened: "Chips that relaxed a filter relied on the model to clear it, and it didn't always.",
+        changed: "Those chips were dropped. Relaxing now happens in code, from chips the renter taps.",
+      },
+      {
+        principle: "Control",
+        title: "Remove bedroom filter",
+        status: "One rough edge left",
+        before: [
+          { from: "renter", text: "Remove bedroom filter" },
+          { from: "ai", text: "Here are 2-bedroom homes in Los Angeles.", flag: "bad", chips: ["2 beds ×"] },
+        ],
+        after: { src: "/cases/unitpulse-site/chat/relaxed.jpg", alt: "After tapping Remove bedroom filter, the bedroom filter is gone and the copilot shows 20 homes in Los Angeles under $1,200", width: 1422, height: 1590 },
+        happened: "Tapping “Remove bedroom filter” left the filter in place.",
+        changed: "The page now clears the filter before the message goes out. One rough edge: the copilot can still ask about bedrooms once more.",
+      },
+      {
+        principle: "Listen between the lines",
+        title: "Can I keep a cat?",
+        status: "Open question",
+        before: [
+          { from: "renter", text: "Can I keep a cat?" },
+          { from: "ai", text: "Yes, cats are welcome here.", chips: ["Pet friendly ×"], flag: "bad" },
+        ],
+        after: { src: "/cases/unitpulse-site/chat/cat.jpg", alt: "Asked about cats while viewing a home, the copilot answers from that home's pet policy, and a Pet friendly filter appears in the composer", width: 1422, height: 1372 },
+        happened: "An earlier version turned a policy question into a Pet friendly filter. We fixed that.",
+        changed: "The current flow saves it again while you view a home. Whether a question should set a filter is still open.",
+      },
+    ]}
+  />
+
+</section>
+
 <section id="p4" data-reveal>
-  <PartHeader num="04" title="Designed to be found" />
+  <PartHeader num="05" title="Designed to be found" />
   <BodyText>
     Designing for the answer engine — not just the search engine — is
     **a bet most rental sites haven't made**.
@@ -440,7 +572,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
       {
         icon: "link",
         title: "Canonical, server-rendered",
-        body: "A `/state/city/slug` hierarchy with FAQPage + BreadcrumbList JSON-LD — Google-indexable and structured for an LLM to quote.",
+        body: "Every home gets one stable page that Google can index and an answer engine can quote.",
       },
       {
         icon: "quote",
@@ -450,19 +582,10 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
       {
         icon: "shield",
         title: "The chat stays out of the index",
-        body: "Ephemeral chat lives in a noindex /search space; legacy /property/[id] URLs 301-redirect to their canonical homes.",
+        body: "Chats stay private and out of search results; old links redirect to each home's page.",
       },
     ]}
   />
-
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-site/property-detail.jpg"
-      alt="A property detail page: a photo gallery, the home's name and address, studio-to-4-bed floor plans, pricing, a schedule-a-tour panel, and a neighborhood Q&A wall"
-      width={1728}
-      height={1084}
-    />
-  </ImageShowcase>
 
   {/* EXAMPLE VISUAL — token-built diagram of the canonical → cited architecture */}
   <ImageShowcase>
@@ -476,7 +599,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
 </section>
 
 <section id="p5" data-reveal>
-  <PartHeader num="05" title="Built & tested" />
+  <PartHeader num="06" title="Built & tested" />
   <SectionH small>Shipped in ~6 weeks</SectionH>
   <CardGrid
     label="How it shipped fast"
@@ -496,6 +619,21 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
         title: "Accessibility, baked in",
         body: "44pt touch targets on mobile, 36–40px on desktop, aria-labels on icon buttons — defaults, not retrofits.",
       },
+    ]}
+  />
+
+  <SectionH small>Where AI helped, and what I decided</SectionH>
+  {/* [REAL] Develop: s06 script (AI built prototypes / frontend changes).
+      Deliver: s42 (AI-assisted tests beside manual QA, not a full rerun of the
+      47 cases); 6 weeks + lost-context failure fixed by engineering (s41/s42).
+      Define: no AI claim (unconfirmed). Discover: AI first pass, then users validate the
+      unknowns and business-specific depth (Zhen 2026-10-09). */}
+  <ProcessStrip
+    steps={[
+      { label: "Discover", ai: "A fast first pass of research; users for the unknowns.", me: "Reviewed other search products and framed 3 ways renters start." },
+      { label: "Define", none: "No AI here.", me: "One home, from search to contact. Bulk tours, blogs and FAQ pages waited." },
+      { label: "Develop", ai: "Early working versions and frontend changes in code.", me: "The search behavior, lead capture and the visual system." },
+      { label: "Deliver", ai: "AI-assisted test scripts alongside manual QA.", me: "Shipped in 6 weeks; flagged a lost-context failure engineering fixed." },
     ]}
   />
 
@@ -551,7 +689,7 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
       {
         icon: "grid",
         title: "47 cases · 9 families · EN + ZH",
-        body: "Each runs in a fresh session, in both languages, judged on the routed `route_code` and node logs — not just the visible reply.",
+        body: "A historical suite in English and Chinese, each case judged on how the message was routed, not just the visible reply.",
       },
       {
         icon: "bars",
@@ -569,20 +707,41 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
   <ImageShowcase>
     <SiteTestMatrix />
   </ImageShowcase>
+
+  <SectionH small>The mistake we can't make, and its opposite</SectionH>
+  <CardGrid
+    cols={2}
+    label="The costliest mistakes, both ways"
+    items={[
+      {
+        icon: "shield",
+        eyebrow: "Can't happen",
+        title: "Steering by protected class",
+        body: "Checked before anything else. The copilot declines in 2 or 3 plain sentences, offers lawful criteria and clears every saved filter.",
+      },
+      {
+        icon: "balance",
+        eyebrow: "Can't happen either",
+        title: "Flagging an honest question",
+        body: "“Koreatown” is a place and “Is this area safe for families?” is a safety question. Neither is flagged, and area answers carry no crime or demographic data.",
+      },
+    ]}
+  />
 </section>
 
 <section id="p6" data-reveal>
-  <PartHeader num="06" title="Early traction — honest, not inflated" />
-  <SectionDeck>A ~6-week-old production rebuild, live and ramping. All figures measured in GSC / GA4 over the window 2026-05-05 → 06-23.</SectionDeck>
+  <PartHeader num="07" title="Early traction — honest, not inflated" />
+  <SectionDeck>A 6-week-old production rebuild, live and ramping.</SectionDeck>
+  {/* SOURCE (internal, not rendered): GSC / GA4, 2026-05-05 → 06-23 except
+      impressions (GSC, last 3 months) and users (GA4, trailing 30 days). */}
 
   <ResearchStats cols={2}>
     <Stat num="245" label="Pages indexed">
       <span class="item">from ~0 in ~6 weeks</span>
-      <span class="item">measured in GSC</span>
     </Stat>
     <Stat num="2.34K" label="Impressions · 134 clicks">
       <span class="item">5.7% CTR · avg position ~10.8</span>
-      <span class="item">GSC · last 3 months</span>
+      <span class="item">last 3 months</span>
     </Stat>
     <Stat num="96" label="Live leads captured">
       <span class="item">54 inquiry · 42 tour</span>
@@ -590,18 +749,39 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     </Stat>
     <Stat num="+55.6%" label="Users · trailing 30 days">
       <span class="item">1,045 users · 11,864 events</span>
-      <span class="item">+65.6% events · GA4</span>
+      <span class="item">+65.6% events</span>
     </Stat>
   </ResearchStats>
 
   <BodyText>
-    The honest framing: these are early numbers for a six-week rebuild. The point
-    isn't the magnitudes — it's that the architecture is live, indexing is climbing
-    from zero, the funnel is converting real leads, and the GEO bet is designed to
-    compound. Applications aren't flowing yet (0 in the window), and
+    These are early numbers for a 6-week rebuild. What matters is that the
+    architecture is live, indexing is climbing from zero, and the funnel is
+    converting real leads. Applications aren't flowing yet (0 in the window), and
     **I'd rather say that than dress it up**.
   </BodyText>
 
+  <SectionH small>What I'd hold it to</SectionH>
+  {/* Zhen 2026-10-08: no formal AI PRD. Measures tracked: AI share of
+      inquiry-to-tour conversations, messages per conversation, inquiries + tour
+      forms, conversion. Thresholds are [TARGET] proposals ("what I'd hold it
+      to"), never a June gate. Baselines: 96 accepted (54 + 42), May 5–Jun 23
+      [REAL]; messages per conversation not measured [CONFIRM]. Release checks:
+      historical 47-case suite; code-written replies are English-only (gap). */}
+  <ThresholdCards
+    items={[
+      { measure: "Inquiries and tour requests", today: "96 in the first 6 weeks: 54 inquiries, 42 tour requests", rule: "Track it as a rate per chat. If it drops 20% below its 4-week average, check the latest flow change first." },
+      { measure: "Messages to reach a request", today: "Not measured yet", rule: "If renters need more than about 8 messages to send one, revisit the intake form and the no-results replies." },
+    ]}
+    checks={[
+      { text: "A protected-class filter is never extracted, and a decline clears the saved filters.", state: "pass" },
+      { text: "No reply claims a tour is booked.", state: "pass" },
+      { text: "Replies come back in the renter's language. Text written by code is still English only.", state: "gap" },
+    ]}
+  />
+</section>
+
+<section id="rf" data-reveal>
+  <PartHeader num="08" title="Reflection" />
   <Reflection>
     <ReflectionCard label="On the bet" heading="Design for the answer engine, not just the search engine">
       The forward move was to build content an AI can cite, and to prove an
@@ -611,7 +791,19 @@ import RelatedCases from '../../components/showcase/RelatedCases.astro';
     <ReflectionCard label="On the discipline" heading="Make safety a tested requirement">
       The testing is the part I'd carry anywhere: define the intent space, automate
       the evaluation, read the logs, and treat Fair-Housing compliance as a
-      first-class thing you verify — not assume.
+      first-class thing you verify, not assume. It also taught me to test the
+      handoff between the interface and the AI flow. The answer can sound
+      reasonable while the product has lost the user's context.
+    </ReflectionCard>
+    <ReflectionCard label="On AI in my process" heading="Faster to try, same bar to ship">
+      AI helps me try ideas and build faster. I still need to define the
+      behavior, review the details, and test whether it works for the person
+      using it.
+    </ReflectionCard>
+    <ReflectionCard label="Open question" heading="Should a question set a filter?">
+      Here, asking “Does it allow dogs?” about the home you're viewing adds a Pet
+      friendly filter. In our leasing chat, asking adds nothing; only “I need
+      parking” does. I'd pick one rule and test it with renters.
     </ReflectionCard>
   </Reflection>
 

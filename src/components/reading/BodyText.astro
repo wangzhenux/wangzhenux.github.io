@@ -12,8 +12,8 @@
      inner <p> nest validly so the descendant rules actually match. */
   .body-text {
     font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.75;
+    font-size: var(--fs-body);
+    line-height: 1.7;
     color: var(--ink-secondary);
     max-width: none;
     margin: var(--space-5) 0;
@@ -21,7 +21,7 @@
   /* Flatten MDX's inner paragraph(s): the wrapper owns the outer spacing, and
      stacked paragraphs breathe via the adjacent-sibling rule. */
   .body-text :global(p) { margin: 0; }
-  .body-text :global(p + p) { margin-top: var(--space-4); }
+  .body-text :global(p + p) { margin-top: var(--space-5); }
   /* Marker-pen highlight on <strong> (§8.1). Default: thin amber underline.
      On hover: fills upward to a marker-style highlight. Reduced-motion is
      handled globally (kills the transition + shows the full marker). */

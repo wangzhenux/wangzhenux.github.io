@@ -1,8 +1,66 @@
 ---
-interface Props { label: string; heading: string; }
-const { label, heading } = Astro.props;
+/**
+ * One reflection: mono label, display heading, body. Optional `art` adds a
+ * small abstract illustration above the label that carries the statement:
+ *   - 'spec'     a spec page feeding a tidy grid of matching blocks, with the
+ *                drift it replaced fading behind (write it down, then build)
+ *   - 'recovery' a phone-menu path whose old dead end fades out while a solid
+ *                curve catches the call into voicemail (recover at the edges)
+ */
+interface Props { label: string; heading: string; art?: 'spec' | 'recovery'; }
+const { label, heading, art } = Astro.props;
 ---
 <div class="reflection-card">
+  {art && (
+    <div class="rc-art" aria-hidden="true">
+      {art === 'spec' && (
+        <svg viewBox="0 0 320 140" fill="none">
+          {/* the drift it replaced */}
+          <rect class="rc-ghost" x="170" y="22" width="34" height="30" rx="6" transform="rotate(-9 187 37)" />
+          <rect class="rc-ghost" x="250" y="88" width="38" height="28" rx="9" transform="rotate(7 269 102)" />
+          <rect class="rc-ghost" x="218" y="16" width="30" height="34" rx="3" transform="rotate(5 233 33)" />
+          {/* the spec */}
+          <rect class="rc-page" x="22" y="18" width="84" height="104" rx="8" />
+          <path class="rc-acc" d="M34 34h28" stroke-width="3" stroke-linecap="round" />
+          <path class="rc-ink" d="M34 48h56M34 58h48M34 68h54M34 78h38" stroke-width="2" stroke-linecap="round" />
+          <circle class="rc-dot-a" cx="40" cy="100" r="6" />
+          <circle class="rc-dot-b" cx="56" cy="100" r="6" />
+          <circle class="rc-dot-c" cx="72" cy="100" r="6" />
+          {/* then build */}
+          <path class="rc-acc" d="M118 70h30m-8-7l8 7-8 7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <g class="rc-blocks">
+            <rect x="164" y="34" width="40" height="32" rx="7" />
+            <rect x="212" y="34" width="40" height="32" rx="7" />
+            <rect x="260" y="34" width="40" height="32" rx="7" />
+            <rect x="164" y="74" width="40" height="32" rx="7" />
+            <rect x="212" y="74" width="40" height="32" rx="7" />
+            <rect x="260" y="74" width="40" height="32" rx="7" />
+          </g>
+          <path class="rc-acc" d="M172 50h18M220 50h22M268 50h14M172 90h22M220 90h14M268 90h20" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      )}
+      {art === 'recovery' && (
+        <svg viewBox="0 0 320 140" fill="none">
+          {/* the menu path */}
+          <path class="rc-ink" d="M24 56h168" stroke-width="2" />
+          <circle class="rc-node" cx="40" cy="56" r="9" />
+          <circle class="rc-node" cx="104" cy="56" r="9" />
+          <circle class="rc-node-edge" cx="176" cy="56" r="10" />
+          {/* 2 missed keypresses */}
+          <path class="rc-acc" d="M166 32l6 6m0-6l-6 6M182 32l6 6m0-6l-6 6" stroke-width="2" stroke-linecap="round" />
+          {/* the old dead end */}
+          <path class="rc-mute" d="M186 56h76" stroke-width="2" stroke-dasharray="4 5" />
+          <path class="rc-mute" d="M268 50l12 12m0-12l-12 12" stroke-width="2" stroke-linecap="round" />
+          {/* the recovery */}
+          <path class="rc-acc" d="M178 66c4 30 26 44 58 44" stroke-width="2.5" stroke-linecap="round" />
+          <rect class="rc-safe" x="234" y="94" width="66" height="32" rx="16" />
+          <circle class="rc-acc" cx="255" cy="110" r="5" stroke-width="2" />
+          <circle class="rc-acc" cx="279" cy="110" r="5" stroke-width="2" />
+          <path class="rc-acc" d="M255 115h24" stroke-width="2" />
+        </svg>
+      )}
+    </div>
+  )}
   <div class="label">{label}</div>
   <h3>{heading}</h3>
   <p><slot /></p>
@@ -25,9 +83,31 @@ const { label, heading } = Astro.props;
     font-weight: 500;
   }
   .reflection-card p {
-    font-size: 14px;
+    font-size: var(--fs-card);
     line-height: 1.65;
     color: var(--ink-secondary);
     margin: 0;
   }
+
+  /* --- optional illustration --- */
+  .rc-art {
+    margin-bottom: var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .rc-art svg { display: block; width: 100%; height: auto; }
+  .rc-ink { stroke: var(--ink-primary); }
+  .rc-acc { stroke: var(--accent); }
+  .rc-mute { stroke: var(--ink-quaternary); }
+  .rc-ghost { stroke: var(--ink-quaternary); stroke-width: 1.5; stroke-dasharray: 3 4; }
+  .rc-page { fill: var(--bg-primary); stroke: var(--rule); stroke-width: 1.5; }
+  .rc-dot-a { fill: var(--accent); }
+  .rc-dot-b { fill: var(--accent-medium); }
+  .rc-dot-c { fill: var(--ink-primary); }
+  .rc-blocks rect { fill: var(--bg-primary); stroke: var(--accent-medium); stroke-width: 1.5; }
+  .rc-node { fill: var(--ink-primary); }
+  .rc-node-edge { fill: var(--bg-primary); stroke: var(--accent); stroke-width: 2.5; }
+  .rc-safe { fill: var(--accent-soft); stroke: var(--accent-medium); stroke-width: 1.5; }
 </style>

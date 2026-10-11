@@ -1,0 +1,192 @@
+---
+/**
+ * A small, product-faithful chat vignette in the shipped UnitPulse Listing look:
+ * renter bubbles on the right, the assistant's plain replies on the left with
+ * optional next-step chips or a summary card, and centered system events. Used
+ * for reconstructed "before" states and short storyboard moments.
+ *
+ * Messages play in one by one when the vignette scrolls into view (in-view
+ * island). Without JS, or with reduced motion, the whole exchange simply shows.
+ * Colors come from the --mock-* product literals. Token-only CSS.
+ *
+ *   <ChatMock tag="Reconstructed from the fix" messages={[{ from: 'renter', text: '…' }, …]} />
+ */
+export interface ChatMsg {
+  from: 'renter' | 'ai' | 'agent' | 'event';
+  text: string;
+  chips?: string[];
+  card?: { title: string; meta?: string };
+  /** Marks the line the story turns on: `bad` = what went wrong, `good` = the fix. */
+  flag?: 'bad' | 'good';
+}
+interface Props {
+  messages: ChatMsg[];
+  /** Accessible name for the vignette. */
+  label?: string;
+  /** Small mono tag above the log, e.g. "Reconstructed from the fix". */
+  tag?: string;
+  compact?: boolean;
+}
+const { messages, label = 'Chat example', tag, compact = false } = Astro.props;
+const who: Record<ChatMsg['from'], string> = {
+  renter: 'Renter',
+  ai: 'Assistant',
+  agent: 'Leasing agent',
+  event: 'System',
+};
+---
+<figure class:list={['cm', compact && 'cm--compact']} data-inview aria-label={label}>
+  {tag && <span class="cm-tag">{tag}</span>}
+  <ol class="cm-log">
+    {messages.map((m, i) => (
+      <li
+        class:list={['cm-msg', `cm-msg--${m.from}`, m.flag && `cm-flag cm-flag--${m.flag}`]}
+        style={`--i: ${i}`}
+      >
+        {m.from === 'agent' && <span class="cm-who" aria-hidden="true">Agent</span>}
+        <p class="cm-text"><span class="cm-sr">{who[m.from]}: </span>{m.text}</p>
+        {m.card && (
+          <div class="cm-card">
+            <span class="cm-card-title">{m.card.title}</span>
+            {m.card.meta && <span class="cm-card-meta">{m.card.meta}</span>}
+          </div>
+        )}
+        {m.chips && m.chips.length > 0 && (
+          <ul class="cm-chips" aria-label="Suggested next steps">
+            {m.chips.map((c) => <li class="cm-chip">{c}</li>)}
+          </ul>
+        )}
+      </li>
+    ))}
+  </ol>
+</figure>
+<style>
+  .cm {
+    position: relative;
+    margin: 0;
+    padding: var(--space-5);
+    background: var(--mock-bg);
+    border: 1px solid var(--mock-rule);
+    border-radius: var(--radius-lg);
+    color: var(--mock-ink);
+    font-family: var(--font-body);
+  }
+  .cm-tag {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+    padding: var(--space-1) var(--space-2);
+    border: 1px dashed var(--mock-rule);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mock-muted);
+    background: var(--mock-surface);
+  }
+  .cm-log {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .cm-msg { display: flex; flex-direction: column; gap: var(--space-2); }
+  .cm-text { margin: 0; font-size: 14px; line-height: 1.5; }
+  .cm-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .cm-msg--renter {
+    align-self: flex-end;
+    max-width: 84%;
+    padding: var(--space-2) var(--space-3);
+    background: var(--mock-bubble);
+    border-radius: 14px 14px 4px 14px;
+  }
+  .cm-msg--ai { align-self: flex-start; max-width: 94%; }
+  .cm-msg--agent {
+    align-self: flex-start;
+    max-width: 84%;
+    padding: var(--space-2) var(--space-3);
+    background: var(--mock-surface);
+    border: 1px solid var(--mock-rule);
+    border-radius: 14px 14px 14px 4px;
+  }
+  .cm-who {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mock-green);
+  }
+  .cm-msg--event { align-self: center; }
+  .cm-msg--event .cm-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--mock-muted);
+    text-align: center;
+  }
+
+  /* The line the story turns on. */
+  .cm-flag--bad .cm-text {
+    text-decoration: underline wavy var(--mock-warn);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+  .cm-flag--good .cm-text {
+    text-decoration: underline var(--mock-green);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  .cm-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    background: var(--mock-surface);
+    border: 1px solid var(--mock-rule);
+    border-radius: 10px;
+  }
+  .cm-card-title { font-size: 13px; font-weight: 600; }
+  .cm-card-meta { font-size: 12px; color: var(--mock-muted); }
+  .cm-chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .cm-chip {
+    padding: var(--space-1) var(--space-3);
+    background: var(--mock-chip);
+    color: var(--mock-green);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .cm--compact { padding: var(--space-4); }
+  .cm--compact .cm-text { font-size: 13px; }
+  .cm--compact .cm-log { gap: var(--space-2); }
+
+  /* Motion: messages arrive one at a time once the vignette is in view. */
+  .cm-msg {
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    transition-delay: calc(var(--i, 0) * 0.42s + 0.15s);
+  }
+  :global(html.inview-armed) .cm:not(.is-in) .cm-msg {
+    opacity: 0;
+    transform: translateY(var(--space-2));
+  }
+</style>

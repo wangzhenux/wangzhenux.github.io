@@ -41,7 +41,7 @@ const { metric, heading } = Astro.props;
     line-height: 1.25;
   }
   .outcome-text p {
-    font-size: 14px;
+    font-size: var(--fs-card);
     line-height: 1.65;
     color: var(--ink-secondary);
     margin: 0;
@@ -51,5 +51,9 @@ const { metric, heading } = Astro.props;
   .outcome :global(.outcome-image) {
     grid-column: 1 / -1;
     margin-top: var(--space-6);
+  }
+  /* Metric above the text on mobile. */
+  @media (max-width: 767px) {
+    .outcome { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-5); }
   }
 </style>
