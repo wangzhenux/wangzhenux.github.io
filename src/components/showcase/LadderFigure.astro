@@ -5,9 +5,9 @@
  * row of nodes joined by arrows: people, the AI, fallbacks (dashed) and ends.
  * A lane can carry a status chip ("In progress") and a side branch line.
  *
- * Motion (in-view island): lanes light up one after another and a call pulse
- * runs each lane's connector once; AI nodes keep a slow breathing ring. Static
- * without JS / with reduced motion. Lanes stack, nodes wrap, on phones.
+ * Motion (in-view island): lanes light up one after another, nodes left to
+ * right. Static without JS / with reduced motion. Lanes stack, nodes wrap, on
+ * phones.
  * Token-only CSS.
  *
  *   <LadderFigure lanes={[{ label: 'Every call', nodes: [{ label: 'On-duty agent', kind: 'person' }, …] }]} />
@@ -94,7 +94,6 @@ const kindText: Record<Kind, string> = { person: 'Person', ai: 'AI', fallback: '
     margin: 0;
     padding: 0;
     position: relative;
-    /* Fit the row so the call pulse ends at the last node, not the column edge. */
     width: fit-content;
     max-width: 100%;
     display: flex;
@@ -161,40 +160,11 @@ const kindText: Record<Kind, string> = { person: 'Person', ai: 'AI', fallback: '
   .lf-swatch--ai { background: var(--accent-soft); border-color: var(--accent); }
   .lf-swatch--fallback { border-style: dashed; border-color: var(--ink-tertiary); }
 
-  /* motion: lanes light up in order, nodes left to right, a pulse runs each lane */
+  /* motion: lanes light up in order, nodes left to right */
   .lf-node { transition: opacity 0.45s ease, transform 0.45s ease; transition-delay: calc(var(--i) * 0.5s + var(--j) * 0.16s); }
   .lf-head, .lf-branch { transition: opacity 0.45s ease; transition-delay: calc(var(--i) * 0.5s); }
   :global(html.inview-armed) .lf:not(.is-in) .lf-node { opacity: 0; transform: translateX(calc(-1 * var(--space-3))); }
   :global(html.inview-armed) .lf:not(.is-in) :is(.lf-head, .lf-branch) { opacity: 0; }
-  .lf-nodes::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 8px;
-    height: 8px;
-    margin-top: calc(-1 * var(--space-1));
-    border-radius: 50%;
-    background: var(--accent);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
-  }
-  :global(html.inview-armed) .lf.is-in .lf-nodes::before {
-    animation: lf-run 1.6s cubic-bezier(0.45, 0, 0.2, 1) both;
-    animation-delay: calc(var(--i) * 0.5s + 0.4s);
-  }
-  @keyframes lf-run {
-    0% { left: 0%; opacity: 0; }
-    12% { opacity: 1; }
-    88% { opacity: 1; }
-    100% { left: 100%; opacity: 0; }
-  }
-  :global(html.inview-armed) .lf.is-in .lf-node--ai { animation: lf-breathe 2.8s ease-in-out 2s infinite; }
-  @keyframes lf-breathe {
-    0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
-    50% { box-shadow: 0 0 0 6px var(--accent-soft); }
-  }
 
   @media (max-width: 760px) {
     .lf-lane { grid-template-columns: 1fr; }
@@ -207,6 +177,5 @@ const kindText: Record<Kind, string> = { person: 'Person', ai: 'AI', fallback: '
       height: var(--space-4);
       background: linear-gradient(180deg, var(--ink-tertiary) 70%, transparent 70%) 0 0 / 2px 8px repeat-y;
     }
-    .lf-nodes::before { display: none; }
   }
 </style>

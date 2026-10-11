@@ -14,7 +14,7 @@
  *   - `wide`  break out of the column to up to 1200px (for strips with shots)
  *
  * Motion (in-view island): the rule draws left to right, nodes pop in stage by
- * stage, a pulse travels the line once, then exits and lanes settle in. Static
+ * stage, then exits and lanes settle in. Static
  * and fully visible without JS or with reduced motion. Stacks vertically on
  * phones. Token-only CSS.
  *
@@ -359,29 +359,6 @@ const pad = (n: number) => String(n).padStart(2, '0');
     transform: translateY(var(--space-2));
   }
   :global(html.inview-armed) .sf:not(.is-in) :is(.sf-rails, .sf-loop, .sf-legend) { opacity: 0; }
-  /* A single pulse travels the rule once the strip is in. */
-  .sf-grid::after {
-    content: '';
-    position: absolute;
-    top: calc(-1 * var(--space-1));
-    left: 0;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--accent);
-    opacity: 0;
-    pointer-events: none;
-  }
-  :global(html.inview-armed) .sf.is-in .sf-grid::after {
-    animation: sf-travel 1.8s cubic-bezier(0.45, 0, 0.2, 1) calc(var(--sf-n) * 0.12s + 0.3s) 1 both;
-  }
-  @keyframes sf-travel {
-    0% { left: 0%; opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { left: 100%; opacity: 0; }
-  }
-
   /* --- phones: stages stack down a vertical rule --- */
   @media (max-width: 760px) {
     .sf-grid { grid-template-columns: 1fr; grid-template-rows: none; row-gap: var(--space-6); }
@@ -402,6 +379,5 @@ const pad = (n: number) => String(n).padStart(2, '0');
     .sf-exit--none, .sf-cell--empty, .sf-shot--none { display: none; }
     .sf-shot { max-width: 360px; }
     .sf-col:not(:first-child) .sf-cell-lab { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
-    .sf-grid::after { display: none; }
   }
 </style>

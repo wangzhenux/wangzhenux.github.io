@@ -30,6 +30,8 @@ interface Card {
   changed: string;
   /** Optional status chip, e.g. "Open question", "In progress". */
   status?: string;
+  /** The story happens on a phone call: both sides read as call transcripts. */
+  call?: boolean;
 }
 interface Props {
   cards: Card[];
@@ -55,7 +57,7 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
           <div class="bk-pair">
             <div class="bk-side">
               <span class="bk-side-lab">Before</span>
-              <ChatMock messages={c.before} tag={beforeTag} compact label={`Before: ${c.title}`} />
+              <ChatMock messages={c.before} tag={c.call ? 'Reconstructed' : beforeTag} compact call={c.call} label={`Before: ${c.title}`} />
             </div>
             <span class="bk-arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -63,7 +65,7 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
             <div class="bk-side">
               <span class="bk-side-lab bk-side-lab--after">After</span>
               {Array.isArray(c.after) ? (
-                <ChatMock messages={c.after} compact label={`After: ${c.title}`} />
+                <ChatMock messages={c.after} compact call={c.call} label={`After: ${c.title}`} />
               ) : (
                 <figure class="bk-shot" data-zoomable>
                   <img src={c.after.src} alt={c.after.alt} width={c.after.width} height={c.after.height} loading="lazy" decoding="async" />

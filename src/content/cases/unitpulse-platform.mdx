@@ -25,7 +25,7 @@ card:
   logoAlt: "Tripalink"
   logoScale: 1.3
   frame: laptop
-team: "PMs & engineering across the platform"
+team: "Engineering across the platform · no PM, so I also wore the PM hat"
 span: "Since Feb 2026"
 outcome:
   metric: "821 → 400 → 59"
@@ -464,15 +464,17 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         principle: "Hand-off to a person",
         title: "Can I talk to someone?",
         status: "Live connect in progress",
+        call: true,
         before: [
           { from: "renter", text: "Can I talk to someone?" },
           { from: "ai", text: "Transferring you now…" },
           { from: "event", text: "No one on the team picks up", flag: "bad" },
         ],
         after: [
+          { from: "renter", text: "Can I talk to someone?" },
           { from: "ai", text: "I can have the leasing team call you back. Is this the best number?" },
           { from: "renter", text: "Yes, this number." },
-          { from: "event", text: "Callback filed · Need-reply task · email to the on-duty agent", flag: "good" },
+          { from: "event", text: "Callback filed", flag: "good", items: [{ icon: "task", text: "Need-reply task for the team" }, { icon: "mail", text: "Email to the on-duty agent" }] },
         ],
         happened: "The client's leasing team was short-staffed, so a live transfer would often ring nobody.",
         changed: "With the client, I made a consented callback the hand-off. Connecting live, for routes with people on duty, came later.",
@@ -545,7 +547,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       },
       {
         src: "/cases/unitpulse-platform/mobile/phone-sms.jpg",
-        alt: "An SMS thread: the AI books a Saturday tour, then the agent picks up a move-in special question from the field, with call, note and schedule actions",
+        alt: "An SMS thread: the AI books a Saturday tour, then the agent picks up a move-in special question from the field",
         caption: "Message and call from the field",
         width: 1206,
         height: 2622,
@@ -880,7 +882,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       weekly releases through a staged merge (s16). Discover: no AI claim. */}
   <ProcessStrip
     steps={[
-      { label: "Discover", none: "People first: I start from customer and manager feedback.", me: "Customer feedback drove the merge; 3 manager conversations shaped For You." },
+      { label: "Discover", ai: "A fast first pass of research.", me: "Users for depth: customer feedback drove the merge; 3 manager conversations shaped For You." },
       { label: "Define", ai: "design.md: the rules, written once, for the team and AI coding tools.", me: "Navigation, access states and interaction rules." },
       { label: "Develop", ai: "Boards in Claude Design, and frontend changes with AI coding tools.", me: "The behavior, and every detail I review." },
       { label: "Deliver", ai: "A frontend change co-authored with AI, in a pull request.", me: "Weekly releases through a staged merge, then changes from manager feedback." },
