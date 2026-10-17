@@ -9,12 +9,13 @@ interface Props {
   eyebrow: string;
   title: string;
   deck: string;
+  companyNote?: string;
   cover: CoverProps;
   metaFields: MetaField[];
 }
-const { eyebrow, title, deck, cover, metaFields } = Astro.props;
+const { eyebrow, title, deck, companyNote, cover, metaFields } = Astro.props;
 ---
-<header class="hero">
+<header class:list={['hero', { 'has-company-note': companyNote }]}>
   {/* Whole hero is contained in the shared content frame — text, cover, and
       meta all share the same x-padding as the homepage / back link / body.
       The cover keeps a gutter on the left/right and rounded corners. */}
@@ -22,6 +23,7 @@ const { eyebrow, title, deck, cover, metaFields } = Astro.props;
     <p class="hero-eyebrow">{eyebrow}</p>
     <h1 class="hero-title">{title}</h1>
     <p class="hero-deck">{deck}</p>
+    {companyNote && <p class="hero-company-note">{companyNote}</p>}
     <div class="hero-cover"><Cover {...cover} /></div>
     <MetaStrip fields={metaFields} />
   </Container>
@@ -67,9 +69,26 @@ const { eyebrow, title, deck, cover, metaFields } = Astro.props;
   .hero-cover {
     margin-bottom: var(--space-8);
   }
+  .hero.has-company-note .hero-deck {
+    margin-bottom: var(--space-3);
+  }
+  .hero-company-note {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink-tertiary);
+    text-align: center;
+    text-wrap: balance;
+    max-width: 70ch;
+    margin: 0 auto var(--space-7);
+  }
   @media (max-width: 767px) {
     .hero-deck {
       margin-bottom: var(--space-8);
+    }
+    .hero-company-note {
+      margin-bottom: var(--space-6);
     }
   }
 </style>
