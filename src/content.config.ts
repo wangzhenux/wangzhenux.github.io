@@ -48,6 +48,7 @@ export const caseSchema = z.object({
 
   // === OPTIONAL — include only the fields the case actually has ===
   company: z.string().optional(),
+  companyNote: z.string().optional(),
   team: z.string().optional(),
   span: z.string().optional(),
   outcome: z
