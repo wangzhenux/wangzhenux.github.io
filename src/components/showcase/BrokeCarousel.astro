@@ -146,6 +146,11 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
     row-gap: var(--space-4);
     padding: var(--space-7);
   }
+  /* Several single stories in a row read as one band: no page-colored gap
+     between them, and one card gap instead of two band paddings. (`~`, not
+     `+`, because the component's script can render between instances.) */
+  .bk--single:has(~ .bk--single) { margin-bottom: 0; padding-bottom: 0; }
+  .bk--single ~ .bk--single { margin-top: 0; padding-top: var(--space-6); }
   .bk--single .bk-eyebrow { grid-area: eyebrow; }
   .bk--single .bk-title { grid-area: title; }
   .bk--single .bk-pair { grid-area: pair; align-self: center; }

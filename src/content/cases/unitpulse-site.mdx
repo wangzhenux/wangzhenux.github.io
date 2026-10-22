@@ -35,42 +35,60 @@ meta:
 sections:
   - { id: ctx, num: "00", label: "Context" }
   - { id: p1, num: "01", label: "The problem" }
-  - { id: p2, num: "02", label: "3 ways in" }
-  - { id: p3, num: "03", label: "One search, two modes" }
-  - { id: cw, num: "04", label: "How it talks" }
+  - { id: p2, num: "02", label: "One search" }
+  - { id: cw, num: "03", label: "The conversation" }
+  - { id: fh, num: "04", label: "Fair Housing" }
   - { id: p4, num: "05", label: "Designed to be found" }
-  - { id: p5, num: "06", label: "Built & tested" }
-  - { id: p6, num: "07", label: "Results" }
-  - { id: rf, num: "08", label: "Reflection" }
+  - { id: p6, num: "06", label: "Results" }
+  - { id: rf, num: "07", label: "Reflection" }
 ---
 
 import BodyText from '../../components/reading/BodyText.astro';
 import SectionH from '../../components/reading/SectionH.astro';
 import SectionDeck from '../../components/reading/SectionDeck.astro';
-import Pullquote from '../../components/reading/Pullquote.astro';
+import MoreDetail from '../../components/reading/MoreDetail.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
-import ShowcaseCarousel from '../../components/showcase/ShowcaseCarousel.astro';
+import ShowcaseVideo from '../../components/showcase/ShowcaseVideo.astro';
 import Bento from '../../components/showcase/Bento.astro';
 import CardGrid from '../../components/showcase/CardGrid.astro';
-import PersonaGrid from '../../components/showcase/PersonaGrid.astro';
 import CompetitorGrid from '../../components/showcase/CompetitorGrid.astro';
 import PartHeader from '../../components/showcase/PartHeader.astro';
-import JourneyStrip from '../../components/showcase/JourneyStrip.astro';
 import RoleChips from '../../components/showcase/RoleChips.astro';
 import SiteGeoArch from '../../components/showcase/SiteGeoArch.astro';
 import SiteTestMatrix from '../../components/showcase/SiteTestMatrix.astro';
 import ResearchStats from '../../components/data/ResearchStats.astro';
 import Stat from '../../components/data/Stat.astro';
-import Dual from '../../components/data/Dual.astro';
 import Reflection from '../../components/showcase/Reflection.astro';
 import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
 import RelatedCases from '../../components/showcase/RelatedCases.astro';
 import StageFlow from '../../components/showcase/StageFlow.astro';
-import StoryBlocks from '../../components/showcase/StoryBlocks.astro';
 import BrokeCarousel from '../../components/showcase/BrokeCarousel.astro';
-import ProcessStrip from '../../components/showcase/ProcessStrip.astro';
 import CompareTable from '../../components/data/CompareTable.astro';
-import ThresholdCards from '../../components/data/ThresholdCards.astro';
+
+{/*
+  ══════════ RESTRUCTURE (2026-10-22, portfolio review) ══════════
+  Cut from 9 parts to 8, and from ~3,300 words to about half, around one
+  spine: conversation and filters on one shared state. No new claims; copy is
+  reworded from the previous version. Part numbers in the notes block below
+  refer to the OLD structure.
+
+  Moved out of the page (restore from git history, commit before this one):
+  - PersonaGrid "3 ways in" (AI-generated faces, design reasoning not
+    research) → one paragraph in The problem.
+  - "The problem in three" CardGrid → prose. JourneyStrip. Pullquote.
+  - "Five decisions" ShowcaseCarousel → the shared-state video plus a plain
+    list (the 4 other clips were 1.4 s each; mp4s and posters still on disk).
+  - StoryBlocks ("What renters say", "A trade we made on purpose") — they
+    repeated the fix stories. The trade lives on as the reflection question.
+  - BrokeCarousel cut from 6 cards to 3, each shown as a single static story.
+  - GEO CardGrid → prose. "Shipped in ~6 weeks" CardGrid, ProcessStrip, lead
+    capture CardGrid + inquire/tour modals (Dual), test CardGrid,
+    ThresholdCards, and 2 of 4 reflection cards.
+  - Wording: removed "never claim it", "named honestly", "honest, not
+    inflated", "I'd rather say that than dress it up", most em-dashes and
+    "X, not Y" lines.
+  ════════════════════════════════════════════════════════════════
+*/}
 
 {/*
   ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
@@ -146,7 +164,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         image: "/cases/unitpulse-site/bento-conversational.png",
         imageAlt: "The conversational welcome — \"Elite long-term rentals, found by conversation\" with a chat box, structured filter chips, and example prompts",
         title: "Conversational home search",
-        body: "An assistant that turns a vague need — \"walkable to USC, dog-friendly, under $2,500\" — into real listings on the map. Grounded on live inventory, so it never invents a home.",
+        body: "An assistant that turns a vague need, like \"walkable to USC, dog-friendly, under $2,500\", into real listings on the map. It only shows homes from live inventory, so it never invents one.",
       },
       {
         image: "/cases/unitpulse-site/bento-intake.png",
@@ -176,8 +194,8 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   />
   <SectionH small>What I owned</SectionH>
   <BodyText>
-    Engineering owned the server-rendered scaffold and data layer; I built the renter
-    surface on top of it — and **never claim it**.
+    Engineering owned the server-rendered scaffold and the data layer. I
+    designed and built the renter experience on top of them.
   </BodyText>
   <RoleChips
     mine={[
@@ -195,83 +213,31 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p1" data-reveal>
-  <PartHeader num="01" title="The problem" />
+  <PartHeader num="01" title="Invisible where renters start" />
   <BodyText>
-    A renter's search no longer starts in Google — it starts in a chat, **often
-    answered before anyone clicks**. The old site couldn't be found in either place: a
-    client-only SPA, invisible to search engines and answer engines alike. The fix
-    was a harder design problem than a redesign.
-  </BodyText>
-  <SectionH small>The problem in three</SectionH>
-  <CardGrid
-    label="The problem in three"
-    items={[
-      {
-        icon: "eyeoff",
-        title: "Invisible to search & AI",
-        body: "A client-only SPA — nothing server-rendered for Google or an answer engine to read.",
-      },
-      {
-        icon: "spark",
-        title: "Renters start in a chat",
-        body: "Search now begins in answer engines, not only Google — and a site that can't be cited there is invisible to a growing slice of demand.",
-      },
-      {
-        icon: "balance",
-        title: "The tension to design around",
-        body: "Keep the experience rich and app-like, yet fully indexable and citable — without the ephemeral chat polluting the index.",
-      },
-    ]}
-  />
-</section>
+    A renter's search often starts in a chat now, and gets answered before
+    anyone clicks. The old UnitPulse site couldn't show up there or in Google:
+    it was a client-only single-page app, with nothing server-rendered for a
+    search engine or an answer engine to read. The rebuild had to stay rich and
+    app-like, make every home a page that could be indexed and quoted, and keep
+    the chats themselves out of the index.
 
-<section id="p2" data-reveal>
-  <PartHeader num="02" title="3 ways in" />
-  <BodyText>
-    Before designing the search, I mapped how people start looking for a home.
-    3 starting points shaped the design, and **they want different things**.
+    Renters also arrive in different states. Some know their budget,
+    neighborhood and move-in date, and want filters and a map. Some know the
+    vibe of a place but not the specifics. Some are down to a few homes and want
+    answers about one of them: the commute, the schools, the walk.
     {/* Design reasoning, not research (Zhen 2026-10-08): claim no interviews. */}
   </BodyText>
-  <SectionH small>3 starting points</SectionH>
-  <PersonaGrid
-    label="Three kinds of renters"
-    personas={[
-      {
-        avatar: "a",
-        image: "/cases/unitpulse-site/personas/decisive.jpg",
-        name: "The decisive renter",
-        who: "Relocating on a timeline; knows the essentials.",
-        traits: ["Set budget", "Target neighborhood", "Move-in date"],
-        needs: "Filters and a map — fast, precise, no conversation.",
-      },
-      {
-        avatar: "b",
-        image: "/cases/unitpulse-site/personas/explorer.jpg",
-        name: "The open explorer",
-        who: "First place in a new city; knows the vibe, not the specifics.",
-        traits: ["Fuzzy criteria", "Lifestyle-led", "Open on area"],
-        needs: "Conversation that turns \"walkable and lively\" into real listings.",
-      },
-      {
-        avatar: "c",
-        image: "/cases/unitpulse-site/personas/shortlister.jpg",
-        name: "The shortlister",
-        who: "Down to a few homes, comparing the details.",
-        traits: ["Specific questions", "Comparing", "Close to deciding"],
-        needs: "Answers about one place — commute, schools, walkability.",
-      },
-    ]}
-  />
 
   <SectionH small>How rental search works today</SectionH>
   <BodyText>
-    By the time I shipped, conversational search had become **table stakes** — Zillow,
-    Apartments.com, and Redfin all launched it in 2025–26. So I evaluated each on the
-    three axes this rebuild competes on.
+    By the time I shipped, Zillow, Apartments.com and Redfin had all launched
+    conversational search. I rated each on the three things this rebuild
+    competes on.
   </BodyText>
-  {/* ‹C-competitive› Ratings are my read of each product (incl. the screenshots) + a web check (Jun 2026); verify before publish. Drop real captures into competitors/{zillow,apartments,redfin}.png. */}
+  {/* ‹C-competitive› Ratings are my read of each product (incl. the screenshots) + a web check (Jun 2026); verify before publish. */}
   <CompetitorGrid
-    label="Competitive landscape — AI chat, unified control, AI-citability"
+    label="Competitive landscape: AI chat, unified control, AI-citability"
     dimensions={["AI chat", "Unified control", "AI-citable"]}
     competitors={[
       {
@@ -280,7 +246,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         image: "/cases/unitpulse-site/competitors/zillow-crop.jpg",
         imageAlt: "Zillow search with bedroom / bathroom filters and AI natural-language search",
         levels: [3, 2, 1],
-        summary: "Natural-language search, an \"AI mode\" beta, and a ChatGPT integration — the deepest AI stack. But filters and chat stay separate modes, and pages aren't built for organic citation.",
+        summary: "Natural-language search, an \"AI mode\" beta and a ChatGPT integration make it the deepest AI stack. But filters and chat stay separate modes, and pages aren't built for organic citation.",
       },
       {
         name: "Apartments.com",
@@ -288,7 +254,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         image: "/cases/unitpulse-site/competitors/apartments-crop.jpg",
         imageAlt: "Apartments.com Ai conversational and voice search refining results",
         levels: [3, 2, 1],
-        summary: "Voice + chat \"Smart Search\" (sitewide Jan 2026) drives big engagement lifts — but it's a guided refine layered on the portal, not unified with the filters.",
+        summary: "Voice and chat \"Smart Search\" (sitewide Jan 2026) drives big engagement lifts, but it's a guided refine layered on the portal and stays separate from the filters.",
       },
       {
         name: "Redfin",
@@ -296,103 +262,54 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         image: "/cases/unitpulse-site/competitors/redfin-crop.jpg",
         imageAlt: "Redfin AI Search — a step-by-step conversational Q&A",
         levels: [3, 1, 1],
-        summary: "Sierra-built AI Search replaces filters with pure chat — a linear Q&A. Fluid, but you lose the at-a-glance control precise renters rely on.",
+        summary: "Sierra-built AI Search replaces filters with a linear chat Q&A. It feels fluid, but precise renters lose the at-a-glance control they rely on.",
       },
     ]}
   />
   <BodyText>
-    The key finding: AI chat is everywhere now, but it's mostly bolted on as a
-    chat-only Q&A — renters lose the fast, structured control they rely on. No one
-    **fuses conversation and filters on one shared state**, and no one structures their
-    pages to be cited by answer engines. That's the opening this rebuild is built for.
+    Chat was everywhere, but mostly bolted on as a separate Q&A, and renters
+    lost the fast, structured control they rely on. Nobody kept **conversation
+    and filters on one shared state**, and nobody structured their pages to be
+    cited by answer engines.
   </BodyText>
-  <Pullquote>
-    Two kinds of renters, one missing interface: nobody lets you start vague, get
-    precise, and keep asking — all on the same canvas.
-  </Pullquote>
 </section>
 
-<section id="p3" data-reveal>
-  <PartHeader num="03" title="One search, two modes" />
+<section id="p2" data-reveal>
+  <PartHeader num="02" title="One search, two ways in" />
   <BodyText>
-    So I designed the two models as one. Conversational handles intent; faceted
-    handles precision; both write to a single shared state, so they can
-    **never drift apart or contradict** each other.
+    So I designed the two modes as one. The conversation handles intent, the
+    filters handle precision, and both write to a single shared state, so the
+    chat, the filter chips and the map can't disagree. To ship in about six
+    weeks, I scoped it to one home, from search to contact. Bulk tours, blogs
+    and FAQ pages waited.
   </BodyText>
-
-  <SectionH small>The renter journey I designed for</SectionH>
-  <JourneyStrip
-    label="The minimum viable renter journey"
-    steps={[
-      { label: "Search", desc: "A place or a need, in your own words" },
-      { label: "Browse", desc: "Map split-view + a live listing grid" },
-      { label: "Detail", desc: "Floor plans, amenities, neighborhood Q&A" },
-      { label: "Act", desc: "Inquire or schedule a tour" },
-    ]}
+  <ShowcaseVideo
+    src="/cases/unitpulse-site/shared-state.mp4"
+    poster="/cases/unitpulse-site/shared-state-poster.jpg"
+    label="The unified search: typing in the chat, tapping a chip and changing a filter all update one shared state that drives the result list and the live map with price pins"
+    width={2160}
+    height={1216}
   />
+  <BodyText>
+    Four smaller decisions make the shared state easy to steer:
 
-  <SectionH small>Five decisions, one interface</SectionH>
-  {/* Each slide carries a real demo clip; until a screenshot is dropped in, the label renders a placeholder. */}
-  <ShowcaseCarousel
-    label="How I resolved it — five design decisions, each visible in the product"
-    slides={[
-      {
-        eyebrow: "01",
-        title: "Guided intake, inside the conversation",
-        label: "In-conversation intake card — '1/3 · must-have amenities?' with checkboxes, Skip / Next",
-        video: "/cases/unitpulse-site/intake-card.mp4",
-        poster: "/cases/unitpulse-site/intake-card-poster.jpg",
-        imageAlt: "The in-conversation intake card asking '1 of 3 — must-have amenities?' with checkboxes and Skip / Next controls",
-        body: "When the assistant is missing a structured preference, it renders an inline stepped card — checkboxes, Skip, Next — collecting structured data without forcing free-typing, and letting renters skip what they don't care about.",
-      },
-      {
-        eyebrow: "02",
-        title: "Embedded, editable filters in the chat",
-        label: "Results — editable summary + removable filter chips + live map price pins",
-        video: "/cases/unitpulse-site/editable-filters.mp4",
-        poster: "/cases/unitpulse-site/editable-filters-poster.jpg",
-        imageAlt: "The results view: an editable preference summary and removable filter chips in the chat composer, with price pins on the live map",
-        body: "The assistant's understanding shows as an editable summary (\"Where / Budget / Must-have … Edit\") and as removable chips in the composer — one tap to drop \"pet friendly.\" Changing a constraint is instant; no re-typed sentence.",
-      },
-      {
-        eyebrow: "03",
-        title: "Traditional controls, kept",
-        label: "Price · Beds · Filters · Sort sitting above the results grid",
-        video: "/cases/unitpulse-site/traditional-controls.mp4",
-        poster: "/cases/unitpulse-site/traditional-controls-poster.jpg",
-        imageAlt: "Price, Beds, Filters, and Sort controls sitting above the results grid, writing back into the same shared state as the conversation",
-        body: "Price, Beds, Filters, and Sort still sit above the results for power users — and they write back into the same shared state the conversation uses.",
-      },
-      {
-        eyebrow: "04",
-        title: "Relevant follow-ups",
-        label: "Suggested next narrowings beneath a result set",
-        video: "/cases/unitpulse-site/follow-ups.mp4",
-        poster: "/cases/unitpulse-site/follow-ups-poster.jpg",
-        imageAlt: "Suggested next-narrowing prompts beneath a result set — narrow by budget, bedrooms, amenities, or move-in date",
-        body: "After a result set, the assistant suggests the next useful narrowing — narrow by budget, bedrooms, amenities, or move-in date — guiding, never dead-ending.",
-      },
-      {
-        eyebrow: "05",
-        title: "One shared state, two ways in",
-        label: "Chat, filters, and the live map driven by one source of truth, with price pins",
-        video: "/cases/unitpulse-site/shared-state.mp4",
-        poster: "/cases/unitpulse-site/shared-state-poster.jpg",
-        bg: "linear-gradient(180deg, #1a4534 0%, rgba(26, 69, 52, 0.75) 100%)",
-        imageAlt: "The unified search: a conversational welcome panel (I know my city / Match my lifestyle / Just exploring) with a chat input on the left, and a live map on the right — both driven by one shared state.",
-        body: "Typing, tapping a chip, or moving a filter all update one source of truth that drives both the result list and the live map (\"homes appear as we talk,\" price pins on the map) — so the two modes can never drift apart.",
-      },
-    ]}
-  />
-
+    - When a must-have is missing, the assistant shows a short stepped card
+      inside the chat, and every step can be skipped.
+    - What it understood appears as an editable summary and as removable chips
+      in the composer, so dropping "pet friendly" is one tap.
+    - Price, Beds, Filters and Sort still sit above the results for people who
+      prefer them, and they write to the same state as the chat.
+    - After each result set, it suggests the next useful narrowing (budget,
+      bedrooms, amenities or move-in date), so a search doesn't dead-end.
+  </BodyText>
 </section>
 
 <section id="cw" data-reveal>
-  <PartHeader num="04" title="How the conversation works" />
+  <PartHeader num="03" title="How the conversation works" />
   <BodyText>
     Renters don't search in fields. They say what they want, change their mind
-    halfway, and ask about the home in front of them. **The copilot has to keep
-    up with all of that** and still land on a real next step.
+    halfway, and ask about the home in front of them. The copilot has to keep
+    up and still land on a real next step.
   </BodyText>
 
   <SectionH small>From filters to a conversation you can steer</SectionH>
@@ -403,86 +320,39 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       { head: "Context-aware", a: "Every change starts over from the form.", b: "It remembers your filters and the home you're viewing. “Widen by $200” edits the saved budget." },
       { head: "Speaks your language", a: "You translate what you need into fields.", b: "One message fills several: “2b2b under $3,000, move in Aug 23.”" },
       { head: "Relevant to you", a: "Every listing, every field, every time.", b: "Questions about one home are answered from that home's own data, in a few sentences." },
-      { head: "Honest when nothing fits", a: "“0 results.”", b: "It says so in your terms and offers up to 3 one-tap ways to widen. It never loosens a filter on its own." },
+      { head: "Clear when nothing fits", a: "“0 results.”", b: "It says so in your terms and offers up to 3 one-tap ways to widen. It never loosens a filter on its own." },
       { head: "Built for action", a: "A contact form at the bottom of the page.", b: "Ask to tour and the form opens in the chat. It never says a tour is booked." },
     ]}
   />
 
-  <SectionH small>6 steps behind every reply</SectionH>
   {/* [REAL] v3 flow ("UP-Website-prod Leasing Copilot v3"): 94 nodes; 13 of 57
       AI + code steps are model steps (10 LLM + 3 extractors). 9 intents, fair
       housing is decision step 0; intake gate runs before the router. */}
-  <StageFlow
-    label="How the copilot builds each reply"
-    steps={[
-      { label: "Listen", desc: "Reads the message with what it already knows.", tag: "code" },
-      { label: "Collect", desc: "A model reads the new message; code merges it into your filters.", tag: "mixed", exit: "Essentials missing → one short, skippable form" },
-      { label: "Route", desc: "Sorts it into 1 of 9 intents.", tag: "mixed", badge: "Fair housing first", exit: "Protected-class request → a plain decline, filters cleared" },
-      { label: "Act", desc: "Searches, answers from one home's data, compares, or opens a form.", tag: "code" },
-      { label: "Reply", desc: "A short answer and up to 3 next steps.", tag: "mixed" },
-      { label: "Remember", desc: "Saves filters and history for the next turn.", tag: "code" },
-    ]}
-    legend
-    caption="Simplified from 94 production steps. A model runs 13 of them."
-  />
-
-  <SectionH small>What renters say, and what they mean</SectionH>
-  <StoryBlocks
-    label="Four moments from the live copilot"
-    blocks={[
-      {
-        principle: "Context",
-        quote: "Can you go $200 higher on my budget?",
-        happened: "Mid-search, the renter nudges one thing instead of starting over.",
-        designed: "The model reads the change, code adds it to the saved budget, and the chat, chips and map move together.",
-        image: { src: "/cases/unitpulse-site/chat/context.jpg", alt: "The live copilot after the renter asks to go $200 higher: the summary now reads Budget under $3,200, the filter chips update, and the map shows the matching homes", width: 2880, height: 1800 },
-      },
-      {
-        principle: "Listen between the lines",
-        quote: "I also have a dog.",
-        happened: "Viewing a home, it's a question about that home. Browsing, “pet-friendly” starts a search.",
-        designed: "Routing reads the context first, so the answer comes from that home's own pet policy, with next steps that keep the search alive.",
-        image: { src: "/cases/unitpulse-site/chat/listen.jpg", alt: "The live copilot answering “I also have a dog” about the home in view: dogs aren't generally allowed there, only emotional support animals, with suggestions to see listings that allow dogs", width: 1422, height: 1328 },
-      },
-      {
-        principle: "Move the conversation forward",
-        quote: "2 bedrooms under $1,200 in Los Angeles.",
-        happened: "Nothing on the market matches.",
-        designed: "The reply says so in the renter's own terms and offers up to 3 ways to widen. The renter chooses; nothing loosens quietly.",
-        image: { src: "/cases/unitpulse-site/chat/forward.jpg", alt: "The live copilot's no-results reply, written from the renter's filters, with one-tap chips to widen the budget or remove the bedroom filter", width: 1422, height: 1800 },
-      },
-      {
-        principle: "Turn-taking",
-        quote: "Can I see this one on Saturday?",
-        happened: "Asking for a date, a time and contact details one turn at a time drags on.",
-        designed: "A tour card opens in the chat for that home. The renter picks a time, and the leasing office confirms.",
-        image: { src: "/cases/unitpulse-site/chat/turn.jpg", alt: "The live copilot opening a Schedule a Tour card for the home in view, with a button to pick a time", width: 1422, height: 1800 },
-      },
-    ]}
-  />
-
-  <SectionH small>A trade we made on purpose</SectionH>
-  <StoryBlocks
-    label="Guidance versus control"
-    blocks={[
-      {
-        principle: "Guidance vs control",
-        status: "Revisit next",
-        quote: "What can you tell me about this building?",
-        happened: "Until the essentials are known, a first question gets a question back: amenities and move-in date first.",
-        designed: "One short ask, every part skippable, and none while you're viewing a home. Answering first is the next revision.",
-        image: { src: "/cases/unitpulse-site/chat/intake.jpg", alt: "Asked about a building, the copilot first asks for must-have amenities and a move-in date", width: 1422, height: 600 },
-      },
-    ]}
-  />
+  <MoreDetail title="How each reply is built, in 6 steps">
+    <StageFlow
+      label="How the copilot builds each reply"
+      steps={[
+        { label: "Listen", desc: "Reads the message with what it already knows.", tag: "code" },
+        { label: "Collect", desc: "A model reads the new message; code merges it into your filters.", tag: "mixed", exit: "Essentials missing → one short, skippable form" },
+        { label: "Route", desc: "Sorts it into 1 of 9 intents.", tag: "mixed", badge: "Fair housing first", exit: "Protected-class request → a plain decline, filters cleared" },
+        { label: "Act", desc: "Searches, answers from one home's data, compares, or opens a form.", tag: "code" },
+        { label: "Reply", desc: "A short answer and up to 3 next steps.", tag: "mixed" },
+        { label: "Remember", desc: "Saves filters and history for the next turn.", tag: "code" },
+      ]}
+      legend
+      caption="Simplified from 94 production steps. A model runs 13 of them."
+    />
+  </MoreDetail>
 
   <SectionH small>What broke, and what we changed</SectionH>
   {/* Stories from v3 code comments, the web fixes, and the earlier chat version
-      (CHAT_NOTES.md). "Before" states are reconstructed from each fix. */}
+      (CHAT_NOTES.md). "Before" states are reconstructed from each fix. One
+      card per BrokeCarousel renders it as a static, full-width story. */}
   <BrokeCarousel
+    label="No results"
     cards={[
       {
-        principle: "Move the conversation forward",
+        principle: "No results",
         title: "2 bedrooms under $1,200 in Los Angeles",
         before: [
           { from: "renter", text: "2 bedrooms under $1,200 in Los Angeles" },
@@ -493,20 +363,30 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         happened: "The reply was written as if homes were on the way, even when none came.",
         changed: "Code now writes the no-results reply from the renter's own filters, with up to 3 next steps.",
       },
+    ]}
+  />
+  <BrokeCarousel
+    label="A budget change"
+    cards={[
       {
-        principle: "Context",
+        principle: "A budget change",
         title: "Widen my budget by $200",
         before: [
           { from: "renter", text: "Widen my budget by $200" },
           { from: "event", text: "The model works out the new budget" },
           { from: "ai", text: "Updated your budget.", flag: "bad" },
         ],
-        after: { src: "/cases/unitpulse-site/chat/context-chat.jpg", alt: "After the renter asks to go $200 higher, the summary reads Budget under $3,200 and the chips update", width: 1422, height: 3000 },
+        after: { src: "/cases/unitpulse-site/chat/context-chat-top.jpg", alt: "After the renter asks to go $200 higher, the reply's summary reads Budget under $3,200", width: 1422, height: 1024 },
         happened: "The model did the budget math itself, so the result depended on the model.",
         changed: "It now reads only the change. Code adds the $200 to the saved budget.",
       },
+    ]}
+  />
+  <BrokeCarousel
+    label="A building's name"
+    cards={[
       {
-        principle: "Listen between the lines",
+        principle: "A building's name",
         title: "Tell me about The Linden",
         before: [
           { from: "renter", text: "Tell me about The Linden" },
@@ -516,194 +396,22 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         happened: "A building's name was read as a place to search near.",
         changed: "The copilot checks every property name first, and code sends the question to that home.",
       },
-      {
-        principle: "Move the conversation forward",
-        title: "Any bedrooms is fine",
-        before: [
-          { from: "ai", text: "Here are 3 homes.", chips: ["Raise my budget", "Any bedrooms"] },
-          { from: "renter", text: "Any bedrooms" },
-          { from: "ai", text: "Here are 3 homes.", flag: "bad" },
-        ],
-        after: [
-          { from: "ai", text: "I couldn't find any 2-bedroom rentals in Los Angeles under $1,200/mo right now.", chips: ["Widen budget by $200", "Remove bedroom filter"] },
-          { from: "event", text: "Each chip changes the filters in code" },
-        ],
-        happened: "Chips that relaxed a filter relied on the model to clear it, and it didn't always.",
-        changed: "Those chips were dropped. Relaxing now happens in code, from chips the renter taps.",
-      },
-      {
-        principle: "Control",
-        title: "Remove bedroom filter",
-        status: "One rough edge left",
-        before: [
-          { from: "renter", text: "Remove bedroom filter" },
-          { from: "ai", text: "Here are 2-bedroom homes in Los Angeles.", flag: "bad", chips: ["2 beds ×"] },
-        ],
-        after: { src: "/cases/unitpulse-site/chat/relaxed.jpg", alt: "After tapping Remove bedroom filter, the bedroom filter is gone and the copilot shows 20 homes in Los Angeles under $1,200", width: 1422, height: 1590 },
-        happened: "Tapping “Remove bedroom filter” left the filter in place.",
-        changed: "The page now clears the filter before the message goes out. One rough edge: the copilot can still ask about bedrooms once more.",
-      },
-      {
-        principle: "Listen between the lines",
-        title: "Can I keep a cat?",
-        status: "Open question",
-        before: [
-          { from: "renter", text: "Can I keep a cat?" },
-          { from: "ai", text: "Yes, cats are welcome here.", chips: ["Pet friendly ×"], flag: "bad" },
-        ],
-        after: { src: "/cases/unitpulse-site/chat/cat.jpg", alt: "Asked about cats while viewing a home, the copilot answers from that home's pet policy, and a Pet friendly filter appears in the composer", width: 1422, height: 1372 },
-        happened: "An earlier version turned a policy question into a Pet friendly filter. We fixed that.",
-        changed: "The current flow saves it again while you view a home. Whether a question should set a filter is still open.",
-      },
     ]}
   />
-
 </section>
 
-<section id="p4" data-reveal>
-  <PartHeader num="05" title="Designed to be found" />
+<section id="fh" data-reveal>
+  <PartHeader num="04" title="Fair Housing, tested" />
   <BodyText>
-    Designing for the answer engine — not just the search engine — is
-    **a bet most rental sites haven't made**.
+    A rental search can't steer renters by protected class, and an AI copilot
+    makes that easy to get wrong. I built a regression suite of 47 cases across
+    9 intent families, in English and Chinese, each judged on how the message
+    was routed as well as on the visible reply. It ran at 34 pass, 9 fail and 4
+    blocked, and it caught a real blocker: one path extracted a protected-class
+    attribute as a filter.
+    {/* ‹C-testcounts› Suite = 47 cases, 9 families, 34/9/4, EN+ZH, mapped to 7
+        prior bugs. */}
   </BodyText>
-  <SectionH small>The GEO architecture</SectionH>
-  <CardGrid
-    label="The GEO architecture"
-    items={[
-      {
-        icon: "link",
-        title: "Canonical, server-rendered",
-        body: "Every home gets one stable page that Google can index and an answer engine can quote.",
-      },
-      {
-        icon: "quote",
-        title: "Citable neighborhood Q&A",
-        body: "Each property page carries real questions — “Is it walkable to USC?” — exactly what a renter asks an engine, structured so it can lift them.",
-      },
-      {
-        icon: "shield",
-        title: "The chat stays out of the index",
-        body: "Chats stay private and out of search results; old links redirect to each home's page.",
-      },
-    ]}
-  />
-
-  {/* EXAMPLE VISUAL — token-built diagram of the canonical → cited architecture */}
-  <ImageShowcase>
-    <SiteGeoArch />
-  </ImageShowcase>
-
-  <BodyText>
-    To be precise: this is architecture and intent designed *for* citation, not a
-    measured count of AI citations. Classic indexing is **the part I can measure today**.
-  </BodyText>
-</section>
-
-<section id="p5" data-reveal>
-  <PartHeader num="06" title="Built & tested" />
-  <SectionH small>Shipped in ~6 weeks</SectionH>
-  <CardGrid
-    label="How it shipped fast"
-    items={[
-      {
-        icon: "route",
-        title: "Scoped to the minimum",
-        body: "The redesign was a prioritization decision, not a coat of paint — knowing what to leave out so the AI bet could ship.",
-      },
-      {
-        icon: "palette",
-        title: "A refreshed visual system",
-        body: "A named brand-token palette, a serif display + grotesque body, a bento home — so the AI features read as premium, not experimental.",
-      },
-      {
-        icon: "access",
-        title: "Accessibility, baked in",
-        body: "44pt touch targets on mobile, 36–40px on desktop, aria-labels on icon buttons — defaults, not retrofits.",
-      },
-    ]}
-  />
-
-  <SectionH small>Where AI helped, and what I decided</SectionH>
-  {/* [REAL] Develop: s06 script (AI built prototypes / frontend changes).
-      Deliver: s42 (AI-assisted tests beside manual QA, not a full rerun of the
-      47 cases); 6 weeks + lost-context failure fixed by engineering (s41/s42).
-      Define: no AI claim (unconfirmed). Discover: AI first pass, then users validate the
-      unknowns and business-specific depth (Zhen 2026-10-09). */}
-  <ProcessStrip
-    steps={[
-      { label: "Discover", ai: "A fast first pass of research; users for the unknowns.", me: "Reviewed other search products and framed 3 ways renters start." },
-      { label: "Define", none: "No AI here.", me: "One home, from search to contact. Bulk tours, blogs and FAQ pages waited." },
-      { label: "Develop", ai: "Early working versions and frontend changes in code.", me: "The search behavior, lead capture and the visual system." },
-      { label: "Deliver", ai: "AI-assisted test scripts alongside manual QA.", me: "Shipped in 6 weeks; flagged a lost-context failure engineering fixed." },
-    ]}
-  />
-
-  <SectionH small>The lean journey still has to convert</SectionH>
-  <CardGrid
-    label="Lead capture"
-    items={[
-      {
-        icon: "mail",
-        title: "Send a message",
-        body: "An inquire modal — name plus email-or-phone, either is fine.",
-      },
-      {
-        icon: "calendar",
-        title: "Schedule a tour",
-        body: "A date and time-slot grid, with SMS consent.",
-      },
-      {
-        icon: "lock",
-        title: "Compliant, and honest",
-        body: "Twilio A2P 10DLC consent + disclosure; GA4 fires only after a real 2xx — so the count tracks real leads, not optimistic clicks.",
-      },
-    ]}
-  />
-  <Dual>
-    {/* Transparent PNGs rendered at 3× from Figma nodes 1470-148 / 1470-16
-        (see scripts/ds-specimens/modals/). The rounded card + soft shadow are
-        baked in, so no container radius/background is applied. */}
-    <img
-      src="/cases/unitpulse-site/inquire-modal.png"
-      alt="The Send-a-Message inquire modal — full name and a single email-or-phone field (either is fine), plus a message box"
-      width={1584}
-      height={2004}
-      loading="lazy"
-      decoding="async"
-      style="width:100%;height:auto"
-    />
-    <img
-      src="/cases/unitpulse-site/tour-modal.png"
-      alt="The Schedule-a-Tour modal — contact fields, a preferred-date picker, and a grid of bookable time slots"
-      width={1584}
-      height={2484}
-      loading="lazy"
-      decoding="async"
-      style="width:100%;height:auto"
-    />
-  </Dual>
-
-  <SectionH small>Tested like a system — quality and Fair Housing</SectionH>
-  <CardGrid
-    label="How I tested the conversational search"
-    items={[
-      {
-        icon: "grid",
-        title: "47 cases · 9 families · EN + ZH",
-        body: "A historical suite in English and Chinese, each case judged on how the message was routed, not just the visible reply.",
-      },
-      {
-        icon: "bars",
-        title: "34 Pass / 9 Fail / 4 Blocked",
-        body: "A real signal, not a green-washed “all passed.” Mapped back to 7 known prior bugs as a regression guard.",
-      },
-      {
-        icon: "shield",
-        title: "Fair Housing, tested",
-        body: "Adversarial cases proved the router must refuse protected-class filters, never extract them, and redirect to a lawful search.",
-      },
-    ]}
-  />
   {/* EXAMPLE VISUAL — built from the test-workbook numbers above */}
   <ImageShowcase>
     <SiteTestMatrix />
@@ -730,9 +438,31 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   />
 </section>
 
+<section id="p4" data-reveal>
+  <PartHeader num="05" title="Designed to be found" />
+  <BodyText>
+    Every home gets one stable, server-rendered page that Google can index and
+    an answer engine can quote. Property pages carry the questions renters
+    actually ask an engine, like "Is it walkable to USC?", structured so they
+    can be lifted. Chats stay private and out of search results, and old links
+    redirect to each home's page.
+  </BodyText>
+
+  {/* EXAMPLE VISUAL — token-built diagram of the canonical → cited architecture */}
+  <ImageShowcase>
+    <SiteGeoArch />
+  </ImageShowcase>
+
+  <BodyText>
+    Indexing is measured in Search Console. Citations by AI answer engines
+    aren't measured yet.
+    {/* ‹C-geo-intent› GEO = designed-for citation, not a measured count. */}
+  </BodyText>
+</section>
+
 <section id="p6" data-reveal>
-  <PartHeader num="07" title="Early traction — honest, not inflated" />
-  <SectionDeck>A 6-week-old production rebuild, live and ramping.</SectionDeck>
+  <PartHeader num="06" title="Early results" />
+  <SectionDeck>The first six weeks in production.</SectionDeck>
   {/* SOURCE (internal, not rendered): GSC / GA4, 2026-05-05 → 06-23 except
       impressions (GSC, last 3 months) and users (GA4, trailing 30 days). */}
 
@@ -746,7 +476,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     </Stat>
     <Stat num="96" label="Live leads captured">
       <span class="item">54 inquiry · 42 tour</span>
-      <span class="item">0 applications yet — named honestly</span>
+      <span class="item">0 applications yet</span>
     </Stat>
     <Stat num="+55.6%" label="Users · trailing 30 days">
       <span class="item">1,045 users · 11,864 events</span>
@@ -755,51 +485,19 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   </ResearchStats>
 
   <BodyText>
-    These are early numbers for a 6-week rebuild. What matters is that the
-    architecture is live, indexing is climbing from zero, and the funnel is
-    converting real leads. Applications aren't flowing yet (0 in the window), and
-    **I'd rather say that than dress it up**.
+    Indexing climbed from close to zero, and the site turned visitors into 96
+    inquiries and tour requests. No applications came through in that window.
   </BodyText>
-
-  <SectionH small>What I'd hold it to</SectionH>
-  {/* Zhen 2026-10-08: no formal AI PRD. Measures tracked: AI share of
-      inquiry-to-tour conversations, messages per conversation, inquiries + tour
-      forms, conversion. Thresholds are [TARGET] proposals ("what I'd hold it
-      to"), never a June gate. Baselines: 96 accepted (54 + 42), May 5–Jun 23
-      [REAL]; messages per conversation not measured [CONFIRM]. Release checks:
-      historical 47-case suite; code-written replies are English-only (gap). */}
-  <ThresholdCards
-    items={[
-      { measure: "Inquiries and tour requests", today: "96 in the first 6 weeks: 54 inquiries, 42 tour requests", rule: "Track it as a rate per chat. If it drops 20% below its 4-week average, check the latest flow change first." },
-      { measure: "Messages to reach a request", today: "Not measured yet", rule: "If renters need more than about 8 messages to send one, revisit the intake form and the no-results replies." },
-    ]}
-    checks={[
-      { text: "A protected-class filter is never extracted, and a decline clears the saved filters.", state: "pass" },
-      { text: "No reply claims a tour is booked.", state: "pass" },
-      { text: "Replies come back in the renter's language. Text written by code is still English only.", state: "gap" },
-    ]}
-  />
 </section>
 
 <section id="rf" data-reveal>
-  <PartHeader num="08" title="Reflection" />
+  <PartHeader num="07" title="Reflection" />
   <Reflection>
-    <ReflectionCard label="On the bet" heading="Design for the answer engine, not just the search engine">
-      The forward move was to build content an AI can cite, and to prove an
-      AI-native rebuild can ship in weeks, in production, without sacrificing craft,
-      an honest index, or compliance.
-    </ReflectionCard>
-    <ReflectionCard label="On the discipline" heading="Make safety a tested requirement">
-      The testing is the part I'd carry anywhere: define the intent space, automate
-      the evaluation, read the logs, and treat Fair-Housing compliance as a
-      first-class thing you verify, not assume. It also taught me to test the
-      handoff between the interface and the AI flow. The answer can sound
-      reasonable while the product has lost the user's context.
-    </ReflectionCard>
-    <ReflectionCard label="On AI in my process" heading="Faster to try, same bar to ship">
-      AI helps me try ideas and build faster. I still need to define the
-      behavior, review the details, and test whether it works for the person
-      using it.
+    <ReflectionCard label="What I'd carry anywhere" heading="Make safety a tested requirement">
+      Define the intent space, automate the evaluation, read the logs, and
+      treat Fair Housing compliance as something you prove with tests. It also
+      taught me to test the handoff between the interface and the AI flow. The
+      answer can sound reasonable while the product has lost the user's context.
     </ReflectionCard>
     <ReflectionCard label="Open question" heading="Should a question set a filter?">
       Here, asking “Does it allow dogs?” about the home you're viewing adds a Pet

@@ -118,8 +118,8 @@ test('short mobile drawer scrolls to the last section and restores focus', async
   await drawer.locator('.toc-item--drawer').last().click();
   await expect(drawer).toBeHidden();
   await expect(tag).toBeFocused();
-  await expect(page.locator('.progress-current')).toHaveText('13');
-  await expect(page.locator('#p8')).toBeInViewport();
+  await expect(page.locator('.progress-current')).toHaveText('08');
+  await expect(page.locator('#rf')).toBeInViewport();
 });
 
 test('case navigation returns above the story and the bottom bar stops before Next case', async ({ page }) => {

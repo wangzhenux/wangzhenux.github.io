@@ -22,6 +22,11 @@
      stacked paragraphs breathe via the adjacent-sibling rule. */
   .body-text :global(p) { margin: 0; }
   .body-text :global(p + p) { margin-top: var(--space-5); }
+  /* Plain lists for a short run of points that don't need a card grid. */
+  .body-text :global(ul),
+  .body-text :global(ol) { margin: var(--space-4) 0 0; padding-left: var(--space-6); }
+  .body-text :global(li + li) { margin-top: var(--space-3); }
+  .body-text :global(li::marker) { color: var(--accent); }
   /* Marker-pen highlight on <strong> (§8.1). Default: thin amber underline.
      On hover: fills upward to a marker-style highlight. Reduced-motion is
      handled globally (kills the transition + shows the full marker). */

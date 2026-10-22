@@ -9,24 +9,25 @@ test('unitpulse-site case: card-forward structure renders, no axe violations', a
   await page.goto('/work/unitpulse-site');
   await expect(page.locator('.hero-title')).toContainText('Home Search, in Your Own Words');
 
-  // Real product hero + honest outcome in the meta strip.
+  // Real product hero + the outcome in the meta strip.
   await expect(page.locator('.hero-cover img')).toHaveAttribute('src', /welcome-hero\.jpg/);
   await expect(page.locator('.meta-strip')).toContainText('Live in production');
 
-  // The spine: Context + Parts 01–08 (nine PartHeaders in document order).
+  // The spine: Context + Parts 01–07 (eight PartHeaders in document order).
   const parts = page.locator('.part-title');
-  await expect(parts).toHaveCount(9);
-  await expect(parts.nth(1)).toContainText('The problem');
-  await expect(parts.nth(4)).toContainText('How the conversation works');
-  await expect(parts.nth(7)).toContainText('Early traction');
-  await expect(parts.nth(8)).toContainText('Reflection');
+  await expect(parts).toHaveCount(8);
+  await expect(parts.nth(1)).toContainText('Invisible where renters start');
+  await expect(parts.nth(2)).toContainText('One search, two ways in');
+  await expect(parts.nth(3)).toContainText('How the conversation works');
+  await expect(parts.nth(4)).toContainText('Fair Housing, tested');
+  await expect(parts.nth(6)).toContainText('Early results');
+  await expect(parts.nth(7)).toContainText('Reflection');
 
-  // How it talks: the comparison is a real, captioned table; the flow has 6
-  // stages; the storyboard and the fix stories render.
+  // How it talks: the comparison is a real, captioned table; the 6-stage flow
+  // sits behind a disclosure; the 3 fix stories render as static cards.
   await expect(page.locator('#cw table caption').first()).toContainText('Filters alone');
-  await expect(page.locator('#cw .sf-col')).toHaveCount(6);
-  await expect(page.locator('#cw .sb-block')).toHaveCount(5);
-  await expect(page.locator('#cw .bk-card')).toHaveCount(6);
+  await expect(page.locator('#cw details .sf-col')).toHaveCount(6);
+  await expect(page.locator('#cw .bk-card')).toHaveCount(3);
 
   // Nothing internal leaks onto the page.
   await expect(page.locator('body')).not.toContainText(/Odessia|Dify|Gemini|route_code/i);
