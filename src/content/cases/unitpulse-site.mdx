@@ -559,40 +559,17 @@ import CompareTable from '../../components/data/CompareTable.astro';
 <section id="p4" data-reveal>
   <PartHeader num="05" title="Designed to be found" />
   <BodyText>
-    Designing for the answer engine — not just the search engine — is
-    **a bet most rental sites haven't made**.
+    Every home got one server-rendered page that search engines can index and AI
+    answers can quote. Chats stay private and out of the index, and old links
+    redirect to each home's page.
   </BodyText>
-  <SectionH small>The GEO architecture</SectionH>
-  <CardGrid
-    label="The GEO architecture"
-    items={[
-      {
-        icon: "link",
-        title: "Canonical, server-rendered",
-        body: "Every home gets one stable page that Google can index and an answer engine can quote.",
-      },
-      {
-        icon: "quote",
-        title: "Citable neighborhood Q&A",
-        body: "Each property page carries real questions — “Is it walkable to USC?” — exactly what a renter asks an engine, structured so it can lift them.",
-      },
-      {
-        icon: "shield",
-        title: "The chat stays out of the index",
-        body: "Chats stay private and out of search results; old links redirect to each home's page.",
-      },
-    ]}
-  />
 
-  {/* EXAMPLE VISUAL — token-built diagram of the canonical → cited architecture */}
+  {/* Token-built diagram of the canonical → cited architecture. Shortened
+      2026-10-22 (Zhen): the 3-card GEO grid and the "to be precise" paragraph
+      were cut; the diagram carries the idea. */}
   <ImageShowcase>
     <SiteGeoArch />
   </ImageShowcase>
-
-  <BodyText>
-    To be precise: this is architecture and intent designed *for* citation, not a
-    measured count of AI citations. Classic indexing is **the part I can measure today**.
-  </BodyText>
 </section>
 
 <section id="p5" data-reveal>
@@ -628,7 +605,7 @@ import CompareTable from '../../components/data/CompareTable.astro';
   <ProcessStrip
     steps={[
       { label: "Discover", ai: "A fast first pass of research; users for the unknowns.", me: "Reviewed other search products and framed 3 ways renters start." },
-      { label: "Define", none: "No AI here.", me: "One home, from search to contact. Booking several tours in one request waited, along with blogs." },
+      { label: "Define", none: "No AI here.", me: "Scoped to one home, from search to contact." },
       { label: "Develop", ai: "Early working versions and frontend changes in code.", me: "The search behavior, lead capture and the visual system." },
       { label: "Deliver", ai: "AI-assisted test scripts alongside manual QA.", me: "Shipped in 6 weeks; flagged a lost-context failure engineering fixed." },
     ]}
@@ -679,51 +656,11 @@ import CompareTable from '../../components/data/CompareTable.astro';
     />
   </Dual>
 
-  <SectionH small>Tested like a system — quality and Fair Housing</SectionH>
-  <CardGrid
-    label="How I tested the conversational search"
-    items={[
-      {
-        icon: "grid",
-        title: "47 cases · 9 families · EN + ZH",
-        body: "A historical suite in English and Chinese, each case judged on how the message was routed, not just the visible reply.",
-      },
-      {
-        icon: "bars",
-        title: "34 Pass / 9 Fail / 4 Blocked",
-        body: "A real signal, not a green-washed “all passed.” Mapped back to 7 known prior bugs as a regression guard.",
-      },
-      {
-        icon: "shield",
-        title: "Fair Housing, tested",
-        body: "Adversarial cases proved the router must refuse protected-class filters, never extract them, and redirect to a lawful search.",
-      },
-    ]}
-  />
-  {/* EXAMPLE VISUAL — built from the test-workbook numbers above */}
+  <SectionH small>Tested like a system, Fair Housing first</SectionH>
+  {/* Built from the test-workbook numbers (47 cases: 34 pass, 9 fail, 4 blocked). */}
   <ImageShowcase>
     <SiteTestMatrix />
   </ImageShowcase>
-
-  <SectionH small>The mistake we can't make, and its opposite</SectionH>
-  <CardGrid
-    cols={2}
-    label="The costliest mistakes, both ways"
-    items={[
-      {
-        icon: "shield",
-        eyebrow: "Can't happen",
-        title: "Steering by protected class",
-        body: "Checked before anything else. The copilot declines in 2 or 3 plain sentences, offers lawful criteria and clears every saved filter.",
-      },
-      {
-        icon: "balance",
-        eyebrow: "Can't happen either",
-        title: "Flagging an honest question",
-        body: "“Koreatown” is a place and “Is this area safe for families?” is a safety question. Neither is flagged, and area answers carry no crime or demographic data.",
-      },
-    ]}
-  />
 </section>
 
 <section id="p6" data-reveal>
@@ -734,7 +671,8 @@ import CompareTable from '../../components/data/CompareTable.astro';
       read ~2026-10-22: 622 conversations, 440 active users, 1,351 messages, ~2.0
       interactions per session. No satisfaction ratings were collected (not shown).
       Users = GA4, trailing 30 days (kept per Zhen 2026-10-22). Removed per Zhen
-      2026-10-22: pages indexed, the source caption and "0 applications". Hidden
+      2026-10-22: pages indexed, the source caption, "0 applications" and the
+      paragraph on where the 96 leads came from. Hidden
       2026-10-22: the "What I'd hold it to" threshold cards; their release checks
       repeat Part 06 (git history has them). */}
 
@@ -753,37 +691,25 @@ import CompareTable from '../../components/data/CompareTable.astro';
     </Stat>
   </ResearchStats>
 
-  <BodyText>
-    All 96 leads came through the site's inquiry and tour forms. Their window
-    closed on Jun 23, the day before the chat went live, so none of them came
-    from a chat.
-  </BodyText>
 </section>
 
 <section id="rf" data-reveal>
   <PartHeader num="08" title="Reflection" />
   <Reflection>
-    <ReflectionCard label="On the bet" heading="Design for the answer engine, not just the search engine">
-      The forward move was to build content an AI can cite, and to prove an
-      AI-native rebuild can ship in weeks, in production, without sacrificing craft,
-      an honest index, or compliance.
+    <ReflectionCard label="What paid off" heading="Make every home findable first">
+      Server-rendered pages went live before the chat, so the site brought in
+      its first leads while the conversation was still being built.
     </ReflectionCard>
-    <ReflectionCard label="On the discipline" heading="Make safety a tested requirement">
-      The testing is the part I'd carry anywhere: define the intent space, automate
-      the evaluation, read the logs, and treat Fair-Housing compliance as a
-      first-class thing you verify, not assume. It also taught me to test the
-      handoff between the interface and the AI flow. The answer can sound
-      reasonable while the product has lost the user's context.
+    <ReflectionCard label="What I'd repeat" heading="Test safety like a feature">
+      Fair Housing rules only hold when a test proves them; the suite caught a
+      path that saved a protected-class filter. Next time I'd also test the
+      hand-off between the interface and the AI, where a reply can sound right
+      after the renter's filters are gone.
     </ReflectionCard>
-    <ReflectionCard label="On AI in my process" heading="Faster to try, same bar to ship">
-      AI helps me try ideas and build faster. I still need to define the
-      behavior, review the details, and test whether it works for the person
-      using it.
-    </ReflectionCard>
-    <ReflectionCard label="Open question" heading="Should a question set a filter?">
-      Here, asking “Does it allow dogs?” about the home you're viewing adds a Pet
-      friendly filter. In our leasing chat, asking adds nothing; only “I need
-      parking” does. I'd pick one rule and test it with renters.
+    <ReflectionCard label="Still open" heading="Should a question set a filter?">
+      Asking “Does it allow dogs?” here adds a Pet friendly filter. In the leasing
+      chat, only “I need parking” sets one. I'd pick one rule and test it with
+      renters.
     </ReflectionCard>
   </Reflection>
 
