@@ -31,8 +31,10 @@ interface Props {
   /** `band` (default): the dotted band. `callout`: a dark band for a section
    *  that stands apart from the rest of the case. */
   tone?: 'band' | 'callout';
+  /** Optional one-line note under the clip, e.g. that it shows a concept. */
+  caption?: string;
 }
-const { src, poster, label, width = 1920, height = 1080, maxWidth, tone = 'band' } = Astro.props;
+const { src, poster, label, width = 1920, height = 1080, maxWidth, tone = 'band', caption } = Astro.props;
 const ratio = `${width} / ${height}`;
 const split = Astro.slots.has('default');
 ---
@@ -41,6 +43,7 @@ const split = Astro.slots.has('default');
     {split && <div class="vs-text"><slot /></div>}
     {/* src is deferred to data-src; the script attaches it when the band nears
         the viewport, then autoplays. Controls stay available for manual use. */}
+    <div class="vs-media">
     <video
       class="vs-video"
       data-src={src}
@@ -53,6 +56,8 @@ const split = Astro.slots.has('default');
       aria-label={label}
       style={`aspect-ratio: ${ratio}${maxWidth && !split ? `; max-width: ${maxWidth}px` : ''}`}
     ></video>
+    {caption && <p class="vs-cap">{caption}</p>}
+    </div>
   </div>
 </div>
 <style>
@@ -79,6 +84,15 @@ const split = Astro.slots.has('default');
   .video-showcase--callout .vs-text :global(ul) { color: var(--ink-on-dark); opacity: 0.82; }
   .video-showcase--callout .vs-text :global(h4) { color: var(--accent-on-dark); }
   .video-showcase--callout .vs-video { box-shadow: none; }
+  .vs-cap {
+    margin: var(--space-3) auto 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--ink-tertiary);
+  }
+  .video-showcase--callout .vs-cap { color: var(--ink-on-dark); opacity: 0.7; }
   .vs-inner {
     position: relative;
     z-index: 1;
@@ -120,7 +134,7 @@ const split = Astro.slots.has('default');
   @media (max-width: 900px) {
     .vs-split,
     .video-showcase--callout .vs-split { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
-    .video-showcase--callout .vs-video { max-width: 420px; }
+    .video-showcase--callout :is(.vs-video, .vs-cap) { max-width: 420px; }
   }
   .vs-video {
     display: block;
