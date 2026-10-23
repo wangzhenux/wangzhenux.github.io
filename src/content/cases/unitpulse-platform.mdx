@@ -242,12 +242,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 
 <section id="ai" data-reveal>
   <PartHeader num="02" title="AI agents and human control" />
-  <BodyText>
-    No agent runs the others: the 10 main AI agents across 5 products meet
-    at one shared renter record, so a text, a call and a tour land in the
-    same profile. I designed how people stay in charge: the AI steps back
-    once a person replies, and Copilot waits for a yes.
-    {/* ‹C-agents› Verified in ~/UnitPulse/main with Codex (2026-10-10): the
+  {/* ‹C-agents› Verified in ~/UnitPulse/main with Codex (2026-10-10): the
         customer wide table is the hub, with no central orchestrator. Lead
         emails run add_leads → assign-agent → AI leasing trigger. AI reply
         needs property + conversation + customer switches and skips when a
@@ -263,7 +258,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         runs on every renter text or email alongside the AI, and AI replies
         don't close the task (38a6def52). The writer is picked by a rules-based
         stage check (_is_post_tour). Voice: the call router rings people first. */}
-  </BodyText>
   <AgentMap
     id="agents"
     rulesTitle="How people stay in charge"
