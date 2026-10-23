@@ -282,6 +282,13 @@ const count = slides.length;
     padding: clamp(var(--space-6), 4vw, var(--space-10));
     overflow: hidden;
   }
+  /* Video frames: one cell the size of the padded box, so the clip's
+     max-height: 100% resolves and it scales down to fit, centered both ways (an
+     auto row grows to the clip's own height and pushes it toward the bottom).
+     Image frames keep the auto row on purpose (Zhen, 2026-10-23). */
+  .scar-media[data-showcase="true"]:has(> .scar-video) {
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  }
   .scar-media[data-showcase="true"] .scar-video,
   .scar-media[data-showcase="true"] .scar-img {
     width: auto;
