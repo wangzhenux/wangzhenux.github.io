@@ -34,17 +34,16 @@ outcome:
 sections:
   - { id: ctx, num: "00", label: "Context" }
   - { id: p1, num: "01", label: "Who it serves" }
-  - { id: ai, num: "02", label: "AI agents" }
+  - { id: p5, num: "02", label: "One platform" }
   - { id: p2, num: "03", label: "Generate demand" }
   - { id: p3, num: "04", label: "Convert leads" }
   - { id: p4, num: "05", label: "Optimize operations" }
   - { id: vc, num: "06", label: "Voice AI" }
-  - { id: p6, num: "07", label: "On the go" }
-  - { id: cp, num: "08", label: "Copilot" }
-  - { id: p5, num: "09", label: "One platform" }
-  - { id: ds, num: "10", label: "Design system" }
-  - { id: p7, num: "11", label: "Evidence" }
-  - { id: p8, num: "12", label: "Reflection" }
+  - { id: cp, num: "07", label: "Copilot" }
+  - { id: ds, num: "08", label: "Design system" }
+  - { id: p6, num: "+", label: "On the go" }
+  - { id: p7, num: "09", label: "Evidence" }
+  - { id: p8, num: "10", label: "Reflection" }
 ---
 
 import BodyText from '../../components/reading/BodyText.astro';
@@ -195,24 +194,20 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     starting February 2026, and the **first paying customer signed a month
     later**. It started as separate products built fast. As design lead, I
     brought them into **one platform with one design system**.
-    {/* ‹C-dates› ‹C-arc› Zhen 2026-10-10: arc + role up front; the platform
-        part is the payoff after the products. */}
+    {/* ‹C-dates› ‹C-arc› Zhen 2026-10-10: arc + role up front. 2026-10-22:
+        the platform part moved up to Part 02 (the solution), before the
+        product chapters; the agents' app closes the case as a coda. */}
   </BodyText>
   {/* Bento (2026-10-10): real screens in consistent frames cropped by flat
       emerald and mint tiles, with a few floating objects, inside the text
       column. */}
   <PortalBento />
 </section>
-
 <section id="p1" data-reveal>
   <PartHeader num="01" title="Who it serves" />
-  <BodyText>
-    Leasing still runs on spreadsheets, 7 disconnected tools, and messages
-    nobody answered. The platform is **built around 3 people**.
-  </BodyText>
-  <SectionH small>3 people, 3 pains</SectionH>
   {/* Avatars are AI-generated synthetic headshots (fictional persona stand-ins). */}
   <PersonaGrid
+    level={3}
     label="The people the platform serves"
     personas={[
       {
@@ -226,7 +221,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         image: "/cases/unitpulse-platform/personas/property-manager.jpg",
         name: "Property manager",
         who: "Runs a portfolio across neighborhoods with a small leasing team.",
-        traits: ["7 tools", "Team coordination", "Owner reporting"],
+        traits: ["Too many tools", "Team coordination", "Owner reporting"],
         needs: "One system of record for marketing, agents, and the funnel.",
       },
       {
@@ -239,9 +234,48 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 </section>
+<section id="p5" data-reveal>
+  <PartHeader num="02" title="3 products, one platform" />
+  <BodyText>
+    Customers came for Marketing, then asked us to run the whole journey. But
+    the 3 products didn't talk to each other, **even though they shared one
+    backend**: 3 logins, 3 user-management systems, no shared front door for
+    the AI. So we merged them behind one login and one design system, and rebuilt
+    the navigation so each persona sees what's theirs without wading through
+    everyone else's. We merged in phases instead of rewriting, and Voice AI
+    later joined the same shell as the fourth product.
+    {/* ‹C-dates› spring/summer beats. Moved up from Part 09 on 2026-10-22 (Zhen):
+        the platform is now the solution part, right after who it serves; the
+        "What kept the merge safe" card grid was cut. */}
+  </BodyText>
 
-<section id="ai" data-reveal>
-  <PartHeader num="02" title="AI agents and human control" />
+  {/* EXAMPLE VISUAL — token-built timeline; replace with final Figma export */}
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/unitpulse-platform/timeline.svg"
+      alt="Timeline: kickoff from zero in February 2026, first customer on the marketing product in March, three products live by spring, one platform by summer, and Voice AI joining the same platform as the fourth product in August"
+      width={1600}
+      height={457}
+    />
+  </ImageShowcase>
+
+  <BodyText>
+    I owned the navigation, access states and interaction rules; engineering
+    led the technical integration. As of October 2026, more than 50
+    properties run on the merged platform.
+    {/* ‹C-split› Zhen 2026-10-22: 50+ properties moved over (corrected from 100+). */}
+  </BodyText>
+
+  <ImageShowcase>
+    <ShowcaseImage
+      src="/cases/unitpulse-platform/platform-nav.png"
+      alt="The unified platform's navigation, annotated: one sidebar with 5 groups (Insight, Leasing, Voice AI, Marketing, Settings), each labeled with the pages it holds"
+      width={2858}
+      height={1512}
+    />
+  </ImageShowcase>
+
+  <SectionH small>How the AI agents work across it</SectionH>
   {/* ‹C-agents› Verified in ~/UnitPulse/main with Codex (2026-10-10): the
         customer wide table is the hub, with no central orchestrator. Lead
         emails run add_leads → assign-agent → AI leasing trigger. AI reply
@@ -250,9 +284,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         router, call router and daily brief are rules-based. Insight reads
         derived analytics, not the record. Copilot lookups run at once; every
         write waits for a confirmation. Voice AI is a pilot (Zhen 2026-10-10).
-        Zhen led the step-back and confirm decisions (2026-10-10). Placement:
-        own part after the personas, per a Codex review (2026-10-10), so the
-        product parts' "AI agents here" lines point back to it. "10 main"
+        Zhen led the step-back and confirm decisions (2026-10-10). Placement
+        (2026-10-22): inside Part 02, after the merge story, so the product
+        parts' "AI agents here" lines point back to it. "10 main"
         because some stations group sub-agents (e.g. Property strategist).
         Leasing flow re-checked in code (2026-10-22): the reply-task router
         runs on every renter text or email alongside the AI, and AI replies
@@ -268,7 +302,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 </section>
-
 <section id="p2" data-reveal>
   <PartHeader num="03" title="Marketing: generate demand" />
   <BodyText>
@@ -326,7 +359,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 </section>
-
 <section id="p3" data-reveal>
   <PartHeader num="04" title="Leasing: convert leads" />
   <BodyText>
@@ -380,7 +412,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   />
 
 </section>
-
 <section id="p4" data-reveal>
   <PartHeader num="05" title="Insight: optimize operations" />
   <BodyText>
@@ -417,7 +448,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 </section>
-
 <section id="vc" data-reveal>
   <PartHeader num="06" title="Voice AI: answer every call" />
   <BodyText>
@@ -494,101 +524,8 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     />
   </MoreDetail>
 </section>
-
-<section id="p6" data-reveal>
-  <PartHeader num="07" title="On the go — the agent's mobile app" />
-  <BodyText>
-    Leasing happens on foot, so we built the agents' app **from scratch in 2
-    weeks**, and I decided what went in first. The feature I pushed hardest for
-    was tour recording: it summarizes the visit and drafts a follow-up the
-    agent sends, so leasing's highest-signal moment becomes data instead of a
-    fading memory. Around it sit chat and calls, tour scheduling, prospect management,
-    and the Copilot.
-    {/* ‹C-mobile› */}
-  </BodyText>
-  <AgentNote agents={["Workspace assistant"]} />
-  <ShowcasePhones
-    label="The agent's mobile app"
-    phones={[
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-tours.jpg",
-        alt: "The mobile Tours tab: tours today, completed and minutes-per-tour stats, today's upcoming tours with Start buttons, and a completed tour tagged Hot with budget and move-in",
-        caption: "Today's tours, one tap to start",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-consent.jpg",
-        alt: "Before a tour recording: an Ask for consent sheet with a suggested script and three checks, over the tour's prospect and property",
-        caption: "Ask first, then record",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-analyzing.jpg",
-        alt: "Analyzing your tour: upload done, transcription in progress, AI analysis next",
-        caption: "The tour, analyzed",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-details.jpg",
-        alt: "Tour details: a warm-lead score, a summary, budget and move-in, next steps, and a suggested follow-up email with a Copy email button",
-        caption: "A follow-up, ready to send",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-chat.jpg",
-        alt: "The Inbox tab: prospect conversations with status tags (tour finished, tour scheduled, submitted, fully executed), stars and unread counts",
-        caption: "Every conversation, one inbox",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-sms.jpg",
-        alt: "An SMS thread: the AI books a Saturday tour, then the agent picks up a move-in special question from the field",
-        caption: "Message and call from the field",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-insights.jpg",
-        alt: "Mobile Insights for Maple Court over 7 days: 94% occupancy, 22 tours, 4 applications, 3 leases, leasing velocity and lead sources",
-        caption: "The funnel, in your pocket",
-        width: 1206,
-        height: 2622,
-      },
-      {
-        src: "/cases/unitpulse-platform/mobile/phone-copilot.jpg",
-        alt: "The Copilot tab: ask about prospects, analytics or tasks, with four suggested questions",
-        caption: "The Copilot, in a pocket",
-        width: 1206,
-        height: 2622,
-      },
-    ]}
-  />
-
-  <SectionH small>Every call and tour lands in the profile</SectionH>
-  {/* Step shots (2026-10-09, round 6): coded mocks from the real Portal timeline,
-      transcript dialog and summary card, and the agents' app tour follow-up
-      (scratchpad mocks/call-steps/). The Portal has no reviewable follow-up
-      email; the app suggests one after a recorded tour. */}
-  <StageFlow
-    wide
-    label="From a call or tour to a follow-up"
-    steps={[
-      { label: "Capture", desc: "A call is recorded, or a tour on the app.", tag: "code", shot: { src: "/cases/unitpulse-platform/calls/capture.jpg", alt: "Jordan Lee's timeline: the tour booked on Oct 2 for Unit 204 with Alex Rivera, then Jordan's inbound call on Oct 3, completed, and its recording playing", width: 1200, height: 1500 } },
-      { label: "Transcribe", desc: "Every speaker, word for word.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/transcript.jpg", alt: "The call transcript, each line labelled Agent or Caller with its time into the call: Jordan confirms the 2 PM tour of Unit 204, hears street parking is easy after 6 pm, and asks whether a small dog is okay", width: 1200, height: 1500 } },
-      { label: "Summarize", desc: "A summary card on the prospect's timeline.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/summary.jpg", alt: "The phone call summary card: the 2 PM tour of Unit 204 confirmed, no assigned parking but street parking after 6 pm, the small dog fine with a pet deposit, with View transcript and the recording", width: 1200, height: 1500 } },
-      { label: "Follow up", desc: "After a tour, the app suggests next steps and an email.", tag: "ai", shot: { src: "/cases/unitpulse-platform/calls/followup.jpg", alt: "The agents' app suggests a follow-up for this week: send the pet policy and dog deposit, share street parking, hold Unit 204 through Friday, Oct 9, with a drafted email and a Copy email button", width: 1200, height: 1500 } },
-    ]}
-    lanes={[{ label: "The agent", tone: "person", cells: ["Asks consent before a tour recording", null, "Reads it and corrects any preference", "Copies the email, edits it and sends it"] }]}
-  />
-</section>
-
 <section id="cp" data-reveal>
-  <PartHeader num="08" title="Copilot: a command layer in each product" />
+  <PartHeader num="07" title="Copilot: a command layer in each product" />
   {/* Today = verified in web-unitpulse-portal (2026-10-09): Insight AidenCopilot
       returns profile / KPI / chart / list answers and can open views; Marketing's
       Copilot drafts a post for a property and reports channel performance; the
@@ -619,72 +556,8 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     </ul>
   </ShowcaseVideo>
 </section>
-
-<section id="p5" data-reveal>
-  <PartHeader num="09" title="Separate products, one platform" />
-  <BodyText>
-    Customers came for Marketing, then asked us to run the whole journey. But
-    the 3 products didn't talk to each other, **even though they shared one
-    backend**: 3 logins, 3 user-management systems, no shared front door for
-    the AI. So we merged them behind one login and one design system, with the
-    Copilot as the shared command layer, and rebuilt the navigation so each
-    persona sees what's theirs without wading through everyone else's. We
-    merged in phases instead of rewriting, and Voice AI later joined the same
-    shell as the fourth product.
-    {/* ‹C-dates› spring/summer beats */}
-  </BodyText>
-
-  <SectionH small>What kept the merge safe</SectionH>
-  <CardGrid
-    label="What kept the merge safe"
-    items={[
-      {
-        icon: "grid",
-        title: "One set of components",
-        body: "Each app's own buttons, tables and forms gave way to one shared set, so the screens stopped drifting apart.",
-      },
-      {
-        icon: "shield",
-        title: "Written rules",
-        body: "A list of UI mistakes we'd already fixed once, so they don't come back.",
-      },
-      {
-        icon: "merge",
-        title: "A merge, not a rewrite",
-        body: "Products moved over in phases while the old apps kept running, so no customer had to switch overnight.",
-      },
-    ]}
-  />
-
-  <BodyText>
-    I owned the navigation, access states and interaction rules; engineering
-    led the technical integration. As of October 2026, more than 50
-    properties run on the merged platform.
-    {/* ‹C-split› Zhen 2026-10-22: 50+ properties moved over (corrected from 100+). */}
-  </BodyText>
-
-  {/* EXAMPLE VISUAL — token-built timeline; replace with final Figma export */}
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-platform/timeline.svg"
-      alt="Timeline: kickoff from zero in February 2026, first customer on the marketing product in March, three products live by spring, one platform by summer, and Voice AI joining the same platform as the fourth product in August"
-      width={1600}
-      height={457}
-    />
-  </ImageShowcase>
-
-  <ImageShowcase>
-    <ShowcaseImage
-      src="/cases/unitpulse-platform/platform-nav.png"
-      alt="The unified platform's navigation, annotated: one sidebar with 5 groups (Insight, Leasing, Voice AI, Marketing, Settings), each labeled with the pages it holds"
-      width={2858}
-      height={1512}
-    />
-  </ImageShowcase>
-</section>
-
 <section id="ds" data-reveal>
-  <PartHeader num="10" title="The design system" />
+  <PartHeader num="08" title="The design system" />
   <BodyText>
     The 3 products were built fast, with AI writing Tailwind before AI was good
     at it, so every screen spoke its own dialect. I wrote the language down once
@@ -797,9 +670,82 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     notes={["The first version: olive on cream, Inter, square uppercase chips and mono trend pills.", "Today: emerald on neutral, Newsreader for titles and numbers, Manrope for the UI, pill badges, flat cards on hairline borders."]}
   />
 </section>
-
+<section id="p6" data-reveal>
+  <PartHeader kicker="One more thing" title="Leasing on the go" />
+  <BodyText>
+    Leasing happens on foot, so we built the agents' app **from scratch in 2
+    weeks**, and I decided what went in first. The feature I pushed hardest for
+    was tour recording: it summarizes the visit and drafts a follow-up the
+    agent sends, so leasing's highest-signal moment becomes data instead of a
+    fading memory. Around it sit chat and calls, tour scheduling, prospect management,
+    and the Copilot.
+    {/* ‹C-mobile› */}
+  </BodyText>
+  <AgentNote agents={["Workspace assistant"]} />
+  <ShowcasePhones
+    label="The agent's mobile app"
+    phones={[
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-tours.jpg",
+        alt: "The mobile Tours tab: tours today, completed and minutes-per-tour stats, today's upcoming tours with Start buttons, and a completed tour tagged Hot with budget and move-in",
+        caption: "Today's tours, one tap to start",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-consent.jpg",
+        alt: "Before a tour recording: an Ask for consent sheet with a suggested script and three checks, over the tour's prospect and property",
+        caption: "Ask first, then record",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-analyzing.jpg",
+        alt: "Analyzing your tour: upload done, transcription in progress, AI analysis next",
+        caption: "The tour, analyzed",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-details.jpg",
+        alt: "Tour details: a warm-lead score, a summary, budget and move-in, next steps, and a suggested follow-up email with a Copy email button",
+        caption: "A follow-up, ready to send",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-chat.jpg",
+        alt: "The Inbox tab: prospect conversations with status tags (tour finished, tour scheduled, submitted, fully executed), stars and unread counts",
+        caption: "Every conversation, one inbox",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-sms.jpg",
+        alt: "An SMS thread: the AI books a Saturday tour, then the agent picks up a move-in special question from the field",
+        caption: "Message and call from the field",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-insights.jpg",
+        alt: "Mobile Insights for Maple Court over 7 days: 94% occupancy, 22 tours, 4 applications, 3 leases, leasing velocity and lead sources",
+        caption: "The funnel, in your pocket",
+        width: 1206,
+        height: 2622,
+      },
+      {
+        src: "/cases/unitpulse-platform/mobile/phone-copilot.jpg",
+        alt: "The Copilot tab: ask about prospects, analytics or tasks, with four suggested questions",
+        caption: "The Copilot, in a pocket",
+        width: 1206,
+        height: 2622,
+      },
+    ]}
+  />
+</section>
 <section id="p7" data-reveal>
-  <PartHeader num="11" title="What it's done so far" />
+  <PartHeader num="09" title="What it's done so far" />
   {/* Zhen 2026-10-22: 50+ properties on the new platform (Oct 2026; corrected from 100+).
       7 partner accounts (Aug 2026 canonical). Pendo, May 2026: 79 accounts on
       UP Insight (52 on the core dashboard), ~45 min per user per week. */}
@@ -857,9 +803,8 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     ]}
   />
 </section>
-
 <section id="p8" data-reveal>
-  <PartHeader num="12" title="Reflection" />
+  <PartHeader num="10" title="Reflection" />
   <Reflection>
     <ReflectionCard label="On what I got wrong" heading="Spec first, then let AI build" art="spec">
       Early on I handed AI coding an underspecified design language, and the

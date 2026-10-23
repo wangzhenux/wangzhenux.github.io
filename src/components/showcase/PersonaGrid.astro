@@ -20,8 +20,12 @@ interface Persona {
 interface Props {
   personas: Persona[];
   label?: string;
+  /** Heading level for the names: 4 under a sub-section heading (default),
+   *  3 when the grid sits directly under a Part title. */
+  level?: 3 | 4;
 }
-const { personas, label = 'Renter personas' } = Astro.props;
+const { personas, label = 'Renter personas', level = 4 } = Astro.props;
+const NameTag = level === 3 ? 'h3' : 'h4';
 const A =
   '" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
 const avatars: Record<string, string> = {
@@ -43,7 +47,7 @@ const avatars: Record<string, string> = {
           ) : (
             <span class="pg-avatar" aria-hidden="true" set:html={avatars[p.avatar ?? 'a'] ?? avatars.a} />
           )}
-          <h4 class="pg-name">{p.name}</h4>
+          <NameTag class="pg-name">{p.name}</NameTag>
         </div>
         <p class="pg-who">{p.who}</p>
         {p.traits && p.traits.length > 0 && (
