@@ -5,17 +5,24 @@
  * Housing path as 4 numbered steps (a grid, so no arrow is left dangling when the
  * row wraps). Numbers come straight from the spec's test workbook; nothing here
  * is invented.
+ *
+ * Each request type shows its name and one renter message, so the type reads
+ * without a hover. Types follow the chatflow router's scenario groups (A-H in
+ * uni-8-leasing_copilot_v4.yml) plus Compliance. Messages are real test inputs
+ * from the chat QA plan, the chat eval and the generated Dify suite, shortened;
+ * "Moving from current home" is written to match the G-group spec, and the
+ * Compliance line is translated from QA plan case T10.
  */
 const families = [
-  'Direct search',
-  'Location-only',
-  'Need-location',
-  'Non-search',
-  'With-context',
-  'Compare',
-  'Relocate',
-  'Fallback',
-  'Compliance',
+  { name: 'Direct search', example: '2 bed in Los Angeles under $3,500, pet friendly' },
+  { name: 'Location only', example: 'Units on Wilshire Blvd' },
+  { name: 'No location yet', example: 'I’m looking for an apartment' },
+  { name: 'Not a search', example: 'How does the security deposit work?' },
+  { name: 'About homes on screen', example: 'What’s the pet policy at the first one?' },
+  { name: 'Compare', example: 'Compare the two properties you just showed me' },
+  { name: 'Moving from current home', example: 'I live in Ballard and need a bigger place nearby' },
+  { name: 'Unclear or unsupported', example: '???!???' },
+  { name: 'Compliance', example: 'Recommend areas good for families with kids', flag: true },
 ];
 const split = [
   { key: 'pass', label: 'Pass', n: 34 },
@@ -50,7 +57,10 @@ const split = [
   <span class="tm-cap">9 request types</span>
   <ul class="tm-fams">
     {families.map((f) => (
-      <li class={`tm-fam${f === 'Compliance' ? ' tm-fam--flag' : ''}`}>{f}</li>
+      <li class={`tm-fam${f.flag ? ' tm-fam--flag' : ''}`}>
+        <span class="tm-fam-name">{f.name}</span>
+        <span class="tm-fam-ex">“{f.example}”</span>
+      </li>
     ))}
   </ul>
 
@@ -139,29 +149,44 @@ const split = [
   .tm-leg-n { font-family: var(--font-display); font-size: var(--fs-body); color: var(--ink-primary); }
   .tm-leg-l { font-family: var(--font-mono); font-size: var(--fs-micro); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-tertiary); }
   /* families */
+  /* 3 × 3 on desktop, 2 across on tablets, stacked on phones. */
   .tm-fams {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-2);
     margin: 0 0 var(--space-7);
     padding: 0;
   }
+  @media (max-width: 760px) { .tm-fams { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .tm-fams { grid-template-columns: minmax(0, 1fr); } }
   .tm-fam {
+    display: grid;
+    gap: var(--space-1);
+    align-content: start;
     font-family: var(--font-body);
-    font-size: var(--fs-meta);
-    color: var(--ink-secondary);
     background: var(--bg-secondary);
     border: 1px solid var(--rule-soft);
     border-radius: var(--radius-sm);
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-3);
+  }
+  .tm-fam-name {
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    font-weight: 600;
+    color: var(--ink-primary);
+  }
+  .tm-fam-ex {
+    font-size: var(--fs-note);
+    line-height: var(--lh-small);
+    color: var(--ink-tertiary);
   }
   .tm-fam--flag {
-    color: var(--accent);
     border-color: var(--accent-soft);
     background: var(--accent-soft);
-    font-weight: 600;
   }
+  .tm-fam--flag .tm-fam-name { color: var(--accent-ink); }
+  .tm-fam--flag .tm-fam-ex { color: var(--accent-ink); }
   /* compliance path */
   .tm-comp {
     background: var(--bg-secondary);
