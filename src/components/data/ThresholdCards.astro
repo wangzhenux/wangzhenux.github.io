@@ -85,18 +85,18 @@ const { items, checks = [], label = "What I'd hold it to", checksLabel = 'Every 
     border: 1px solid var(--rule);
     border-radius: var(--radius-lg);
   }
-  .tc-measure { margin: 0; font-family: var(--font-display); font-size: 19px; line-height: 1.25; font-weight: 500; color: var(--ink-primary); }
+  .tc-measure { margin: 0; font-family: var(--font-display); font-size: var(--fs-h6); line-height: var(--lh-title); font-weight: 500; color: var(--ink-primary); }
   .tc-lab {
     display: block;
     margin-bottom: var(--space-1);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink-tertiary);
   }
   .tc-lab--rule { color: var(--accent-ink); }
-  .tc-today { margin: 0; font-size: var(--fs-card); line-height: 1.45; color: var(--ink-secondary); }
+  .tc-today { margin: 0; font-size: var(--fs-card); line-height: var(--lh-card); color: var(--ink-secondary); }
   .tc-line {
     display: block;
     align-self: center;
@@ -104,13 +104,13 @@ const { items, checks = [], label = "What I'd hold it to", checksLabel = 'Every 
     background: linear-gradient(90deg, var(--accent) 55%, transparent 55%) 0 0 / 10px 2px repeat-x;
     transform-origin: left center;
   }
-  .tc-rule { margin: 0; font-size: var(--fs-card); line-height: 1.5; color: var(--ink-primary); }
+  .tc-rule { margin: 0; font-size: var(--fs-card); line-height: var(--lh-card); color: var(--ink-primary); }
 
   .tc-checks { margin-top: var(--space-6); }
   .tc-checks-head {
     margin: 0 0 var(--space-3);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink-tertiary);
@@ -129,8 +129,8 @@ const { items, checks = [], label = "What I'd hold it to", checksLabel = 'Every 
   .tc-mark svg { width: 14px; height: 14px; }
   .tc-check--pass .tc-mark { background: var(--ink-primary); color: var(--ink-on-dark); }
   .tc-check--gap .tc-mark { border: 1px dashed var(--accent); color: var(--accent); }
-  .tc-check-text { font-size: var(--fs-card); line-height: 1.45; color: var(--ink-primary); }
-  .tc-state { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
+  .tc-check-text { font-size: var(--fs-card); line-height: var(--lh-card); color: var(--ink-primary); }
+  .tc-state { font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
   .tc-check--gap .tc-state { color: var(--accent-ink); }
 
   /* motion */

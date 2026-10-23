@@ -76,15 +76,15 @@ const kindText: Record<Kind, string> = { person: 'Person', ai: 'AI', fallback: '
     border-bottom: 1px solid var(--rule);
   }
   .lf-head { display: flex; flex-direction: column; gap: var(--space-1); }
-  .lf-label { font-family: var(--font-display); font-size: 19px; font-weight: 500; color: var(--ink-primary); }
-  .lf-sub { font-size: 14px; color: var(--ink-tertiary); }
+  .lf-label { font-family: var(--font-display); font-size: var(--fs-h6); font-weight: 500; color: var(--ink-primary); }
+  .lf-sub { font-size: var(--fs-small); color: var(--ink-tertiary); }
   .lf-status {
     align-self: flex-start;
     padding: 0 var(--space-2);
     border: 1px dashed var(--accent-medium);
     border-radius: var(--radius-sm);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--accent-ink);
@@ -123,13 +123,13 @@ const kindText: Record<Kind, string> = { person: 'Person', ai: 'AI', fallback: '
   }
   .lf-kind {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink-tertiary);
   }
   .lf-name { font-size: var(--fs-card); line-height: 1.35; color: var(--ink-primary); font-weight: 500; }
-  .lf-note { font-size: 13px; color: var(--ink-secondary); }
+  .lf-note { font-size: var(--fs-note); color: var(--ink-secondary); }
   .lf-node--person { border-color: var(--ink-primary); }
   .lf-node--ai { background: var(--accent-soft); border-color: var(--accent); }
   .lf-node--ai .lf-kind { color: var(--accent-ink); }
@@ -142,7 +142,7 @@ const kindText: Record<Kind, string> = { person: 'Person', ai: 'AI', fallback: '
     margin: 0;
     padding-left: var(--space-3);
     border-left: 2px dashed var(--accent-medium);
-    font-size: 14px;
+    font-size: var(--fs-small);
     color: var(--ink-secondary);
   }
   .lf-branch::before { content: '↳ '; color: var(--accent); }
@@ -152,7 +152,7 @@ const kindText: Record<Kind, string> = { person: 'Person', ai: 'AI', fallback: '
     padding: 0;
     display: flex;
     gap: var(--space-6);
-    font-size: 13px;
+    font-size: var(--fs-note);
     color: var(--ink-secondary);
   }
   .lf-legend li { display: inline-flex; align-items: center; gap: var(--space-2); }

@@ -284,14 +284,14 @@ const count = slides.length;
   }
   .scar-eyebrow {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     letter-spacing: 0.16em;
     color: var(--accent);
   }
   .scar-title {
     font-family: var(--font-display);
-    font-size: 23px;
-    line-height: 1.18;
+    font-size: var(--fs-h5);
+    line-height: var(--lh-title);
     letter-spacing: -0.012em;
     color: var(--ink-primary);
     margin: var(--space-3) 0 var(--space-4);
@@ -299,7 +299,7 @@ const count = slides.length;
   }
   .scar-body {
     font-size: var(--fs-card);
-    line-height: 1.66;
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
     margin: 0;
     max-width: 46ch;
@@ -309,12 +309,12 @@ const count = slides.length;
   .scar-part dt {
     margin-bottom: var(--space-1);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink-tertiary);
   }
-  .scar-part dd { margin: 0; font-size: var(--fs-card); line-height: 1.55; color: var(--ink-secondary); }
+  .scar-part dd { margin: 0; font-size: var(--fs-card); line-height: var(--lh-card); color: var(--ink-secondary); }
   .scar-part:last-child dt { color: var(--accent-ink); }
   .scar-part:last-child dd { color: var(--ink-primary); }
 

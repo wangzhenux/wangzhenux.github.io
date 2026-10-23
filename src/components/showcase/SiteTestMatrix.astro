@@ -92,8 +92,8 @@ const split = [
     letter-spacing: 0.12em;
     color: var(--ink-tertiary);
   }
-  .tm-eyebrow { font-size: 11px; display: block; margin-bottom: var(--space-4); }
-  .tm-cap { font-size: 10px; display: block; margin-bottom: var(--space-3); }
+  .tm-eyebrow { font-size: var(--fs-label); display: block; margin-bottom: var(--space-4); }
+  .tm-cap { font-size: var(--fs-micro); display: block; margin-bottom: var(--space-3); }
   .tm-cap--accent { color: var(--accent); }
   .tm-summary {
     font-size: var(--fs-card);
@@ -104,7 +104,7 @@ const split = [
   }
   .tm-summary code {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     color: var(--ink-primary);
     background: var(--bg-secondary);
     border-radius: var(--radius-sm);
@@ -141,8 +141,8 @@ const split = [
   .tm-swatch--pass { background: var(--ink-primary); }
   .tm-swatch--fail { background: var(--accent); }
   .tm-swatch--blocked { background: var(--ink-quaternary); }
-  .tm-leg-n { font-family: var(--font-display); font-size: 18px; color: var(--ink-primary); }
-  .tm-leg-l { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-tertiary); }
+  .tm-leg-n { font-family: var(--font-display); font-size: var(--fs-body); color: var(--ink-primary); }
+  .tm-leg-l { font-family: var(--font-mono); font-size: var(--fs-micro); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-tertiary); }
   /* families */
   .tm-fams {
     list-style: none;
@@ -154,7 +154,7 @@ const split = [
   }
   .tm-fam {
     font-family: var(--font-body);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     color: var(--ink-secondary);
     background: var(--bg-secondary);
     border: 1px solid var(--rule-soft);
@@ -185,7 +185,7 @@ const split = [
   }
   .tm-step {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     color: var(--ink-secondary);
     background: var(--bg-primary);
     border: 1px solid var(--rule);
@@ -196,7 +196,7 @@ const split = [
   .tm-step--ok { color: var(--ink-primary); border-color: var(--ink-tertiary); }
   .tm-chev { font-family: var(--font-mono); color: var(--ink-tertiary); }
   .tm-note {
-    font-size: 14px;
+    font-size: var(--fs-small);
     line-height: 1.55;
     color: var(--ink-secondary);
     margin: 0;
@@ -205,7 +205,7 @@ const split = [
   .tm-note strong { color: var(--accent); font-weight: 600; }
   .tm-foot {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     line-height: 1.6;
     color: var(--ink-tertiary);
     margin-top: var(--space-6);

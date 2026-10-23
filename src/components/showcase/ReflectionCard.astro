@@ -70,7 +70,7 @@ const { label, heading, art } = Astro.props;
      Mono accent label + display-serif h4 + body paragraph. */
   .reflection-card .label {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 0.16em;
@@ -78,14 +78,14 @@ const { label, heading, art } = Astro.props;
   }
   .reflection-card h3 {
     font-family: var(--font-display);
-    font-size: 17px;
+    font-size: var(--fs-h6);
     margin: 0 0 var(--space-2);
     font-weight: 500;
   }
   /* div, not p: MDX wraps the slot in its own <p>, which can't nest in a <p>. */
   .reflection-card .rc-body {
     font-size: var(--fs-card);
-    line-height: 1.65;
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
     margin: 0;
   }

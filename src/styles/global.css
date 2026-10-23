@@ -10,12 +10,14 @@ body {
   background: var(--bg-primary);
   color: var(--ink-primary);
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: var(--fs-base);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; line-height: 1.15; letter-spacing: -0.018em; margin: 0; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; line-height: var(--lh-heading); letter-spacing: -0.018em; margin: 0; }
+/* No paragraph ends on a single word: the browser balances the last lines. */
+p, li, dd, figcaption, blockquote { text-wrap: pretty; }
 a { color: inherit; }
 img { max-width: 100%; display: block; }
 
@@ -88,8 +90,8 @@ dialog.lightbox::backdrop {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  line-height: 1;
+  font-size: var(--fs-h5);
+  line-height: var(--lh-tight);
   background: rgba(250, 245, 232, 0.1);
   border: none;
   border-radius: 50%;
@@ -118,8 +120,8 @@ dialog.lightbox::backdrop {
 }
 .lightbox-cap {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: var(--fs-note);
+  line-height: var(--lh-small);
   text-align: center;
   color: var(--ink-on-dark);
   opacity: 0.85;
@@ -129,7 +131,7 @@ dialog.lightbox::backdrop {
   margin: var(--space-3) 0 0;
   text-align: center;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-micro);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-on-dark);

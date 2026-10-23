@@ -90,8 +90,8 @@ const poster = '/video/specimen-poster.jpg';
   }
   .home-hero-h1 {
     font-family: var(--font-display);
-    font-size: clamp(32px, 5vw, 46px);
-    line-height: 1.12;
+    font-size: var(--fs-h1-page);
+    line-height: var(--lh-heading);
     letter-spacing: -0.022em;
     margin: 0 0 var(--space-6);
     font-weight: 500;
@@ -104,7 +104,7 @@ const poster = '/video/specimen-poster.jpg';
   }
   .home-hero-facts p {
     font-size: var(--fs-body);
-    line-height: 1.5;
+    line-height: var(--lh-small);
     max-width: 580px;
     color: var(--ink-secondary);
     margin: 0;
@@ -125,7 +125,7 @@ const poster = '/video/specimen-poster.jpg';
      LinkedIn icon button next to it can match exactly. */
   .btn {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     height: 44px;
@@ -172,7 +172,7 @@ const poster = '/video/specimen-poster.jpg';
     min-height: 44px;
     margin-left: var(--space-3);
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--ink-primary);
@@ -191,19 +191,19 @@ const poster = '/video/specimen-poster.jpg';
   .theater-panel { width: min(100%, 1600px, calc((100svh - 180px) * 16 / 9)); transform-origin: top left; }
   .theater-heading, .theater-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
   .theater-heading { margin-bottom: var(--space-4); }
-  .theater-heading h2 { font: 16px var(--font-display); }
-  .theater-heading h2 span { font: 10px var(--font-mono); letter-spacing: 0.05em; margin-left: var(--space-3); opacity: 0.65; }
+  .theater-heading h2 { font: var(--fs-card) var(--font-display); }
+  .theater-heading h2 span { font: var(--fs-micro) var(--font-mono); letter-spacing: 0.05em; margin-left: var(--space-3); opacity: 0.65; }
   .theater-close { display: inline-flex; align-items: center; gap: var(--space-3); min-height: 44px; padding: 0; border: none; color: inherit; background: transparent; cursor: pointer; }
-  .theater-close span { font: 10px var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; }
+  .theater-close span { font: var(--fs-micro) var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; }
   .theater-picture { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: var(--bg-inverse); }
   .film-full, .theater-snapshot { display: block; width: 100%; height: 100%; object-fit: contain; }
   .theater-snapshot { position: absolute; inset: 0; pointer-events: none; transition: opacity 0.2s; }
   .theater-panel.is-opened.is-playing .theater-snapshot { opacity: 0; }
-  .theater-footer { margin-top: var(--space-4); font: 10px/1.6 var(--font-mono); letter-spacing: 0.03em; opacity: 0.75; }
+  .theater-footer { margin-top: var(--space-4); font: var(--fs-micro)/var(--lh-small) var(--font-mono); letter-spacing: 0.03em; opacity: 0.75; }
   .film-status { margin: 0; }
   .film-ended { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-5); background: var(--cover-scrim-strong); }
   .film-ended[hidden] { display: none; }
-  .film-ended p { font: clamp(20px, 3vw, 38px) var(--font-display); margin: 0; }
+  .film-ended p { font: var(--fs-h2) var(--font-display); margin: 0; }
   .film-ended button { display: inline-flex; align-items: center; gap: var(--space-3); border: none; background: var(--accent); color: var(--ink-on-dark); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-5); cursor: pointer; min-height: 44px; }
   .film-ended [data-film-replay] { background: transparent; padding: 0; }
   @media (max-width: 767px) {
@@ -216,7 +216,7 @@ const poster = '/video/specimen-poster.jpg';
     .film-theater { padding: var(--space-3); }
     .theater-panel { width: 100%; }
     .theater-heading h2 span { display: none; }
-    .theater-footer { font-size: 9px; }
+    .theater-footer { font-size: var(--fs-fig); }
   }
 </style>
 

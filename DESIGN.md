@@ -27,10 +27,33 @@ pairs meet WCAG AA (4.5:1 text).
 - `--font-display` — serif, for titles/headings (weight 500).
 - `--font-body` — grotesque, for body (16px base, line-height 1.5–1.6).
 - `--font-mono` — for eyebrows, labels, meta, tags, numbers (uppercase, letter-spaced).
-- Reading sizes, one token per tier: `--fs-lead` 20px (serif sub-lines: hero deck, Lede,
-  SectionDeck), `--fs-body` 18px, 16px at 767px and below (prose on cases, About, home
-  hero), `--fs-card` 16px (every card, slide and story body). Captions and labels stay mono
-  11/10px. Point running text at these tokens; don't hardcode 15/16/17px.
+- **Every font-size reads a `--fs-*` token** (the token lint fails on raw px, rem or
+  clamp()). Change a tier in `tokens.css` and every component follows.
+
+| Tier | Token | Size | Use |
+|---|---|---|---|
+| Case title | `--fs-h1` | 32→56 | case hero title |
+| Page title | `--fs-h1-page` | 32→46 | home and About titles |
+| Part title | `--fs-h2` | 30→40 | `PartHeader` |
+| Section statement | `--fs-h3` | 30 | `SectionH` (default) |
+| Sub-section | `--fs-h4` | 24 | `SectionH small`, home/About section titles, hero tile titles |
+| Large card title | `--fs-h5` | 22 | hero tiles, slides, phases |
+| Card title | `--fs-h6` | 20 | every card that heads `--fs-card` text |
+| Deck | `--fs-deck` | 20 | serif italic sub-lines (hero deck, `SectionDeck`) |
+| Body | `--fs-body` | 18 (16 on phones) | prose; `Lede` uses it too (`--fs-lead`) |
+| Card | `--fs-card` | 16 | card, slide and story text |
+| Small / note / meta | `--fs-small` `--fs-note` `--fs-meta` | 14 / 13 / 12 | secondary lines, chips, stat sub-lines |
+| Label / micro | `--fs-label` `--fs-micro` | 11 / 10 | mono labels, eyebrows |
+| Figure text | `--fs-fig*` | 9 / 8 / 7 | text inside drawn figures and product mock-ups |
+
+Numbers and quotes have their own tokens (`--fs-display`, `--fs-num*`, `--fs-quote`), and
+line heights come from `--lh-tight` / `--lh-heading` / `--lh-title` / `--lh-body` /
+`--lh-card` / `--lh-small`.
+
+**Hierarchy rule:** each step is at least 1.25× the one below it: section 30 over sub-section
+24 over body 18, and card title 20 over card text 16. Column headers inside a card group
+(`DualCol`) are mono labels, not another serif tier. A `Lede` reads exactly like the body that follows
+it. Paragraphs use `text-wrap: pretty`, so none ends on a single word.
 
 ### Spacing
 `--space-0`…`--space-14` (4px step scale). **Use spacing tokens for all padding /

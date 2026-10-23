@@ -60,22 +60,22 @@ const { rows } = Astro.props;
   }
   .critique-label {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     color: var(--ink-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.14em;
   }
   .critique h4 {
     font-family: var(--font-display);
-    font-size: 18px;
-    line-height: 1.25;
+    font-size: var(--fs-h6);
+    line-height: var(--lh-title);
     margin: 0;
     font-weight: 500;
     color: var(--ink-primary);
   }
   .critique-changes-lead {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: var(--fs-fig);
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -86,7 +86,7 @@ const { rows } = Astro.props;
     margin: 0;
     padding: 0;
     font-size: var(--fs-card);
-    line-height: 1.55;
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
   }
   .critique-changes li {

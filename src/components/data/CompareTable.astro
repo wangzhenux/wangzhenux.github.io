@@ -79,7 +79,7 @@ const { rows, columns, caption, emphasize = 'b', contained = false } = Astro.pro
     text-align: left;
     padding: var(--space-3) var(--space-4);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     font-weight: 400;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -95,15 +95,19 @@ const { rows, columns, caption, emphasize = 'b', contained = false } = Astro.pro
     text-align: left;
     border-bottom: 1px solid var(--rule);
     font-size: var(--fs-card);
-    line-height: 1.55;
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
   }
   .ct-head {
     font-family: var(--font-display);
-    font-size: 18px;
     font-weight: 500;
-    line-height: 1.3;
     color: var(--ink-primary);
+  }
+  /* Size and leading carry the `tbody th` weight: on `.ct-head` alone the cell
+     rule above won, and the row head read at card size, no larger than its row. */
+  .ct-table tbody .ct-head {
+    font-size: var(--fs-h6);
+    line-height: var(--lh-title);
   }
   .ct--emph .ct-b { color: var(--ink-primary); background: var(--accent-soft); }
   .ct--emph .ct-table thead th.ct-b-head { background: var(--accent-soft); border-radius: var(--radius) var(--radius) 0 0; }
@@ -132,7 +136,7 @@ const { rows, columns, caption, emphasize = 'b', contained = false } = Astro.pro
       display: block;
       margin-bottom: var(--space-1);
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: var(--fs-micro);
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--ink-tertiary);

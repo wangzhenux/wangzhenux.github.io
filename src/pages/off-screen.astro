@@ -36,7 +36,7 @@ import OffScreenGallery from '../components/offscreen/OffScreenGallery.astro';
   }
   .hero-eyebrow {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: var(--ink-tertiary);
@@ -44,8 +44,8 @@ import OffScreenGallery from '../components/offscreen/OffScreenGallery.astro';
   }
   .hero-h1 {
     font-family: var(--font-display);
-    font-size: clamp(32px, 5vw, 44px);
-    line-height: 1.12;
+    font-size: var(--fs-h1-page);
+    line-height: var(--lh-heading);
     letter-spacing: -0.022em;
     margin: 0 0 var(--space-5);
     font-weight: 500;

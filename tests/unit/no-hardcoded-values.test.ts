@@ -26,16 +26,24 @@ import { describe, expect, test } from 'vitest';
  *   - non-px units: %, vw, vh, vmin, vmax, fr, ch, em, rem, ex
  *   - @media query conditions      (min-width/max-width breakpoints)
  *
- * Type/size literals are intentionally NOT gated (font-size, line-height,
- * width, height, aspect-ratio, border-radius — radius now also has tokens
- * --radius-sm/--radius and has been swept, but small leaf radii like the 2px
- * progress-track hairline remain tolerable).
+ * FONT-SIZE rule — every font-size reads the type scale in tokens.css
+ * (--fs-*), so one token change reaches every component. Fail on a raw px,
+ * rem or clamp() value. Allowed: var(--fs-*), inherit, 0, em and % (relative
+ * to the parent, used for inline marks like superscripts).
+ *
+ * Other size literals are intentionally NOT gated (line-height, width, height,
+ * aspect-ratio, border-radius — radius now also has tokens --radius-sm/--radius
+ * and has been swept, but small leaf radii like the 2px progress-track hairline
+ * remain tolerable).
  */
 
 const files = globSync([
   'src/components/**/*.astro',
   'src/layouts/**/*.astro',
 ]).sort();
+
+/** Pages and the global stylesheet are held to the font-size rule too. */
+const typeFiles = globSync(['src/pages/**/*.astro', 'src/styles/global.css']).sort();
 
 /** Pull the body of every <style>…</style> block out of an .astro file. */
 function styleBlocks(source: string): string {
@@ -103,6 +111,21 @@ function colorViolations(css: string): string[] {
   return out;
 }
 
+const FONT_SIZE_DECL = /(?:^|[{};])\s*font-size\s*:\s*([^;{}]+)/gi;
+
+function fontSizeViolations(css: string): string[] {
+  const out: string[] = [];
+  let decl: RegExpExecArray | null;
+  FONT_SIZE_DECL.lastIndex = 0;
+  while ((decl = FONT_SIZE_DECL.exec(css))) {
+    const value = decl[1].trim();
+    const rest = value.replace(/var\(--fs-[a-z0-9-]+\)/g, '').replace(/!important/g, '').trim();
+    if (rest === '' || /^(?:inherit|0|[\d.]+(?:em|%))$/.test(rest)) continue;
+    out.push(`font-size: ${value}  →  use a --fs-* token from tokens.css`);
+  }
+  return out;
+}
+
 test('the gate found component/layout style blocks to scan', () => {
   expect(files.length).toBeGreaterThan(10);
 });
@@ -110,7 +133,16 @@ test('the gate found component/layout style blocks to scan', () => {
 describe('component CSS is token-only (§12.3)', () => {
   test.each(files)('%s', (file) => {
     const css = stripComments(styleBlocks(readFileSync(file, 'utf8')));
-    const violations = [...colorViolations(css), ...spacingViolations(css)];
+    const violations = [...colorViolations(css), ...spacingViolations(css), ...fontSizeViolations(css)];
+    expect(violations, `${file}\n  ${violations.join('\n  ')}`).toEqual([]);
+  });
+});
+
+describe('page and global font sizes read the type scale', () => {
+  test.each(typeFiles)('%s', (file) => {
+    const src = readFileSync(file, 'utf8');
+    const css = stripComments(file.endsWith('.css') ? src : styleBlocks(src));
+    const violations = fontSizeViolations(css);
     expect(violations, `${file}\n  ${violations.join('\n  ')}`).toEqual([]);
   });
 });

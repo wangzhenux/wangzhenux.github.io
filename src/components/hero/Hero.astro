@@ -40,7 +40,7 @@ const { eyebrow, title, deck, companyNote, cover, metaFields } = Astro.props;
   }
   .hero-eyebrow {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     color: var(--ink-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.16em;
@@ -48,8 +48,8 @@ const { eyebrow, title, deck, companyNote, cover, metaFields } = Astro.props;
   }
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(32px, 6vw, 56px);
-    line-height: 1.05;
+    font-size: var(--fs-h1);
+    line-height: var(--lh-tight);
     letter-spacing: -0.025em;
     margin: 0 auto var(--space-5);
     font-weight: 500;
@@ -58,7 +58,7 @@ const { eyebrow, title, deck, companyNote, cover, metaFields } = Astro.props;
   .hero-deck {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: var(--fs-lead);
+    font-size: var(--fs-deck);
     line-height: 1.4;
     color: var(--ink-secondary);
     max-width: 55ch;
@@ -74,9 +74,9 @@ const { eyebrow, title, deck, companyNote, cover, metaFields } = Astro.props;
   }
   .hero-company-note {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     font-weight: 400;
-    line-height: 1.6;
+    line-height: var(--lh-small);
     color: var(--ink-tertiary);
     text-align: center;
     text-wrap: balance;

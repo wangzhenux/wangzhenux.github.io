@@ -73,8 +73,8 @@
     letter-spacing: 0.12em;
     color: var(--ink-tertiary);
   }
-  .geo-eyebrow { font-size: 11px; display: block; margin-bottom: var(--space-6); }
-  .geo-cap { font-size: 9px; display: block; margin-bottom: var(--space-3); }
+  .geo-eyebrow { font-size: var(--fs-label); display: block; margin-bottom: var(--space-6); }
+  .geo-cap { font-size: var(--fs-fig); display: block; margin-bottom: var(--space-3); }
   .geo-flow {
     display: grid;
     grid-template-columns: 1.05fr auto 0.95fr auto 1fr;
@@ -95,7 +95,7 @@
     margin: 0 0 var(--space-3);
     padding: 0;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     line-height: 1.7;
     color: var(--ink-secondary);
   }
@@ -106,7 +106,7 @@
   .geo-tree em {
     font-style: normal;
     color: var(--ink-tertiary);
-    font-size: 9px;
+    font-size: var(--fs-fig);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-left: var(--space-2);
@@ -114,7 +114,7 @@
   .geo-badge {
     display: inline-block;
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: var(--fs-fig);
     letter-spacing: 0.06em;
     color: var(--accent);
     background: var(--accent-soft);
@@ -127,7 +127,7 @@
     margin: 0;
     padding: 0;
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     line-height: 1.6;
     color: var(--ink-tertiary);
   }
@@ -139,41 +139,41 @@
     top: 0;
     right: 0;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: var(--fs-note);
     color: var(--accent);
   }
   .geo-q {
     font-family: var(--font-display);
-    font-size: 15px;
+    font-size: var(--fs-small); /* figure text: 15 → nearest small token, not bumped */
     color: var(--ink-primary);
     margin: 0 0 var(--space-2);
     max-width: 18ch;
   }
   .geo-a {
-    font-size: 12px;
+    font-size: var(--fs-meta);
     line-height: 1.5;
     color: var(--ink-secondary);
     margin: 0;
   }
   /* Outputs */
   .geo-zone--out { display: grid; gap: var(--space-3); }
-  .geo-serp-title { font-size: 12px; color: var(--accent); margin: 0 0 var(--space-1); line-height: 1.35; }
-  .geo-serp-url { font-family: var(--font-mono); font-size: 9px; color: var(--ink-tertiary); margin: 0 0 var(--space-1); }
-  .geo-serp-snip { font-size: 11px; color: var(--ink-secondary); margin: 0; line-height: 1.45; }
-  .geo-ai-line { font-size: 12px; color: var(--ink-primary); margin: 0 0 var(--space-2); line-height: 1.45; }
+  .geo-serp-title { font-size: var(--fs-meta); color: var(--accent); margin: 0 0 var(--space-1); line-height: 1.35; }
+  .geo-serp-url { font-family: var(--font-mono); font-size: var(--fs-fig); color: var(--ink-tertiary); margin: 0 0 var(--space-1); }
+  .geo-serp-snip { font-size: var(--fs-label); color: var(--ink-secondary); margin: 0; line-height: 1.45; }
+  .geo-ai-line { font-size: var(--fs-meta); color: var(--ink-primary); margin: 0 0 var(--space-2); line-height: 1.45; }
   .geo-cite {
     display: inline-flex;
     align-items: center;
     gap: var(--space-1);
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: var(--fs-fig);
     color: var(--ink-tertiary);
   }
   .geo-cite svg { width: 12px; height: 12px; }
   .geo-arrow { width: 40px; height: 24px; justify-self: center; }
   .geo-foot {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     line-height: 1.6;
     color: var(--ink-tertiary);
     margin-top: var(--space-6);

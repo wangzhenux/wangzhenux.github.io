@@ -150,7 +150,7 @@ const href = `/work/${slug}`;
   }
   .fcard-co {
     font-family: var(--font-display);
-    font-size: 17px;
+    font-size: var(--fs-card); /* logo stand-in wordmark; no 17 tier */
     font-weight: 600;
   }
   .fcard-pills {
@@ -159,7 +159,7 @@ const href = `/work/${slug}`;
   }
   .pill {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.09em;
     text-transform: uppercase;
     padding: var(--space-1) var(--space-3);
@@ -173,8 +173,8 @@ const href = `/work/${slug}`;
   .fcard-title {
     display: block;
     font-family: var(--font-display);
-    font-size: clamp(26px, 3.4vw, 34px);
-    line-height: 1.12;
+    font-size: var(--fs-h3);
+    line-height: var(--lh-heading);
     letter-spacing: -0.015em;
     font-weight: 500;
     margin-top: var(--space-6);
@@ -183,7 +183,7 @@ const href = `/work/${slug}`;
   .fcard-lead {
     display: block;
     font-size: var(--fs-card);
-    line-height: 1.55;
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
     margin-top: var(--space-2);
     max-width: 60ch;
@@ -316,5 +316,7 @@ const href = `/work/${slug}`;
     .fcard-hdr {
       flex-wrap: wrap;
     }
+    /* Stay clearly under the page title, which drops to 32 on phones. */
+    .fcard-title { font-size: var(--fs-h4); }
   }
 </style>

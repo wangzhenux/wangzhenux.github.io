@@ -204,14 +204,14 @@ const icons: Record<string, string> = {
   .bento-ph-glyph :global(svg) { width: 100%; height: 100%; }
   .bento-ph-label {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.04em;
     line-height: 1.4;
     color: var(--ink-tertiary);
     max-width: 24ch;
   }
   .bento-card--hero .bento-ph-glyph { width: 38px; height: 38px; }
-  .bento-card--hero .bento-ph-label { font-size: 11px; }
+  .bento-card--hero .bento-ph-label { font-size: var(--fs-label); }
 
   .bento-text { flex: none; }
   /* Icon-led cards (context/feature bento) have no visual slot — a small accent
@@ -227,21 +227,21 @@ const icons: Record<string, string> = {
   .bento-card--hero .bento-iconmark { width: 34px; height: 34px; margin-bottom: var(--space-4); }
   .bento-title {
     font-family: var(--font-display);
-    font-size: 16px;
-    line-height: 1.22;
+    font-size: var(--fs-h6);
+    line-height: var(--lh-title);
     letter-spacing: -0.01em;
     color: var(--ink-primary);
     margin: 0 0 var(--space-1);
     font-weight: 500;
   }
-  .bento-card--hero .bento-title { font-size: 23px; margin-bottom: var(--space-2); }
+  .bento-card--hero .bento-title { font-size: var(--fs-h4); margin-bottom: var(--space-2); }
   .bento-body {
     font-size: var(--fs-card);
-    line-height: 1.5;
+    line-height: var(--lh-small);
     color: var(--ink-secondary);
     margin: 0;
   }
-  .bento-card--hero .bento-body { line-height: 1.55; }
+  .bento-card--hero .bento-body { line-height: var(--lh-card); }
 
   /* Bleed variant — the image runs edge-to-edge to the card border (no padding around
      it); the card's overflow:hidden + radius clips its top corners, and only the text
@@ -301,8 +301,8 @@ const icons: Record<string, string> = {
   /* Title strip below the image, on the card surface. */
   .bento--crop .bento-text { padding: var(--space-4); }
   .bento--crop .bento-card--hero .bento-text { padding: var(--space-5) var(--space-5) var(--space-7); }
-  .bento--crop .bento-title { font-size: 20px; line-height: 1.4; }
-  .bento--crop .bento-card--hero .bento-title { font-size: 23px; line-height: 1.22; }
+  .bento--crop .bento-title { font-size: var(--fs-h6); line-height: 1.4; }
+  .bento--crop .bento-card--hero .bento-title { font-size: var(--fs-h5); line-height: var(--lh-title); }
   @media (max-width: 900px) {
     /* When the hero collapses to 1 row (tablet), widen its crop so it doesn't
        tower over the small tiles. */
