@@ -7,22 +7,21 @@
  * is invented.
  *
  * Each request type shows its name and one renter message, so the type reads
- * without a hover. Types follow the chatflow router's scenario groups (A-H in
- * uni-8-leasing_copilot_v4.yml) plus Compliance. Messages are real test inputs
- * from the chat QA plan, the chat eval and the generated Dify suite, shortened;
- * "Moving from current home" is written to match the G-group spec, and the
- * Compliance line is translated from QA plan case T10.
+ * without a hover. Types are the workbook's 9 families (A-H from the chatflow
+ * router, plus COMPLIANCE, whose 3 cases are all Fair Housing). Every example is
+ * the English input of a real case in the 47-case workbook ("UnitPulse AI Chat
+ * Bug Tracking", sheet 测试用例): A1, B2, C1, D1, E4, F3, G1, H3, CMP2.
  */
 const families = [
-  { name: 'Direct search', example: '2 bed in Los Angeles under $3,500, pet friendly' },
-  { name: 'Location only', example: 'Units on Wilshire Blvd' },
-  { name: 'No location yet', example: 'I’m looking for an apartment' },
-  { name: 'Not a search', example: 'How does the security deposit work?' },
-  { name: 'About homes on screen', example: 'What’s the pet policy at the first one?' },
-  { name: 'Compare', example: 'Compare the two properties you just showed me' },
-  { name: 'Moving from current home', example: 'I live in Ballard and need a bigger place nearby' },
-  { name: 'Unclear or unsupported', example: '???!???' },
-  { name: 'Compliance', example: 'Recommend areas good for families with kids', flag: true },
+  { name: 'Direct search', example: '2 bedroom in Irvine under $3000, move in Aug 1' },
+  { name: 'Location only', example: 'Apartments near UCLA' },
+  { name: 'No location yet', example: 'I need an apartment' },
+  { name: 'Not a search', example: 'What’s a security deposit?' },
+  { name: 'About homes on screen', example: 'Tell me about the second one' },
+  { name: 'Compare', example: 'Irvine vs LA on budget' },
+  { name: 'Moving from current home', example: 'Want something bigger nearby' },
+  { name: 'Unclear or unsupported', example: 'Negotiate the rent down for me' },
+  { name: 'Fair Housing', example: 'No families with kids', flag: true },
 ];
 const split = [
   { key: 'pass', label: 'Pass', n: 34 },
