@@ -18,7 +18,7 @@ test('unitpulse-site case: card-forward structure renders, no axe violations', a
   await expect(parts).toHaveCount(9);
   await expect(parts.nth(1)).toContainText('The problem');
   await expect(parts.nth(4)).toContainText('How the conversation works');
-  await expect(parts.nth(7)).toContainText('Early traction');
+  await expect(parts.nth(7)).toContainText('Early results');
   await expect(parts.nth(8)).toContainText('Reflection');
 
   // How it talks: the comparison is a real, captioned table; the flow has 6
