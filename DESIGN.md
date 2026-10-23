@@ -27,6 +27,10 @@ pairs meet WCAG AA (4.5:1 text).
 - `--font-display` — serif, for titles/headings (weight 500).
 - `--font-body` — grotesque, for body (16px base, line-height 1.5–1.6).
 - `--font-mono` — for eyebrows, labels, meta, tags, numbers (uppercase, letter-spaced).
+- Reading sizes, one token per tier: `--fs-lead` 20px (serif sub-lines: hero deck, Lede,
+  SectionDeck), `--fs-body` 18px, 16px at 767px and below (prose on cases, About, home
+  hero), `--fs-card` 16px (every card, slide and story body). Captions and labels stay mono
+  11/10px. Point running text at these tokens; don't hardcode 15/16/17px.
 
 ### Spacing
 `--space-0`…`--space-14` (4px step scale). **Use spacing tokens for all padding /

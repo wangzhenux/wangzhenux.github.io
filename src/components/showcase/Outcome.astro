@@ -6,7 +6,7 @@ const { metric, heading } = Astro.props;
   <div class="outcome-num">{metric}</div>
   <div class="outcome-text">
     {heading && <h3>{heading}</h3>}
-    <p><slot /></p>
+    <div class="outcome-body"><slot /></div>
   </div>
   <slot name="image" />
 </div>
@@ -40,12 +40,14 @@ const { metric, heading } = Astro.props;
     font-weight: 500;
     line-height: 1.25;
   }
-  .outcome-text p {
+  /* div, not p: MDX wraps the slot in its own <p>, which can't nest in a <p>. */
+  .outcome-text .outcome-body {
     font-size: var(--fs-card);
     line-height: 1.65;
     color: var(--ink-secondary);
     margin: 0;
   }
+  .outcome-body :global(p) { margin: 0; }
   /* full-width image spans both columns when a page slots one in */
   .outcome :global([slot="image"]),
   .outcome :global(.outcome-image) {

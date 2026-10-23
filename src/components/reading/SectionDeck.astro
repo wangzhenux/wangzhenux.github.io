@@ -1,17 +1,19 @@
 ---
 ---
-<p class="section-deck"><slot /></p>
+<div class="section-deck"><slot /></div>
 <style>
   /* ported from case-study-twilio.html `.section-h + .section-deck`, tokenized.
-     Italic display serif sub-line; pulls up under a SectionH. */
+     Italic display serif sub-line; pulls up under a SectionH. A div, not a p,
+     so a multi-line slot (which MDX wraps in its own <p>) stays inside it. */
   .section-deck {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 17px;
+    font-size: var(--fs-lead);
     line-height: 1.5;
     color: var(--ink-tertiary);
     margin-top: calc(-1 * var(--space-4));
     margin-bottom: var(--space-7);
     max-width: 50ch;
   }
+  .section-deck :global(p) { margin: 0; }
 </style>

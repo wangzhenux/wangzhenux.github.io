@@ -63,7 +63,7 @@ const { label, heading, art } = Astro.props;
   )}
   <div class="label">{label}</div>
   <h3>{heading}</h3>
-  <p><slot /></p>
+  <div class="rc-body"><slot /></div>
 </div>
 <style>
   /* ported from case-study-twilio.html .reflection-card, tokenized.
@@ -82,12 +82,14 @@ const { label, heading, art } = Astro.props;
     margin: 0 0 var(--space-2);
     font-weight: 500;
   }
-  .reflection-card p {
+  /* div, not p: MDX wraps the slot in its own <p>, which can't nest in a <p>. */
+  .reflection-card .rc-body {
     font-size: var(--fs-card);
     line-height: 1.65;
     color: var(--ink-secondary);
     margin: 0;
   }
+  .rc-body :global(p) { margin: 0; }
 
   /* --- optional illustration --- */
   .rc-art {

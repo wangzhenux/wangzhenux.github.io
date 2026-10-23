@@ -174,10 +174,12 @@
   --max-body: 880px;
 
   /* === Reading sizes ===
-     Body prose steps 18 → 17 → 16 by breakpoint; card body text never drops
-     below 15px so short card copy stays as readable as the prose. */
+     One size per tier, at least 2px apart so no 2 text sizes sit 1px from
+     each other. Lead: serif sub-lines (hero deck, Lede, SectionDeck). Body:
+     prose, 18 → 16 on phones. Card: every card, slide and story body. */
+  --fs-lead: 20px;
   --fs-body: 18px;
-  --fs-card: 15px;
+  --fs-card: 16px;
   --max-toc: 144px;
 
   /* === Type families === */
@@ -201,7 +203,6 @@
   :root {
     --pad-page-x: var(--space-8);   /* → 40 */
     --pad-section-y: var(--space-10); /* → 56 */
-    --fs-body: 17px;
   }
 }
 @media (max-width: 767px) {
