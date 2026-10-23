@@ -211,13 +211,11 @@ const data = JSON.stringify(nodes);
     </ul>
     <div class="am-map" set:html={svgMarkup} />
     </div>
-    <p class="am-hint">
-      <span class="am-hint-hover">Hover a line to follow it, and click a station for details. The moving markers show work flowing along each line.</span>
-      <span class="am-hint-touch">Tap a station for details, and scroll sideways to see the whole map.</span>
-    </p>
+    {/* Phones only: the map is wider than the screen, so say it scrolls. */}
+    <p class="am-hint">Tap a station for details, and scroll sideways to see the whole map.</p>
     {rules.length > 0 && (
       <div class="am-rules-wrap">
-        {rulesTitle && <p class="am-rules-t">{rulesTitle}</p>}
+        {rulesTitle && <h3 class="am-rules-t">{rulesTitle}</h3>}
         <ul class="am-rules">
           {rules.map((r) => (
             <li class="am-rule">
@@ -342,21 +340,27 @@ const data = JSON.stringify(nodes);
   :global(.am-pop-x:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
   :global(.am-pop-x svg) { width: 16px; height: 16px; }
 
-  .am-hint { margin: 0; font-size: var(--fs-note); color: var(--ink-tertiary); }
-  .am-hint-touch { display: none; }
-  @media (hover: none) {
-    .am-hint-hover { display: none; }
-    .am-hint-touch { display: inline; }
-  }
+  .am-hint { display: none; margin: 0; font-size: var(--fs-note); color: var(--ink-tertiary); }
+  @media (hover: none) { .am-hint { display: block; } }
 
   .am-rules-wrap { margin-top: var(--space-2); display: grid; gap: var(--space-3); }
+  /* Same look as a SectionH small: the rules are their own sub-section. */
   .am-rules-t {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: var(--fs-label);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-tertiary);
+    margin: var(--space-8) 0 var(--space-1);
+    font-family: var(--font-display);
+    font-size: var(--fs-h4);
+    font-weight: 500;
+    line-height: var(--lh-heading);
+    letter-spacing: -0.018em;
+    color: var(--ink-primary);
+  }
+  .am-rules-t::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: var(--space-5);
   }
   /* One quiet panel: the rules side by side on wide screens, stacked rows on narrow ones. */
   .am-rules {
