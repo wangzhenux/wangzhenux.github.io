@@ -47,6 +47,7 @@ sections:
 import BodyText from '../../components/reading/BodyText.astro';
 import SectionH from '../../components/reading/SectionH.astro';
 import SectionDeck from '../../components/reading/SectionDeck.astro';
+import SourceNote from '../../components/reading/SourceNote.astro';
 import Pullquote from '../../components/reading/Pullquote.astro';
 import ImageShowcase from '../../components/showcase/ImageShowcase.astro';
 import ShowcaseCarousel from '../../components/showcase/ShowcaseCarousel.astro';
@@ -731,34 +732,37 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 </section>
 
 <section id="p6" data-reveal>
-  <PartHeader num="07" title="Early traction — honest, not inflated" />
-  <SectionDeck>A 6-week-old production rebuild, live and ramping.</SectionDeck>
-  {/* SOURCE (internal, not rendered): GSC / GA4, 2026-05-05 → 06-23 except
-      impressions (GSC, last 3 months) and users (GA4, trailing 30 days). */}
+  <PartHeader num="07" title="Early results" />
+  <SectionDeck>The site went live on May 5, 2026. The chat followed on Jun 24.</SectionDeck>
+  {/* SOURCE (internal, not rendered): pages + leads = GSC / GA4, 2026-05-05 → 06-23.
+      Chat = Dify monitoring for the prod leasing app; its data starts 2026-09-01,
+      read ~2026-10-22: 622 conversations, 440 active users, 1,351 messages, ~2.0
+      interactions per session. No satisfaction ratings were collected (not shown).
+      Dropped 2026-10-22: impressions/clicks (GSC, last 3 months) and +55.6% users
+      (GA4, trailing 30 days), because their windows differ. */}
 
-  <ResearchStats cols={2}>
+  <ResearchStats cols={3}>
     <Stat num="245" label="Pages indexed">
-      <span class="item">from ~0 in ~6 weeks</span>
+      <span class="item">up from ~0</span>
     </Stat>
-    <Stat num="2.34K" label="Impressions · 134 clicks">
-      <span class="item">5.7% CTR · avg position ~10.8</span>
-      <span class="item">last 3 months</span>
+    <Stat num="96" label="Leads captured">
+      <span class="item">54 inquiries · 42 tour requests</span>
+      <span class="item">0 applications</span>
     </Stat>
-    <Stat num="96" label="Live leads captured">
-      <span class="item">54 inquiry · 42 tour</span>
-      <span class="item">0 applications yet — named honestly</span>
-    </Stat>
-    <Stat num="+55.6%" label="Users · trailing 30 days">
-      <span class="item">1,045 users · 11,864 events</span>
-      <span class="item">+65.6% events</span>
+    <Stat num="622" label="Chat conversations">
+      <span class="item">from 440 users</span>
+      <span class="item">about 2 messages each</span>
     </Stat>
   </ResearchStats>
+  <SourceNote>
+    Pages and leads: Google Search Console and GA4, May 5 to Jun 23, 2026.
+    Chat: the copilot's logs, Sep 1 to Oct 22, 2026.
+  </SourceNote>
 
   <BodyText>
-    These are early numbers for a 6-week rebuild. What matters is that the
-    architecture is live, indexing is climbing from zero, and the funnel is
-    converting real leads. Applications aren't flowing yet (0 in the window), and
-    **I'd rather say that than dress it up**.
+    All 96 leads came through the site's inquiry and tour forms. Their window
+    closed on Jun 23, the day before the chat went live, so none of them came
+    from a chat.
   </BodyText>
 
   <SectionH small>What I'd hold it to</SectionH>
@@ -770,7 +774,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       historical 47-case suite; code-written replies are English-only (gap). */}
   <ThresholdCards
     items={[
-      { measure: "Inquiries and tour requests", today: "96 in the first 6 weeks: 54 inquiries, 42 tour requests", rule: "Track it as a rate per chat. If it drops 20% below its 4-week average, check the latest flow change first." },
+      { measure: "Inquiries and tour requests", today: "96 from May 5 to Jun 23, 2026: 54 inquiries, 42 tour requests", rule: "Track it as a rate per chat. If it drops 20% below its 4-week average, check the latest flow change first." },
       { measure: "Messages to reach a request", today: "Not measured yet", rule: "If renters need more than about 8 messages to send one, revisit the intake form and the no-results replies." },
     ]}
     checks={[
