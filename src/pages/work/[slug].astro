@@ -44,12 +44,7 @@ const metaFields =
         data.span || data.year ? { label: 'Span', value: data.span ?? String(data.year) } : null,
         data.type ? { label: 'Type', value: data.type } : null,
         data.outcome
-          ? {
-              label: 'Outcome',
-              value: data.outcome.context
-                ? `${data.outcome.metric} — ${data.outcome.context}`
-                : data.outcome.metric,
-            }
+          ? { label: 'Outcome', value: data.outcome.metric, sub: data.outcome.context }
           : null,
       ].filter((f): f is { label: string; value: string; sub?: string } => f !== null);
 

@@ -95,7 +95,7 @@ Set them as front-matter fields; the strip is built in `work/[slug].astro`:
 | **Team** | `role` (value) + `team` (sub) | The **role is the highlighted value** (weight 500); team context is the lighter sub-line. |
 | **Span** | `span` | e.g. "~6 weeks", "2024" |
 | **Type** | `type` | product type: "Web app", "Mobile app", "Enterprise web app", "Lifecycle messaging", "UX research", "Strategy & IA" |
-| **Outcome** | `outcome.metric` (+ `outcome.context`) | the headline result |
+| **Outcome** | `outcome.metric` (+ `outcome.context`) | the headline result; the context is the lighter sub-line, like Team's |
 
 Absent fields are omitted but the order is preserved. A case may pass an explicit `meta`
 array to override, but it should still produce these four labels (with `sub` for Team).
