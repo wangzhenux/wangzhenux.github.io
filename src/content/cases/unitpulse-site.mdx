@@ -193,29 +193,30 @@ import CompareTable from '../../components/data/CompareTable.astro';
 <section id="p1" data-reveal>
   <PartHeader num="01" title="The problem" />
   <BodyText>
-    A renter's search no longer starts in Google — it starts in a chat, **often
-    answered before anyone clicks**. The old site couldn't be found in either place: a
-    client-only SPA, invisible to search engines and answer engines alike. The fix
-    was a harder design problem than a redesign.
+    Renters describe a home in sentences: “quiet, near the Metro, under $3,000,
+    OK with a dog.” The old site had only filters, so they had to turn that into
+    fields. It couldn't be found either: a client-only app that Google and AI
+    answers couldn't read. The rebuild had to **understand renters in their own
+    words** and be findable where their search now starts.
   </BodyText>
   <SectionH small>3 parts of the problem</SectionH>
   <CardGrid
     label="3 parts of the problem"
     items={[
       {
-        icon: "eyeoff",
-        title: "Invisible to search & AI",
-        body: "A client-only SPA — nothing server-rendered for Google or an answer engine to read.",
+        icon: "grid",
+        title: "Filters only",
+        body: "Renters had to turn a feeling into fields, and couldn’t ask about the home in front of them.",
       },
       {
-        icon: "spark",
-        title: "Renters start in a chat",
-        body: "Search now begins in answer engines, not only Google — and a site that can't be cited there is invisible to a growing slice of demand.",
+        icon: "eyeoff",
+        title: "Invisible to search and AI",
+        body: "Nothing server-rendered, so Google and AI answers had no page to read or cite.",
       },
       {
         icon: "balance",
-        title: "The tension to design around",
-        body: "Keep the experience rich and app-like, yet fully indexable and citable — without the ephemeral chat polluting the index.",
+        title: "Keep both",
+        body: "Add the chat without losing fast filters for renters who know what they want, or letting chat sessions clutter the index.",
       },
     ]}
   />
@@ -327,10 +328,10 @@ import CompareTable from '../../components/data/CompareTable.astro';
     ]}
   />
 
-  <SectionH small>5 decisions in the search interface</SectionH>
+  <SectionH small>6 decisions in the search interface</SectionH>
   {/* Each slide carries a real demo clip; until a screenshot is dropped in, the label renders a placeholder. */}
   <ShowcaseCarousel
-    label="How I resolved it: 5 design decisions, each visible in the product"
+    label="How I resolved it: 6 design decisions, each visible in the product"
     slides={[
       {
         eyebrow: "01",
@@ -377,6 +378,14 @@ import CompareTable from '../../components/data/CompareTable.astro';
         bg: "linear-gradient(180deg, #1a4534 0%, rgba(26, 69, 52, 0.75) 100%)",
         imageAlt: "The unified search: a conversational welcome panel (I know my city / Match my lifestyle / Just exploring) with a chat input on the left, and a live map on the right — both driven by one shared state.",
         body: "Typing, tapping a chip, or moving a filter all update one source of truth that drives both the result list and the live map (\"homes appear as we talk,\" price pins on the map) — so the two modes can never drift apart.",
+      },
+      {
+        // ‹C-ask-clip› Placeholder until Zhen's recording lands: add video + poster
+        // (open a home, tap Ask UnitPulse, ask "Is parking included?").
+        eyebrow: "06",
+        title: "Ask about the home you're viewing",
+        label: "A home's detail view: Ask UnitPulse pins the home to the chat, which answers a question from that home's own data",
+        body: "“Ask UnitPulse” on a home's detail view pins that home to the chat, and questions are answered from its own data in a few sentences.",
       },
     ]}
   />
