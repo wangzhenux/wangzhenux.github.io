@@ -60,10 +60,10 @@ const ICON: Record<string, string> = {
 const ico = (k: string, s: number) =>
   `<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
 const KIND: Record<Kind, string> = { agent: 'AI agent', auto: 'Rules-based step', person: 'A person takes over', out: 'Outcome', io: 'Where it starts', record: 'Shared by every product' };
-const TRUNK_X = 600, H = 860;
-// The drawing spans x 1 to 1097, so the view is cropped to it with equal
-// margins; otherwise the map sits left with empty space on the right.
-const VIEW_X = -20, VIEW_W = 1138;
+// The drawing spans x 18 to 1097, and the trunk sits at its middle, so
+// centering the view on the trunk centers the whole drawing in its card too.
+const TRUNK_X = 557, H = 860;
+const VIEW_W = 1138, VIEW_X = TRUNK_X - VIEW_W / 2;
 
 const LINES: Line[] = [
   { p: 'mkt', name: 'Marketing', ly: 62,
@@ -74,16 +74,16 @@ const LINES: Line[] = [
       ['m-strat', 200, 92, 'agent', 'Property strategist', 'compass', { job: 'Studies the property and its market, then plans what to post.', uses: ['Site reader', 'Photo library', 'Local market map'], reads: 'Property website, real photos, the confirmed address', control: 'Waits for a person to confirm the address before planning.' }],
       ['m-writer', 330, 92, 'agent', 'Post writer', 'pen', { job: 'Drafts a post for each channel from the plan.', uses: ['Channel formats'], reads: 'The plan, property facts, real photos' }],
       ['m-checks', 460, 92, 'auto', 'Content checks', 'shield', { job: 'Checks every draft before a person sees it.', uses: ['Fair Housing word list', 'Fact check'], reads: 'Each draft against confirmed property facts: prices, claims, the address' }],
-      ['m-approve', 740, 92, 'person', 'Marketer approves', 'user', { job: 'Approves, edits or rejects each draft.', control: 'Every draft waits for a person. Nothing posts without a yes.' }],
+      ['m-approve', 700, 92, 'person', 'Marketer approves', 'user', { job: 'Approves, edits or rejects each draft.', control: 'Every draft waits for a person. Nothing posts without a yes.' }],
       ['m-pub', 870, 92, 'auto', 'Publisher', 'send', { job: 'Publishes approved posts and tracks how they do. Some channels still need a person to post.' }],
       ['m-end', 1040, 92, 'out', 'Published or ready to post', 'check', { job: 'Posted, or queued for a person on channels that need a manual post.' }],
     ] },
   { p: 'lea', name: 'Leasing', ly: 165,
     tracks: [
-      { d: 'M70 195 H215 C252 195 258 255 295 255' },
+      { d: 'M70 195 H215 C247 195 253 255 285 255' },
       { d: 'M70 255 H1040', main: true },
       { d: 'M140 255 Q140 315 185 315 H900' },
-      { d: 'M380 255 Q380 195 425 195 H500 Q545 195 545 255' },
+      { d: 'M380 255 Q380 195 420 195 H460 Q500 195 500 255' },
     ],
     junctions: [255, 315], bridges: [],
     stations: [
@@ -91,25 +91,25 @@ const LINES: Line[] = [
       ['l-reader', 200, 195, 'agent', 'Lead email reader', 'inbox', { job: 'Reads inquiry emails, creates the lead, assigns an agent and hands the lead to the Leasing assistant. It doesn’t handle texts.', writes: 'A new renter record' }, 'above'],
       ['l-msg', 70, 255, 'io', 'Renter messages', 'message', { job: 'A renter texts or emails the property. The message is saved to the renter record, then goes to the AI and to staff as a task.' }],
       ['l-router', 240, 315, 'auto', 'Reply-task router', 'task', { job: 'Opens a Need Reply task for the renter’s agent on every text or email, except a quick thanks or OK. It runs whether or not the AI answers.', reads: 'The renter record', writes: 'The team’s task list' }],
-      ['l-stage', 340, 255, 'auto', 'Stage check', 'split', { job: 'Picks the writer from how far along the renter is. A tour scheduled or done, an application or a lease goes to the Follow-up reply writer. Everyone else goes to the Leasing assistant.', reads: 'The renter’s status', control: 'Runs only when the property, the conversation and the renter all allow AI.' }],
-      ['l-assist', 460, 255, 'agent', 'Leasing assistant', 'message', { job: 'Answers new leads and renters without a tour yet: questions, unit matches and tours booked on the agent’s calendar.', uses: ['Unit matcher', 'Neighborhood lookup', 'Tour slot finder', 'Tour booker'], reads: 'The conversation, preferences, listings, calendars', control: 'Doesn’t send if a person has already replied.' }],
-      ['l-follow', 460, 195, 'agent', 'Follow-up reply\u00a0writer', 'reply', { job: 'Replies when a renter further along writes in, like one with a tour scheduled or done.', reads: 'Renter status, tour history, the conversation', control: 'Doesn’t send if a person has already replied.' }, 'above'],
+      ['l-stage', 320, 255, 'auto', 'Stage check', 'split', { job: 'Picks the writer from how far along the renter is. A tour scheduled or done, an application or a lease goes to the Follow-up reply writer. Everyone else goes to the Leasing assistant.', reads: 'The renter’s status', control: 'Runs only when the property, the conversation and the renter all allow AI.' }],
+      ['l-assist', 440, 255, 'agent', 'Leasing assistant', 'message', { job: 'Answers new leads and renters without a tour yet: questions, unit matches and tours booked on the agent’s calendar.', uses: ['Unit matcher', 'Neighborhood lookup', 'Tour slot finder', 'Tour booker'], reads: 'The conversation, preferences, listings, calendars', control: 'Doesn’t send if a person has already replied.' }],
+      ['l-follow', 440, 195, 'agent', 'Follow-up reply\u00a0writer', 'reply', { job: 'Replies when a renter further along writes in, like one with a tour scheduled or done.', reads: 'Renter status, tour history, the conversation', control: 'Doesn’t send if a person has already replied.' }, 'above'],
       ['l-end', 1040, 255, 'out', 'Reply sent or tour booked', 'calendar', { job: 'The renter has an answer, or a tour on the on-shift agent’s calendar.' }],
       ['l-staff', 900, 315, 'person', 'Leasing staff', 'user', { job: 'Replies from the task, which closes it. The AI won’t send a reply on top of a person’s.' }],
     ] },
   { p: 'voi', name: 'Voice AI', tag: 'Pilot', ly: 405,
     tracks: [
       { d: 'M70 435 H1040', main: true },
-      { d: 'M260 435 Q260 390 305 390 H440' },
-      { d: 'M230 435 Q230 505 275 505 H700 Q745 505 745 435' },
+      { d: 'M260 435 Q260 390 305 390 H400' },
+      { d: 'M230 435 Q230 505 275 505 H660 Q705 505 705 435' },
     ],
     junctions: [435, 505], bridges: [],
     stations: [
       ['v-call', 70, 435, 'io', 'Incoming call', 'phoneIn', { job: 'A renter or resident calls the property line.' }],
       ['v-router', 190, 435, 'auto', 'Call router', 'split', { job: 'Sends repair calls to maintenance. Leasing calls ring people first: the assigned agent, then the team.', control: 'The AI answers a leasing call only when no one picks up.' }],
-      ['v-staff', 440, 390, 'person', 'Staff answers', 'user', { job: 'A person picks up, and the call stays with them.' }, 'right'],
-      ['v-lease', 500, 435, 'agent', 'Leasing phone assistant', 'phone', { job: 'Answers leasing calls, matches units, and books a tour or takes a callback request.', uses: ['Unit matcher', 'Tour slots', 'Tour booker', 'Callback'], reads: 'The caller’s record, calendars', control: 'A callback request becomes a Need Reply task for a person.' }],
-      ['v-maint', 420, 505, 'agent', 'Maintenance phone assistant', 'wrench', { job: 'Takes repair requests and can transfer the call.', uses: ['Callback', 'Transfer'], reads: 'The caller’s record' }],
+      ['v-staff', 400, 390, 'person', 'Staff answers', 'user', { job: 'A person picks up, and the call stays with them.' }, 'right'],
+      ['v-lease', 460, 435, 'agent', 'Leasing phone assistant', 'phone', { job: 'Answers leasing calls, matches units, and books a tour or takes a callback request.', uses: ['Unit matcher', 'Tour slots', 'Tour booker', 'Callback'], reads: 'The caller’s record, calendars', control: 'A callback request becomes a Need Reply task for a person.' }],
+      ['v-maint', 380, 505, 'agent', 'Maintenance phone assistant', 'wrench', { job: 'Takes repair requests and can transfer the call.', uses: ['Callback', 'Transfer'], reads: 'The caller’s record' }],
       ['v-sum', 860, 435, 'agent', 'Post-call summarizer', 'file', { job: 'Writes each call into the renter record after it ends.', reads: 'The call transcript', writes: 'A call summary on the record' }],
       ['v-end', 1040, 435, 'out', 'Call logged', 'check', { job: 'With what happened: a tour confirmed, a tour waiting for an agent, a callback requested, or a repair request.' }],
     ] },
@@ -130,16 +130,16 @@ const LINES: Line[] = [
     ] },
   { p: 'cop', name: 'Copilot', ly: 760,
     tracks: [
-      { d: 'M70 790 H760', main: true },
-      { d: 'M300 790 Q300 748 342 748 H380' },
+      { d: 'M70 790 H720', main: true },
+      { d: 'M280 790 Q280 748 322 748 H340' },
     ],
     junctions: [790], bridges: [],
     stations: [
       ['c-ask', 70, 790, 'io', 'Ask in plain words', 'message', { job: 'Anyone on the team asks for information or a change.' }],
       ['c-assist', 230, 790, 'agent', 'Workspace assistant', 'sparkles', { job: 'Finds information and takes actions across the workspace on request.', uses: ['29 lookups', '22 actions'], reads: 'Analytics, renter records, marketing' }],
-      ['c-answer', 380, 748, 'out', 'Answer or view opened', 'eye', { job: 'Lookups run right away.' }, 'right'],
+      ['c-answer', 340, 748, 'out', 'Answer or view opened', 'eye', { job: 'Lookups run right away.' }, 'right'],
       ['c-confirm', 440, 790, 'person', 'Confirms the change', 'user', { job: 'Every action waits for a yes before anything is written.' }],
-      ['c-end', 760, 790, 'out', 'Action completed', 'check', { job: 'The change is saved, the tour moved or the message sent.' }],
+      ['c-end', 720, 790, 'out', 'Action completed', 'check', { job: 'The change is saved, the tour moved or the message sent.' }],
     ] },
 ];
 
