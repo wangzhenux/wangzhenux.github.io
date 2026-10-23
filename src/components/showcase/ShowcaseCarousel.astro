@@ -498,15 +498,15 @@ const count = slides.length;
       applyTransform();
     }
 
-    // Play the active slide's clip from the start while the band is on screen; pause
-    // every other clip. Muted + reduced-motion aware; never loops (no `loop` attr).
+    // Play the active slide's clip while the band is on screen; pause every other
+    // clip. A clip resumes where it paused, so it stays in step with the slide's
+    // timer; show() rewinds it. Muted + reduced-motion aware; never loops.
     function syncVideos() {
       videos.forEach((v, x) => {
         if (!v) return;
         if (x === i && !hold.offscreen && !reduce) {
           v.muted = true;
           if (v.paused) {
-            try { v.currentTime = 0; } catch { /* not seekable yet */ }
             const p = v.play();
             if (p && typeof p.catch === 'function') p.catch(() => {});
           }
@@ -517,6 +517,8 @@ const count = slides.length;
     }
     function show(n: number, announce: boolean) {
       i = n;
+      const v = videos[i];
+      if (v) { try { v.currentTime = 0; } catch { /* not seekable yet */ } }
       applyTransform();
       dots.forEach((d, x) => d.setAttribute('aria-current', x === i ? 'true' : 'false'));
       // Announce reader-driven moves only; auto-advance would talk every few seconds.
@@ -544,10 +546,19 @@ const count = slides.length;
         ended ? 'Replay from the first slide' : playing ? 'Pause automatic advance' : 'Play automatically',
       );
     }
-    /** Start this slide's cycle over: full interval, progress fill from 0. */
+    // A video slide stays up until its clip ends: its cycle is the longer of the
+    // interval and the clip. Until the clip's length is known, the interval.
+    let cycle = interval;
+    function cycleFor(n: number) {
+      const d = videos[n]?.duration;
+      return d && Number.isFinite(d) ? Math.max(interval, Math.ceil(d * 1000)) : interval;
+    }
+    /** Start this slide's cycle over: full length, progress fill from 0. */
     function resetCycle() {
       if (timer !== undefined) { clearTimeout(timer); timer = undefined; }
-      remaining = interval;
+      cycle = cycleFor(i);
+      remaining = cycle;
+      root.style.setProperty('--scar-dur', `${cycle}ms`);
       root.dataset.playing = 'false';
       void root.offsetWidth; // re-trigger the active dot's fill animation
       sync();
@@ -564,6 +575,22 @@ const count = slides.length;
       show((n + count) % count, true);
       resetCycle();
     }
+
+    // A clip's length can arrive after its slide's cycle started: stretch that cycle.
+    videos.forEach((v, x) => v?.addEventListener('loadedmetadata', () => {
+      const full = cycleFor(x);
+      if (x !== i || full <= cycle) return;
+      if (timer !== undefined) {
+        clearTimeout(timer);
+        remaining = Math.max(0, remaining - (Date.now() - cycleStart)) + (full - cycle);
+        cycleStart = Date.now();
+        timer = window.setTimeout(tick, remaining);
+      } else {
+        remaining += full - cycle;
+      }
+      cycle = full;
+      root.style.setProperty('--scar-dur', `${cycle}ms`);
+    }, on));
 
     prev?.addEventListener('click', () => go(i - 1), on);
     next?.addEventListener('click', () => go(i + 1), on);
@@ -687,7 +714,7 @@ const count = slides.length;
 
     relayout();
     show(0, false);
-    sync();
+    resetCycle();
 
     return () => {
       ac.abort();
