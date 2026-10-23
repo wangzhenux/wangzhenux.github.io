@@ -25,10 +25,18 @@ export function init(): void {
   const closeBtn = dialog.querySelector<HTMLButtonElement>('.lightbox-close')!;
   let lastTrigger: HTMLElement | null = null;
 
-  const open = (src: string, alt: string, trigger: HTMLElement) => {
+  const open = (src: string, alt: string, trigger: HTMLElement, shown: HTMLImageElement) => {
     lastTrigger = trigger;
     img.src = src;
     img.alt = alt;
+    // An SVG with only a viewBox has no natural size, so `width: auto` drew it
+    // smaller than on the page. Scale it to fill the zoom area at the shape it
+    // has on the page; photos keep their natural size (never upscaled).
+    const r = shown.getBoundingClientRect();
+    const svg = /\.svg($|\?)/i.test(src) && r.height > 0;
+    // 92vw so a full-width diagram on a phone (about 90vw on the page) still grows.
+    img.style.maxWidth = svg ? '92vw' : '';
+    img.style.width = svg ? `min(92vw, calc(80vh * ${(r.width / r.height).toFixed(4)}))` : '';
     cap.textContent = alt;
     dialog.showModal();
     closeBtn.focus();
@@ -57,11 +65,11 @@ export function init(): void {
     if (!wrap.hasAttribute('aria-label')) {
       wrap.setAttribute('aria-label', i.alt ? `Enlarge image: ${i.alt}` : 'Enlarge image');
     }
-    wrap.addEventListener('click', () => open(i.src, i.alt, wrap));
+    wrap.addEventListener('click', () => open(i.src, i.alt, wrap, i));
     wrap.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        open(i.src, i.alt, wrap);
+        open(i.src, i.alt, wrap, i);
       }
     });
   });
