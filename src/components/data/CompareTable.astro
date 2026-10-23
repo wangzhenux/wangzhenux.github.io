@@ -98,16 +98,12 @@ const { rows, columns, caption, emphasize = 'b', contained = false } = Astro.pro
     line-height: var(--lh-card);
     color: var(--ink-secondary);
   }
-  .ct-head {
-    font-family: var(--font-display);
-    font-weight: 500;
-    color: var(--ink-primary);
-  }
-  /* Size and leading carry the `tbody th` weight: on `.ct-head` alone the cell
-     rule above won, and the row head read at card size, no larger than its row. */
+  /* Row heads read in the body font at the row's size; weight alone marks them. */
   .ct-table tbody .ct-head {
-    font-size: var(--fs-h6);
-    line-height: var(--lh-title);
+    font-size: var(--fs-card);
+    line-height: var(--lh-card);
+    font-weight: 600;
+    color: var(--ink-primary);
   }
   .ct--emph .ct-b { color: var(--ink-primary); background: var(--accent-soft); }
   .ct--emph .ct-table thead th.ct-b-head { background: var(--accent-soft); border-radius: var(--radius) var(--radius) 0 0; }

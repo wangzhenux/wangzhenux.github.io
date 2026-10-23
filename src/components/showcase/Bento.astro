@@ -161,7 +161,6 @@ const icons: Record<string, string> = {
   .bento-card--hero {
     grid-column: span 2;
     grid-row: span 2;
-    padding: var(--space-5);
   }
 
   .bento-visual {
@@ -234,14 +233,14 @@ const icons: Record<string, string> = {
     margin: 0 0 var(--space-1);
     font-weight: 500;
   }
-  .bento-card--hero .bento-title { font-size: var(--fs-h4); margin-bottom: var(--space-2); }
+  /* The hero's size carries its weight; its text matches the other tiles so the
+     title and body line up with the tile beside it. */
   .bento-body {
     font-size: var(--fs-card);
     line-height: var(--lh-small);
     color: var(--ink-secondary);
     margin: 0;
   }
-  .bento-card--hero .bento-body { line-height: var(--lh-card); }
 
   /* Bleed variant — the image runs edge-to-edge to the card border (no padding around
      it); the card's overflow:hidden + radius clips its top corners, and only the text
