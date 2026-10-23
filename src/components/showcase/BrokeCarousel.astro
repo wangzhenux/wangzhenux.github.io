@@ -113,7 +113,11 @@ const isTall = (a: { width: number; height: number }) => a.height / a.width > 4 
     --bk-inset: max(var(--pad-page-x), calc((100vw - var(--sbw)) / 2 - var(--max-content) / 2 + var(--pad-page-x)));
     list-style: none;
     margin: 0;
-    padding-block: var(--space-2);
+    /* The scroller clips overflow, so the bottom padding holds the card shadow
+       (--shadow-card reaches about 32px down); the negative margin keeps the
+       controls where they were. */
+    padding-block: var(--space-2) var(--space-8);
+    margin-bottom: calc(var(--space-2) - var(--space-8));
     padding-inline: var(--bk-inset);
     display: grid;
     grid-auto-flow: column;
