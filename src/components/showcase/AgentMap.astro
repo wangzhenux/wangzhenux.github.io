@@ -60,7 +60,10 @@ const ICON: Record<string, string> = {
 const ico = (k: string, s: number) =>
   `<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
 const KIND: Record<Kind, string> = { agent: 'AI agent', auto: 'Rules-based step', person: 'A person takes over', out: 'Outcome', io: 'Where it starts', record: 'Shared by every product' };
-const TRUNK_X = 600, W = 1200, H = 860;
+const TRUNK_X = 600, H = 860;
+// The drawing spans x 1 to 1097, so the view is cropped to it with equal
+// margins; otherwise the map sits left with empty space on the right.
+const VIEW_X = -20, VIEW_W = 1138;
 
 const LINES: Line[] = [
   { p: 'mkt', name: 'Marketing', ly: 62,
@@ -194,7 +197,7 @@ LINES.forEach((L, li) => {
   svg += `<g class="am-grp" data-p="${L.p}" style="--li: ${li}">${g}</g>`;
 });
 svg += `<g class="am-node am-rec" tabindex="0" role="button" aria-label="Shared renter record" data-id="record"><rect class="am-halo" x="${TRUNK_X - 104}" y="7" width="208" height="48" rx="24" style="fill:var(--ink-primary);stroke:var(--ink-primary)"/><rect class="am-ring" x="${TRUNK_X - 96}" y="14" width="192" height="34" rx="17" style="fill:var(--ink-primary);stroke:var(--ink-primary);stroke-width:0"/><g transform="translate(${TRUNK_X - 78} 23)" style="color:var(--ink-on-dark)">${ico('database', 16)}</g><text class="am-lbl am-rec-t" x="${TRUNK_X + 10}" y="35.5" text-anchor="middle">Shared renter record</text></g>`;
-const svgMarkup = `<svg class="am-svg" viewBox="0 0 ${W} ${H}" role="group" aria-label="Transit map of the AI agents in 5 products and where each reads or writes the shared renter record">${svg}</svg>`;
+const svgMarkup = `<svg class="am-svg" viewBox="${VIEW_X} 0 ${VIEW_W} ${H}" role="group" aria-label="Transit map of the AI agents in 5 products and where each reads or writes the shared renter record">${svg}</svg>`;
 const data = JSON.stringify(nodes);
 ---
 <figure class="am" id={id} aria-label={label} data-inview>
@@ -343,7 +346,15 @@ const data = JSON.stringify(nodes);
   .am-hint { display: none; margin: 0; font-size: var(--fs-note); color: var(--ink-tertiary); }
   @media (hover: none) { .am-hint { display: block; } }
 
-  .am-rules-wrap { margin-top: var(--space-2); display: grid; gap: var(--space-3); }
+  /* The rules read as a normal sub-section, so they sit at the reading
+     column's width while the map above breaks out wider. */
+  .am-rules-wrap {
+    width: 100%;
+    max-width: calc(var(--max-content) - 2 * var(--pad-page-x));
+    margin: var(--space-2) auto 0;
+    display: grid;
+    gap: var(--space-3);
+  }
   /* Same look as a SectionH small: the rules are their own sub-section. */
   .am-rules-t {
     margin: var(--space-8) 0 var(--space-1);
@@ -388,9 +399,8 @@ const data = JSON.stringify(nodes);
     .am-rule { padding: var(--space-4) var(--space-5); }
     .am-rule + .am-rule { border-left: 0; border-top: 1px solid var(--rule-soft); }
   }
-  /* Body size: clearly above the 14px rule text and short enough to stay
-     on one line in a third-width column. */
-  .am-rule-name { margin: 0; font-size: var(--fs-body); font-weight: 600; line-height: 1.35; color: var(--ink-primary); }
+  /* Card-title tier, the same serif as every other card title. */
+  .am-rule-name { margin: 0; font-family: var(--font-display); font-size: var(--fs-h6); font-weight: 500; line-height: var(--lh-title); text-wrap: balance; color: var(--ink-primary); }
   .am-rule-text { margin: 0; font-size: var(--fs-small); line-height: var(--lh-small); color: var(--ink-secondary); text-wrap: pretty; }
 
   /* Motion: the lines draw in product by product, then the stations and markers land. */
