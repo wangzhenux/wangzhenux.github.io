@@ -420,12 +420,12 @@ import CompareTable from '../../components/data/CompareTable.astro';
   <StageFlow
     label="How the copilot builds each reply"
     steps={[
-      { label: "Listen", desc: "Reads the message with what it already knows.", tag: "code" },
-      { label: "Collect", desc: "A model reads the new message; code merges it into your filters.", tag: "mixed", exit: "Essentials missing → one short, skippable form" },
-      { label: "Route", desc: "Sorts it into 1 of 9 intents.", tag: "mixed", badge: "Fair housing first", exit: "Protected-class request → a plain decline, filters cleared" },
-      { label: "Act", desc: "Searches, answers from one home's data, compares, or opens a form.", tag: "code" },
-      { label: "Reply", desc: "A short answer and up to 3 next steps.", tag: "mixed" },
-      { label: "Remember", desc: "Saves filters and history for the next turn.", tag: "code" },
+      { label: "Listen", desc: "Reads your message in context.", tag: "code" },
+      { label: "Collect", desc: "Turns what you say into filters.", tag: "mixed", exit: "If essentials are missing: one short, skippable form" },
+      { label: "Route", desc: "Sorts it into 1 of 9 intents.", tag: "mixed", exit: "Fair Housing check first. If flagged: a\u00a0plain decline" },
+      { label: "Act", desc: "Searches, answers, compares, or opens a form.", tag: "code" },
+      { label: "Reply", desc: "Short answer, up to 3 next steps.", tag: "mixed" },
+      { label: "Remember", desc: "Saves filters and chat history.", tag: "code" },
     ]}
     legend
     caption="Simplified from 94 production steps. A model runs 13 of them."

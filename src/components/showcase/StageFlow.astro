@@ -1,10 +1,13 @@
 ---
 /**
  * "How it works" stage strip — the Kyruus-style numbered sequence, drawn as a
- * flow. Each stage sits on one rule with a number, a short label, one line of
- * description and a who-does-it tag (AI / Code / AI + code / Person / Rule).
+ * flow. Each stage sits on one rule with a number, a who-does-it tag (AI /
+ * Code / AI + code / Person / Rule) beside it, a short label and one line of
+ * description. Every part sits on a shared row (CSS subgrid), so tags, labels,
+ * descriptions and exits line up across stages whatever their length.
  * Optional extras, all aligned to the stage columns:
- *   - `exit`  a dashed early exit under a stage ("Missing essentials → form")
+ *   - `badge` a short accent note right under the stage's description
+ *   - `exit`  a dashed early exit under a stage ("If essentials are missing: …")
  *   - `lanes` swimlanes under the stages (e.g. a People lane for hand-offs);
  *             rows line up across columns via CSS subgrid
  *   - `rails` full-width bars for rules that apply on any turn
@@ -12,6 +15,7 @@
  *   - `shot`  a screenshot under a stage, in its column and tagged with its
  *             number, so the diagram and the screens read as one (zoomable)
  *   - `wide`  break out of the column to up to 1200px (for strips with shots)
+ *   - `legend` explains the tags; lists only the kinds the steps use
  *
  * Motion (in-view island): the rule draws left to right, nodes pop in stage by
  * stage, then exits and lanes settle in. Static
@@ -52,26 +56,34 @@ interface Props {
 }
 const { steps, lanes = [], rails = [], loop, legend = false, caption, label = 'How it works', wide = false } = Astro.props;
 const tagText: Record<Tag, string> = { ai: 'AI', code: 'Code', mixed: 'AI + code', person: 'Person', rule: 'Rule' };
+const tagNote: Record<Tag, string> = {
+  ai: 'a model reads or writes language',
+  mixed: 'a model for the words, code for the rest',
+  code: 'exact work: math, search, forms',
+  person: 'a person takes over',
+  rule: 'a fixed rule, no model',
+};
+const legendTags = (Object.keys(tagNote) as Tag[]).filter((t) => steps.some((s) => s.tag === t));
+const hasDesc = steps.some((s) => s.desc || s.badge);
 const hasExit = steps.some((s) => s.exit);
 const hasShot = steps.some((s) => s.shot);
-const rows = 1 + (hasExit ? 1 : 0) + lanes.length + (hasShot ? 1 : 0);
+/* Rows each stage spans: number + tag, label, and description (with any badge) when a stage has one. */
+const stepRows = 2 + (hasDesc ? 1 : 0);
+const rows = stepRows + (hasExit ? 1 : 0) + lanes.length + (hasShot ? 1 : 0);
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
-<figure class:list={['sf', { 'sf--wide': wide }]} data-inview aria-label={label} style={`--sf-n: ${steps.length}; --sf-rows: ${rows}`}>
+<figure class:list={['sf', { 'sf--wide': wide }]} data-inview aria-label={label} style={`--sf-n: ${steps.length}; --sf-rows: ${rows}; --sf-step-rows: ${stepRows}`}>
   <ol class="sf-grid">
     {steps.map((s, i) => (
       <li class="sf-col" style={`--i: ${i}`}>
         <div class="sf-step">
           <span class="sf-node" aria-hidden="true"></span>
-          <span class="sf-num">{s.num ?? pad(i + 1)}</span>
+          <span class="sf-head">
+            <span class="sf-num">{s.num ?? pad(i + 1)}</span>
+            {s.tag && <span class={`sf-tag sf-tag--${s.tag}`}>{tagText[s.tag]}</span>}
+          </span>
           <span class="sf-label">{s.label}</span>
-          {s.desc && <span class="sf-desc">{s.desc}</span>}
-          {(s.tag || s.badge) && (
-            <span class="sf-meta">
-              {s.tag && <span class={`sf-tag sf-tag--${s.tag}`}>{tagText[s.tag]}</span>}
-              {s.badge && <span class="sf-badge">{s.badge}</span>}
-            </span>
-          )}
+          {hasDesc && <span class="sf-desc">{s.desc}{s.badge && <span class="sf-badge">{s.badge}</span>}</span>}
         </div>
         {hasExit && (
           <div class:list={['sf-exit', !s.exit && 'sf-exit--none']}>
@@ -103,11 +115,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
       {rails.map((r) => <li class="sf-rail">{r}</li>)}
     </ul>
   )}
-  {legend && (
+  {legend && legendTags.length > 0 && (
     <ul class="sf-legend" aria-label="Legend">
-      <li><span class="sf-tag sf-tag--ai">AI</span> a model reads or writes language</li>
-      <li><span class="sf-tag sf-tag--code">Code</span> exact work: math, search, forms</li>
-      <li><span class="sf-tag sf-tag--person">Person</span> a person takes over</li>
+      {legendTags.map((t) => <li><span class={`sf-tag sf-tag--${t}`}>{tagText[t]}</span> {tagNote[t]}</li>)}
     </ul>
   )}
   {caption && <figcaption class="sf-cap">{caption}</figcaption>}
@@ -133,16 +143,27 @@ const pad = (n: number) => String(n).padStart(2, '0');
     display: grid;
     grid-row: span var(--sf-rows);
     grid-template-rows: subgrid;
-    row-gap: var(--space-3);
     min-width: 0;
   }
 
-  /* --- stage --- */
+  /* --- stage ---
+     The stage is itself a subgrid, so its number + tag, label and
+     description each share a row with the other stages. Spacing between rows
+     is margin on the parts (grid row-gap stays 0 all the way down). */
   .sf-step {
     position: relative;
+    display: grid;
+    grid-row: span var(--sf-step-rows);
+    grid-template-rows: subgrid;
+    min-width: 0;
+  }
+  /* Centred, not baseline: the head fills its shared row, so every number
+     sits on one line whether or not its stage has a tag. */
+  .sf-head {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
     padding-top: var(--space-5);
   }
   /* The rule: each stage draws its own segment, bridging the column gap. */
@@ -174,6 +195,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     color: var(--ink-tertiary);
   }
   .sf-label {
+    margin-top: var(--space-2);
     font-family: var(--font-display);
     font-size: var(--fs-h6);
     line-height: var(--lh-title);
@@ -182,15 +204,10 @@ const pad = (n: number) => String(n).padStart(2, '0');
     font-weight: 500;
   }
   .sf-desc {
+    margin-top: var(--space-1);
     font-size: var(--fs-card);
     line-height: var(--lh-small);
     color: var(--ink-secondary);
-  }
-  .sf-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-top: var(--space-2);
   }
   .sf-tag {
     display: inline-flex;
@@ -211,7 +228,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .sf-tag--person { background: var(--ink-primary); border-color: var(--ink-primary); color: var(--ink-on-dark); }
   .sf-tag--rule { border-style: dashed; }
   .sf-badge {
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
+    margin-top: var(--space-2);
     align-items: center;
     gap: var(--space-1);
     font-family: var(--font-mono);
@@ -230,7 +249,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   }
 
   /* --- exits --- */
-  .sf-exit { min-height: 0; }
+  .sf-exit { min-height: 0; margin-top: var(--space-4); }
   .sf-exit-text {
     display: block;
     padding-left: var(--space-3);
@@ -243,6 +262,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
   /* --- lanes --- */
   .sf-cell {
+    margin-top: var(--space-3);
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
@@ -272,7 +292,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .sf-cell-text { font-size: var(--fs-small); line-height: 1.45; color: var(--ink-primary); }
 
   /* --- shots: each stage's screen, at the foot of its column --- */
-  .sf-shot { position: relative; margin-top: var(--space-2); }
+  .sf-shot { position: relative; margin-top: var(--space-5); }
   .sf-shot-frame {
     overflow: hidden;
     border-radius: var(--radius-lg);
@@ -343,7 +363,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   /* --- motion --- */
   .sf-step::before { transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1); transition-delay: calc(var(--i) * 0.12s); }
   .sf-node { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); transition-delay: calc(var(--i) * 0.12s + 0.2s); }
-  .sf-num, .sf-label, .sf-desc, .sf-meta {
+  .sf-head, .sf-label, .sf-desc {
     transition: opacity 0.5s ease, transform 0.5s ease;
     transition-delay: calc(var(--i) * 0.12s + 0.25s);
   }
@@ -354,7 +374,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .sf-rails, .sf-loop, .sf-legend { transition: opacity 0.5s ease; transition-delay: calc(var(--sf-n) * 0.12s + 0.6s); }
   :global(html.inview-armed) .sf:not(.is-in) .sf-step::before { transform: scaleX(0); }
   :global(html.inview-armed) .sf:not(.is-in) .sf-node { transform: scale(0); }
-  :global(html.inview-armed) .sf:not(.is-in) :is(.sf-num, .sf-label, .sf-desc, .sf-meta, .sf-exit, .sf-cell, .sf-shot) {
+  :global(html.inview-armed) .sf:not(.is-in) :is(.sf-head, .sf-label, .sf-desc, .sf-exit, .sf-cell, .sf-shot) {
     opacity: 0;
     transform: translateY(var(--space-2));
   }
@@ -362,7 +382,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
   /* --- phones: stages stack down a vertical rule --- */
   @media (max-width: 760px) {
     .sf-grid { grid-template-columns: 1fr; grid-template-rows: none; row-gap: var(--space-6); }
-    .sf-col { display: flex; flex-direction: column; gap: var(--space-3); grid-row: auto; padding-left: var(--space-5); position: relative; }
+    .sf-col { display: flex; flex-direction: column; grid-row: auto; padding-left: var(--space-5); position: relative; }
+    .sf-step { display: grid; grid-template-rows: auto; grid-template-columns: minmax(0, 1fr); }
     .sf-col::before {
       content: '';
       position: absolute;
@@ -373,9 +394,13 @@ const pad = (n: number) => String(n).padStart(2, '0');
       background: var(--rule);
     }
     .sf-col:last-child::before { bottom: 0; }
-    .sf-step { padding-top: 0; }
+    .sf-head { padding-top: 0; }
     .sf-step::before { display: none; }
-    .sf-node { top: var(--space-1); left: calc(-1 * var(--space-5) - var(--space-1)); }
+    .sf-desc:empty { display: none; }
+    /* The node takes the head's grid row as its box (both lines named: an
+       auto end line would mean the step's edge), so it centres on the
+       number + tag line however tall the tag makes it. */
+    .sf-node { grid-row: 1 / 2; grid-column: 1 / 2; top: 0; bottom: 0; margin-block: auto; left: calc(-1 * var(--space-5) - var(--space-1)); }
     .sf-exit--none, .sf-cell--empty, .sf-shot--none { display: none; }
     .sf-shot { max-width: 360px; }
     .sf-col:not(:first-child) .sf-cell-lab { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
