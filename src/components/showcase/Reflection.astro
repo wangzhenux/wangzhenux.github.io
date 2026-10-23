@@ -1,7 +1,10 @@
 ---
-// Two-column "What I learned" grid. Children are ReflectionCards.
+// "What I learned" grid. Children are ReflectionCards. Two columns by default;
+// pass cols={3} for 3 cards so none sits alone on its own row.
+interface Props { cols?: 2 | 3 }
+const { cols = 2 } = Astro.props;
 ---
-<div class="reflection"><slot /></div>
+<div class:list={['reflection', cols === 3 && 'reflection--3']}><slot /></div>
 <style>
   /* ported from case-study-twilio.html .reflection, tokenized. */
   .reflection {
@@ -9,6 +12,11 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-7);
+  }
+  .reflection--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* 3 across gets too narrow on tablets, so it stacks there. */
+  @media (max-width: 1023px) {
+    .reflection--3 { grid-template-columns: 1fr; gap: var(--space-6); }
   }
   /* Reflection stacks on mobile (§9.1). */
   @media (max-width: 767px) {
