@@ -1,14 +1,11 @@
 ---
-import Icon from './Icon.astro';
 interface Props { currentPath?: string; }
 const { currentPath = '/' } = Astro.props;
-const links: { href: string; label: string; pdf?: boolean }[] = [
+const links = [
   { href: '/', label: 'Work' },
   { href: '/writing', label: 'Writing' },
   { href: '/off-screen', label: 'Off-screen' },
   { href: '/about', label: 'About' },
-  // The PDF opens in a new tab so the portfolio stays open behind it.
-  { href: '/Zhen-Wang-Resume.pdf', label: 'Resume', pdf: true },
 ];
 const isActive = (href: string) =>
   href === '/' ? currentPath === '/' : currentPath.startsWith(href);
@@ -25,14 +22,7 @@ const isActive = (href: string) =>
   </a>
   <ul class="nav-links">
     {links.map((l) => (
-      <li>
-        <a
-          href={l.href}
-          aria-current={isActive(l.href) ? 'page' : undefined}
-          target={l.pdf ? '_blank' : undefined}
-          rel={l.pdf ? 'noopener' : undefined}
-        >{l.label}{l.pdf && <Icon name="arrow-up-right" size={12} />}</a>
-      </li>
+      <li><a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a></li>
     ))}
   </ul>
 </nav>
@@ -66,7 +56,6 @@ const isActive = (href: string) =>
   }
   .nav-links li { white-space: nowrap; }
   .nav-links a { text-decoration: none; color: var(--ink-primary); }
-  .nav-links :global(.icon) { margin-left: 2px; vertical-align: -0.05em; }
   .nav-links a:hover { color: var(--accent); }
   .nav-links a[aria-current="page"] { color: var(--accent); }
   @media (max-width: 767px) {
