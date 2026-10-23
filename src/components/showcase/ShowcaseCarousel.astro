@@ -13,9 +13,10 @@ import ScreenshotPlaceholder from './ScreenshotPlaceholder.astro';
  * content column (scrollbar-proof), and the card width + translate are pure CSS
  * calc off it, so it stays correct on resize.
  *
- * Behaviour: auto-advances by default but hands the reader the controls — a
- * play / pause that sticks (and becomes REPLAY at the end; it never auto-loops),
- * prev / next, and clickable dots whose active one fills as a progress bar.
+ * Behaviour: starts paused by default (pass `autoplay` to auto-advance) and hands
+ * the reader the controls — a play / pause that sticks (and becomes REPLAY at the
+ * end; it never auto-loops), prev / next, and clickable dots whose active one
+ * fills as a progress bar.
  * Pauses on hover and when off-screen, freezing the progress in place (no reset).
  * `prefers-reduced-motion` starts paused with instant transitions; ←/→ keys work.
  *
@@ -60,7 +61,7 @@ interface Props {
 const {
   slides,
   label = 'Gallery',
-  autoplay = true,
+  autoplay = false,
   intervalMs = 5000,
 } = Astro.props;
 const count = slides.length;
@@ -560,8 +561,8 @@ const count = slides.length;
       if (userPlaying && !frozen) armTimer(interval);
       updateBtn();
     }
+    // User-initiated (Play / Replay), so it runs even when the carousel started paused.
     function play() {
-      if (!autoplayEnabled) return;
       clearEnded();
       userPlaying = true;
       frozen = false;
