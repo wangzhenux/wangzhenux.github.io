@@ -4,10 +4,10 @@
  * small abstract illustration above the label that carries the statement:
  *   - 'spec'     a spec page feeding a tidy grid of matching blocks, with the
  *                drift it replaced fading behind (write it down, then build)
- *   - 'recovery' a phone-menu path whose old dead end fades out while a solid
- *                curve catches the call into voicemail (recover at the edges)
+ *   - 'handoff'  a conversation line through an AI station; at the hand-off
+ *                point a person takes the thread and the AI's line goes quiet
  */
-interface Props { label: string; heading: string; art?: 'spec' | 'recovery'; }
+interface Props { label: string; heading: string; art?: 'spec' | 'handoff'; }
 const { label, heading, art } = Astro.props;
 ---
 <div class="reflection-card">
@@ -39,24 +39,22 @@ const { label, heading, art } = Astro.props;
           <path class="rc-acc" d="M172 50h18M220 50h22M268 50h14M172 90h22M220 90h14M268 90h20" stroke-width="2" stroke-linecap="round" />
         </svg>
       )}
-      {art === 'recovery' && (
+      {art === 'handoff' && (
         <svg viewBox="0 0 320 140" fill="none">
-          {/* the menu path */}
-          <path class="rc-ink" d="M24 56h168" stroke-width="2" />
-          <circle class="rc-node" cx="40" cy="56" r="9" />
-          <circle class="rc-node" cx="104" cy="56" r="9" />
-          <circle class="rc-node-edge" cx="176" cy="56" r="10" />
-          {/* 2 missed keypresses */}
-          <path class="rc-acc" d="M166 32l6 6m0-6l-6 6M182 32l6 6m0-6l-6 6" stroke-width="2" stroke-linecap="round" />
-          {/* the old dead end */}
-          <path class="rc-mute" d="M186 56h76" stroke-width="2" stroke-dasharray="4 5" />
-          <path class="rc-mute" d="M268 50l12 12m0-12l-12 12" stroke-width="2" stroke-linecap="round" />
-          {/* the recovery */}
-          <path class="rc-acc" d="M178 66c4 30 26 44 58 44" stroke-width="2.5" stroke-linecap="round" />
-          <rect class="rc-safe" x="234" y="94" width="66" height="32" rx="16" />
-          <circle class="rc-acc" cx="255" cy="110" r="5" stroke-width="2" />
-          <circle class="rc-acc" cx="279" cy="110" r="5" stroke-width="2" />
-          <path class="rc-acc" d="M255 115h24" stroke-width="2" />
+          {/* the conversation, through an AI station */}
+          <path class="rc-ink" d="M24 50h126" stroke-width="2" />
+          <circle class="rc-node-edge" cx="68" cy="50" r="11" />
+          <path class="rc-acc" d="M68 44v12M62 50h12" stroke-width="2" stroke-linecap="round" />
+          <circle class="rc-node" cx="150" cy="50" r="7" />
+          {/* the AI goes quiet once a person replies */}
+          <path class="rc-mute" d="M158 50h104" stroke-width="2" stroke-dasharray="4 5" />
+          <circle class="rc-mute" cx="272" cy="50" r="8" stroke-width="2" />
+          {/* the person takes the thread */}
+          <path class="rc-acc" d="M150 58c4 28 24 44 56 44" stroke-width="2.5" stroke-linecap="round" />
+          <rect class="rc-safe" x="204" y="86" width="96" height="34" rx="17" />
+          <circle class="rc-acc" cx="226" cy="99" r="5" stroke-width="2" />
+          <path class="rc-acc" d="M216 114c2-5 6-8 10-8s8 3 10 8" stroke-width="2" stroke-linecap="round" />
+          <path class="rc-acc" d="M248 103h38" stroke-width="2" stroke-linecap="round" />
         </svg>
       )}
     </div>

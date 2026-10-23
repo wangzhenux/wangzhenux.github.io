@@ -865,17 +865,14 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   <PartHeader num="12" title="Reflection" />
   <Reflection>
     <ReflectionCard label="On what I got wrong" heading="Spec first, then let AI build" art="spec">
-      Early on I handed AI coding an underspecified design language and took
-      the speed. The drift and rework that followed taught me the order:
-      write the system down first — a design.md, tokens, tested components —
-      then let AI build against it. AI helps me try ideas and build faster. I
-      still need to define the behavior, review the details, and test whether
-      it works for the person using it.
+      Early on I handed AI coding an underspecified design language, and the
+      screens drifted. Now I write the system down first (design.md, tokens,
+      tested components) and let AI build against it.
     </ReflectionCard>
-    <ReflectionCard label="What I'd fix next" heading="Recovery at the edges" art="recovery">
-      Two missed keypresses at the phone menu still end a call; they should
-      reach voicemail. And text written by code should answer in the renter's
-      language, the way the AI's own replies do.
+    <ReflectionCard label="What I learned" heading="The hand-off is the product" art="handoff">
+      The hardest calls were about the hand-off: when the AI may act alone and
+      when a person takes over. Those rules shaped more of the product than any
+      single screen.
     </ReflectionCard>
   </Reflection>
 
@@ -886,7 +883,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   <ProcessStrip
     steps={[
       { label: "Discover", ai: "A fast first pass of research.", me: "Users for depth: customer feedback drove the merge; 3 manager conversations shaped For You." },
-      { label: "Define", ai: "design.md: the rules, written once, for the team and AI coding tools.", me: "Navigation, access states and interaction rules." },
+      { label: "Define", ai: "Drafted design.md: the rules for the team and AI coding tools.", me: "Reviewed and changed what it drafted; set navigation, access states and interaction rules." },
       { label: "Develop", ai: "Boards in Claude Design, and frontend changes with AI coding tools.", me: "The behavior, and every detail I review." },
       { label: "Deliver", ai: "A frontend change co-authored with AI, in a pull request.", me: "Weekly releases through a staged merge, then changes from manager feedback." },
     ]}
