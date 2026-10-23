@@ -7,7 +7,9 @@
  * share row lines (CSS subgrid), so every card's lines and visuals start at the
  * same height whatever the length of its text. The "before" is a
  * small ChatMock reconstructed from the fix (labelled as such); the "after" is a
- * real capture when one exists, else a ChatMock.
+ * real capture when one exists, else a ChatMock. A capture taller than 3:4 would
+ * set that shared row for every card, so it shows from the top at 3:4 and fades
+ * out; clicking it still opens the whole image.
  *
  * Mechanics mirror ShowcasePhones: a scroll-snap track on a full-bleed band,
  * prev/next buttons that step a card at a time, the track focusable so arrow
@@ -42,6 +44,8 @@ interface Props {
   beforeTag?: string;
 }
 const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstructed from the fix' } = Astro.props;
+/** Taller than 3:4 (height / width): cropped from the top in the card. */
+const isTall = (a: { width: number; height: number }) => a.height / a.width > 4 / 3;
 ---
 <section class:list={['bk', { 'bk--single': cards.length === 1 }]} aria-roledescription="carousel" aria-label={label} data-inview>
   <div class="bk-vp">
@@ -67,7 +71,7 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
               {Array.isArray(c.after) ? (
                 <ChatMock messages={c.after} compact call={c.call} label={`After: ${c.title}`} />
               ) : (
-                <figure class="bk-shot" data-zoomable>
+                <figure class:list={['bk-shot', { 'bk-shot--tall': isTall(c.after) }]} data-zoomable>
                   <img src={c.after.src} alt={c.after.alt} width={c.after.width} height={c.after.height} loading="lazy" decoding="async" />
                 </figure>
               )}
@@ -214,6 +218,18 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
     height: auto;
     border-radius: var(--radius-lg);
     border: 1px solid var(--rule);
+  }
+  /* A tall capture shows its top at 3:4 and fades into the card. */
+  .bk-shot--tall { position: relative; }
+  .bk-shot--tall img { aspect-ratio: 3 / 4; object-fit: cover; object-position: top; }
+  .bk-shot--tall::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 22%;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    background: linear-gradient(transparent, var(--bg-primary));
+    pointer-events: none;
   }
   /* The two lines are a subgrid too, so "what happened" and "what we changed"
      each start on a row shared by every card. */
