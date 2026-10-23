@@ -70,7 +70,6 @@ import StoryBlocks from '../../components/showcase/StoryBlocks.astro';
 import BrokeCarousel from '../../components/showcase/BrokeCarousel.astro';
 import ProcessStrip from '../../components/showcase/ProcessStrip.astro';
 import CompareTable from '../../components/data/CompareTable.astro';
-import ThresholdCards from '../../components/data/ThresholdCards.astro';
 
 {/*
   ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
@@ -735,7 +734,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       read ~2026-10-22: 622 conversations, 440 active users, 1,351 messages, ~2.0
       interactions per session. No satisfaction ratings were collected (not shown).
       Users = GA4, trailing 30 days (kept per Zhen 2026-10-22). Removed per Zhen
-      2026-10-22: pages indexed, the source caption and "0 applications". */}
+      2026-10-22: pages indexed, the source caption and "0 applications". Hidden
+      2026-10-22: the "What I'd hold it to" threshold cards; their release checks
+      repeat Part 06 (git history has them). */}
 
   <ResearchStats cols={3}>
     <Stat num="96" label="Leads captured">
@@ -757,25 +758,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     closed on Jun 23, the day before the chat went live, so none of them came
     from a chat.
   </BodyText>
-
-  <SectionH small>What I'd hold it to</SectionH>
-  {/* Zhen 2026-10-08: no formal AI PRD. Measures tracked: AI share of
-      inquiry-to-tour conversations, messages per conversation, inquiries + tour
-      forms, conversion. Thresholds are [TARGET] proposals ("what I'd hold it
-      to"), never a June gate. Baselines: 96 accepted (54 + 42), May 5–Jun 23
-      [REAL]; messages per conversation not measured [CONFIRM]. Release checks:
-      historical 47-case suite; code-written replies are English-only (gap). */}
-  <ThresholdCards
-    items={[
-      { measure: "Inquiries and tour requests", today: "96 from May 5 to Jun 23, 2026: 54 inquiries, 42 tour requests", rule: "Track it as a rate per chat. If it drops 20% below its 4-week average, check the latest flow change first." },
-      { measure: "Messages to reach a request", today: "Not measured yet", rule: "If renters need more than about 8 messages to send one, revisit the intake form and the no-results replies." },
-    ]}
-    checks={[
-      { text: "A protected-class filter is never extracted, and a decline clears the saved filters.", state: "pass" },
-      { text: "No reply claims a tour is booked.", state: "pass" },
-      { text: "Replies come back in the renter's language. Text written by code is still English only.", state: "gap" },
-    ]}
-  />
 </section>
 
 <section id="rf" data-reveal>
