@@ -119,7 +119,10 @@ const icons: Record<string, string> = {
   @media (max-width: 860px) {
     .cardgrid:not(.cardgrid--inline) .cg-grid { grid-template-columns: repeat(2, 1fr); }
   }
+  /* Repeats the 860px selector so this rule wins on specificity; the bare
+     .cg-grid alone lost to it, leaving phones 2-up. */
   @media (max-width: 560px) {
-    .cg-grid { grid-template-columns: 1fr; }
+    .cg-grid,
+    .cardgrid:not(.cardgrid--inline) .cg-grid { grid-template-columns: 1fr; }
   }
 </style>
