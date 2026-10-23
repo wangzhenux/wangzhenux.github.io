@@ -2,7 +2,8 @@
 /**
  * "What broke, and what we changed" — a horizontal row of fix stories. Each card
  * carries a principle eyebrow, a title in the user's own words, one line for what
- * happened and one for what changed, then the before → after visual. The cards
+ * happened and one for what changed, then the before and after visuals side by
+ * side (stacked on phones), each under its own Before / After label. The cards
  * share row lines (CSS subgrid), so every card's lines and visuals start at the
  * same height whatever the length of its text. The "before" is a
  * small ChatMock reconstructed from the fix (labelled as such); the "after" is a
@@ -10,13 +11,15 @@
  *
  * Mechanics mirror ShowcasePhones: a scroll-snap track on a full-bleed band,
  * prev/next buttons that step a card at a time, the track focusable so arrow
- * keys scroll it. On phones one card shows with the next peeking in.
+ * keys scroll it. Touch and trackpads scroll it natively; a mouse can drag it
+ * (it lands on the next / previous card, never mid-card). On phones one card
+ * shows with the next peeking in.
  *
  * A single story fills the content width instead: words on the left, the
- * before → after on the right (stacked, words first, below 900px).
+ * before and after on the right (stacked, words first, below 900px).
  *
- * Motion: cards rise in as the band enters (in-view island); the before → after
- * arrow nudges once. Static without JS / with reduced motion. Token-only CSS.
+ * Motion: cards rise in as the band enters (in-view island). Static without JS /
+ * with reduced motion. Token-only CSS.
  */
 import ChatMock, { type ChatMsg } from './ChatMock.astro';
 
@@ -59,9 +62,6 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
               <span class="bk-side-lab">Before</span>
               <ChatMock messages={c.before} tag={c.call ? 'Reconstructed' : beforeTag} compact call={c.call} label={`Before: ${c.title}`} />
             </div>
-            <span class="bk-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
             <div class="bk-side">
               <span class="bk-side-lab bk-side-lab--after">After</span>
               {Array.isArray(c.after) ? (
@@ -123,6 +123,10 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
     scrollbar-width: none;
   }
   .bk-track::-webkit-scrollbar { display: none; }
+  @media (hover: hover) and (pointer: fine) { .bk-track { cursor: grab; } }
+  /* Mouse drag: snapping is off while the track follows the pointer, back on once
+     it has glided to a card. */
+  .bk-track.is-dragging { scroll-snap-type: none; cursor: grabbing; user-select: none; }
   .bk-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .bk-card {
     grid-row: span 5;
@@ -186,11 +190,14 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
     font-weight: 500;
     color: var(--ink-primary);
   }
+  /* Before | After. align-content keeps the halves together at the top when the
+     shared subgrid row is taller than this card's pair (stacked on phones). */
   .bk-pair {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    gap: var(--space-3);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
     align-items: start;
+    align-content: start;
   }
   .bk-side { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
   .bk-side-lab {
@@ -201,8 +208,6 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
     color: var(--ink-tertiary);
   }
   .bk-side-lab--after { color: var(--accent-ink); }
-  .bk-arrow { width: 24px; height: 24px; color: var(--accent); align-self: center; }
-  .bk-arrow svg { width: 100%; height: 100%; display: block; }
   .bk-shot { margin: 0; cursor: zoom-in; }
   .bk-shot img {
     width: 100%;
@@ -258,20 +263,16 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
   /* motion */
   .bk-card { transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); transition-delay: calc(min(var(--i), 3) * 0.12s); }
   :global(html.inview-armed) .bk:not(.is-in) .bk-card { opacity: 0; transform: translateY(var(--space-6)); }
-  :global(html.inview-armed) .bk.is-in .bk-arrow { animation: bk-nudge 1.2s ease-in-out 0.9s 2; }
-  @keyframes bk-nudge {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(var(--space-1)); }
-  }
 
   @media (max-width: 560px) {
     .bk-card { padding: var(--space-5); }
     .bk-pair { grid-template-columns: 1fr; }
-    .bk-arrow { transform: rotate(90deg); justify-self: center; }
-    :global(html.inview-armed) .bk.is-in .bk-arrow { animation: none; }
   }
 </style>
 <script>
+  // Window listeners belong to the page they were added on: abort them before a
+  // view-transition swap so they don't pile up on detached carousels.
+  let pageListeners = new AbortController();
   function initBrokeCarousels() {
     document.querySelectorAll<HTMLElement>('.bk').forEach((root) => {
       if (root.dataset.bkReady) return;
@@ -297,6 +298,57 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
         if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
       });
 
+      // Mouse drag (touch and trackpads already scroll the track natively). Once a
+      // drag is clearly horizontal the track follows the pointer, then glides to the
+      // next / previous card. Capturing the pointer also keeps the release from
+      // clicking (zooming) whatever it ends on.
+      let drag: { id: number; x: number; y: number; left: number; moved: boolean } | null = null;
+      let settleTimer = 0;
+      // Snapping comes back once the glide ends (scrollend, or a timeout where it
+      // never fires). A new drag cancels a pending settle.
+      const settle = () => {
+        track.removeEventListener('scrollend', settle);
+        clearTimeout(settleTimer);
+        track.classList.remove('is-dragging');
+      };
+      track.addEventListener('dragstart', (e) => e.preventDefault()); // no native image drag
+      track.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        drag = { id: e.pointerId, x: e.clientX, y: e.clientY, left: track.scrollLeft, moved: false };
+      });
+      track.addEventListener('pointermove', (e) => {
+        if (!drag || e.pointerId !== drag.id) return;
+        if (!(e.buttons & 1)) { drag = null; return; } // released outside before it began
+        const dx = e.clientX - drag.x;
+        if (!drag.moved) {
+          const dy = e.clientY - drag.y;
+          if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+          if (Math.abs(dx) <= Math.abs(dy)) { drag = null; return; } // selecting text, not dragging
+          drag.moved = true;
+          track.removeEventListener('scrollend', settle); // a glide still settling
+          clearTimeout(settleTimer);
+          track.setPointerCapture(e.pointerId);
+          track.classList.add('is-dragging');
+          window.getSelection()?.removeAllRanges();
+        }
+        track.scrollLeft = drag.left - dx;
+      });
+      const endDrag = (e: PointerEvent) => {
+        if (!drag || e.pointerId !== drag.id) return;
+        const { moved, left } = drag;
+        drag = null;
+        if (!moved) return;
+        const s = step();
+        const moveBy = track.scrollLeft - left;
+        const from = Math.round(left / s);
+        const to = Math.max(0, Math.min(cards.length - 1, from + (Math.abs(moveBy) > s * 0.15 ? Math.sign(moveBy) : 0)));
+        track.addEventListener('scrollend', settle);
+        settleTimer = window.setTimeout(settle, 700); // already there, or no scrollend
+        track.scrollTo({ left: to * s, behavior: reduce ? 'auto' : 'smooth' });
+      };
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+
       const sync = () => {
         const max = track.scrollWidth - track.clientWidth - 1;
         prev.disabled = track.scrollLeft <= 0;
@@ -306,10 +358,14 @@ const { cards, label = 'What broke, and what we changed', beforeTag = 'Reconstru
         root.querySelector<HTMLElement>('.bk-controls')!.style.display = overflows ? '' : 'none';
       };
       track.addEventListener('scroll', sync, { passive: true });
-      window.addEventListener('resize', sync);
+      window.addEventListener('resize', sync, { signal: pageListeners.signal });
       sync();
     });
   }
   initBrokeCarousels();
   document.addEventListener('astro:after-swap', initBrokeCarousels);
+  document.addEventListener('astro:before-swap', () => {
+    pageListeners.abort();
+    pageListeners = new AbortController();
+  });
 </script>
