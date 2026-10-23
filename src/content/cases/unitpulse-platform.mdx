@@ -260,7 +260,11 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         Zhen led the step-back and confirm decisions (2026-10-10). Placement:
         own part after the personas, per a Codex review (2026-10-10), so the
         product parts' "AI agents here" lines point back to it. "10 main"
-        because some stations group sub-agents (e.g. Property strategist). */}
+        because some stations group sub-agents (e.g. Property strategist).
+        Leasing flow re-checked in code (2026-10-22): the reply-task router
+        runs on every renter text or email alongside the AI, and AI replies
+        don't close the task (38a6def52). The writer is picked by a rules-based
+        stage check (_is_post_tour). Voice: the call router rings people first. */}
   </BodyText>
   <AgentMap
     id="agents"
