@@ -125,6 +125,13 @@ const { rows, columns, caption, emphasize = 'b', contained = false } = Astro.pro
       border-radius: var(--radius-lg);
     }
     .ct-table tbody th, .ct-table tbody td { padding: 0; border: 0; background: none; }
+    /* Stacked, each row is a card, so its head reads as the card title. */
+    .ct-table tbody .ct-head {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: var(--fs-h6);
+      line-height: var(--lh-title);
+    }
     .ct-table tbody td { margin-top: var(--space-3); }
     .ct--emph .ct-b { padding: var(--space-3); border-radius: var(--radius); background: var(--accent-soft); }
     .ct-table tbody td::before {
