@@ -195,6 +195,7 @@ const data = JSON.stringify(nodes);
 ---
 <figure class="am" id={id} aria-label={label} data-inview>
   <div class="am-in">
+    <div class="am-card">
     <ul class="am-legend" aria-label="Legend">
       <li><svg viewBox="0 0 30 24" aria-hidden="true"><circle cx="12" cy="13" r="8" class="lg-st"/><rect x="15" y="1" width="15" height="10" rx="5" class="lg-fill"/><text x="22.5" y="8.6" text-anchor="middle" class="lg-ai">AI</text></svg>AI agent</li>
       <li><svg viewBox="0 0 30 24" aria-hidden="true"><rect x="5" y="4" width="17" height="17" rx="5" class="lg-auto"/></svg>Rules-based step</li>
@@ -205,6 +206,7 @@ const data = JSON.stringify(nodes);
       <li><svg viewBox="0 0 30 24" aria-hidden="true"><rect x="11" y="0" width="7" height="24" class="lg-trunk"/><path d="M8 12H21" class="lg-gap"/><path d="M0 12H30" class="lg-line lg-line--ins"/></svg>Passes by</li>
     </ul>
     <div class="am-map" set:html={svgMarkup} />
+    </div>
     <p class="am-hint">
       <span class="am-hint-hover">Hover a line to follow it, and click a station for details. The moving markers show work flowing along each line.</span>
       <span class="am-hint-touch">Tap a station for details, and scroll sideways to see the whole map.</span>
@@ -234,7 +236,7 @@ const data = JSON.stringify(nodes);
   }
 
   /* Centered over the map; when it has to wrap, balance keeps the rows even. */
-  .am-legend { list-style: none; margin: 0; padding: 0; text-align: center; text-wrap: balance; font-size: 13px; color: var(--ink-secondary); }
+  .am-legend { list-style: none; margin: 0; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--rule-soft); text-align: center; text-wrap: balance; font-size: 13px; color: var(--ink-secondary); }
   .am-legend li { display: inline-flex; align-items: center; gap: var(--space-2); margin: var(--space-1) var(--space-2); vertical-align: middle; }
   .am-legend svg { flex: none; width: 30px; height: 24px; }
   .lg-st { fill: var(--am-station); stroke: var(--am-lea); stroke-width: 3; }
@@ -249,12 +251,16 @@ const data = JSON.stringify(nodes);
   .lg-jn { fill: var(--am-panel); stroke: var(--ink-primary); stroke-width: 2.5; }
   .lg-gap { stroke: var(--am-panel); stroke-width: 9; }
 
-  .am-map {
-    position: relative;
-    overflow-x: auto;
+  /* The legend sits inside the map card as its key band; only the map scrolls. */
+  .am-card {
+    overflow: hidden;
     border: 1px solid var(--rule);
     border-radius: 22px;
     background: var(--am-panel);
+  }
+  .am-map {
+    position: relative;
+    overflow-x: auto;
   }
   .am-map :global(.am-svg) { display: block; width: 100%; min-width: 940px; height: auto; }
   .am-map :global(.am-trk) { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
