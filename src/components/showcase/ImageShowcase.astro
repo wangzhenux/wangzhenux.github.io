@@ -14,8 +14,11 @@
 // variant="wireframe" / "wireframe-dark": the same band in the stage tones, for
 // wireframes and other mostly-white or transparent design artifacts. Pick the
 // tone the image was drawn for (light labels → dark).
+//
+// variant="plain": no band. The image sits on the page at the text column's
+// width, for diagrams that carry their own panel (the merge timeline).
 interface Props {
-  variant?: 'default' | 'wireframe' | 'wireframe-dark';
+  variant?: 'default' | 'wireframe' | 'wireframe-dark' | 'plain';
 }
 const { variant = 'default' } = Astro.props;
 ---
@@ -65,6 +68,12 @@ const { variant = 'default' } = Astro.props;
   }
   @media (max-width: 767px) {
     .showcase-inner { padding-inline: var(--pad-page-x); }
+  }
+  .image-showcase--plain { padding-block: var(--space-7); }
+  .image-showcase--plain::before { display: none; }
+  .image-showcase--plain .showcase-inner {
+    max-width: var(--max-content);
+    padding-inline: var(--pad-page-x);
   }
   /* Image fits its container at natural aspect ratio — never cropped. */
   .showcase-inner :global(img) {
