@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-for (const [selector, source] of [['.film-frame', 'preview'], ['[data-play-film]', 'watch_button']]) {
+for (const [selector, source] of [['[data-play-film]', 'watch_button']]) {
   test(`film ${source}: distinguish opens from starts and ignore pause/resume`, async ({ page }) => {
     expect(await videoEvents(page)).toEqual([]);
     await page.locator(selector).click();

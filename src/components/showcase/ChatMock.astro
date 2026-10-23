@@ -122,7 +122,7 @@ const svg = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="current
     border: 1px dashed var(--mock-rule);
     border-radius: var(--radius-sm);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--mock-muted);
@@ -137,7 +137,7 @@ const svg = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="current
     gap: var(--space-3);
   }
   .cm-msg { display: flex; flex-direction: column; gap: var(--space-2); }
-  .cm-text { margin: 0; font-size: 14px; line-height: 1.5; }
+  .cm-text { margin: 0; font-size: var(--fs-small); line-height: 1.5; }
   .cm-sr {
     position: absolute;
     width: 1px;
@@ -165,7 +165,7 @@ const svg = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="current
   }
   .cm-who {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--mock-green);
@@ -173,7 +173,7 @@ const svg = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="current
   .cm-msg--event { align-self: center; }
   .cm-msg--event .cm-text {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     letter-spacing: 0.04em;
     color: var(--mock-muted);
     text-align: center;
@@ -181,7 +181,7 @@ const svg = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="current
 
   /* The line the story turns on: an outcome card. */
   .cm-msg.cm-flag { align-self: stretch; }
-  .cm-out { display: grid; gap: var(--space-2); padding: var(--space-3); border-radius: 10px; font-size: 13px; line-height: 1.4; }
+  .cm-out { display: grid; gap: var(--space-2); padding: var(--space-3); border-radius: 10px; font-size: var(--fs-note); line-height: 1.4; }
   .cm-flag--bad .cm-out { background: var(--mock-warn-soft); color: var(--mock-warn); }
   .cm-flag--good .cm-out { background: var(--mock-chip); color: var(--mock-green); }
   .cm-out-t { margin: 0; display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
@@ -197,7 +197,7 @@ const svg = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="current
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2);
-    font-size: 12.5px;
+    font-size: var(--fs-note);
     color: var(--mock-muted);
   }
   .cm-call-ic { display: inline-flex; }
@@ -206,10 +206,10 @@ const svg = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="current
   .cm--call .cm-msg--renter,
   .cm--call .cm-msg--ai,
   .cm--call .cm-msg--agent { align-self: stretch; max-width: none; padding: 0; background: none; border: 0; border-radius: 0; }
-  .cm-row { margin: 0; display: grid; grid-template-columns: 52px 1fr; gap: var(--space-2); font-size: 14px; line-height: 1.5; }
+  .cm-row { margin: 0; display: grid; grid-template-columns: 52px 1fr; gap: var(--space-2); font-size: var(--fs-small); line-height: 1.5; }
   .cm-row-who {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     line-height: 2.1;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -226,8 +226,8 @@ const svg = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="current
     border: 1px solid var(--mock-rule);
     border-radius: 10px;
   }
-  .cm-card-title { font-size: 13px; font-weight: 600; }
-  .cm-card-meta { font-size: 12px; color: var(--mock-muted); }
+  .cm-card-title { font-size: var(--fs-note); font-weight: 600; }
+  .cm-card-meta { font-size: var(--fs-meta); color: var(--mock-muted); }
   .cm-chips {
     list-style: none;
     margin: 0;
@@ -241,13 +241,13 @@ const svg = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="current
     background: var(--mock-chip);
     color: var(--mock-green);
     border-radius: 999px;
-    font-size: 12px;
+    font-size: var(--fs-meta);
     font-weight: 500;
     line-height: 1.6;
   }
 
   .cm--compact { padding: var(--space-4); }
-  .cm--compact .cm-text { font-size: 13px; }
+  .cm--compact .cm-text { font-size: var(--fs-note); }
   .cm--compact .cm-log { gap: var(--space-2); }
 
   /* Motion: messages arrive one at a time once the vignette is in view. */

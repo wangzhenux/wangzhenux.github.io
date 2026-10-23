@@ -11,24 +11,23 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
 
   // The 10-second layer: a real product hero + the user-oriented outcome.
   await expect(page.locator('.hero-cover img')).toHaveAttribute('src', /hero-cover\.png/);
-  await expect(page.locator('.meta-strip')).toContainText('821 → 400 → 59');
+  await expect(page.locator('.meta-strip')).toContainText('50+ properties on one platform');
 
-  // The spine: Context + Parts 01–12 (thirteen PartHeaders). Who it serves,
-  // then the AI agents as the system overview, the product chapters
-  // (generate demand → convert leads → optimize operations → answer every
-  // call → on the go), the Copilot as the bridge, the platform as the payoff,
-  // and the design system.
+  // The spine: Context, Parts 01–10 and a closing coda (twelve PartHeaders).
+  // Who it serves, then the platform as the solution (with the AI agent map),
+  // the product chapters (generate demand → convert leads → optimize
+  // operations → answer every call), the Copilot, the design system, the
+  // agents' app as "One more thing", then evidence and reflection.
   const parts = page.locator('.part-title');
-  await expect(parts).toHaveCount(13);
-  await expect(parts.nth(2)).toContainText('AI agents and human control');
+  await expect(parts).toHaveCount(12);
+  await expect(parts.nth(2)).toContainText('3 products, one platform');
   await expect(parts.nth(3)).toContainText('Marketing: generate demand');
   await expect(parts.nth(4)).toContainText('Leasing: convert leads');
   await expect(parts.nth(5)).toContainText('Insight: optimize operations');
   await expect(parts.nth(6)).toContainText('Voice AI: answer every call');
-  await expect(parts.nth(7)).toContainText('mobile app');
-  await expect(parts.nth(8)).toContainText('Copilot');
-  await expect(parts.nth(9)).toContainText('Separate products, one platform');
-  await expect(parts.nth(10)).toContainText('The design system');
+  await expect(parts.nth(7)).toContainText('Copilot');
+  await expect(parts.nth(8)).toContainText('The design system');
+  await expect(parts.nth(9)).toContainText('Leasing on the go');
 
   // The AI agent map: 10 AI stations, and a station opens its popover.
   await expect(page.locator('#agents .am-node[aria-label^="AI agent:"]')).toHaveCount(10);

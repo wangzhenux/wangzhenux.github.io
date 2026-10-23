@@ -52,7 +52,7 @@ const { n, title, role, href, linkText } = Astro.props;
   .expand-summary::marker { content: ''; }
   .expand-n {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     color: var(--accent);
     letter-spacing: 0.1em;
     padding-top: var(--space-1);
@@ -66,19 +66,20 @@ const { n, title, role, href, linkText } = Astro.props;
   }
   .expand-title {
     font-family: var(--font-display);
-    font-size: 21px;
-    line-height: 1.25;
+    /* 21 sat between tiers; heads the expanded detail, so the large-title tier */
+    font-size: var(--fs-h5);
+    line-height: var(--lh-title);
     letter-spacing: -0.01em;
     color: var(--ink-primary);
     font-weight: 500;
   }
   .expand-role {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--ink-tertiary);
-    line-height: 1.5;
+    line-height: var(--lh-small);
   }
   .expand-chevron {
     flex: 0 0 auto;
@@ -102,7 +103,7 @@ const { n, title, role, href, linkText } = Astro.props;
     display: inline-block;
     margin-top: var(--space-6);
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: var(--fs-note);
     color: var(--accent);
     text-decoration: none;
     border-bottom: 1px solid var(--rule);

@@ -21,7 +21,7 @@ const { href, title, deck } = Astro.props;
   }
   .next-case .label {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     color: var(--ink-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.16em;
@@ -29,10 +29,10 @@ const { href, title, deck } = Astro.props;
   }
   .next-case h3 {
     font-family: var(--font-display);
-    font-size: 30px;
+    font-size: var(--fs-h3);
     margin: 0 0 var(--space-2);
     font-weight: 500;
-    line-height: 1.15;
+    line-height: var(--lh-heading);
   }
   .next-case:hover h3 {
     color: var(--accent);
@@ -47,7 +47,7 @@ const { href, title, deck } = Astro.props;
   .next-case .deck {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 15px;
+    font-size: var(--fs-card);
     color: var(--ink-tertiary);
     margin: 0;
   }

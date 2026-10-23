@@ -72,7 +72,7 @@ const inline = (t: string) =>
     border-bottom: 1px solid var(--code-rule);
     background: var(--code-head);
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     color: var(--code-ink);
   }
   .doc-dots { display: inline-flex; gap: calc(var(--space-1) + 2px); }
@@ -87,7 +87,7 @@ const inline = (t: string) =>
     list-style: none;
     counter-reset: ln;
     font-family: var(--font-mono);
-    font-size: 13.5px;
+    font-size: var(--fs-small);
     line-height: 1.75;
     color: var(--code-ink);
     overflow-x: auto;
@@ -110,7 +110,7 @@ const inline = (t: string) =>
     .doc-wrap--split { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
-    .doc-body { font-size: 12px; }
+    .doc-body { font-size: var(--fs-meta); }
     .doc-note { display: none; }
   }
 </style>

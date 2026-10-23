@@ -101,7 +101,7 @@ const check = [
         </div>
       </div>
       <div class="pb-stage">
-        <div class="pb-fr" style="--w: 820px">
+        <div class="pb-fr pb-fr--dialog" style="--w: 820px">
           <img src={`${base}/marketing/draft.jpg`} alt="The Create post screen, with a draft held for review" width="2400" height="1500" loading="lazy" decoding="async" />
         </div>
       </div>
@@ -136,7 +136,7 @@ const check = [
   .pb-eb {
     margin: 0;
     font-family: var(--font-mono);
-    font-size: 10.5px;
+    font-size: var(--fs-label);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--up-sub);
@@ -145,9 +145,11 @@ const check = [
   .pb-t h3 {
     margin: var(--space-1) 0 0;
     font-family: var(--font-display);
-    font-size: 21px;
+    /* Card-title tier, not --fs-h5: at 22px the nowrap "Every lead in one
+       pipeline" clips in its 2-span tile near a 1024px viewport. */
+    font-size: var(--fs-h6);
     font-weight: 500;
-    line-height: 1.22;
+    line-height: var(--lh-title);
     color: var(--up-emerald-ink);
     white-space: nowrap;
   }
@@ -168,6 +170,16 @@ const check = [
     box-shadow: var(--up-frame-shadow);
   }
   .pb-fr img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+  /* Create post is a dialog captured over a grey backdrop. Crop the backdrop
+     and the dialog's edge so its screen fills the frame like the other tiles.
+     Numbers are image pixels: 2400 wide, the dialog's inside starts at 63, 63
+     and is 2274 wide. */
+  .pb-fr--dialog img {
+    width: calc(100% * 2400 / 2274);
+    max-width: none;
+    height: auto;
+    margin: calc(-100% * 63 / 2274) 0 0 calc(-100% * 63 / 2274);
+  }
   .pb-ph {
     position: absolute;
     left: 0;
@@ -193,7 +205,7 @@ const check = [
     gap: var(--space-2);
     padding: var(--space-2) var(--space-4);
     border-radius: 999px;
-    font-size: 12.5px;
+    font-size: var(--fs-note);
     color: var(--up-ink);
   }
   .pb-pill svg { width: 14px; height: 14px; color: var(--up-ai); }
@@ -211,8 +223,8 @@ const check = [
   }
   .pb-evt-ic { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--up-mint); color: var(--up-emerald); }
   .pb-evt-ic svg { width: 18px; height: 18px; }
-  .pb-evt b { display: block; font-size: 13px; color: var(--up-ink); }
-  .pb-evt span span { display: block; font-size: 12px; color: var(--up-muted); }
+  .pb-evt b { display: block; font-size: var(--fs-note); color: var(--up-ink); }
+  .pb-evt span span { display: block; font-size: var(--fs-meta); color: var(--up-muted); }
 
   /* Marketing: the title and the checks on the left, the screen on the right. */
   .pb-left { flex: 0 0 250px; display: flex; flex-direction: column; }
@@ -222,13 +234,13 @@ const check = [
   .pb-check p {
     margin: 0 0 var(--space-2);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--up-muted);
   }
   .pb-check ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
-  .pb-check li { display: flex; align-items: center; gap: var(--space-3); font-size: 13px; color: var(--up-ink); }
+  .pb-check li { display: flex; align-items: center; gap: var(--space-3); font-size: var(--fs-note); color: var(--up-ink); }
   .pb-check svg { flex: none; width: 18px; height: 18px; }
   .pb-check .is-ok svg { color: var(--up-emerald); }
   .pb-check .is-flag { font-weight: 600; color: var(--up-amber-ink); }

@@ -53,7 +53,9 @@ const { name, strength, gap, logo, logoColor } = Astro.props;
     font-family: var(--font-display);
     font-weight: 500;
     color: var(--ink-primary);
-    font-size: 15px;
+    /* row title over 16px card text: steps up to the card-title tier */
+    font-size: var(--fs-h6);
+    line-height: var(--lh-title);
     letter-spacing: -0.01em;
   }
   .competitor-logo-mark {
@@ -68,7 +70,7 @@ const { name, strength, gap, logo, logoColor } = Astro.props;
     font-family: var(--font-display);
     font-weight: 600;
     color: var(--ink-primary);
-    font-size: 14px;
+    font-size: var(--fs-small);
     letter-spacing: -0.01em;
   }
   @media (max-width: 767px) {
@@ -76,12 +78,12 @@ const { name, strength, gap, logo, logoColor } = Astro.props;
   }
   .competitor-good {
     font-size: var(--fs-card);
-    line-height: 1.55;
+    line-height: var(--lh-card);
     color: var(--ink-primary);
   }
   .competitor-good .label {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: var(--fs-fig);
     color: var(--ink-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -90,12 +92,12 @@ const { name, strength, gap, logo, logoColor } = Astro.props;
   }
   .competitor-gap {
     font-size: var(--fs-card);
-    line-height: 1.55;
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
   }
   .competitor-gap .label {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: var(--fs-fig);
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 0.14em;

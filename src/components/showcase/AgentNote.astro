@@ -29,7 +29,7 @@ const { agents, href = '#agents' } = Astro.props;
     align-items: center;
     gap: var(--space-1);
     font-family: var(--font-mono);
-    font-size: 10.5px;
+    font-size: var(--fs-label);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--accent-ink);
@@ -40,11 +40,11 @@ const { agents, href = '#agents' } = Astro.props;
     border-radius: 999px;
     background: var(--accent-soft);
     border: 1px solid var(--accent-medium);
-    font-size: 13px;
+    font-size: var(--fs-note);
     color: var(--ink-primary);
   }
   .an-link {
-    font-size: 13px;
+    font-size: var(--fs-note);
     color: var(--ink-secondary);
     text-decoration: underline;
     text-underline-offset: 3px;

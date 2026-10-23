@@ -37,7 +37,7 @@ const { items, heading = 'Selected work' } = Astro.props;
   }
   .strip-h2 {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: var(--fs-h4);
     letter-spacing: -0.01em;
     margin: 0 0 var(--space-6);
     font-weight: 500;
@@ -58,7 +58,7 @@ const { items, heading = 'Selected work' } = Astro.props;
   }
   .strip-label {
     font-family: var(--font-display);
-    font-size: 16px;
+    font-size: var(--fs-card);
     color: var(--ink-primary);
     display: flex;
     align-items: baseline;
@@ -73,7 +73,7 @@ const { items, heading = 'Selected work' } = Astro.props;
   .strip-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
   .strip-tag {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: var(--fs-micro);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--accent);
@@ -83,8 +83,8 @@ const { items, heading = 'Selected work' } = Astro.props;
     white-space: nowrap;
   }
   .strip-detail {
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
     color: var(--ink-secondary);
   }
   @media (max-width: 600px) {

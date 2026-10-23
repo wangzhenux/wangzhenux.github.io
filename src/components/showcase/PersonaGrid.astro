@@ -20,8 +20,12 @@ interface Persona {
 interface Props {
   personas: Persona[];
   label?: string;
+  /** Heading level for the names: 4 under a sub-section heading (default),
+   *  3 when the grid sits directly under a Part title. */
+  level?: 3 | 4;
 }
-const { personas, label = 'Renter personas' } = Astro.props;
+const { personas, label = 'Renter personas', level = 4 } = Astro.props;
+const NameTag = level === 3 ? 'h3' : 'h4';
 const A =
   '" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
 const avatars: Record<string, string> = {
@@ -43,7 +47,7 @@ const avatars: Record<string, string> = {
           ) : (
             <span class="pg-avatar" aria-hidden="true" set:html={avatars[p.avatar ?? 'a'] ?? avatars.a} />
           )}
-          <h4 class="pg-name">{p.name}</h4>
+          <NameTag class="pg-name">{p.name}</NameTag>
         </div>
         <p class="pg-who">{p.who}</p>
         {p.traits && p.traits.length > 0 && (
@@ -98,8 +102,8 @@ const avatars: Record<string, string> = {
   .pg-avatar--photo { background: none; object-fit: cover; }
   .pg-name {
     font-family: var(--font-display);
-    font-size: 18px;
-    line-height: 1.2;
+    font-size: var(--fs-h6);
+    line-height: var(--lh-title);
     letter-spacing: -0.01em;
     color: var(--ink-primary);
     margin: 0;
@@ -107,7 +111,7 @@ const avatars: Record<string, string> = {
   }
   .pg-who {
     font-size: var(--fs-card);
-    line-height: 1.55;
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
     margin: 0;
   }
@@ -121,7 +125,7 @@ const avatars: Record<string, string> = {
   }
   .pg-trait {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     letter-spacing: 0.02em;
     color: var(--ink-tertiary);
     border: 1px solid var(--rule);
@@ -134,13 +138,13 @@ const avatars: Record<string, string> = {
     padding-top: var(--space-3);
     border-top: 1px solid var(--rule);
     font-size: var(--fs-card);
-    line-height: 1.5;
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
   }
   .pg-needs-label {
     display: block;
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--accent);

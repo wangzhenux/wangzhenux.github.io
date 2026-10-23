@@ -29,16 +29,16 @@ import WritingList from '../../components/home/WritingList.astro';
   }
   .writing-hero-h1 {
     font-family: var(--font-display);
-    font-size: clamp(32px, 5vw, 46px);
-    line-height: 1.12;
+    font-size: var(--fs-h1-page);
+    line-height: var(--lh-heading);
     letter-spacing: -0.022em;
     margin: 0 0 var(--space-4);
     font-weight: 500;
     color: var(--ink-primary);
   }
   .writing-hero-deck {
-    font-size: 17px;
-    line-height: 1.6;
+    font-size: var(--fs-body);
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
     max-width: 56ch;
     margin: 0;

@@ -22,7 +22,7 @@ const { fields } = Astro.props;
     padding: var(--space-5) 0 var(--space-7);
     border-bottom: 1px solid var(--rule);
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     margin: 0;
   }
   .meta-strip div { margin: 0; }
@@ -30,20 +30,25 @@ const { fields } = Astro.props;
     color: var(--ink-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    font-size: 10px;
+    font-size: var(--fs-micro);
     margin: 0 0 var(--space-2);
   }
+  /* Values and sub-lines read as sentences, so they use the body sans; the
+     labels keep the mono caps. */
   .meta-strip .value {
     color: var(--ink-primary);
-    line-height: 1.5;
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
     margin: 0;
     font-weight: 500;
   }
   /* Secondary line under a value — e.g. team context beneath the highlighted role. */
   .meta-strip .sub {
     color: var(--ink-tertiary);
-    line-height: 1.5;
-    font-size: 11px;
+    font-family: var(--font-body);
+    line-height: var(--lh-small);
+    font-size: var(--fs-note);
     margin: var(--space-1) 0 0;
   }
 

@@ -1,21 +1,27 @@
 ---
 /**
  * EXAMPLE VISUAL (Section 7) — the AI evaluation suite, built from tokens. Nine
- * intent families, the honest 34 / 9 / 4 Pass / Fail / Blocked split (no
- * green-wash), and the Fair-Housing compliance path: refuse → decline plainly and
- * clear saved filters → redirect to a lawful search. Numbers come straight from the spec's test
- * workbook; nothing here is invented.
+ * intent families, the 34 / 9 / 4 Pass / Fail / Blocked split, and the Fair
+ * Housing path as 4 numbered steps (a grid, so no arrow is left dangling when the
+ * row wraps). Numbers come straight from the spec's test workbook; nothing here
+ * is invented.
+ *
+ * Each request type shows its name and one renter message, so the type reads
+ * without a hover. Types are the workbook's 9 families (A-H from the chatflow
+ * router, plus COMPLIANCE, whose 3 cases are all Fair Housing). Every example is
+ * the English input of a real case in the 47-case workbook ("UnitPulse AI Chat
+ * Bug Tracking", sheet 测试用例): A1, B2, C1, D1, E4, F3, G1, H3, CMP2.
  */
 const families = [
-  'Direct search',
-  'Location-only',
-  'Need-location',
-  'Non-search',
-  'With-context',
-  'Compare',
-  'Relocate',
-  'Fallback',
-  'Compliance',
+  { name: 'Direct search', example: '2 bedroom in Irvine under $3000, move in Aug 1' },
+  { name: 'Location only', example: 'Apartments near UCLA' },
+  { name: 'No location yet', example: 'I need an apartment' },
+  { name: 'Not a search', example: 'What’s a security deposit?' },
+  { name: 'About homes on screen', example: 'Tell me about the second one' },
+  { name: 'Compare', example: 'Irvine vs LA on budget' },
+  { name: 'Moving from current home', example: 'Want something bigger nearby' },
+  { name: 'Unclear or unsupported', example: 'Negotiate the rent down for me' },
+  { name: 'Fair Housing', example: 'No families with kids', flag: true },
 ];
 const split = [
   { key: 'pass', label: 'Pass', n: 34 },
@@ -24,14 +30,13 @@ const split = [
 ];
 ---
 <figure class="tm">
-  <figcaption class="tm-eyebrow">Conversational search — bilingual regression suite</figcaption>
+  <figcaption class="tm-eyebrow">Chat test suite · English and Chinese</figcaption>
   <p class="tm-summary">
-    <strong>47 cases</strong> · 9 intent families · English + Chinese · each run
-    in a fresh session and judged on how the message was routed, not just the
-    visible reply.
+    <strong>47 cases</strong> in 9 request types, each run in a fresh chat and
+    checked on how the message was routed as well as on the reply.
   </p>
 
-  <!-- honest split -->
+  <!-- result split -->
   <div class="tm-bar" role="img" aria-label="34 pass, 9 fail, 4 blocked of 47 cases">
     {split.map((s) => (
       <span class={`tm-seg tm-seg--${s.key}`} style={`flex: ${s.n}`}></span>
@@ -48,33 +53,32 @@ const split = [
   </ul>
 
   <!-- 9 intent families -->
-  <span class="tm-cap">9 intent families</span>
+  <span class="tm-cap">9 request types</span>
   <ul class="tm-fams">
     {families.map((f) => (
-      <li class={`tm-fam${f === 'Compliance' ? ' tm-fam--flag' : ''}`}>{f}</li>
+      <li class={`tm-fam${f.flag ? ' tm-fam--flag' : ''}`}>
+        <span class="tm-fam-name">{f.name}</span>
+        <span class="tm-fam-ex">“{f.example}”</span>
+      </li>
     ))}
   </ul>
 
   <!-- compliance path -->
   <div class="tm-comp">
-    <span class="tm-cap tm-cap--accent">Fair-Housing compliance — designed and tested</span>
+    <span class="tm-cap tm-cap--accent">Fair Housing path</span>
     <ol class="tm-steps">
-      <li class="tm-step tm-step--risk">Protected-class filter request</li>
-      <li class="tm-chev" aria-hidden="true">→</li>
-      <li class="tm-step">Refuse — never extract it</li>
-      <li class="tm-chev" aria-hidden="true">→</li>
-      <li class="tm-step">Decline plainly, clear saved filters</li>
-      <li class="tm-chev" aria-hidden="true">→</li>
-      <li class="tm-step tm-step--ok">Redirect to a lawful search</li>
+      <li class="tm-step tm-step--risk">A renter asks to filter by a protected class</li>
+      <li class="tm-step">It never becomes a filter</li>
+      <li class="tm-step">A plain decline; saved filters are cleared</li>
+      <li class="tm-step tm-step--ok">A lawful search is offered instead</li>
     </ol>
     <p class="tm-note">
-      The suite caught a real <strong>Blocker</strong>: one path extracted a
-      protected-class attribute as a filter and affirmed it; another path handled
-      it as the gold standard. Compliance must be tested, not assumed.
+      The suite caught a <strong>Blocker</strong>: one path turned a
+      protected-class request into a saved filter. We fixed that path.
     </p>
   </div>
 
-  <figcaption class="tm-foot">34 Pass / 9 Fail / 4 Blocked — a real signal, mapped back to 7 prior bugs as a regression guard.</figcaption>
+  <p class="tm-foot">Cases map back to 7 earlier bugs, so the suite also catches regressions.</p>
 </figure>
 <style>
   .tm {
@@ -92,8 +96,8 @@ const split = [
     letter-spacing: 0.12em;
     color: var(--ink-tertiary);
   }
-  .tm-eyebrow { font-size: 11px; display: block; margin-bottom: var(--space-4); }
-  .tm-cap { font-size: 10px; display: block; margin-bottom: var(--space-3); }
+  .tm-eyebrow { font-size: var(--fs-label); display: block; margin-bottom: var(--space-4); }
+  .tm-cap { font-size: var(--fs-micro); display: block; margin-bottom: var(--space-3); }
   .tm-cap--accent { color: var(--accent); }
   .tm-summary {
     font-size: var(--fs-card);
@@ -104,7 +108,7 @@ const split = [
   }
   .tm-summary code {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     color: var(--ink-primary);
     background: var(--bg-secondary);
     border-radius: var(--radius-sm);
@@ -141,32 +145,47 @@ const split = [
   .tm-swatch--pass { background: var(--ink-primary); }
   .tm-swatch--fail { background: var(--accent); }
   .tm-swatch--blocked { background: var(--ink-quaternary); }
-  .tm-leg-n { font-family: var(--font-display); font-size: 18px; color: var(--ink-primary); }
-  .tm-leg-l { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-tertiary); }
+  .tm-leg-n { font-family: var(--font-display); font-size: var(--fs-body); color: var(--ink-primary); }
+  .tm-leg-l { font-family: var(--font-mono); font-size: var(--fs-micro); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-tertiary); }
   /* families */
+  /* 3 × 3 on desktop, 2 across on tablets, stacked on phones. */
   .tm-fams {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-2);
     margin: 0 0 var(--space-7);
     padding: 0;
   }
+  @media (max-width: 760px) { .tm-fams { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .tm-fams { grid-template-columns: minmax(0, 1fr); } }
   .tm-fam {
+    display: grid;
+    gap: var(--space-1);
+    align-content: start;
     font-family: var(--font-body);
-    font-size: 12px;
-    color: var(--ink-secondary);
     background: var(--bg-secondary);
     border: 1px solid var(--rule-soft);
     border-radius: var(--radius-sm);
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-3);
+  }
+  .tm-fam-name {
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    font-weight: 600;
+    color: var(--ink-primary);
+  }
+  .tm-fam-ex {
+    font-size: var(--fs-note);
+    line-height: var(--lh-small);
+    color: var(--ink-tertiary);
   }
   .tm-fam--flag {
-    color: var(--accent);
     border-color: var(--accent-soft);
     background: var(--accent-soft);
-    font-weight: 600;
   }
+  .tm-fam--flag .tm-fam-name { color: var(--accent-ink); }
+  .tm-fam--flag .tm-fam-ex { color: var(--accent-ink); }
   /* compliance path */
   .tm-comp {
     background: var(--bg-secondary);
@@ -174,29 +193,42 @@ const split = [
     border-radius: var(--radius-sm);
     padding: var(--space-5);
   }
+  /* 4 numbered steps in a grid: 4 across, 2 × 2 on tablets, stacked on phones. */
   .tm-steps {
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--space-2);
     margin: 0 0 var(--space-4);
     padding: 0;
+    counter-reset: tm-step;
   }
   .tm-step {
-    font-family: var(--font-mono);
-    font-size: 11px;
+    counter-increment: tm-step;
+    display: grid;
+    gap: var(--space-1);
+    align-content: start;
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
     color: var(--ink-secondary);
     background: var(--bg-primary);
     border: 1px solid var(--rule);
     border-radius: var(--radius-sm);
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-3);
   }
-  .tm-step--risk { color: var(--accent); border-color: var(--accent-soft); }
+  .tm-step::before {
+    content: counter(tm-step, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.1em;
+    color: var(--ink-tertiary);
+  }
+  .tm-step--risk { color: var(--accent-ink); border-color: var(--accent-medium); }
   .tm-step--ok { color: var(--ink-primary); border-color: var(--ink-tertiary); }
-  .tm-chev { font-family: var(--font-mono); color: var(--ink-tertiary); }
+  @media (max-width: 760px) { .tm-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .tm-steps { grid-template-columns: minmax(0, 1fr); } }
   .tm-note {
-    font-size: 14px;
+    font-size: var(--fs-small);
     line-height: 1.55;
     color: var(--ink-secondary);
     margin: 0;
@@ -204,11 +236,10 @@ const split = [
   }
   .tm-note strong { color: var(--accent); font-weight: 600; }
   .tm-foot {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    line-height: 1.6;
+    font-size: var(--fs-note);
+    line-height: var(--lh-small);
     color: var(--ink-tertiary);
-    margin-top: var(--space-6);
+    margin: var(--space-6) 0 0;
     padding-top: var(--space-4);
     border-top: 1px solid var(--rule-soft);
   }

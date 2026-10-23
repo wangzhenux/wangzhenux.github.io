@@ -150,7 +150,7 @@ const href = `/work/${slug}`;
   }
   .fcard-co {
     font-family: var(--font-display);
-    font-size: 17px;
+    font-size: var(--fs-card); /* logo stand-in wordmark; no 17 tier */
     font-weight: 600;
   }
   .fcard-pills {
@@ -159,7 +159,7 @@ const href = `/work/${slug}`;
   }
   .pill {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.09em;
     text-transform: uppercase;
     padding: var(--space-1) var(--space-3);
@@ -173,8 +173,8 @@ const href = `/work/${slug}`;
   .fcard-title {
     display: block;
     font-family: var(--font-display);
-    font-size: clamp(26px, 3.4vw, 34px);
-    line-height: 1.12;
+    font-size: var(--fs-h3);
+    line-height: var(--lh-heading);
     letter-spacing: -0.015em;
     font-weight: 500;
     margin-top: var(--space-6);
@@ -182,8 +182,8 @@ const href = `/work/${slug}`;
   }
   .fcard-lead {
     display: block;
-    font-size: 15px;
-    line-height: 1.55;
+    font-size: var(--fs-card);
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
     margin-top: var(--space-2);
     max-width: 60ch;
@@ -194,8 +194,9 @@ const href = `/work/${slug}`;
      Like the grid cards, the box is kept SHORTER than the framed shot so the
      frame always reaches the bottom edge and crops there — no cream gap under
      the device. That holds while `box aspect x frame width` >= the screenshot's
-     own aspect: 2 x 0.84 = 1.68 here, and 1.882 x 0.90 = 1.69 on mobile, so both
-     breakpoints carry the same ~1.68 ceiling (today's hero shot is 1.59). */
+     own aspect: 2 x 1 = 2 here, and 1.882 x 1 = 1.88 on mobile (today's hero
+     shot is 1.59). The frame spans the text column, so it shares the logo/title
+     left edge and the pills' right edge. */
   .fcard-shot {
     position: relative;
     margin-top: var(--space-7);
@@ -204,9 +205,8 @@ const href = `/work/${slug}`;
   .fcard-shot :global(.pframe) {
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 84%;
+    left: 0;
+    width: 100%;
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .fcard-cover {
@@ -242,7 +242,7 @@ const href = `/work/${slug}`;
       background: color-mix(in srgb, var(--ink-on-dark) 8%, transparent);
     }
     .fcard:hover .fcard-shot :global(.pframe) {
-      transform: translateX(-50%) translateY(-14px);
+      transform: translateY(-14px);
     }
     .fcard:hover .fx-c--big {
       opacity: 1;
@@ -299,7 +299,7 @@ const href = `/work/${slug}`;
       transform: none;
     }
     .fcard:hover .fcard-shot :global(.pframe) {
-      transform: translateX(-50%);
+      transform: none;
     }
   }
 
@@ -308,18 +308,15 @@ const href = `/work/${slug}`;
       padding: var(--space-6) var(--space-6) 0;
     }
     /* Taller box than desktop so the screenshot reads bigger on a phone, but
-       still short enough to keep the bottom crop (see the ceiling above). The
-       frame matches the grid cards' 90%, so the gutter beside the device is
-       the same on both card types. */
+       still short enough to keep the bottom crop (see the ceiling above). */
     .fcard-shot {
       aspect-ratio: 16 / 8.5;
       margin-top: var(--space-5);
     }
-    .fcard-shot :global(.pframe) {
-      width: 90%;
-    }
     .fcard-hdr {
       flex-wrap: wrap;
     }
+    /* Stay clearly under the page title, which drops to 32 on phones. */
+    .fcard-title { font-size: var(--fs-h4); }
   }
 </style>

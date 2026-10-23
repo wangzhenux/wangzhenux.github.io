@@ -106,7 +106,7 @@ const { blocks, label = 'Storyboard' } = Astro.props;
     gap: var(--space-2);
     margin: 0 0 var(--space-4);
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--accent-ink);
@@ -126,8 +126,8 @@ const { blocks, label = 'Storyboard' } = Astro.props;
   .sb-quote {
     margin: 0 0 var(--space-6);
     font-family: var(--font-display);
-    font-size: clamp(22px, 2.4vw, 28px);
-    line-height: 1.25;
+    font-size: var(--fs-quote);
+    line-height: var(--lh-title);
     letter-spacing: -0.01em;
     color: var(--ink-primary);
   }
@@ -136,12 +136,12 @@ const { blocks, label = 'Storyboard' } = Astro.props;
   .sb-line dt {
     margin-bottom: var(--space-1);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink-tertiary);
   }
-  .sb-line dd { margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink-secondary); }
+  .sb-line dd { margin: 0; font-size: var(--fs-card); line-height: var(--lh-card); color: var(--ink-secondary); }
   .sb-line--designed dt { color: var(--accent-ink); }
   .sb-line--designed dd { color: var(--ink-primary); }
 

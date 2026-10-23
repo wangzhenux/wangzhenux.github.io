@@ -123,8 +123,8 @@ const { frames, placed, W, H } = best;
     margin: 0;
     padding-inline: var(--dss-inset);
     font-family: var(--font-display);
-    font-size: 24px;
-    line-height: 1.25;
+    font-size: var(--fs-h5);
+    line-height: var(--lh-title);
     color: var(--ink-primary);
   }
   .dss-canvas {
@@ -164,7 +164,7 @@ const { frames, placed, W, H } = best;
     transform-origin: 0 0;
     transform: scale(calc(1 / var(--z)));
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     white-space: nowrap;
@@ -185,7 +185,8 @@ const { frames, placed, W, H } = best;
   .dss[data-mode='dark'] .dss-img--dark { display: block; }
   .dss-item figcaption {
     padding-top: var(--space-3);
-    font-size: 18px;
+    /* board caption, scaled by the canvas zoom; 18 is the body tier */
+    font-size: var(--fs-body);
     line-height: 1.2;
     color: var(--ink-secondary);
     white-space: nowrap;
@@ -247,14 +248,14 @@ const { frames, placed, W, H } = best;
     min-width: 4.5ch;
     text-align: center;
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     color: var(--ink-secondary);
     font-variant-numeric: tabular-nums;
   }
   .dss-hint {
     margin: 0;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     letter-spacing: 0.04em;
     color: var(--ink-secondary);
     padding: var(--space-2) var(--space-3);
@@ -265,7 +266,7 @@ const { frames, placed, W, H } = best;
   }
   .dss-hint[hidden] { display: none; }
   @media (max-width: 767px) {
-    .dss-title { font-size: 20px; }
+    .dss-title { font-size: var(--fs-h6); }
     .dss-canvas { height: 420px; }
     .dss-bar { left: var(--space-3); right: var(--space-3); bottom: var(--space-3); }
     .dss-tools { margin-left: 0; width: 100%; justify-content: space-between; }

@@ -1,16 +1,19 @@
 ---
 ---
-<p class="lede"><slot /></p>
+<div class="lede"><slot /></div>
 <style>
-  /* ported from case-study-twilio.html .lede, tokenized.
-     Fills body column; larger than body-text for emphasis. */
+  /* The opening paragraph of a case. It reads exactly like the body text that
+     follows it (same face, size and line height); only its spacing differs.
+     Block container (div, not p), same reason as BodyText: MDX wraps the slot
+     in its own <p>, and a <p> inside a <p> gets split out of this class. */
   .lede {
-    font-family: var(--font-display);
-    font-size: 22px;
-    line-height: 1.55;
+    font-family: var(--font-body);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-body);
     color: var(--ink-primary);
     max-width: none;
     margin: var(--space-10) 0 0;
     padding: 0;
   }
+  .lede :global(p) { margin: 0; }
 </style>

@@ -173,12 +173,50 @@
   --max-content: 1080px;
   --max-body: 880px;
 
-  /* === Reading sizes ===
-     Body prose steps 18 → 17 → 16 by breakpoint; card body text never drops
-     below 15px so short card copy stays as readable as the prose. */
-  --fs-body: 18px;
-  --fs-card: 15px;
   --max-toc: 144px;
+
+  /* === Type scale ===
+     Every font-size in components reads one of these (the token lint enforces
+     it). Each step is at least 1.25× the one below it: section 30 over
+     sub-section 24 over body 18; card title 20 over card text 16. On phones
+     the Part title floor (30) stays 1.25× over the sub-section heading.
+
+     Headings (display serif) */
+  --fs-display: clamp(72px, 16vw, 140px); /* one big outcome number */
+  --fs-h1: clamp(32px, 6vw, 56px);        /* case title */
+  --fs-h1-page: clamp(32px, 5vw, 46px);   /* home and About titles */
+  --fs-h2: clamp(30px, 4vw, 40px);        /* Part title */
+  --fs-h3: 30px;                          /* section statement */
+  --fs-h4: 24px;                          /* sub-section heading */
+  --fs-h5: 22px;                          /* large card title (hero tiles, slides) */
+  --fs-h6: 20px;                          /* card title */
+  --fs-quote: clamp(22px, 2.4vw, 26px);  /* pull quotes, JTBD statement */
+  --fs-num: 36px;                         /* stat numbers */
+  --fs-num-sm: 28px;
+  --fs-num-lg: 56px;
+  /* Text (body sans) */
+  --fs-deck: 20px;   /* serif italic sub-lines: hero deck, SectionDeck */
+  --fs-body: 18px;   /* reading prose; 16 on phones */
+  --fs-lead: var(--fs-body); /* Lede reads as body (same face and size) */
+  --fs-base: 16px;   /* document default */
+  --fs-card: 16px;   /* card, slide and story text */
+  --fs-small: 14px;  /* secondary lines, detail rows */
+  --fs-note: 13px;   /* chips, notes, home card leads */
+  --fs-meta: 12px;   /* stat sub-lines, meta values */
+  --fs-label: 11px;  /* mono labels and captions */
+  --fs-micro: 10px;  /* mono eyebrows, tags */
+  /* Text inside drawn figures and product mock-ups (scaled-down UI) */
+  --fs-fig: 9px;
+  --fs-fig-sm: 8px;
+  --fs-fig-xs: 7px;
+
+  /* Line heights */
+  --lh-tight: 1.05;   /* display and h1 */
+  --lh-heading: 1.15; /* h2 to h4 */
+  --lh-title: 1.25;   /* card titles, quotes */
+  --lh-body: 1.7;     /* reading prose */
+  --lh-card: 1.55;    /* card and slide text */
+  --lh-small: 1.5;    /* small and meta text */
 
   /* === Type families === */
   --font-display: 'Iowan Old Style', 'Charter', 'GT Sectra', Georgia, serif;
@@ -201,7 +239,6 @@
   :root {
     --pad-page-x: var(--space-8);   /* → 40 */
     --pad-section-y: var(--space-10); /* → 56 */
-    --fs-body: 17px;
   }
 }
 @media (max-width: 767px) {

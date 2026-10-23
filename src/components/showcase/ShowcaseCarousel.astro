@@ -13,15 +13,23 @@ import ScreenshotPlaceholder from './ScreenshotPlaceholder.astro';
  * content column (scrollbar-proof), and the card width + translate are pure CSS
  * calc off it, so it stays correct on resize.
  *
- * Behaviour: auto-advances by default but hands the reader the controls — a
- * play / pause that sticks (and becomes REPLAY at the end; it never auto-loops),
- * prev / next, and clickable dots whose active one fills as a progress bar.
- * Pauses on hover and when off-screen, freezing the progress in place (no reset).
- * `prefers-reduced-motion` starts paused with instant transitions; ←/→ keys work.
+ * Behaviour: auto-advances while the slides are in the middle of the viewport and
+ * waits while they're off it, so it starts when the reader scrolls to it (pass
+ * `autoplay={false}` to start paused instead). It also waits while a mouse hovers
+ * the slides (real movement only, so wheel-scrolling to the band still starts it),
+ * while keyboard focus is on a control other than Play, and while a slide is being
+ * dragged; each wait freezes the progress where it is (no reset). The reader has
+ * the controls: a play / pause that sticks (and becomes REPLAY at the end; it
+ * never auto-loops), prev / next, clickable dots whose active one fills as a
+ * progress bar, ←/→ keys, and mouse / touch drag. A manual move or drag doesn't
+ * stop it: it keeps going from the new slide. `prefers-reduced-motion` never
+ * auto-advances and moves instantly; every control still works.
  *
- * Token-only CSS; the script is component-scoped (Astro bundles it). Drop in a
- * real screenshot per slide via `image`/`imageAlt`; until then `label` renders a
- * labelled placeholder.
+ * Token-only CSS. The script is a bundled module, which Astro's ClientRouter runs
+ * once per visit, so it also initialises on `astro:page-load` (carousels on pages
+ * reached by a client-side navigation) and tears down on `astro:before-swap`.
+ * Drop in a real screenshot per slide via `image`/`imageAlt`; until then `label`
+ * renders a labelled placeholder.
  *
  *   <ShowcaseCarousel slides={[{ eyebrow: "01", title: "…", body: "…", label: "…" }]} />
  */
@@ -54,6 +62,7 @@ interface Props {
   slides: Slide[];
   /** Accessible name for the carousel region. */
   label?: string;
+  /** Auto-advance while in view (default). `false` starts paused. */
   autoplay?: boolean;
   intervalMs?: number;
 }
@@ -224,6 +233,10 @@ const count = slides.length;
        layout, so it stays correct on resize); we only animate it here. */
     transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
   }
+  /* While a slide is dragged the track follows the pointer 1:1 (no easing) and
+     text can't be selected under it. */
+  .scar.is-dragging .scar-vp { cursor: grabbing; user-select: none; }
+  .scar.is-dragging .scar-track { transition: none; }
   .scar-slide {
     flex: 0 0 var(--scar-card);
     box-sizing: border-box;
@@ -269,6 +282,13 @@ const count = slides.length;
     padding: clamp(var(--space-6), 4vw, var(--space-10));
     overflow: hidden;
   }
+  /* Video frames: one cell the size of the padded box, so the clip's
+     max-height: 100% resolves and it scales down to fit, centered both ways (an
+     auto row grows to the clip's own height and pushes it toward the bottom).
+     Image frames keep the auto row on purpose (Zhen, 2026-10-23). */
+  .scar-media[data-showcase="true"]:has(> .scar-video) {
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  }
   .scar-media[data-showcase="true"] .scar-video,
   .scar-media[data-showcase="true"] .scar-img {
     width: auto;
@@ -283,22 +303,22 @@ const count = slides.length;
   }
   .scar-eyebrow {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     letter-spacing: 0.16em;
     color: var(--accent);
   }
   .scar-title {
     font-family: var(--font-display);
-    font-size: 23px;
-    line-height: 1.18;
+    font-size: var(--fs-h5);
+    line-height: var(--lh-title);
     letter-spacing: -0.012em;
     color: var(--ink-primary);
     margin: var(--space-3) 0 var(--space-4);
     font-weight: 500;
   }
   .scar-body {
-    font-size: 16px;
-    line-height: 1.66;
+    font-size: var(--fs-card);
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
     margin: 0;
     max-width: 46ch;
@@ -308,12 +328,12 @@ const count = slides.length;
   .scar-part dt {
     margin-bottom: var(--space-1);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink-tertiary);
   }
-  .scar-part dd { margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink-secondary); }
+  .scar-part dd { margin: 0; font-size: var(--fs-card); line-height: var(--lh-card); color: var(--ink-secondary); }
   .scar-part:last-child dt { color: var(--accent-ink); }
   .scar-part:last-child dd { color: var(--ink-primary); }
 
@@ -351,9 +371,9 @@ const count = slides.length;
   .scar[data-playing="true"] .scar-ic-play { display: none; }
   .scar[data-playing="true"] .scar-ic-pause { display: block; }
   /* Reached the end — offer a replay instead of looping back automatically. */
-  .scar[data-ended="true"] .scar-ic-play,
-  .scar[data-ended="true"] .scar-ic-pause { display: none; }
-  .scar[data-ended="true"] .scar-ic-replay { display: block; }
+  .scar[data-ended] .scar-ic-play,
+  .scar[data-ended] .scar-ic-pause { display: none; }
+  .scar[data-ended] .scar-ic-replay { display: block; }
 
   .scar-dots {
     list-style: none;
@@ -391,8 +411,8 @@ const count = slides.length;
   .scar[data-playing="true"] .scar-dot[aria-current="true"]::after {
     animation: scar-fill var(--scar-dur, 5000ms) linear forwards;
   }
-  /* Hover / off-screen freezes the progress in place (it does not reset). */
-  .scar[data-frozen="true"] .scar-dot[aria-current="true"]::after {
+  /* Off-screen / hover / focus / drag freezes the progress in place (no reset). */
+  .scar[data-frozen] .scar-dot[aria-current="true"]::after {
     animation-play-state: paused;
   }
   @keyframes scar-fill {
@@ -419,7 +439,9 @@ const count = slides.length;
 </style>
 
 <script>
-  function initCarousel(root: HTMLElement) {
+  /** Wires one carousel; returns its teardown (timers, observers, window listeners). */
+  function initCarousel(root: HTMLElement): (() => void) | undefined {
+    const vp = root.querySelector<HTMLElement>('.scar-vp');
     const track = root.querySelector<HTMLElement>('.scar-track');
     const slides = Array.from(root.querySelectorAll<HTMLElement>('.scar-slide'));
     const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('.scar-dot'));
@@ -427,21 +449,26 @@ const count = slides.length;
     const next = root.querySelector<HTMLButtonElement>('.scar-next');
     const playBtn = root.querySelector<HTMLButtonElement>('.scar-play');
     const status = root.querySelector<HTMLElement>('.scar-status');
-    if (!track || slides.length === 0) return;
+    if (!vp || !track || slides.length === 0) return;
+    root.dataset.scarReady = 'true';
 
+    const ac = new AbortController();
+    const on = { signal: ac.signal };
     const count = slides.length;
     const interval = Number(root.dataset.interval) || 5000;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const autoplayEnabled = root.dataset.autoplay === 'true' && !reduce;
 
     let i = 0;
-    let userPlaying = autoplayEnabled; // the user's intent (toggled by play/pause)
-    let frozen = false; // transient — hover / off-screen
-    let ended = false; // reached the last slide — offer replay, don't loop
+    // The reader's intent: auto-advance (the default) until they press Pause.
+    // Reduced motion starts paused, but Play still works.
+    let playing = root.dataset.autoplay === 'true' && !reduce;
+    let ended = false; // auto-advance reached the last slide: offer Replay, never loop
+    // Transient waits. The timer runs only while `playing` and none of these is on;
+    // when the last one lifts it resumes from where the progress froze.
+    const hold = { offscreen: true, hover: false, focus: false, drag: false };
     let remaining = interval; // ms left in the current slide's cycle
     let cycleStart = 0;
     let timer: number | undefined;
-    let inView = true; // band on-screen — drives clip playback + freeze
     // Per-slide demo clips. Muted up front so browsers permit autoplay.
     const videos = slides.map((s) => s.querySelector<HTMLVideoElement>('video'));
     videos.forEach((v) => { if (v) v.muted = true; });
@@ -458,45 +485,28 @@ const count = slides.length;
       const contentLeft = parent.getBoundingClientRect().left + pl;
       root.style.setProperty('--scar-cl', `${contentLeft}px`);
     }
+    // Per-slide step (card width + gap). offsetLeft ignores transforms and reflects
+    // the current layout, so it's right at first paint and after any resize.
+    function step() {
+      return count > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : slides[0].offsetWidth;
+    }
+    function applyTransform(shift = 0) {
+      track!.style.transform = `translateX(${-i * step() + shift}px)`;
+    }
     function relayout() {
       measureCL();
       applyTransform();
     }
-    // Translate by the measured per-slide step (card width + gap). offsetLeft
-    // ignores transforms and reflects the current layout, so this is correct at
-    // first paint and after any resize without caching stale values.
-    function applyTransform() {
-      const step = slides.length > 1
-        ? slides[1].offsetLeft - slides[0].offsetLeft
-        : slides[0].offsetWidth;
-      track!.style.transform = `translateX(${-i * step}px)`;
-    }
 
-    function clearTimer() {
-      if (timer) { clearTimeout(timer); timer = undefined; }
-    }
-    function armTimer(ms: number) {
-      clearTimer();
-      cycleStart = Date.now();
-      timer = window.setTimeout(tick, ms);
-    }
-    /** Re-trigger the active dot's fill animation from 0 (same-dot restarts). */
-    function restartFill() {
-      const active = root.querySelector<HTMLElement>('.scar-dot[aria-current="true"]');
-      if (!active) return;
-      root.setAttribute('data-playing', 'false');
-      void active.offsetWidth;
-      root.setAttribute('data-playing', userPlaying ? 'true' : 'false');
-    }
-    // Play the active slide's clip from the start while the band is on screen; pause
-    // every other clip. Muted + reduced-motion aware; never loops (no `loop` attr).
+    // Play the active slide's clip while the band is on screen; pause every other
+    // clip. A clip resumes where it paused, so it stays in step with the slide's
+    // timer; show() rewinds it. Muted + reduced-motion aware; never loops.
     function syncVideos() {
       videos.forEach((v, x) => {
         if (!v) return;
-        if (x === i && inView && !reduce) {
+        if (x === i && !hold.offscreen && !reduce) {
           v.muted = true;
           if (v.paused) {
-            try { v.currentTime = 0; } catch { /* not seekable yet */ }
             const p = v.play();
             if (p && typeof p.catch === 'function') p.catch(() => {});
           }
@@ -505,186 +515,232 @@ const count = slides.length;
         }
       });
     }
-    function setActive() {
+    function show(n: number, announce: boolean) {
+      i = n;
+      const v = videos[i];
+      if (v) { try { v.currentTime = 0; } catch { /* not seekable yet */ } }
       applyTransform();
       dots.forEach((d, x) => d.setAttribute('aria-current', x === i ? 'true' : 'false'));
-      if (status) status.textContent = `Slide ${i + 1} of ${count}`;
+      // Announce reader-driven moves only; auto-advance would talk every few seconds.
+      if (announce && status) status.textContent = `Slide ${i + 1} of ${count}`;
       syncVideos();
     }
-    function updateBtn() {
-      if (ended) {
-        playBtn?.setAttribute('aria-pressed', 'false');
-        playBtn?.setAttribute('aria-label', 'Replay from the first slide');
-      } else {
-        playBtn?.setAttribute('aria-pressed', userPlaying ? 'true' : 'false');
-        playBtn?.setAttribute('aria-label', userPlaying ? 'Pause automatic advance' : 'Play automatically');
+
+    // Single place that starts / banks the timer and reflects state on the markup.
+    function sync() {
+      const run = playing && !hold.offscreen && !hold.hover && !hold.focus && !hold.drag;
+      if (run && timer === undefined) {
+        cycleStart = Date.now();
+        timer = window.setTimeout(tick, remaining);
+      } else if (!run && timer !== undefined) {
+        clearTimeout(timer);
+        timer = undefined;
+        remaining = Math.max(0, remaining - (Date.now() - cycleStart));
       }
+      root.dataset.playing = String(playing);
+      root.toggleAttribute('data-frozen', playing && !run);
+      root.toggleAttribute('data-ended', ended);
+      playBtn?.setAttribute('aria-pressed', String(playing));
+      playBtn?.setAttribute(
+        'aria-label',
+        ended ? 'Replay from the first slide' : playing ? 'Pause automatic advance' : 'Play automatically',
+      );
     }
-    function clearEnded() {
-      if (!ended) return;
-      ended = false;
-      root.removeAttribute('data-ended');
+    // A video slide stays up until its clip ends: its cycle is the longer of the
+    // interval and the clip. Until the clip's length is known, the interval.
+    let cycle = interval;
+    function cycleFor(n: number) {
+      const d = videos[n]?.duration;
+      return d && Number.isFinite(d) ? Math.max(interval, Math.ceil(d * 1000)) : interval;
     }
-
-    // Auto-advance fired. On the last slide, stop and offer replay — never loop.
+    /** Start this slide's cycle over: full length, progress fill from 0. */
+    function resetCycle() {
+      if (timer !== undefined) { clearTimeout(timer); timer = undefined; }
+      cycle = cycleFor(i);
+      remaining = cycle;
+      root.style.setProperty('--scar-dur', `${cycle}ms`);
+      root.dataset.playing = 'false';
+      void root.offsetWidth; // re-trigger the active dot's fill animation
+      sync();
+    }
     function tick() {
-      if (i >= count - 1) { endAutoplay(); return; }
-      i += 1;
-      setActive();
-      remaining = interval;
-      restartFill();
-      if (userPlaying && !frozen) armTimer(interval);
+      timer = undefined;
+      if (i >= count - 1) { playing = false; ended = true; sync(); return; }
+      show(i + 1, false);
+      resetCycle();
     }
-    function endAutoplay() {
-      ended = true;
-      userPlaying = false;
-      clearTimer();
-      root.removeAttribute('data-frozen');
-      root.setAttribute('data-playing', 'false');
-      root.setAttribute('data-ended', 'true');
-      updateBtn();
-    }
-    function replay() {
-      clearEnded();
-      i = 0;
-      setActive();
-      play();
-    }
-    // Manual nav (arrows / dots): jump, reset this slide's cycle to full.
+    // Manual nav (arrows / dots / keys / drag): jump and keep going from there.
     function go(n: number) {
-      clearEnded();
-      i = (n + count) % count;
-      setActive();
-      remaining = interval;
-      restartFill();
-      if (userPlaying && !frozen) armTimer(interval);
-      updateBtn();
-    }
-    function play() {
-      if (!autoplayEnabled) return;
-      clearEnded();
-      userPlaying = true;
-      frozen = false;
-      remaining = interval;
-      root.removeAttribute('data-frozen');
-      root.setAttribute('data-playing', 'true');
-      restartFill();
-      armTimer(interval);
-      updateBtn();
-    }
-    function pauseByUser() {
-      userPlaying = false;
-      clearTimer();
-      root.removeAttribute('data-frozen');
-      root.setAttribute('data-playing', 'false');
-      updateBtn();
-    }
-    // Freeze in place (hover / off-screen) — banks the remaining time and pauses
-    // the progress fill where it is, so it never resets.
-    function freeze() {
-      if (!userPlaying || frozen) return;
-      frozen = true;
-      remaining = Math.max(0, remaining - (Date.now() - cycleStart));
-      clearTimer();
-      root.setAttribute('data-frozen', 'true');
-    }
-    function unfreeze() {
-      if (!userPlaying || !frozen) return;
-      frozen = false;
-      root.removeAttribute('data-frozen');
-      armTimer(remaining);
+      ended = false;
+      show((n + count) % count, true);
+      resetCycle();
     }
 
-    prev?.addEventListener('click', () => go(i - 1));
-    next?.addEventListener('click', () => go(i + 1));
-    dots.forEach((d) => d.addEventListener('click', () => go(Number(d.dataset.i))));
+    // A clip's length can arrive after its slide's cycle started: stretch that cycle.
+    videos.forEach((v, x) => v?.addEventListener('loadedmetadata', () => {
+      const full = cycleFor(x);
+      if (x !== i || full <= cycle) return;
+      if (timer !== undefined) {
+        clearTimeout(timer);
+        remaining = Math.max(0, remaining - (Date.now() - cycleStart)) + (full - cycle);
+        cycleStart = Date.now();
+        timer = window.setTimeout(tick, remaining);
+      } else {
+        remaining += full - cycle;
+      }
+      cycle = full;
+      root.style.setProperty('--scar-dur', `${cycle}ms`);
+    }, on));
+
+    prev?.addEventListener('click', () => go(i - 1), on);
+    next?.addEventListener('click', () => go(i + 1), on);
+    dots.forEach((d) => d.addEventListener('click', () => go(Number(d.dataset.i)), on));
     playBtn?.addEventListener('click', () => {
-      if (ended) replay();
-      else if (userPlaying) pauseByUser();
-      else play();
-    });
+      if (ended) { ended = false; playing = true; show(0, true); }
+      else playing = !playing;
+      resetCycle();
+    }, on);
     root.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1); }
       else if (e.key === 'ArrowRight') { e.preventDefault(); go(i + 1); }
-    });
-    root.addEventListener('mouseenter', freeze);
-    root.addEventListener('mouseleave', unfreeze);
+    }, on);
 
-    // --- Swipe / pointer-drag: let people drag through the slides (touch + mouse) ---
-    const vp = root.querySelector<HTMLElement>('.scar-vp') ?? track;
-    let dragging = false, decided = false, activePtr = -1, ptrType = '';
-    let startX = 0, startY = 0, dragDX = 0, dragStep = 0;
-    function dragStart(e: PointerEvent) {
-      if (dragging || (e.pointerType === 'mouse' && e.button !== 0)) return;
-      dragging = true; decided = false; activePtr = e.pointerId; ptrType = e.pointerType;
-      startX = e.clientX; startY = e.clientY; dragDX = 0;
-      dragStep = slides.length > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : slides[0].offsetWidth;
-      freeze(); // pause autoplay while a finger/pointer is down
+    // Hover waits only for a mouse that actually moves over the slides: content
+    // scrolled under a still cursor doesn't count, and touch never "hovers".
+    vp.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'mouse' && !hold.hover && (e.movementX || e.movementY)) {
+        hold.hover = true;
+        sync();
+      }
+    }, on);
+    vp.addEventListener('pointerleave', (e) => {
+      if (e.pointerType === 'mouse' && hold.hover) { hold.hover = false; sync(); }
+    }, on);
+    // Keyboard focus waits (APG), except on Play itself so Play always plays.
+    // Mouse clicks on the buttons focus them without :focus-visible, so they don't.
+    root.addEventListener('focusin', (e) => {
+      const t = e.target as HTMLElement;
+      hold.focus = t !== playBtn && t.matches(':focus-visible');
+      sync();
+    }, on);
+    root.addEventListener('focusout', (e) => {
+      if (!root.contains(e.relatedTarget as Node | null)) { hold.focus = false; sync(); }
+    }, on);
+
+    // --- Drag / swipe (mouse + touch). Down on the slides starts a gesture; up and
+    // cancel are heard on window so a release anywhere ends it (never stuck).
+    let g: { id: number; x: number; y: number; dx: number; axis: '' | 'x' } | null = null;
+    vp.addEventListener('dragstart', (e) => e.preventDefault(), on); // no native image drag
+    vp.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      if (g && g.id !== e.pointerId) return; // a second finger mid-drag
+      g = { id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, axis: '' };
+      hold.drag = true;
+      sync();
+    }, on);
+    function endGesture(e: PointerEvent) {
+      if (!g || e.pointerId !== g.id) return;
+      const { axis, dx } = g;
+      g = null;
+      hold.drag = false;
+      root.classList.remove('is-dragging');
+      if (!axis) { sync(); return; }
+      const threshold = Math.min(72, step() * 0.18);
+      if (dx <= -threshold && i < count - 1) go(i + 1);
+      else if (dx >= threshold && i > 0) go(i - 1);
+      else { applyTransform(); sync(); } // didn't cross the threshold: snap back
     }
-    function dragMove(e: PointerEvent) {
-      if (!dragging || e.pointerId !== activePtr) return;
-      const dx = e.clientX - startX, dy = e.clientY - startY;
-      if (!decided) {
+    window.addEventListener('pointermove', (e) => {
+      if (!g || e.pointerId !== g.id) return;
+      // Button released where we couldn't hear it (outside the window): end here.
+      if (e.pointerType === 'mouse' && !(e.buttons & 1)) { endGesture(e); return; }
+      const dx = e.clientX - g.x;
+      const dy = e.clientY - g.y;
+      if (!g.axis) {
         if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-        // Commit only to a clearly horizontal gesture; let vertical pass to page scroll.
-        if (Math.abs(dx) <= Math.abs(dy)) { dragging = false; if (ptrType !== 'mouse') unfreeze(); return; }
-        decided = true;
-        track!.style.transition = 'none';
-        track!.style.userSelect = 'none';
-        vp.style.cursor = 'grabbing';
-        try { vp.setPointerCapture(activePtr); } catch { /* capture unsupported */ }
+        // A vertical gesture is a page scroll: let it go and resume.
+        if (Math.abs(dx) <= Math.abs(dy)) { endGesture(e); return; }
+        g.axis = 'x';
+        root.classList.add('is-dragging');
+        window.getSelection()?.removeAllRanges();
+        try { vp.setPointerCapture(g.id); } catch { /* pointer already gone */ }
       }
       e.preventDefault();
-      dragDX = dx;
-      let shift = dx;
-      // Rubber-band resistance at the first/last slide.
-      if ((i === 0 && shift > 0) || (i === count - 1 && shift < 0)) shift *= 0.35;
-      track!.style.transform = `translateX(${-i * dragStep + shift}px)`;
-    }
-    function dragEnd(e: PointerEvent) {
-      if (!dragging || e.pointerId !== activePtr) return;
-      dragging = false; activePtr = -1;
-      track!.style.transition = ''; track!.style.userSelect = ''; vp.style.cursor = '';
-      const isMouse = ptrType === 'mouse'; // mouse keeps the hover-freeze; touch resumes
-      if (!decided) { if (!isMouse) unfreeze(); return; }
-      const threshold = Math.min(72, dragStep * 0.18);
-      if (dragDX <= -threshold && i < count - 1) { if (!isMouse) { frozen = false; root.removeAttribute('data-frozen'); } go(i + 1); }
-      else if (dragDX >= threshold && i > 0) { if (!isMouse) { frozen = false; root.removeAttribute('data-frozen'); } go(i - 1); }
-      else { applyTransform(); if (!isMouse) unfreeze(); } // didn't cross threshold — snap back
-    }
-    vp.addEventListener('pointerdown', dragStart);
-    vp.addEventListener('pointermove', dragMove);
-    vp.addEventListener('pointerup', dragEnd);
-    vp.addEventListener('pointercancel', dragEnd);
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(
-        (entries) => entries.forEach((en) => {
-          inView = en.isIntersecting;
-          if (en.isIntersecting) unfreeze(); else freeze();
-          syncVideos();
-        }),
-        { threshold: 0.3 },
-      );
-      io.observe(root);
-    }
+      g.dx = dx;
+      // Rubber-band resistance at the first / last slide.
+      const edge = (i === 0 && dx > 0) || (i === count - 1 && dx < 0);
+      applyTransform(edge ? dx * 0.35 : dx);
+    }, on);
+    window.addEventListener('pointerup', endGesture, on);
+    window.addEventListener('pointercancel', endGesture, on);
+
+    // Trackpad two-finger swipe: one slide per gesture. Momentum keeps sending
+    // wheel events, so a gesture ends only after a short quiet gap.
+    let wheelDx = 0;
+    let wheelDone = false;
+    let wheelQuiet: ReturnType<typeof setTimeout> | undefined;
+    vp.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return; // vertical: page scroll
+      e.preventDefault();
+      clearTimeout(wheelQuiet);
+      wheelQuiet = setTimeout(() => { wheelDx = 0; wheelDone = false; }, 200);
+      if (wheelDone) return;
+      wheelDx += e.deltaMode === 1 ? e.deltaX * 16 : e.deltaX; // lines → px
+      if (Math.abs(wheelDx) < 40) return;
+      wheelDone = true;
+      if (wheelDx > 0 && i < count - 1) go(i + 1);
+      else if (wheelDx < 0 && i > 0) go(i - 1);
+    }, { ...on, passive: false });
+
+    const io = new IntersectionObserver(([en]) => {
+      // "In view" = the slides reach the middle 60% of the viewport.
+      hold.offscreen = !en.isIntersecting;
+      syncVideos();
+      sync();
+    }, { rootMargin: '-20% 0px -20% 0px' });
+    io.observe(vp);
+
     let rAF = 0;
     const scheduleRelayout = () => {
       cancelAnimationFrame(rAF);
       rAF = requestAnimationFrame(relayout);
     };
-    window.addEventListener('resize', scheduleRelayout);
+    window.addEventListener('resize', scheduleRelayout, on);
     // The content column's width can change without a window resize event (e.g. the
     // TOC column collapsing at a breakpoint, or a programmatic viewport change), so
     // observe the parent directly — it's the source of truth for --scar-cl.
-    if ('ResizeObserver' in window && root.parentElement) {
-      new ResizeObserver(scheduleRelayout).observe(root.parentElement);
-    }
+    const ro = new ResizeObserver(scheduleRelayout);
+    if (root.parentElement) ro.observe(root.parentElement);
 
     relayout();
-    setActive();
-    updateBtn();
-    if (autoplayEnabled) play();
+    show(0, false);
+    resetCycle();
+
+    return () => {
+      ac.abort();
+      io.disconnect();
+      ro.disconnect();
+      cancelAnimationFrame(rAF);
+      if (timer !== undefined) clearTimeout(timer);
+      clearTimeout(wheelQuiet);
+    };
   }
 
-  document.querySelectorAll<HTMLElement>('.scar').forEach(initCarousel);
+  // Astro's ClientRouter evaluates this module once per visit, so a plain run would
+  // leave carousels on later pages (case → case, or coming back) dead. Initialise
+  // on every page-load (the first load included; data-scar-ready skips repeats)
+  // and tear the old page's carousels down before the swap.
+  let teardowns: (() => void)[] = [];
+  function initAll() {
+    document.querySelectorAll<HTMLElement>('.scar:not([data-scar-ready])').forEach((root) => {
+      const stop = initCarousel(root);
+      if (stop) teardowns.push(stop);
+    });
+  }
+  initAll();
+  document.addEventListener('astro:page-load', initAll);
+  document.addEventListener('astro:before-swap', () => {
+    teardowns.forEach((stop) => stop());
+    teardowns = [];
+  });
 </script>

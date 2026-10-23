@@ -1,6 +1,7 @@
 ---
 const year = new Date().getFullYear();
 const socials = [
+  { label: 'Resume', href: '/Zhen-Wang-Resume.pdf', pdf: true },
   { label: 'Email', href: 'mailto:wangzhen614@gmail.com' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/zhenwang614' },
   { label: 'Instagram', href: 'https://www.instagram.com/zhen.wang/' },
@@ -9,7 +10,7 @@ const socials = [
 <footer class="footer">
   <div class="footer-left"><span class="footer-name">Zhen Wang</span> <span class="footer-year">© {year}</span></div>
   <ul class="footer-socials">
-    {socials.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
+    {socials.map((s) => <li><a href={s.href} target={s.pdf ? '_blank' : undefined} rel={s.pdf ? 'noopener' : undefined}>{s.label}</a></li>)}
   </ul>
 </footer>
 <style>
@@ -22,14 +23,19 @@ const socials = [
   }
   .footer-left {
     display: flex; align-items: baseline; gap: var(--space-4);
-    font-family: var(--font-display); font-size: 14px;
+    font-family: var(--font-display); font-size: var(--fs-small);
   }
   .footer-name { font-weight: 500; }
-  .footer-year { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-on-dark); opacity: 0.6; }
+  .footer-year { font-family: var(--font-mono); font-size: var(--fs-meta); letter-spacing: 0.04em; color: var(--ink-on-dark); opacity: 0.6; }
   .footer-socials {
     display: flex; gap: var(--space-6); list-style: none; margin: 0; padding: 0;
-    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+    font-family: var(--font-mono); font-size: var(--fs-meta); letter-spacing: 0.04em;
   }
   .footer-socials a { color: var(--ink-on-dark); text-decoration: none; }
   .footer-socials a:hover { color: var(--accent); }
+  /* Phone: the name and the 4 links no longer fit on one row, so stack them
+     instead of squeezing "Zhen Wang" and the year onto 2 lines each. */
+  @media (max-width: 600px) {
+    .footer { flex-direction: column; align-items: flex-start; gap: var(--space-5); }
+  }
 </style>

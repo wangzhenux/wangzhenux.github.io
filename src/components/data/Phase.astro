@@ -34,7 +34,7 @@ const { num, label, title, meta } = Astro.props;
   }
   .phase-num {
     font-family: var(--font-display);
-    font-size: 56px;
+    font-size: var(--fs-num-lg);
     font-weight: 500;
     color: var(--accent);
     line-height: 0.85;
@@ -42,7 +42,7 @@ const { num, label, title, meta } = Astro.props;
   }
   .phase-num-small {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     color: var(--ink-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.16em;
@@ -50,14 +50,14 @@ const { num, label, title, meta } = Astro.props;
   }
   .phase-title {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: var(--fs-h5);
     margin: 0 0 var(--space-2);
     font-weight: 500;
-    line-height: 1.2;
+    line-height: var(--lh-title);
   }
   .phase-text {
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: var(--fs-card);
+    line-height: var(--lh-card);
     color: var(--ink-secondary);
     margin: 0 0 var(--space-4);
     max-width: 56ch;
@@ -75,13 +75,13 @@ const { num, label, title, meta } = Astro.props;
     column-gap: var(--space-4);
     row-gap: var(--space-2);
     font-family: var(--font-body);
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: var(--fs-note);
+    line-height: var(--lh-small);
     margin: 0;
   }
   .phase-meta dt {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     color: var(--ink-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -92,10 +92,10 @@ const { num, label, title, meta } = Astro.props;
     color: var(--ink-secondary);
   }
 
-  /* Phase number scales down on mobile (§9.1): 56px → 48px, tighter first col. */
+  /* Tighter first col on mobile (§9.1). The number keeps --fs-num-lg: the
+     scale has no 48 tier, and 56 still fits the 64px column. */
   @media (max-width: 767px) {
     .phase { grid-template-columns: var(--space-11) 1fr; column-gap: var(--space-4); }
-    .phase-num { font-size: 48px; }
     .phase-meta { grid-template-columns: var(--space-12) 1fr; }
   }
 </style>

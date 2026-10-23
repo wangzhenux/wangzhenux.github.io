@@ -29,24 +29,24 @@ const { items } = Astro.props;
     align-items: baseline;
     padding: var(--space-3) 0;
     border-bottom: 1px solid var(--rule-soft);
-    font-size: 15px;
+    font-size: var(--fs-card);
     color: var(--ink-secondary);
     line-height: 1.4;
   }
   .ideas-list .num {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-label);
     color: var(--ink-tertiary);
     letter-spacing: 0.14em;
     text-align: right;
   }
-  .ideas-list .body { line-height: 1.45; }
+  .ideas-list .body { line-height: var(--lh-small); }
   .ideas-list .badge { font-size: 0; }
   .ideas-list li.selected { color: var(--ink-primary); font-weight: 500; }
   .ideas-list li.selected .num { color: var(--accent); }
   .ideas-list li.selected .badge {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: var(--fs-fig);
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: var(--accent);

@@ -95,7 +95,7 @@ const total = String(sections.length).padStart(2, '0');
     cursor: pointer;
     text-align: left;
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-micro);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--ink-tertiary);
@@ -158,14 +158,14 @@ const total = String(sections.length).padStart(2, '0');
     cursor: pointer;
     text-align: left;
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--fs-meta);
     line-height: 1.35;
     color: var(--ink-secondary);
     border-radius: var(--radius-sm);
   }
   .toc-item--drawer:hover { color: var(--ink-primary); }
   .toc-item--drawer .num {
-    font-size: 10px;
+    font-size: var(--fs-micro);
     color: var(--ink-quaternary);
     flex-shrink: 0;
     width: 16px;
