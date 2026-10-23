@@ -26,7 +26,7 @@ test('unitpulse-site case: card-forward structure renders, no axe violations', a
   await expect(page.locator('#cw table caption').first()).toContainText('Filters alone');
   await expect(page.locator('#cw .sf-col')).toHaveCount(6);
   await expect(page.locator('#cw .sb-block')).toHaveCount(5);
-  await expect(page.locator('#cw .bk-card')).toHaveCount(6);
+  await expect(page.locator('#cw .bk-card')).toHaveCount(5);
 
   // Nothing internal leaks onto the page.
   await expect(page.locator('body')).not.toContainText(/Odessia|Dify|Gemini|route_code/i);

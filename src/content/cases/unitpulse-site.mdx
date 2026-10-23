@@ -526,30 +526,20 @@ import CompareTable from '../../components/data/CompareTable.astro';
         changed: "The copilot checks every property name first, and code sends the question to that home.",
       },
       {
-        principle: "Move the conversation forward",
-        title: "Any bedrooms is fine",
-        before: [
-          { from: "ai", text: "Here are 3 homes.", chips: ["Raise my budget", "Any bedrooms"] },
-          { from: "renter", text: "Any bedrooms" },
-          { from: "ai", text: "Here are 3 homes.", flag: "bad" },
-        ],
-        after: [
-          { from: "ai", text: "I couldn't find any 2-bedroom rentals in Los Angeles under $1,200/mo right now.", chips: ["Widen budget by $200", "Remove bedroom filter"] },
-          { from: "event", text: "Each chip changes the filters in code" },
-        ],
-        happened: "Chips that relaxed a filter relied on the model to clear it, and it didn't always.",
-        changed: "Those chips were dropped. Relaxing now happens in code, from chips the renter taps.",
-      },
-      {
+        // Merged 2026-10-23 per Zhen ("Any bedrooms is fine" was unclear and
+        // retold this story): first the relax chips asked the model to drop the
+        // filter and it didn't always (those chips were dropped); then the
+        // code-driven "Remove bedroom filter" chip still left it in place.
         principle: "Control",
         title: "Remove bedroom filter",
         status: "One rough edge left",
         before: [
+          { from: "ai", text: "Here are 3 homes.", chips: ["2 beds ×"] },
           { from: "renter", text: "Remove bedroom filter" },
-          { from: "ai", text: "Here are 2-bedroom homes in Los Angeles.", flag: "bad", chips: ["2 beds ×"] },
+          { from: "ai", text: "Here are 3 homes.", flag: "bad", chips: ["2 beds ×"] },
         ],
         after: { src: "/cases/unitpulse-site/chat/relaxed.jpg", alt: "After tapping Remove bedroom filter, the bedroom filter is gone and the copilot shows 20 homes in Los Angeles under $1,200", width: 1422, height: 1590 },
-        happened: "Tapping “Remove bedroom filter” left the filter in place.",
+        happened: "Asking to drop a filter didn't always drop it, so the same homes came back.",
         changed: "The page now clears the filter before the message goes out. One rough edge: the copilot can still ask about bedrooms once more.",
       },
       {
