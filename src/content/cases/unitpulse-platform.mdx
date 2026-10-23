@@ -262,9 +262,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     id="agents"
     rulesTitle="How people stay in charge"
     rules={[
-      "AI replies only when the property, the conversation and the renter all allow it. New properties start with it off.",
-      "Once a person replies, the AI steps back from that conversation.",
-      "Copilot looks things up right away, but every change waits for a yes.",
+      { name: "Off until allowed", text: "AI replies only when the property, the conversation and the renter all allow it, and new properties start with it off." },
+      { name: "AI steps back once a person replies", text: "If someone on the team has already replied, the AI drops its own reply, so the renter doesn't get 2 answers.", led: true },
+      { name: "Copilot waits for a yes", text: "Lookups run right away, but every change waits for a person to confirm it.", led: true },
     ]}
   />
 </section>

@@ -17,9 +17,10 @@
  * aligned to the content width; the map scrolls sideways on phones.
  * Token-only CSS.
  *
- *   <AgentMap id="agents" rulesTitle="How people stay in charge" rules={['…', '…']} />
+ *   <AgentMap id="agents" rulesTitle="How people stay in charge" rules={[{ name: '…', text: '…', led: true }]} />
  */
-interface Props { id?: string; label?: string; rulesTitle?: string; rules?: string[] }
+interface Rule { name: string; text: string; led?: boolean }
+interface Props { id?: string; label?: string; rulesTitle?: string; rules?: Rule[] }
 const { id, label = 'How the AI agents work across UnitPulse', rulesTitle, rules = [] } = Astro.props;
 
 type Kind = 'agent' | 'auto' | 'person' | 'out' | 'io' | 'record';
@@ -216,9 +217,18 @@ const data = JSON.stringify(nodes);
     {rules.length > 0 && (
       <div class="am-rules-wrap">
         {rulesTitle && <p class="am-rules-t">{rulesTitle}</p>}
-        <ul class="am-rules">
-          {rules.map((r) => <li>{r}</li>)}
-        </ul>
+        <ol class="am-rules">
+          {rules.map((r, i) => (
+            <li class="am-rule">
+              <div class="am-rule-top">
+                <span class="am-rule-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                {r.led && <span class="am-rule-tag">I led this</span>}
+              </div>
+              <p class="am-rule-name">{r.name}</p>
+              <p class="am-rule-text">{r.text}</p>
+            </li>
+          ))}
+        </ol>
       </div>
     )}
   </div>
@@ -356,14 +366,29 @@ const data = JSON.stringify(nodes);
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-3);
   }
-  .am-rules li {
-    padding: var(--space-3) var(--space-4);
-    border: 1px dashed var(--ink-tertiary);
-    border-radius: var(--radius);
-    font-size: 13.5px;
-    line-height: 1.45;
-    color: var(--ink-primary);
+  .am-rule {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-5) var(--space-5);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    background: var(--am-panel);
   }
+  .am-rule-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 22px; }
+  .am-rule-n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-tertiary); }
+  .am-rule-tag {
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .am-rule-name { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--ink-primary); }
+  .am-rule-text { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-secondary); text-wrap: pretty; }
   @media (max-width: 767px) {
     .am-rules { grid-template-columns: 1fr; }
   }
