@@ -33,17 +33,22 @@ const { fields } = Astro.props;
     font-size: 10px;
     margin: 0 0 var(--space-2);
   }
+  /* Values and sub-lines read as sentences, so they use the body sans; the
+     labels keep the mono caps. */
   .meta-strip .value {
     color: var(--ink-primary);
-    line-height: 1.5;
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.45;
     margin: 0;
     font-weight: 500;
   }
   /* Secondary line under a value — e.g. team context beneath the highlighted role. */
   .meta-strip .sub {
     color: var(--ink-tertiary);
-    line-height: 1.5;
-    font-size: 11px;
+    font-family: var(--font-body);
+    line-height: 1.45;
+    font-size: 13px;
     margin: var(--space-1) 0 0;
   }
 
