@@ -34,6 +34,10 @@ interface BentoItem {
    *  offset, negatives shift the image out of frame). Takes precedence over
    *  `pos`; lets a tile show the precise region a design specifies. */
   frame?: { w: number; h: number; left: number; top: number };
+  /** Default (framed) mode, hero only: the image fills the card's remaining
+   *  height, cropped from the top, so the title sits at the card's bottom edge
+   *  in line with the cards beside it. Use a tall screenshot. */
+  fill?: boolean;
 }
 interface Props {
   items: BentoItem[];
@@ -73,7 +77,7 @@ const icons: Record<string, string> = {
   <div class="bento-inner">
     <ul class="bento-grid">
       {items.map((it) => (
-        <li class:list={['bento-card', it.size && `bento-card--${it.size}`, !it.image && !it.visual && it.icon && 'bento-card--icon']}>
+        <li class:list={['bento-card', it.size && `bento-card--${it.size}`, it.fill && it.image && 'bento-card--fill', !it.image && !it.visual && it.icon && 'bento-card--icon']}>
           {(it.image || it.visual) && (
             <div class="bento-visual">
               {it.image ? (
@@ -172,6 +176,10 @@ const icons: Record<string, string> = {
     width: 100%;
     height: auto;
   }
+  /* Fill: the visual takes the card's leftover height and the tall screenshot
+     covers it from the top; absolutely placed so it never sets the row height. */
+  .bento-card--fill .bento-visual { position: relative; flex: 1 1 auto; min-height: 0; }
+  .bento-card--fill .bento-img { position: absolute; inset: 0; height: 100%; object-fit: cover; object-position: top; }
   .bento-ph {
     width: 100%;
     aspect-ratio: 16 / 10;
@@ -304,6 +312,7 @@ const icons: Record<string, string> = {
   /* Tablet: 2 columns. Cards stay content-sized; images keep their natural ratio. */
   @media (max-width: 900px) {
     .bento-grid { grid-template-columns: repeat(2, 1fr); }
+    .bento-card--fill .bento-visual { flex: none; aspect-ratio: 4 / 3; }
     .bento-card--hero { grid-column: span 2; grid-row: span 1; }
     .bento-card--wide { grid-column: span 2; }
   }
