@@ -101,7 +101,7 @@ const check = [
         </div>
       </div>
       <div class="pb-stage">
-        <div class="pb-fr" style="--w: 820px">
+        <div class="pb-fr pb-fr--dialog" style="--w: 820px">
           <img src={`${base}/marketing/draft.jpg`} alt="The Create post screen, with a draft held for review" width="2400" height="1500" loading="lazy" decoding="async" />
         </div>
       </div>
@@ -168,6 +168,16 @@ const check = [
     box-shadow: var(--up-frame-shadow);
   }
   .pb-fr img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+  /* Create post is a dialog captured over a grey backdrop. Crop the backdrop
+     and the dialog's edge so its screen fills the frame like the other tiles.
+     Numbers are image pixels: 2400 wide, the dialog's inside starts at 63, 63
+     and is 2274 wide. */
+  .pb-fr--dialog img {
+    width: calc(100% * 2400 / 2274);
+    max-width: none;
+    height: auto;
+    margin: calc(-100% * 63 / 2274) 0 0 calc(-100% * 63 / 2274);
+  }
   .pb-ph {
     position: absolute;
     left: 0;
