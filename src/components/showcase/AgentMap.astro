@@ -190,7 +190,9 @@ LINES.forEach((L, li) => {
   L.tracks.forEach((t, ti) => {
     const n = t.main ? 2 : 1, dur = (t.main ? 10 : 7) + li * 0.7;
     for (let k = 0; k < n; k++) {
-      g += `<rect class="am-train" x="-9" y="-4" width="18" height="8" rx="4" stroke-width="2" style="fill:${c};stroke:var(--am-panel)"><animateMotion dur="${dur}s" begin="${((k * dur) / n + ti * 1.3).toFixed(2)}s" repeatCount="indefinite" rotate="auto" path="${t.d}"/></rect>`;
+      // Negative begin: each train is already partway along its track at load. A
+      // positive delay would leave it parked at the SVG origin (top-left) until then.
+      g += `<rect class="am-train" x="-9" y="-4" width="18" height="8" rx="4" stroke-width="2" style="fill:${c};stroke:var(--am-panel)"><animateMotion dur="${dur}s" begin="-${((k * dur) / n + ti * 1.3).toFixed(2)}s" repeatCount="indefinite" rotate="auto" path="${t.d}"/></rect>`;
     }
   });
   L.stations.forEach((st) => { g += station(L, st); });
