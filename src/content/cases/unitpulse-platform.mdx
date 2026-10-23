@@ -404,17 +404,18 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   <SectionH small>What a manager sees each morning</SectionH>
   {/* For You panels in product order (2026-10-09, round 5). inventory, agents,
       tasks and afterhours are coded mocks from the real panel markup
-      (scratchpad mocks/insight-panels/); numbers match the rest of the week. */}
+      (scratchpad mocks/insight-panels/); numbers match the rest of the week.
+      Slide copy describes each panel and never quotes its sample numbers. */}
   <ShowcaseCarousel
     label="The For You page, panel by panel"
     autoplay={false}
     slides={[
       { eyebrow: "Daily brief", title: "The biggest leak, first thing", body: "Each morning the brief names the stage that slipped most this week, with the numbers behind it and where to look.", image: "/cases/unitpulse-platform/insight/leak.jpg", imageAlt: "The morning brief calling out the biggest leak this week and where to look, with action-first bullets", width: 2400, height: 1033 },
       { eyebrow: "Funnel", title: "See where renters leave", body: "The customer journey highlights every drop-off, and the stage panel lists why leads left.", image: "/cases/unitpulse-platform/insight/dropoffs.jpg", imageAlt: "The customer journey with drop-offs highlighted and a stage panel showing dropout reasons", width: 2400, height: 1433 },
-      { eyebrow: "Inventory", title: "Where the demand has to land", body: "7 of the 13 empty units are two-bedrooms, so that's where pricing and marketing effort go first.", image: "/cases/unitpulse-platform/insight/inventory.jpg", imageAlt: "Vacancy by unit type for Maple Court: 2B2B with 7 of 64 vacant at $3,150 to $3,350, then 1B1B, 3B2B and Studio with 2 vacant each, each row with an occupancy bar", width: 2400, height: 1500 },
+      { eyebrow: "Inventory", title: "Where the demand has to land", body: "Empty units by floor plan, most vacancies first, each with its rent range, so the team sees where pricing and marketing should go first.", image: "/cases/unitpulse-platform/insight/inventory.jpg", imageAlt: "Vacancy by unit type for Maple Court: 2B2B with 7 of 64 vacant at $3,150 to $3,350, then 1B1B, 3B2B and Studio with 2 vacant each, each row with an occupancy bar", width: 2400, height: 1500 },
       { eyebrow: "Team", title: "Who is carrying the week", body: "Tours, applications and contracts by agent, always over the last 7 days.", image: "/cases/unitpulse-platform/insight/agents.jpg", imageAlt: "Tours, applications and contracts by manager for the last 7 days: Alex Rivera 9, 2 and 1, Sam Okafor 7, 1 and 1, Dana Ruiz 6, 1 and 1", width: 2400, height: 1500 },
       { eyebrow: "Tasks", title: "What still needs a person", body: "Every conversation waiting on the team, ranked by urgency, with the renter's actual question and the agent who owns it.", image: "/cases/unitpulse-platform/insight/tasks.jpg", imageAlt: "9 outstanding tasks, 1 urgent: Jordan Lee's move-in special question first, then a missing pay stub, parking details, a tour time and an early key pickup, each with a priority, a stage and an owner", width: 2400, height: 1500 },
-      { eyebrow: "After hours", title: "The work that happens after close", body: "40% of chat messages and 42% of tour bookings came outside office hours. The AI booked 9 of those 11 tours.", image: "/cases/unitpulse-platform/insight/afterhours.jpg", imageAlt: "After-hours activity for 7 days: 318 of 794 chat messages, 11 of 26 tour bookings and 8 of 22 tours held came outside business hours, above a chart of activity by hour", width: 2400, height: 1500 },
+      { eyebrow: "After hours", title: "The work that happens after close", body: "What came in outside business hours, from chat messages and tour bookings to signed leases, how much of it the AI handled, and activity by hour.", image: "/cases/unitpulse-platform/insight/afterhours.jpg", imageAlt: "After-hours activity for 7 days: 318 of 794 chat messages, 11 of 26 tour bookings and 8 of 22 tours held came outside business hours, above a chart of activity by hour", width: 2400, height: 1500 },
     ]}
   />
 </section>
