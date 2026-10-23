@@ -7,8 +7,10 @@ test('Nav renders name + the core links inside a <nav>', async () => {
   const html = await c.renderToString(Nav);
   expect(html).toMatch(/<nav[\s>]/);
   expect(html).toContain('Zhen Wang');
-  for (const label of ['Work', 'Writing', 'Off-screen', 'About']) expect(html).toContain(label);
+  for (const label of ['Work', 'Writing', 'Off-screen', 'About', 'Resume']) expect(html).toContain(label);
   expect(html).toContain('href="/off-screen"');
+  // The resume PDF opens in a new tab.
+  expect(html).toMatch(/href="\/Zhen-Wang-Resume\.pdf"[^>]*target="_blank"/);
 });
 
 test('Nav marks the active link with aria-current', async () => {

@@ -1,6 +1,7 @@
 ---
 const year = new Date().getFullYear();
 const socials = [
+  { label: 'Resume', href: '/Zhen-Wang-Resume.pdf', pdf: true },
   { label: 'Email', href: 'mailto:wangzhen614@gmail.com' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/zhenwang614' },
   { label: 'Instagram', href: 'https://www.instagram.com/zhen.wang/' },
@@ -9,7 +10,7 @@ const socials = [
 <footer class="footer">
   <div class="footer-left"><span class="footer-name">Zhen Wang</span> <span class="footer-year">© {year}</span></div>
   <ul class="footer-socials">
-    {socials.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
+    {socials.map((s) => <li><a href={s.href} target={s.pdf ? '_blank' : undefined} rel={s.pdf ? 'noopener' : undefined}>{s.label}</a></li>)}
   </ul>
 </footer>
 <style>
@@ -32,4 +33,9 @@ const socials = [
   }
   .footer-socials a { color: var(--ink-on-dark); text-decoration: none; }
   .footer-socials a:hover { color: var(--accent); }
+  /* Phone: the name and the 4 links no longer fit on one row, so stack them
+     instead of squeezing "Zhen Wang" and the year onto 2 lines each. */
+  @media (max-width: 600px) {
+    .footer { flex-direction: column; align-items: flex-start; gap: var(--space-5); }
+  }
 </style>
