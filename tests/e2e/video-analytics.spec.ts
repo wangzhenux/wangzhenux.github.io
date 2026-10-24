@@ -24,7 +24,7 @@ for (const [selector, source] of [['[data-play-film]', 'watch_button']]) {
       .toEqual(['video_open', 'video_start']);
     const events = await videoEvents(page);
     expect(events[0].params.video_source).toBe(source);
-    expect(events[1].params.video_title).toBe('Zhen Wang — 10 years in 76 seconds');
+    expect(events[1].params.video_title).toBe('Zhen Wang — 10 years in 86 seconds');
     expect(events[1].params.video_duration).toBeGreaterThan(70);
 
     await page.locator('.film-full').evaluate(async (video: HTMLVideoElement) => {

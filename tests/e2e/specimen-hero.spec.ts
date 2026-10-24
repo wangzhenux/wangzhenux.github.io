@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('full film is deferred until the watch button opens it', async ({ page }) => {
   const fullRequests: string[] = [];
   page.on('request', request => {
-    if (request.url().endsWith('/video/zhen-wang-specimen.mp4')) fullRequests.push(request.url());
+    if (request.url().endsWith('/video/zhen-wang-one-line.mp4')) fullRequests.push(request.url());
   });
   await page.goto('/');
   await expect(page.locator('[data-specimen-hero]')).toHaveAttribute('data-ready', 'true');

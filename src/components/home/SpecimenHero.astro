@@ -1,8 +1,8 @@
 ---
 import Container from '../layout/Container.astro';
 import Icon from '../chrome/Icon.astro';
-const film = '/video/zhen-wang-specimen.mp4';
-const poster = '/video/specimen-poster.jpg';
+const film = '/video/zhen-wang-one-line.mp4';
+const poster = '/video/one-line-poster.jpg';
 ---
 <header class="home-hero" data-specimen-hero>
   <Container>
@@ -33,7 +33,7 @@ const poster = '/video/specimen-poster.jpg';
           </a>
           <a class="watch-film" href={film} data-play-film aria-haspopup="dialog">
             <svg class="watch-play" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="15" stroke="currentColor" /><path d="m13 10 9 6-9 6Z" fill="currentColor" /></svg>
-            Watch my story <span class="film-duration">· 1:16</span>
+            Watch my story <span class="film-duration">· 1:26</span>
           </a>
         </div>
       </div>
@@ -53,13 +53,13 @@ const poster = '/video/specimen-poster.jpg';
   <dialog class="film-theater" aria-labelledby="film-title">
     <div class="theater-panel">
       <div class="theater-heading">
-        <h2 id="film-title">Zhen Wang <span>/ 10 years in 76 seconds</span></h2>
+        <h2 id="film-title">Zhen Wang <span>/ 10 years in 86 seconds</span></h2>
         <button class="theater-close" type="button" aria-label="Close film" autofocus>
           <span>Close</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
         </button>
       </div>
       <div class="theater-picture">
-        <video class="film-full" data-src={film} poster={poster} controls playsinline preload="none" aria-label="Zhen Wang — 10 years in 76 seconds"></video>
+        <video class="film-full" data-src={film} poster={poster} controls playsinline preload="none" aria-label="Zhen Wang — 10 years in 86 seconds"></video>
         <img class="theater-snapshot" src={poster} alt="" aria-hidden="true" width="1920" height="1080" />
         <div class="film-ended" hidden>
           <p>Let's get into the work.</p>
@@ -69,7 +69,7 @@ const poster = '/video/specimen-poster.jpg';
       </div>
       <div class="theater-footer">
         <p class="film-status" role="status">Design. Engineering. A little of everything in between.</p>
-        <span>01:16</span>
+        <span>01:26</span>
       </div>
     </div>
   </dialog>
