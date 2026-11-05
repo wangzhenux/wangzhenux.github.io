@@ -121,13 +121,12 @@ Set them as front-matter fields; the strip is built in `work/[slug].astro`:
 |---|---|---|
 | **Team** | `role` (value) + `team` (sub) | The **role is the highlighted value** (weight 500); team context is the lighter sub-line. |
 | **Time** | `span` | e.g. "About 6 weeks". With no `span`, the field reads **Year** and shows `year`. |
-| **Type** | `type` | product type: "Web app", "Mobile app", "Enterprise web app", "Lifecycle messaging", "UX research", "Strategy & IA". Only when the case sets `type`; the 3 main cases leave it out. |
+| **Type** | `type` | product type: "Web app", "Mobile app", "Enterprise web app", "Lifecycle messaging", "UX research", "Strategy & IA" |
 | **Result** | `outcome.metric` (+ `outcome.context`) | the headline result; the context is the lighter sub-line, like Team's |
 
 Absent fields are omitted but the order is preserved. A case may pass an explicit `meta`
 array to override. It keeps these labels and this order, with the role as Team's value and
-the team as its sub; there is no separate Role field. Portal, Listing and Twilio do this,
-with Team · Time · Result.
+the team as its sub; there is no separate Role field. Portal, Listing and Twilio do this.
 
 ---
 
