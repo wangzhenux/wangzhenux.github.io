@@ -1,0 +1,126 @@
+---
+/**
+ * A headline number beside a funnel drawn to scale (deck #15): one tile on the
+ * left, then the funnel as a figure, with its basis line as the caption and one
+ * row per stage. Each row has its count and a bar whose length is that count over
+ * the largest stage's. The bars share one left edge, so their lengths compare
+ * directly. The counts are the text; the bars are decorative (aria-hidden).
+ */
+interface Lead { num: string; label: string; note?: string; }
+interface Row { num: string; value: number; label: string; note?: string; accent?: boolean; }
+interface Props { lead: Lead; caption: string; rows: Row[]; }
+const { lead, caption, rows } = Astro.props;
+const max = Math.max(...rows.map((r) => r.value));
+---
+<div class="fb">
+  <div class="fb-lead">
+    <span class="fb-lead-num">{lead.num}</span>
+    <span class="fb-lead-label">{lead.label}</span>
+    {lead.note && <span class="fb-lead-note">{lead.note}</span>}
+  </div>
+  <figure class="fb-funnel">
+    <figcaption class="fb-cap">{caption}</figcaption>
+    <ol class="fb-rows">
+      {rows.map((r) => (
+        <li class:list={['fb-row', { 'fb-row--accent': r.accent }]}>
+          <p class="fb-line">
+            <span class="fb-num">{r.num}</span>
+            <span class="fb-label">{r.label}</span>
+            {r.note && <span class="fb-note"><span class="fb-sep" aria-hidden="true">· </span>{r.note}</span>}
+          </p>
+          <span class="fb-bar" aria-hidden="true" style={`--w: ${((r.value / max) * 100).toFixed(2)}%`}></span>
+        </li>
+      ))}
+    </ol>
+  </figure>
+</div>
+<style>
+  .fb {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--space-7);
+    margin: var(--space-7) 0 var(--space-6);
+    align-items: stretch;
+  }
+  .fb-lead {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--space-1);
+    padding: var(--space-6);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+  }
+  .fb-lead-num {
+    font-family: var(--font-display);
+    font-size: var(--fs-num-lg);
+    line-height: var(--lh-tight);
+    letter-spacing: -0.02em;
+    color: var(--ink-primary);
+  }
+  .fb-lead-label {
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--ink-primary);
+  }
+  .fb-lead-note {
+    font-size: var(--fs-note);
+    color: var(--ink-tertiary);
+  }
+  .fb-funnel {
+    margin: 0;
+  }
+  .fb-cap {
+    font-size: var(--fs-small);
+    color: var(--ink-tertiary);
+    margin: 0 0 var(--space-4);
+  }
+  .fb-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+  }
+  .fb-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-3);
+    margin: 0 0 var(--space-2);
+  }
+  .fb-num {
+    font-family: var(--font-display);
+    font-size: var(--fs-num);
+    line-height: var(--lh-tight);
+    letter-spacing: -0.02em;
+    color: var(--ink-primary);
+  }
+  .fb-label {
+    font-size: var(--fs-small);
+    color: var(--ink-secondary);
+  }
+  .fb-note {
+    font-size: var(--fs-small);
+    color: var(--ink-tertiary);
+  }
+  .fb-bar {
+    display: block;
+    width: var(--w);
+    min-width: 8px;
+    height: 12px;
+    border-radius: 999px;
+    background: var(--ink-primary);
+  }
+  .fb-row--accent .fb-num { color: var(--accent); }
+  .fb-row--accent .fb-bar { background: var(--accent); }
+  @media (max-width: 767px) {
+    .fb { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+  }
+  /* The narrowest phones can't fit a row on one line: the note takes its own
+     line there, without the separator dot. */
+  @media (max-width: 335px) {
+    .fb-sep { display: none; }
+    .fb-note { flex-basis: 100%; }
+  }
+</style>

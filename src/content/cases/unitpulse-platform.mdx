@@ -1,12 +1,11 @@
 ---
 title: "UnitPulse Portal"
-deck: "An AI-native leasing platform that finds renters, converts them, and measures the funnel. Built from zero in 2026."
+deck: "An AI-native leasing platform that generates leads, converts them and measures the funnel. Built from zero in 2026."
 slug: unitpulse-platform
 company: UnitPulse
 companyNote: "UnitPulse is a venture incubated by Tripalink leadership."
 year: 2026
-type: "Web platform & mobile app"
-role: "Product Design Lead"
+role: "Lead Product Designer"
 cover:
   gradient: "linear-gradient(135deg, #33291A 0%, #140F08 100%)"
   image: "/cases/unitpulse-platform/cover.svg"
@@ -26,18 +25,17 @@ card:
   logoAlt: "Tripalink"
   logoScale: 1.3
   frame: laptop
-team: "Engineering across the platform · I also covered product management"
-span: "Since Feb 2026"
-outcome:
-  metric: "50+ properties on one platform"
-  context: "Moved onto the merged platform by Oct 2026"
+meta:
+  - { label: "Team", value: "Lead Product Designer", sub: "With a tech lead and about 8 engineers. I also covered product management." }
+  - { label: "Time", value: "Since Feb 2026" }
+  - { label: "Result", value: "50+ properties on the platform", sub: "As of October 2026" }
 sections:
   - { id: ctx, num: "00", label: "Context" }
   - { id: p1, num: "01", label: "Who it serves" }
   - { id: p5, num: "02", label: "One platform" }
-  - { id: p2, num: "03", label: "Generate demand" }
+  - { id: p2, num: "03", label: "Generate leads" }
   - { id: p3, num: "04", label: "Convert leads" }
-  - { id: p4, num: "05", label: "Optimize operations" }
+  - { id: p4, num: "05", label: "Measure the funnel" }
   - { id: vc, num: "06", label: "Voice AI" }
   - { id: cp, num: "07", label: "Copilot" }
   - { id: ds, num: "08", label: "Design system" }
@@ -62,8 +60,7 @@ import DSShowcase from '../../components/showcase/DSShowcase.astro';
 import DocExcerpt from '../../components/showcase/DocExcerpt.astro';
 import ShowcasePhones from '../../components/showcase/ShowcasePhones.astro';
 import ShowcaseWall from '../../components/showcase/ShowcaseWall.astro';
-import ResearchStats from '../../components/data/ResearchStats.astro';
-import Stat from '../../components/data/Stat.astro';
+import FunnelBars from '../../components/data/FunnelBars.astro';
 import Reflection from '../../components/showcase/Reflection.astro';
 import ReflectionCard from '../../components/showcase/ReflectionCard.astro';
 import MoreDetail from '../../components/reading/MoreDetail.astro';
@@ -73,7 +70,6 @@ import StoryBlocks from '../../components/showcase/StoryBlocks.astro';
 import BrokeCarousel from '../../components/showcase/BrokeCarousel.astro';
 import ProcessStrip from '../../components/showcase/ProcessStrip.astro';
 import LadderFigure from '../../components/showcase/LadderFigure.astro';
-import ThresholdCards from '../../components/data/ThresholdCards.astro';
 
 {/*
   ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
@@ -189,10 +185,10 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 <section id="ctx" data-reveal>
   <PartHeader kicker="Context" title="What UnitPulse is" noRule />
   <BodyText>
-    An AI-native leasing platform for property owners and their teams. It finds
-    renters, converts them, and measures the funnel. We built it from zero
+    An AI-native leasing platform for property owners and their teams. It
+    generates leads, converts them and measures the funnel. We built it from zero
     starting February 2026, and the **first paying customer signed a month
-    later**. It started as separate products built fast. As design lead, I
+    later**. It started as separate products built fast. As lead product designer, I
     brought them into one platform with one design system.
     {/* ‹C-dates› ‹C-arc› Zhen 2026-10-10: arc + role up front. 2026-10-22:
         the platform part moved up to Part 02 (the solution), before the
@@ -241,7 +237,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     leads, Leasing to convert them and Insight to measure the funnel**. Built
     fast, they shared one backend but little else, with 3 logins and 3 user
     systems. Customers who came for Marketing soon asked for the whole journey,
-    so as design lead **I drove the merge into one platform**: one login, one
+    so **I drove the merge into one platform**: one login, one
     design system, and navigation that shows each of them only what's theirs.
     {/* ‹C-dates› spring/summer beats. Moved up from Part 09 on 2026-10-22 (Zhen):
         the platform is now the solution part, right after who it serves; the
@@ -281,7 +277,10 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         emails run add_leads → assign-agent → AI leasing trigger. AI reply
         needs property + conversation + customer switches and skips when a
         human sent the last message. Content checks, publisher, reply-task
-        router, call router and daily brief are rules-based. Insight reads
+        router and call router are rules-based. Code check 2026-11-04: the
+        daily brief text is AI-written (on by default since 2026-08-25) and has
+        no AI reviewer; Data Copilot and Workspace assistant are one Copilot
+        (one panel since 2026-10-19), drawn on 2 lines. Insight reads
         derived analytics, not the record. Copilot lookups run at once; every
         write waits for a confirmation. Voice AI is a pilot (Zhen 2026-10-10).
         Zhen led the step-back and confirm decisions (2026-10-10). Placement
@@ -303,7 +302,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   />
 </section>
 <section id="p2" data-reveal>
-  <PartHeader num="03" title="Marketing: generate demand" />
+  <PartHeader num="03" title="Marketing: generate leads" />
   <BodyText>
     Marketing was our first product and our first paying customer. It started
     as a post generator and grew into **an AI marketing team** inside the
@@ -362,8 +361,8 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
 <section id="p3" data-reveal>
   <PartHeader num="04" title="Leasing: convert leads" />
   <BodyText>
-    UP Leasing turns that demand into signed leases. The AI answers every
-    inquiry knowing who's asking, writes follow-ups worth reading, and **books
+    UP Leasing turns those leads into signed leases. The AI answers
+    inquiries knowing who's asking, writes follow-ups worth reading, and **books
     the tour itself** on the on-shift agent's calendar. When the system doesn't
     have the answer, the question goes to an agent as a task.
     {/* ‹C-ai-behaviors› */}
@@ -373,7 +372,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   <ShowcaseVideo
     src="/cases/unitpulse-platform/video/leasing.mp4"
     poster="/cases/unitpulse-platform/video/leasing-poster.jpg"
-    label="UP Leasing in the Portal inbox: the AI answers with a specific unit, adds parking as a preference, books the tour on the agent's calendar, hands a pricing question to an agent as a task, then turns itself off when the agent replies"
+    label="UP Leasing in the Portal inbox: the AI answers with a specific unit, adds parking as a preference, books the tour on the agent's calendar, hands a pricing question to an agent as a task, then the agent replies and switches AI leasing off for this renter"
     width={1920}
     height={1080}
   />
@@ -395,7 +394,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         { label: "Hand off", desc: "Lead, chat and preferences go to the on-duty agent.", tag: "person" },
       ]}
       lanes={[{ label: "People", tone: "person", cells: [null, null, null, "Missing data becomes a task for an agent", null, "The agent takes over the thread"] }]}
-      rails={["Any time an agent replies, the AI goes quiet. Agents can switch it off per conversation."]}
+      rails={["When an agent replies, the AI skips its turn. To take over, the agent switches the AI off for this renter."]}
     />
   </MoreDetail>
 
@@ -406,20 +405,20 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       { eyebrow: "Cooperative principle", title: "“Can I come see it Saturday at 2?”", parts: [{ label: "What happened", text: "Renters ask to tour at any hour, often after the office closes." }, { label: "What we designed", text: "The AI checks the on-shift agent's calendar and books the slot, or offers the nearest open times. The tour lands on the agent's calendar." }], image: "/cases/unitpulse-platform/leasing/request.jpg", imageAlt: "The AI booking a Saturday tour of unit 204 on the leasing agent's calendar", width: 1680, height: 1641, bg: "var(--bg-secondary)" },
       { eyebrow: "Move the conversation forward", title: "“A 2 bedroom under $2,400 at Maple Court?”", parts: [{ label: "What happened", text: "Nothing at this building fits." }, { label: "What we designed", text: "It says so, then lists matching units at sister properties, each under its own name, with the same filters." }], image: "/cases/unitpulse-platform/leasing/nomatch.jpg", imageAlt: "The AI saying Maple Court has nothing under $2,400 and listing matching units at The Linden and Harbor View Lofts", width: 1680, height: 1560, bg: "var(--bg-secondary)" },
       { eyebrow: "Listen between the lines", title: "“Does unit 204 have parking?”", parts: [{ label: "What happened", text: "Curiosity isn't a requirement." }, { label: "What we designed", text: "A question gets an answer. Only “I need parking” becomes a filter, and a tour date is never read as a move-in date." }], image: "/cases/unitpulse-platform/leasing/asking.jpg", imageAlt: "A parking question answered without adding a filter, then I need parking adds a Parking preference", width: 1680, height: 1241, bg: "var(--bg-secondary)" },
-      { eyebrow: "Turn-taking", title: "“Is there a move-in special if I sign by Oct 15?”", parts: [{ label: "What happened", text: "Pricing isn't in the property data, and a guess would be a promise." }, { label: "What we designed", text: "The AI says it will check and opens a Need Reply task for the agent. When the agent answers, the AI goes quiet for the rest of the thread." }], image: "/cases/unitpulse-platform/leasing/handoff.jpg", imageAlt: "A pricing question the AI can't answer becomes a Need Reply task; the agent answers and AI leasing turns off for the conversation", width: 1680, height: 1737, bg: "var(--bg-secondary)" },
+      { eyebrow: "Turn-taking", title: "“Is there a move-in special if I sign by Oct 15?”", parts: [{ label: "What happened", text: "Pricing isn't in the property data, and a guess would be a promise." }, { label: "What we designed", text: "The AI says it will check and opens a Need Reply task. When an agent replies, the AI skips its turn. To take over, the agent switches the AI off for this renter." }], image: "/cases/unitpulse-platform/leasing/handoff.jpg", imageAlt: "A pricing question the AI can't answer becomes a Need Reply task; the agent answers, and AI leasing is switched off for the conversation", width: 1680, height: 1737, bg: "var(--bg-secondary)" },
     ]}
   />
 
 </section>
 <section id="p4" data-reveal>
-  <PartHeader num="05" title="Insight: optimize operations" />
+  <PartHeader num="05" title="Insight: measure the funnel" />
   <BodyText>
     UP Insight closes the loop for owners who aren't analysts: the full funnel,
     per-prospect attribution, the biggest leak called out each morning, and a
-    plain-language Data Copilot. Attribution shows **which segments and channels
+    plain-language Copilot. Attribution shows **which segments and channels
     actually sign leases**, so the team can decide what Marketing writes next.
   </BodyText>
-  <AgentNote agents={["Data Copilot"]} />
+  <AgentNote agents={["Brief writer", "Copilot"]} />
 
   <ShowcaseVideo
     src="/cases/unitpulse-platform/video/insight.mp4"
@@ -454,8 +453,12 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     **The AI is the overflow**, not the front line.
     {/* Zhen 2026-10-08: designed setup board, call log review, inquiries,
         work order, conversation flows. Shipped 2026-08-27 onward; human-first
-        default 09-23; press 3 09-28; connect-live merged 10-06 (publish
-        [CONFIRM]). Nav label: "Voice AI". */}
+        default 09-23; press 3 09-28; connect-live merged 10-06. Code check
+        2026-11-04 (PR #4773, fix #4790; GPT-Live default since 10-13): live in
+        prod, no flag or per-route switch. It rings the on-duty roster for 20 s,
+        then the route's people, then voicemail. When no one is on duty, or the
+        caller chose Spanish, the AI offers a callback instead. Cold hand-off.
+        Nav label: "Voice AI". */}
   </BodyText>
   <AgentNote agents={["Leasing phone assistant", "Maintenance phone assistant", "Post-call summarizer"]} />
 
@@ -464,7 +467,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     lanes={[
       { label: "Every call", sub: "After hours, the AI picks up", nodes: [ { label: "On-duty agent", kind: "person", note: "10 seconds" }, { label: "Coverage team", kind: "person" }, { label: "AI assistant", kind: "ai" }, { label: "Voicemail", kind: "fallback" } ] },
       { label: "Press 3", sub: "A person, no AI", nodes: [ { label: "On-duty agent", kind: "person" }, { label: "Voicemail", kind: "fallback" } ] },
-      { label: "Asks the AI", sub: "For a person", status: "Live connect in progress", nodes: [ { label: "Offers a callback", kind: "ai" }, { label: "Filed after a yes", kind: "end" }, { label: "Need-reply task + email", kind: "person" } ], branch: "Emergencies: hang up and dial 911" },
+      { label: "Asks the AI", sub: "For a person", nodes: [ { label: "Connects the call", kind: "ai" }, { label: "On-duty agent", kind: "person", note: "20 seconds" }, { label: "Voicemail", kind: "fallback" } ], branch: "No one on duty: a callback, filed after a yes. Emergencies: hang up and dial 911." },
     ]}
   />
 
@@ -484,14 +487,13 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     />
   </MoreDetail>
 
-  <SectionH small>What broke, and what we changed</SectionH>
+  <SectionH small>A callback the caller agrees to</SectionH>
   <BrokeCarousel
     label="What broke in Voice AI, and what we changed"
     cards={[
       {
         principle: "Hand-off to a person",
         title: "Can I talk to someone?",
-        status: "Live connect in progress",
         call: true,
         before: [
           { from: "renter", text: "Can I talk to someone?" },
@@ -505,7 +507,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
           { from: "event", text: "Callback filed", flag: "good", items: [{ icon: "task", text: "Need-reply task for the team" }, { icon: "mail", text: "Email to the on-duty agent" }] },
         ],
         happened: "The client's leasing team was short-staffed, so a live transfer would often ring nobody.",
-        changed: "With the client, I made a consented callback the hand-off. Connecting live, for routes with people on duty, came later.",
+        changed: "With the client, I made a consented callback the hand-off. Live connect came later, in October, for lines with someone on duty.",
       },
     ]}
   />
@@ -528,6 +530,8 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       returns profile / KPI / chart / list answers and can open views; Marketing's
       Copilot drafts a post for a property and reports channel performance; the
       agent app has a Copilot tab. Next = Zhen: one Copilot serving all products.
+      2026-11-05: that one Copilot shipped Oct 19 (code check, DashboardLayout.tsx),
+      so it moved from Next to Today with Zhen's OK, and the Next list went.
       Clip: coded mock (copilot/anim-tall.html), the deck's Insight clip, taller.
       Its modeled lift and automation rule are roadmap, not live (Zhen
       2026-10-22), so the clip carries a concept caption. */}
@@ -547,10 +551,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       <li><strong>Insight:</strong> leasing performance, drop-offs or a single prospect, answered as charts, KPIs, lists and prospect profiles, with the view one click away.</li>
       <li><strong>Marketing:</strong> draft a post for a property, or check how a channel is doing.</li>
       <li><strong>On the go:</strong> the same Copilot is a tab in the agents' app.</li>
-    </ul>
-    <h4>Next</h4>
-    <ul>
-      <li>One Copilot across Marketing, Leasing and Insight, so a question asked anywhere can act on any product.</li>
+      <li><strong>One Copilot:</strong> since October, it's the same Copilot wherever you open it.</li>
     </ul>
   </ShowcaseVideo>
 </section>
@@ -679,7 +680,7 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
     and the Copilot.
     {/* ‹C-mobile› */}
   </BodyText>
-  <AgentNote agents={["Workspace assistant"]} />
+  <AgentNote agents={["Copilot"]} />
   <ShowcasePhones
     label="The agent's mobile app"
     phones={[
@@ -747,20 +748,18 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
   {/* Zhen 2026-10-22: 50+ properties on the new platform (Oct 2026; corrected from 100+).
       7 partner accounts (Aug 2026 canonical). Pendo, May 2026: 79 accounts on
       UP Insight (52 on the core dashboard), ~45 min per user per week. */}
-  <ResearchStats cols={3}>
-    <Stat num="50+" label="Properties on the platform">
-      <span class="item">As of October 2026</span>
-    </Stat>
-    <Stat num="7" label="Partner accounts">
-      <span class="item">Owners and operators leasing through it</span>
-    </Stat>
-    <Stat num="~45 min" label="Insight use per user, weekly">
-      <span class="item">79 accounts, May 2026</span>
-    </Stat>
-  </ResearchStats>
-  <BodyText>
-    The numbers below follow one new 93-unit building through its first 2
-    months of lease-up, from first lead to signed lease.
+  {/* Removed 2026-11-05 per Zhen (C3 + q-13): the 7 partner accounts and the
+      ~45 min Insight use tiles, and "What I'd hold it to". The funnel follows
+      deck #15: 50+ beside bars on one left edge, to scale. */}
+  <FunnelBars
+    lead={{ num: "50+", label: "Properties on the platform", note: "As of October 2026" }}
+    caption="One new building · 93 units · first 2 months"
+    rows={[
+      { num: "821", value: 821, label: "leads" },
+      { num: "400", value: 400, label: "tours scheduled", note: "48.7% of leads" },
+      { num: "59", value: 59, label: "leases signed", note: "7.19% of leads so far", accent: true },
+    ]}
+  />
     {/* Cut 2026-10-23 per Zhen to only what the numbers are based on (dropped
         the no-lift caveat and the 2 tour objections: no parking, bedrooms
         facing the stairwell or elevator).
@@ -769,18 +768,6 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
         ‹C-funnel› numbers from Zhen 2026-08-02, Superset dashboard.
         Cohort confirmed clean (all leads in-window, all leases from them);
         property ran the MERGED platform during the window. */}
-  </BodyText>
-  <ResearchStats cols={3}>
-    <Stat num="821" label="Leads in">
-      <span class="item">2 months · 1 property · 93 units</span>
-    </Stat>
-    <Stat num="48.7%" label="Lead → tour">
-      <span class="item">400 tours scheduled</span>
-    </Stat>
-    <Stat num="59" label="Leases signed">
-      <span class="item">7.19% observed to date</span>
-    </Stat>
-  </ResearchStats>
   {/* SOURCE (internal, not rendered — Zhen 2026-10-08: no source/reference
       notes on the page): Superset dashboard. Observed at the measurement
       cutoff, so the cohort is still maturing. Reference: ResMan 2024, 8.7%
@@ -789,17 +776,9 @@ import ThresholdCards from '../../components/data/ThresholdCards.astro';
       lead definitions differ across operators, so comparison is directional.
       ‹C-completed-tours› 48.7% is tours SCHEDULED; the 25% benchmark counts
       COMPLETED showings, so it is deliberately not compared here. */}
-  <SectionH small>What I'd hold it to</SectionH>
-  {/* Zhen 2026-10-08: no formal AI PRD. ~70% = share of inquiry-to-tour
-      conversations handled by AI leasing at the cohort property (s21,
-      confirmed Sep 14) [REAL]; 48.7% and 7.19% [REAL]. Thresholds [TARGET]. */}
-  <ThresholdCards
-    items={[
-      { measure: "Conversations the AI carries to a tour", today: "About 70% at the cohort property", rule: "If it drops below 60% for 2 weeks, find why conversations go to people and add the property facts they were missing." },
-      { measure: "Lead to tour scheduled", today: "48.7%, 400 of 821 leads", rule: "If it falls below 40% over 4 weeks, find the stage where conversations stall." },
-      { measure: "Lead to lease", today: "7.19% so far, while the cohort matures", rule: "If it stays under 5% once the cohort has had 90 days, study tour-recording objections by floor plan." },
-    ]}
-  />
+  {/* "What I'd hold it to" removed 2026-11-05 (q-13). Its 70% was "share of
+      inquiry-to-tour conversations handled by AI leasing at the cohort property"
+      (Zhen: one cohort property; OK to publish, q-03). Thresholds were [TARGET]. */}
 </section>
 <section id="p8" data-reveal>
   <PartHeader num="10" title="Reflection" />

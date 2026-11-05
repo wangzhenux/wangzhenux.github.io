@@ -7,18 +7,18 @@ test('unitpulse-site case: card-forward structure renders, no axe violations', a
   // a11y scan runs against the instant-reveal experience.
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/work/unitpulse-site');
-  await expect(page.locator('.hero-title')).toContainText('Home Search, in Your Own Words');
+  await expect(page.locator('.hero-title')).toContainText('UnitPulse Listing');
 
   // Real product hero + honest outcome in the meta strip.
   await expect(page.locator('.hero-cover img')).toHaveAttribute('src', /welcome-hero\.jpg/);
-  await expect(page.locator('.meta-strip')).toContainText('Live in production');
+  await expect(page.locator('.meta-strip')).toContainText('96 leads');
 
   // The spine: Context + Parts 01–08 (nine PartHeaders in document order).
   const parts = page.locator('.part-title');
   await expect(parts).toHaveCount(9);
   await expect(parts.nth(1)).toContainText('The problem');
   await expect(parts.nth(4)).toContainText('How the conversation works');
-  await expect(parts.nth(7)).toContainText('Early results');
+  await expect(parts.nth(7)).toContainText('What shipped, by the numbers');
   await expect(parts.nth(8)).toContainText('Reflection');
 
   // How it talks: the comparison is a real, captioned table; the flow has 6

@@ -11,26 +11,27 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
 
   // The 10-second layer: a real product hero + the user-oriented outcome.
   await expect(page.locator('.hero-cover img')).toHaveAttribute('src', /hero-cover\.png/);
-  await expect(page.locator('.meta-strip')).toContainText('50+ properties on one platform');
+  await expect(page.locator('.meta-strip')).toContainText('50+ properties on the platform');
 
   // The spine: Context, Parts 01–10 and a closing coda (twelve PartHeaders).
   // Who it serves, then the platform as the solution (with the AI agent map),
-  // the product chapters (generate demand → convert leads → optimize
-  // operations → answer every call), the Copilot, the design system, the
+  // the product chapters (generate leads → convert leads → measure the
+  // funnel → answer every call), the Copilot, the design system, the
   // agents' app as "One more thing", then evidence and reflection.
   const parts = page.locator('.part-title');
   await expect(parts).toHaveCount(12);
   await expect(parts.nth(2)).toContainText('3 products, one platform');
-  await expect(parts.nth(3)).toContainText('Marketing: generate demand');
+  await expect(parts.nth(3)).toContainText('Marketing: generate leads');
   await expect(parts.nth(4)).toContainText('Leasing: convert leads');
-  await expect(parts.nth(5)).toContainText('Insight: optimize operations');
+  await expect(parts.nth(5)).toContainText('Insight: measure the funnel');
   await expect(parts.nth(6)).toContainText('Voice AI: answer every call');
   await expect(parts.nth(7)).toContainText('Copilot');
   await expect(parts.nth(8)).toContainText('The design system');
   await expect(parts.nth(9)).toContainText('Leasing on the go');
 
-  // The AI agent map: 10 AI stations, and a station opens its popover.
-  await expect(page.locator('#agents .am-node[aria-label^="AI agent:"]')).toHaveCount(10);
+  // The AI agent map: 11 AI stations (10 agents; the one Copilot is drawn on
+  // both the Insight and Copilot lines), and a station opens its popover.
+  await expect(page.locator('#agents .am-node[aria-label^="AI agent:"]')).toHaveCount(11);
 
   // The Copilot has its own part with its clip, and the escalation ladder
   // shows the 3 ways a call reaches a person.

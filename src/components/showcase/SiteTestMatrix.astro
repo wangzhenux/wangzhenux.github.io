@@ -68,13 +68,13 @@ const split = [
     <span class="tm-cap tm-cap--accent">Fair Housing path</span>
     <ol class="tm-steps">
       <li class="tm-step tm-step--risk">A renter asks to filter by a protected class</li>
-      <li class="tm-step">It never becomes a filter</li>
+      <li class="tm-step">A Fair Housing check runs first</li>
       <li class="tm-step">A plain decline; saved filters are cleared</li>
       <li class="tm-step tm-step--ok">A lawful search is offered instead</li>
     </ol>
     <p class="tm-note">
-      The suite caught a <strong>Blocker</strong>: one path turned a
-      protected-class request into a saved filter. We fixed that path.
+      3 of the 47 cases are Fair Housing requests the AI must refuse, in English
+      and in Chinese.
     </p>
   </div>
 

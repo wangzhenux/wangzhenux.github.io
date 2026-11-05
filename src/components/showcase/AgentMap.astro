@@ -108,7 +108,7 @@ const LINES: Line[] = [
       ['v-call', 70, 435, 'io', 'Incoming call', 'phoneIn', { job: 'A renter or resident calls the property line.' }],
       ['v-router', 190, 435, 'auto', 'Call router', 'split', { job: 'Sends repair calls to maintenance. Leasing calls ring people first: the assigned agent, then the team.', control: 'The AI answers a leasing call only when no one picks up.' }],
       ['v-staff', 400, 390, 'person', 'Staff answers', 'user', { job: 'A person picks up, and the call stays with them.' }, 'right'],
-      ['v-lease', 460, 435, 'agent', 'Leasing phone assistant', 'phone', { job: 'Answers leasing calls, matches units, and books a tour or takes a callback request.', uses: ['Unit matcher', 'Tour slots', 'Tour booker', 'Callback'], reads: 'The caller’s record, calendars', control: 'A callback request becomes a Need Reply task for a person.' }],
+      ['v-lease', 460, 435, 'agent', 'Leasing phone assistant', 'phone', { job: 'Answers leasing calls, matches units, books a tour, and connects a caller who asks for a person to whoever is on duty.', uses: ['Unit matcher', 'Tour slots', 'Tour booker', 'Transfer', 'Callback'], reads: 'The caller’s record, calendars', control: 'When no one is on duty, it offers a callback, which becomes a Need Reply task for a person.' }],
       ['v-maint', 380, 505, 'agent', 'Maintenance phone assistant', 'wrench', { job: 'Takes repair requests and can transfer the call.', uses: ['Callback', 'Transfer'], reads: 'The caller’s record' }],
       ['v-sum', 860, 435, 'agent', 'Post-call summarizer', 'file', { job: 'Writes each call into the renter record after it ends.', reads: 'The call transcript', writes: 'A call summary on the record' }],
       ['v-end', 1040, 435, 'out', 'Call logged', 'check', { job: 'With what happened: a tour confirmed, a tour waiting for an agent, a callback requested, or a repair request.' }],
@@ -121,10 +121,10 @@ const LINES: Line[] = [
     junctions: [], bridges: [605, 675],
     stations: [
       ['i-open', 70, 605, 'io', 'Open the dashboard', 'layout', { job: 'A manager opens the dashboard.' }],
-      ['i-brief', 230, 605, 'auto', 'Daily brief', 'sunrise', { job: 'Flags any stage where the last 7 days convert below the 30-day rate.', tag: 'Rules-based, with an optional AI summary', reads: 'Funnel analytics, not the renter record' }],
+      ['i-brief', 230, 605, 'agent', 'Brief writer', 'sunrise', { job: 'Writes the daily brief from the numbers: what changed this week, then what to do first.', tag: 'The numbers and the biggest-leak card come from rules', reads: 'Funnel analytics, not the renter record' }],
       ['i-pri', 690, 605, 'out', 'Priorities shown', 'eye', { job: 'The stage that leaked, at the top of the page.' }],
       ['i-ask', 70, 675, 'io', 'Ask about performance', 'search', { job: 'A manager asks a question in plain words.' }],
-      ['i-assist', 230, 675, 'agent', 'Data Copilot', 'chart', { job: 'Answers by opening the right filtered view.', reads: 'Funnel, tours, conversations, agent activity', control: 'Read-only. It never changes data.' }],
+      ['i-assist', 230, 675, 'agent', 'Copilot', 'chart', { job: 'Answers by opening the right filtered view. It’s the same Copilot as on the Copilot line.', reads: 'Funnel, tours, conversations, agent activity', control: 'Lookups run right away. Any change waits for a yes.' }],
       ['i-view', 690, 675, 'out', 'Filtered view opened', 'eye', { job: 'The chart or table that answers the question.' }],
       ['i-mgr', 900, 640, 'person', 'Manager decides', 'user', { job: 'Chooses what to change. Nothing here acts on its own.' }],
     ] },
@@ -136,7 +136,7 @@ const LINES: Line[] = [
     junctions: [790], bridges: [],
     stations: [
       ['c-ask', 70, 790, 'io', 'Ask in plain words', 'message', { job: 'Anyone on the team asks for information or a change.' }],
-      ['c-assist', 230, 790, 'agent', 'Workspace assistant', 'sparkles', { job: 'Finds information and takes actions across the workspace on request.', uses: ['29 lookups', '22 actions'], reads: 'Analytics, renter records, marketing' }],
+      ['c-assist', 230, 790, 'agent', 'Copilot', 'sparkles', { job: 'Finds information and takes actions across the workspace on request.', uses: ['29 lookups', '22 actions'], reads: 'Analytics, renter records, marketing' }],
       ['c-answer', 340, 748, 'out', 'Answer or view opened', 'eye', { job: 'Lookups run right away.' }, 'right'],
       ['c-confirm', 440, 790, 'person', 'Confirms the change', 'user', { job: 'Every action waits for a yes before anything is written.' }],
       ['c-end', 720, 790, 'out', 'Action completed', 'check', { job: 'The change is saved, the tour moved or the message sent.' }],
@@ -176,7 +176,7 @@ function station(L: Line, s: Station) {
   else if (kind === 'out') shape = `<rect class="am-ring" x="${x - 12}" y="${y - 12}" width="24" height="24" rx="6" transform="rotate(45 ${x} ${y})" style="fill:${c};stroke:${c};stroke-width:0"/>${g(icon, 13, 'var(--am-panel)')}`;
   else if (kind === 'auto') shape = `<rect class="am-ring" x="${x - 14}" y="${y - 14}" width="28" height="28" rx="7" stroke-width="3" style="fill:var(--am-station);stroke:${c}"/>${g(icon, 14, c)}`;
   else shape = `<circle class="am-ring" cx="${x}" cy="${y}" r="16" stroke-width="4" style="fill:var(--am-station);stroke:${c}"/>${g(icon, 15, c)}<rect x="${x + 7}" y="${y - 25}" width="20" height="13" rx="6.5" style="fill:${c}"/><text class="am-ai" x="${x + 17}" y="${y - 15.6}" text-anchor="middle">AI</text>`;
-  return `<g class="am-node" tabindex="0" role="button" aria-label="${KIND[kind]}: ${name}" data-id="${sid}">${halo}${shape}${stationLabel(name, x, y, side)}</g>`;
+  return `<g class="am-node" tabindex="0" role="button" aria-label="${KIND[kind]}: ${name}, ${L.name} line" data-id="${sid}">${halo}${shape}${stationLabel(name, x, y, side)}</g>`;
 }
 
 let svg = `<line x1="${TRUNK_X}" y1="56" x2="${TRUNK_X}" y2="${H - 18}" stroke-width="16" stroke-linecap="round" style="stroke:var(--ink-primary)"/>`;
@@ -475,7 +475,7 @@ const data = JSON.stringify(nodes);
         <div class="am-pop-top"><span class="am-pop-ic" style="background:${n.color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${n.icon}</svg></span>
         <div><span class="am-pop-k">${KIND[n.kind]} · ${esc(n.line)}</span><h4>${esc(n.name)}</h4></div></div>
         ${d.job ? `<p>${esc(d.job)}</p>` : ''}
-        <dl>${row('Type', d.tag)}${d.uses ? `<dt>Tools</dt><dd class="am-chips">${d.uses.map((u) => `<span>${esc(u)}</span>`).join('')}</dd>` : ''}${row('Reads', d.reads)}${row('Writes', d.writes)}${row(n.kind === 'record' ? 'Why it matters' : 'Control', d.control)}</dl>`;
+        <dl>${row('How it works', d.tag)}${d.uses ? `<dt>Tools</dt><dd class="am-chips">${d.uses.map((u) => `<span>${esc(u)}</span>`).join('')}</dd>` : ''}${row('Reads', d.reads)}${row('Writes', d.writes)}${row(n.kind === 'record' ? 'Why it matters' : 'Control', d.control)}</dl>`;
       document.body.appendChild(pop);
       anchor = el;
       place();
