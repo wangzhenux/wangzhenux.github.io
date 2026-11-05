@@ -114,18 +114,19 @@ asymmetric `margin-left: -pad` + `@media` breakout. `ShowcaseCarousel` uses a JS
 
 ## 3. Meta strip (case hero) — standard fields
 
-Every case shows the **same four fields, in order: Team · Span · Type · Outcome.**
+Every case shows these fields, **in order: Team · Time · Type · Result.**
 Set them as front-matter fields; the strip is built in `work/[slug].astro`:
 
 | Field | Source | Notes |
 |---|---|---|
 | **Team** | `role` (value) + `team` (sub) | The **role is the highlighted value** (weight 500); team context is the lighter sub-line. |
-| **Span** | `span` | e.g. "~6 weeks", "2024" |
+| **Time** | `span` | e.g. "About 6 weeks". With no `span`, the field reads **Year** and shows `year`. |
 | **Type** | `type` | product type: "Web app", "Mobile app", "Enterprise web app", "Lifecycle messaging", "UX research", "Strategy & IA" |
-| **Outcome** | `outcome.metric` (+ `outcome.context`) | the headline result; the context is the lighter sub-line, like Team's |
+| **Result** | `outcome.metric` (+ `outcome.context`) | the headline result; the context is the lighter sub-line, like Team's |
 
 Absent fields are omitted but the order is preserved. A case may pass an explicit `meta`
-array to override, but it should still produce these four labels (with `sub` for Team).
+array to override. It keeps these labels and this order, with the role as Team's value and
+the team as its sub; there is no separate Role field. Portal, Listing and Twilio do this.
 
 ---
 

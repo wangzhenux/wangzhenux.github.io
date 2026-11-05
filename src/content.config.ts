@@ -58,8 +58,8 @@ export const caseSchema = z.object({
     })
     .optional(),
   // Custom hero meta-strip rows. When present, they replace the auto-built
-  // Role/Team/Span/Outcome strip — for cases whose snapshot doesn't map onto
-  // those four labels. Rendered through the same MetaStrip component.
+  // Team/Time/Type/Result strip — for cases whose snapshot doesn't map onto
+  // those labels. Rendered through the same MetaStrip component.
   meta: z.array(z.object({ label: z.string(), value: z.string(), sub: z.string().optional() })).optional(),
   // Product type for the standard meta strip (e.g. "Web app", "Mobile app", "Dashboard").
   type: z.string().optional(),

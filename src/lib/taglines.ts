@@ -5,12 +5,12 @@
  * Edit freely; a case with no entry here simply opens without a thesis curtain.
  */
 export const taglines: Record<string, string> = {
-  'unitpulse-platform': 'Find, convert, measure — *one platform*.',
+  'unitpulse-platform': 'Generate leads, convert them, measure the *funnel*.',
   'unitpulse-site': 'From your own words to *real listings*.',
   'up-insight': 'From scattered spreadsheets to one *source of truth*.',
   'crm-copilot': 'Fifteen clicks, or *one sentence*.',
   'tour-scheduling': 'A reminder you can answer in *one tap* — fewer no-shows.',
-  twilio: 'Teaching a US-only platform to feel *global*.',
+  twilio: 'Regions solved real problems. Few customers *used it*.',
   'tasktop-portability': 'Moving config changes between instances — without the *manual rework*.',
   'integration-landscape': 'An at-a-glance view of the whole *value stream*.',
   'tasktop-viz': 'A flow-metrics tool, built *from zero*.',

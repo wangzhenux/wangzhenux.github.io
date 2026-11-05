@@ -1,12 +1,11 @@
 ---
-title: "Home Search, in Your Own Words"
-deck: "Rebuilding UnitPulse's renter experience around conversational search and live listings, with property content designed for discovery through search and AI. Shipped in about 6 weeks."
+title: "UnitPulse Listing"
+deck: "A home search for renters that brings leads to property partners."
 slug: unitpulse-site
 company: UnitPulse
 companyNote: "UnitPulse is a venture incubated by Tripalink leadership."
 year: 2026
-type: "Web app"
-role: "Product Design Lead"
+role: "Lead Product Designer"
 cover:
   gradient: "linear-gradient(135deg, #EFE7D2 0%, #F1E9D5 100%)"
   image: "/cases/unitpulse-site/cover.svg"
@@ -19,7 +18,7 @@ heroHeight: 1605
 order: 2
 featured: true
 card:
-  title: "Home Search, in Your Own Words"
+  title: "UnitPulse Listing"
   lead: "Real homes, found through conversation."
   tags: ["Web", "AI search"]
   brand: "#2E3822"
@@ -28,10 +27,10 @@ card:
   logoScale: 1.3
   frame: browser
 meta:
-  - { label: "Team", value: "Product Design Lead", sub: "Solo design · engineering on the backend" }
-  - { label: "Span", value: "~6 weeks" }
+  - { label: "Team", value: "Lead Product Designer", sub: "With 1 backend engineer, later an AI engineer and a frontend engineer. I also built most of the front end." }
+  - { label: "Time", value: "About 6 weeks", sub: "Version 1 plus the chat" }
   - { label: "Type", value: "Web app" }
-  - { label: "Outcome", value: "Live in production · 245 pages indexed, 96 leads" }
+  - { label: "Result", value: "96 leads", sub: "In the first 7 weeks after launch" }
 sections:
   - { id: ctx, num: "00", label: "Context" }
   - { id: p1, num: "01", label: "The problem" }
@@ -672,8 +671,15 @@ import CompareTable from '../../components/data/CompareTable.astro';
 </section>
 
 <section id="p6" data-reveal>
-  <PartHeader num="07" title="Early results" />
-  <SectionDeck>A 6-week-old production rebuild, live and ramping.</SectionDeck>
+  <PartHeader num="07" title="What shipped, by the numbers" />
+  <SectionDeck>The first 7 weeks after launch.</SectionDeck>
+  {/* 2026-11-05 per Zhen (F1, q-07): one window, measured numbers only, as on
+      deck #93. Window: May 5 to Jun 23, 2026 (GA4 counts from May 7). 1.1K =
+      GA4 site users May 7 to Jun 23 (Zhen, Nov 3). Kept here for Q&A, off the
+      page: +55.6% users (trailing 30 days vs. a partly measured launch month;
+      GA4 began May 7), 2.34K impressions / 134 clicks (an undated "last 3
+      months" window, about half before launch), 622 chat conversations from
+      440 users (Sep 1 to Oct 22; 440 sums daily users, 338 distinct). */}
   {/* SOURCE (internal, not rendered): leads = GSC / GA4, 2026-05-05 → 06-23.
       Chat = Dify monitoring for the prod leasing app; its data starts 2026-09-01,
       read ~2026-10-22: 622 conversations, 440 active users, 1,351 messages, ~2.0
@@ -687,30 +693,16 @@ import CompareTable from '../../components/data/CompareTable.astro';
       the 96 leads came from. Hidden 2026-10-22: the "What I'd hold it to"
       threshold cards; their release checks repeat Part 06 (git history has them). */}
 
-  <SectionH small>Found in search</SectionH>
   <ResearchStats cols={3}>
     <Stat num="245" label="Pages indexed">
-      <span class="item">from about 0 in 6 weeks</span>
+      <span class="item">from about 0</span>
     </Stat>
-    <Stat num="2.34K" label="Search impressions">
-      <span class="item">134 clicks · 5.7% CTR</span>
-      <span class="item">last 3 months</span>
+    <Stat num="1.1K" label="Users">
+      <span class="item">visited the site</span>
     </Stat>
-    <Stat num="+55.6%" label="Users · trailing 30 days">
-      <span class="item">1,045 users · 11,864 events</span>
-      <span class="item">+65.6% events</span>
-    </Stat>
-  </ResearchStats>
-
-  <SectionH small>Used by renters</SectionH>
-  <ResearchStats cols={3}>
-    <Stat num="622" label="Chat conversations">
-      <span class="item">from 440 users</span>
-      <span class="item">about 2 messages each</span>
-    </Stat>
-    <Stat num="96" label="Leads captured">
-      <span class="item">54 inquiries</span>
-      <span class="item">42 tour requests</span>
+    <Stat num="96" label="Leads">
+      <span class="item">54 inquiries, 42 tour requests</span>
+      <span class="item">counted only when the server confirmed</span>
     </Stat>
   </ResearchStats>
 
@@ -724,8 +716,8 @@ import CompareTable from '../../components/data/CompareTable.astro';
       conversation was still being built.
     </ReflectionCard>
     <ReflectionCard label="What I'd repeat" heading="Test safety like a feature">
-      Fair Housing rules hold only if a test proves them. Ours caught a path
-      that saved a protected-class filter, and we fixed it.
+      Fair Housing rules hold only if a test proves them. With AI, testing and
+      review matter more than before.
     </ReflectionCard>
     <ReflectionCard label="Still open" heading="Should a question set a filter?">
       “Does it allow dogs?” adds a Pet friendly filter here but not in the

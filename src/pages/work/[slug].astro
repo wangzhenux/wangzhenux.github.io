@@ -26,14 +26,16 @@ const { entry } = Astro.props;
 const data = entry.data;
 const { Content } = await render(entry);
 
-// Eyebrow: "company · year · role", skipping any absent piece.
-const eyebrow = [data.company, String(data.year), data.role]
+// Eyebrow: "company · year", skipping any absent piece. The project role lives
+// in the meta strip's Team field, so the eyebrow never carries a job title.
+const eyebrow = [data.company, String(data.year)]
   .filter(Boolean)
   .join(' · ');
 
-// Standard meta strip across all cases: Team (role highlighted, team as the sub),
-// Span, Type, Outcome — in that order (§11.1). A case may still supply an explicit
-// `meta` array to override. Absent fields are omitted, so the order stays consistent.
+// Standard meta strip across all cases: Team (the role, with the team as the sub),
+// Time (or Year), Type, Result, in that order (§11.1). A case may still supply an
+// explicit `meta` array to override. Absent fields are omitted, so the order stays
+// consistent.
 const metaFields =
   data.meta && data.meta.length > 0
     ? data.meta
@@ -41,10 +43,10 @@ const metaFields =
         data.role || data.team
           ? { label: 'Team', value: data.role ?? data.team!, sub: data.role ? data.team : undefined }
           : null,
-        data.span || data.year ? { label: 'Span', value: data.span ?? String(data.year) } : null,
+        data.span ? { label: 'Time', value: data.span } : { label: 'Year', value: String(data.year) },
         data.type ? { label: 'Type', value: data.type } : null,
         data.outcome
-          ? { label: 'Outcome', value: data.outcome.metric, sub: data.outcome.context }
+          ? { label: 'Result', value: data.outcome.metric, sub: data.outcome.context }
           : null,
       ].filter((f): f is { label: string; value: string; sub?: string } => f !== null);
 
