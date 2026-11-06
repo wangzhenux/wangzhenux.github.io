@@ -83,10 +83,9 @@ const { variant = 'default' } = Astro.props;
     max-height: none;
     object-fit: contain;
     border-radius: var(--radius-lg);
-    cursor: zoom-in;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  .showcase-inner :global(img:hover) {
+  .showcase-inner :global(img[data-zoom="on"]:hover) {
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
   }

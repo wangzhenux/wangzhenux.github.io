@@ -20,6 +20,10 @@ test('off-screen gallery: renders, filters, zooms, and has no axe issues', async
   await page.getByRole('button', { name: 'All', exact: true }).click();
   await expect(page.locator('.tile:visible')).toHaveCount(25);
 
+  // Every tile offers zoom, even the few that would not open much bigger at
+  // this size, so the gallery behaves the same throughout.
+  await expect(page.locator('.tile[data-zoom="on"]')).toHaveCount(25);
+
   // Clicking a tile opens the lightbox; Esc closes it.
   await page.locator('.tile').first().click();
   const dialog = page.locator('dialog.lightbox');

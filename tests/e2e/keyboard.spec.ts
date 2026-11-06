@@ -52,11 +52,12 @@ test('case page: skip link works and the progress-bar section nav is keyboard-op
 });
 
 test('lightbox traps focus and Esc returns focus to the trigger', async ({ page }) => {
-  await page.goto('/work/twilio');
+  // The gallery's small tiles open bigger at both test sizes, so they offer zoom.
+  await page.goto('/off-screen/');
 
   // Open the lightbox from the keyboard via a zoomable trigger. Only leaf
-  // wrappers are made interactive (the island adds role=button + tabindex),
-  // so target one of those.
+  // wrappers the zoom enlarges are made interactive (the island adds
+  // role=button + tabindex), so target one of those.
   const trigger = page.locator('[data-zoomable][role="button"]').first();
   await trigger.focus();
   await expect(trigger).toBeFocused();

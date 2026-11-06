@@ -9,7 +9,7 @@
  * small ChatMock reconstructed from the fix (labelled as such); the "after" is a
  * real capture when one exists, else a ChatMock. A capture taller than 3:4 would
  * set that shared row for every card, so it shows from the top at 3:4 and fades
- * out; clicking it still opens the whole image.
+ * out; clicking it still opens the whole image, so it always offers zoom.
  *
  * Mechanics mirror ShowcasePhones: a scroll-snap track on a full-bleed band,
  * prev/next buttons that step a card at a time, the track focusable so arrow
@@ -71,7 +71,7 @@ const isTall = (a: { width: number; height: number }) => a.height / a.width > 4 
               {Array.isArray(c.after) ? (
                 <ChatMock messages={c.after} compact call={c.call} label={`After: ${c.title}`} />
               ) : (
-                <figure class:list={['bk-shot', { 'bk-shot--tall': isTall(c.after) }]} data-zoomable>
+                <figure class:list={['bk-shot', { 'bk-shot--tall': isTall(c.after) }]} data-zoomable={isTall(c.after) ? 'always' : ''}>
                   <img src={c.after.src} alt={c.after.alt} width={c.after.width} height={c.after.height} loading="lazy" decoding="async" />
                 </figure>
               )}
@@ -216,7 +216,7 @@ const isTall = (a: { width: number; height: number }) => a.height / a.width > 4 
     color: var(--ink-tertiary);
   }
   .bk-side-lab--after { color: var(--accent-ink); }
-  .bk-shot { margin: 0; cursor: zoom-in; }
+  .bk-shot { margin: 0; }
   .bk-shot img {
     width: 100%;
     height: auto;

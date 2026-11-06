@@ -64,8 +64,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible, dialog:focus-vi
   white-space: nowrap; border: 0;
 }
 
-/* Lightbox — native <dialog>, opened by the lightbox island (§8.4) */
-[data-zoomable] { cursor: zoom-in; }
+/* Lightbox — native <dialog>, opened by the lightbox island (§8.4). The island
+   sets data-zoom="on" only on images the zoom shows bigger. */
+[data-zoom="on"] { cursor: zoom-in; }
 
 dialog.lightbox {
   max-width: 92vw;
@@ -117,6 +118,14 @@ dialog.lightbox::backdrop {
   width: auto;
   height: auto;
   border-radius: 4px;
+  /* Diagrams with transparent backgrounds were drawn for the page's light bands;
+     keep their dark lines and labels readable on the dark backdrop. */
+  background: var(--bg-secondary);
+}
+/* Art drawn for the dark band (ImageShowcase variant="wireframe-dark") has light
+   labels, so it keeps that band's color behind it instead. */
+dialog.lightbox[data-dark-art] .lightbox-fig img {
+  background: var(--stage-bg-dark);
 }
 .lightbox-cap {
   margin: 0;
