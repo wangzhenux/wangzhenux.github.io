@@ -13,7 +13,7 @@ import { gallery, filters, imgUrl } from '../../lib/offscreen';
 
   <div class="quilt">
     {gallery.map((item) => (
-      <figure class:list={['tile', item.wide && 'tile--wide', item.tall && 'tile--tall']} data-cat={item.cat} data-zoomable>
+      <figure class:list={['tile', item.wide && 'tile--wide', item.tall && 'tile--tall']} data-cat={item.cat} data-zoomable="always">
         <img src={imgUrl(item.file)} width={item.w} height={item.h} alt={item.alt} loading="lazy" decoding="async" />
         {/* Visual hover label only. The accessible description is the img alt,
             surfaced via the lightbox trigger's aria-label + the lightbox caption,

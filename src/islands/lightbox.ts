@@ -1,8 +1,9 @@
 /**
  * Native <dialog> lightbox island (§8.4).
  *
- * A single <dialog> is appended once. Clicking any `[data-zoomable] img` opens it
- * with that image cloned in, focus moves to the subtle × close button, Tab is
+ * A single <dialog> is appended once. Clicking a `[data-zoomable]` image opens it
+ * with that image cloned in, but only when the zoom would show the image clearly
+ * bigger (see MIN_GAIN). Focus moves to the subtle × close button, Tab is
  * trapped by the native <dialog>, and Esc / outside-click / × all close it,
  * restoring focus to the trigger.
  */
@@ -38,12 +39,72 @@ export function init(): void {
     img.style.maxWidth = svg ? '92vw' : '';
     img.style.width = svg ? `min(92vw, calc(80vh * ${(r.width / r.height).toFixed(4)}))` : '';
     cap.textContent = alt;
+    // Art drawn for ImageShowcase's dark band keeps that band behind it (CSS).
+    dialog.toggleAttribute('data-dark-art', !!trigger.closest('.image-showcase--wireframe-dark'));
     dialog.showModal();
     closeBtn.focus();
   };
   const close = () => {
     dialog.close();
     lastTrigger?.focus();
+  };
+
+  // Zoom is offered only when the lightbox would show the image clearly bigger
+  // than the page does: at least MIN_GAIN times as wide in the current window.
+  // Full-width images often gain little, or would even come out smaller (the
+  // lightbox never upscales and stops at 80vh), so those stay plain images.
+  // A wrapper marked data-zoomable="always" offers zoom whatever the gain: the
+  // Off-screen gallery, so every tile behaves the same, and BrokeCarousel's tall
+  // captures, which the page crops and the zoom shows whole.
+  const MIN_GAIN = 1.5;
+  // The width the lightbox would draw this image at: open()'s rule for SVGs, and
+  // the `.lightbox-fig img` caps (88vw × 80vh, never past natural size) otherwise.
+  const zoomedWidth = (i: HTMLImageElement): number => {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    if (/\.svg($|\?)/i.test(i.src)) {
+      return i.offsetHeight > 0 ? Math.min(0.92 * vw, 0.8 * vh * (i.offsetWidth / i.offsetHeight)) : 0;
+    }
+    const w = i.naturalWidth || Number(i.getAttribute('width'));
+    const h = i.naturalHeight || Number(i.getAttribute('height'));
+    if (!w || !h) return 0;
+    return w * Math.min(1, (0.88 * vw) / w, (0.8 * vh) / h);
+  };
+
+  // data-zoom="on" | "off" on the wrapper and its img drives the zoom cursor and
+  // hover lift in CSS. When on, the wrapper (a <div> or <figure>) is also made
+  // keyboard-operable: focusable, exposed as a button, openable with Enter /
+  // Space, so focus can return to it on close. When off, only the attributes
+  // added here are taken back.
+  type Trigger = { wrap: HTMLElement; img: HTMLImageElement; added: string[] };
+  const triggers: Trigger[] = [];
+  const update = (t: Trigger) => {
+    const shown = t.img.offsetWidth;
+    const on =
+      t.wrap.dataset.zoomable === 'always' || (shown > 0 && zoomedWidth(t.img) >= MIN_GAIN * shown);
+    const state = on ? 'on' : 'off';
+    if (t.wrap.dataset.zoom === state) return;
+    // Keep the button while the lightbox is open or the trigger has focus:
+    // closing returns focus to it, and without its tabindex focus would drop to
+    // <body>. A later check turns it off.
+    if (!on && (dialog.open || t.wrap.contains(document.activeElement))) return;
+    t.wrap.dataset.zoom = state;
+    t.img.dataset.zoom = state;
+    if (on) {
+      const attrs: [string, string][] = [
+        ['tabindex', '0'],
+        ['role', 'button'],
+        ['aria-label', t.img.alt ? `Enlarge image: ${t.img.alt}` : 'Enlarge image'],
+      ];
+      for (const [name, value] of attrs) {
+        if (t.wrap.hasAttribute(name)) continue;
+        t.wrap.setAttribute(name, value);
+        t.added.push(name);
+      }
+    } else {
+      t.added.forEach((name) => t.wrap.removeAttribute(name));
+      t.added = [];
+    }
   };
 
   // Only the innermost (leaf) zoomable wrapper becomes the interactive trigger.
@@ -55,24 +116,34 @@ export function init(): void {
     if (wrap.querySelector('[data-zoomable]')) return;
     const i = wrap.querySelector('img');
     if (!i) return;
-    wrap.style.cursor = 'zoom-in';
-    // The zoomable wrappers are <div>s, so make them keyboard-operable: focusable
-    // in tab order, exposed as a button, and openable with Enter / Space. Without
-    // this a keyboard user cannot open the lightbox, and focus could not be
-    // restored to the trigger on close (a tabindex-less div is not focusable).
-    if (!wrap.hasAttribute('tabindex')) wrap.setAttribute('tabindex', '0');
-    if (!wrap.hasAttribute('role')) wrap.setAttribute('role', 'button');
-    if (!wrap.hasAttribute('aria-label')) {
-      wrap.setAttribute('aria-label', i.alt ? `Enlarge image: ${i.alt}` : 'Enlarge image');
-    }
-    wrap.addEventListener('click', () => open(i.src, i.alt, wrap, i));
+    const t: Trigger = { wrap, img: i, added: [] };
+    triggers.push(t);
+    update(t);
+    // The natural size is only certain once the image has loaded.
+    if (!i.complete) i.addEventListener('load', () => update(t), { once: true });
+    wrap.addEventListener('click', () => {
+      if (wrap.dataset.zoom === 'on') open(i.src, i.alt, wrap, i);
+    });
     wrap.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (wrap.dataset.zoom === 'on' && (e.key === 'Enter' || e.key === ' ')) {
         e.preventDefault();
         open(i.src, i.alt, wrap, i);
       }
     });
   });
+
+  // Check again when the window changes size. ClientRouter keeps the window
+  // across page swaps, so the listener removes itself once its page is gone.
+  let frame = 0;
+  const onResize = () => {
+    if (!triggers.some((t) => t.wrap.isConnected)) {
+      removeEventListener('resize', onResize);
+      return;
+    }
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => triggers.forEach(update));
+  };
+  addEventListener('resize', onResize, { passive: true });
 
   closeBtn.addEventListener('click', close);
   // Outside-click (backdrop) closes.
