@@ -51,7 +51,7 @@ test('case page: skip link works and the progress-bar section nav is keyboard-op
   await expect(tag).toBeFocused();
 });
 
-test('lightbox traps focus and Esc returns focus to the trigger', async ({ page }) => {
+test('lightbox traps focus, and closing by Enter or Esc returns focus to the trigger', async ({ page }) => {
   // The gallery's small tiles open bigger at both test sizes, so they offer zoom.
   await page.goto('/off-screen/');
 
@@ -65,8 +65,22 @@ test('lightbox traps focus and Esc returns focus to the trigger', async ({ page 
 
   const dialog = page.locator('dialog.lightbox');
   await expect(dialog).toBeVisible();
-  // Focus moves to the close button on open.
-  await expect(page.locator('.lightbox-close')).toBeFocused();
+  // Focus moves to the close button on open. Its ring is light, since the
+  // page's accent ring is too faint on the dark backdrop, and it stays round.
+  const close = page.locator('.lightbox-close');
+  await expect(close).toBeFocused();
+  const light = await close.evaluate((el) => {
+    const probe = document.createElement('i');
+    probe.style.color = 'var(--ink-on-dark)';
+    el.after(probe);
+    const color = getComputedStyle(probe).color;
+    probe.remove();
+    return color;
+  });
+  await expect(close).toHaveCSS('outline-style', 'solid');
+  await expect(close).toHaveCSS('outline-color', light);
+  await expect(close).toHaveCSS('border-radius', '50%');
+  await expect(close).toHaveCSS('opacity', '1');
 
   // Tab is trapped inside the dialog: focus stays within the dialog subtree.
   await page.keyboard.press('Tab');
@@ -76,7 +90,16 @@ test('lightbox traps focus and Esc returns focus to the trigger', async ({ page 
   });
   expect(stillInside).toBe(true);
 
-  // Esc closes and returns focus to the trigger.
+  // Enter on the close button closes it too, and focus goes back to the
+  // trigger with its ring, since this is a keyboard close.
+  await page.keyboard.press('Enter');
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveCSS('outline-style', 'solid');
+
+  // Reopen. Esc closes and returns focus to the trigger.
+  await page.keyboard.press('Enter');
+  await expect(dialog).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   const restored = await page.evaluate(() => {
