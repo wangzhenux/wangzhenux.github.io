@@ -24,9 +24,17 @@ export function init(): void {
   const img = dialog.querySelector('img')!;
   const cap = dialog.querySelector('.lightbox-cap')!;
   const closeBtn = dialog.querySelector<HTMLButtonElement>('.lightbox-close')!;
+  // The image the open lightbox came from. Cleared by the close event, which
+  // comes after focus is back on it, unless the lightbox has reopened by then.
   let lastTrigger: HTMLElement | null = null;
 
-  const open = (src: string, alt: string, trigger: HTMLElement, shown: HTMLImageElement) => {
+  const open = (
+    src: string,
+    alt: string,
+    trigger: HTMLElement,
+    shown: HTMLImageElement,
+    pointer: boolean
+  ) => {
     lastTrigger = trigger;
     img.src = src;
     img.alt = alt;
@@ -42,11 +50,33 @@ export function init(): void {
     // Art drawn for ImageShowcase's dark band keeps that band behind it (CSS).
     dialog.toggleAttribute('data-dark-art', !!trigger.closest('.image-showcase--wireframe-dark'));
     dialog.showModal();
-    closeBtn.focus();
+    // The close button's ring is for keyboard users. Safari draws it after a
+    // tap or click too, since it counts the dialog's own focus move as visible,
+    // so there focus moves again without it (focusing the button that already
+    // has focus would change nothing, hence the blur). Chrome draws no ring
+    // here and is left alone, so a later key press still brings it back.
+    if (pointer && closeBtn.matches(':focus-visible')) {
+      closeBtn.blur();
+      closeBtn.focus({ focusVisible: false });
+      // Skip the fade from the ring's full opacity back to 0.85.
+      closeBtn.getAnimations().forEach((a) => a.finish());
+    } else {
+      closeBtn.focus();
+    }
   };
-  const close = () => {
+  const close = (pointer: boolean) => {
     dialog.close();
-    lastTrigger?.focus();
+    // Safari also draws the ring on the image when the dialog hands focus back
+    // after a tap or click, so focus moves again the same way there, without
+    // scrolling (the dialog's own hand-back doesn't scroll either). The image
+    // stays a button through the blur, since lastTrigger is set until the
+    // close event.
+    if (pointer && lastTrigger?.matches(':focus-visible')) {
+      lastTrigger.blur();
+      lastTrigger.focus({ focusVisible: false, preventScroll: true });
+    } else {
+      lastTrigger?.focus();
+    }
   };
 
   // Zoom is offered only when the lightbox would show the image clearly bigger
@@ -84,10 +114,12 @@ export function init(): void {
       t.wrap.dataset.zoomable === 'always' || (shown > 0 && zoomedWidth(t.img) >= MIN_GAIN * shown);
     const state = on ? 'on' : 'off';
     if (t.wrap.dataset.zoom === state) return;
-    // Keep the button while the lightbox is open or the trigger has focus:
-    // closing returns focus to it, and without its tabindex focus would drop to
-    // <body>. A later check turns it off.
-    if (!on && (dialog.open || t.wrap.contains(document.activeElement))) return;
+    // Keep the button on the image the lightbox was opened from (until it has
+    // closed) and on any image that has focus: closing returns focus there, and
+    // without its tabindex focus would drop to <body>. It turns off once focus
+    // leaves it (focusout below). Other images are inert behind the open
+    // lightbox, so they switch at once.
+    if (!on && (t.wrap === lastTrigger || t.wrap.contains(document.activeElement))) return;
     t.wrap.dataset.zoom = state;
     t.img.dataset.zoom = state;
     if (on) {
@@ -121,15 +153,22 @@ export function init(): void {
     update(t);
     // The natural size is only certain once the image has loaded.
     if (!i.complete) i.addEventListener('load', () => update(t), { once: true });
-    wrap.addEventListener('click', () => {
-      if (wrap.dataset.zoom === 'on') open(i.src, i.alt, wrap, i);
+    // A screen reader or switch activates the button with a click of detail 0;
+    // only a real click or tap (detail 1 or more) counts as a pointer open.
+    wrap.addEventListener('click', (e) => {
+      if (wrap.dataset.zoom === 'on') open(i.src, i.alt, wrap, i, e.detail > 0);
     });
     wrap.addEventListener('keydown', (e) => {
       if (wrap.dataset.zoom === 'on' && (e.key === 'Enter' || e.key === ' ')) {
         e.preventDefault();
-        open(i.src, i.alt, wrap, i);
+        open(i.src, i.alt, wrap, i, false);
       }
     });
+    // A trigger kept on only because it had focus turns off as soon as focus
+    // moves elsewhere on the page: during that focusout, activeElement is
+    // already <body>, so the guard in update lets it go. If the window loses
+    // focus instead, the trigger is still the active element and stays on.
+    wrap.addEventListener('focusout', () => update(t));
   });
 
   // Check again when the window changes size. ClientRouter keeps the window
@@ -145,13 +184,17 @@ export function init(): void {
   };
   addEventListener('resize', onResize, { passive: true });
 
-  closeBtn.addEventListener('click', close);
+  // Enter or Space on the × also fires click, with detail 0: a keyboard close.
+  closeBtn.addEventListener('click', (e) => close(e.detail > 0));
   // Outside-click (backdrop) closes.
   dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) close();
+    if (e.target === dialog) close(true);
   });
   // Esc fires native `cancel`; restore focus to the trigger.
   dialog.addEventListener('cancel', () => lastTrigger?.focus());
+  dialog.addEventListener('close', () => {
+    if (!dialog.open) lastTrigger = null;
+  });
 
   // Explicit focus trap (§8.4 / §10.1). A native <dialog> with a single
   // focusable child does not reliably trap Tab in Chromium — focus can escape to
@@ -168,14 +211,22 @@ export function init(): void {
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     const active = document.activeElement as HTMLElement | null;
-    if (e.shiftKey) {
-      if (active === first || !dialog.contains(active)) {
-        e.preventDefault();
-        last.focus();
-      }
-    } else if (active === last || !dialog.contains(active)) {
+    // Tab is keyboard use, so the ring shows. Focusing the element that already
+    // has focus changes nothing, and after a tap or click open Safari keeps it
+    // without the ring, so then focus moves again with the ring.
+    const move = (to: HTMLElement) => {
       e.preventDefault();
-      first.focus();
+      if (to === active && !to.matches(':focus-visible')) {
+        to.blur();
+        to.focus({ focusVisible: true });
+      } else {
+        to.focus();
+      }
+    };
+    if (e.shiftKey) {
+      if (active === first || !dialog.contains(active)) move(last);
+    } else if (active === last || !dialog.contains(active)) {
+      move(first);
     }
   });
 }
