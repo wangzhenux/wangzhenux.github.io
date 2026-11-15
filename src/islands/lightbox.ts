@@ -24,9 +24,10 @@ export function init(): void {
   const img = dialog.querySelector('img')!;
   const cap = dialog.querySelector('.lightbox-cap')!;
   const closeBtn = dialog.querySelector<HTMLButtonElement>('.lightbox-close')!;
-  // The image the open lightbox came from. Cleared by the close event, which
-  // comes after focus is back on it, unless the lightbox has reopened by then.
+  // The image the open lightbox came from. It stays a zoom button while the
+  // lightbox is open and while close() hands focus back to it (restoring).
   let lastTrigger: HTMLElement | null = null;
+  let restoring = false;
 
   const open = (
     src: string,
@@ -69,11 +70,12 @@ export function init(): void {
     // Safari also draws the ring on the image when the dialog hands focus back
     // after a tap or click, so focus moves again the same way there, without
     // scrolling (the dialog's own hand-back doesn't scroll either). The image
-    // stays a button through the blur, since lastTrigger is set until the
-    // close event.
+    // stays a button through the blur (restoring).
     if (pointer && lastTrigger?.matches(':focus-visible')) {
+      restoring = true;
       lastTrigger.blur();
       lastTrigger.focus({ focusVisible: false, preventScroll: true });
+      restoring = false;
     } else {
       lastTrigger?.focus();
     }
@@ -114,12 +116,13 @@ export function init(): void {
       t.wrap.dataset.zoomable === 'always' || (shown > 0 && zoomedWidth(t.img) >= MIN_GAIN * shown);
     const state = on ? 'on' : 'off';
     if (t.wrap.dataset.zoom === state) return;
-    // Keep the button on the image the lightbox was opened from (until it has
-    // closed) and on any image that has focus: closing returns focus there, and
+    // Keep the button on the image the lightbox was opened from while it is
+    // open, and on any image that has focus: closing returns focus there, and
     // without its tabindex focus would drop to <body>. It turns off once focus
     // leaves it (focusout below). Other images are inert behind the open
     // lightbox, so they switch at once.
-    if (!on && (t.wrap === lastTrigger || t.wrap.contains(document.activeElement))) return;
+    const held = t.wrap === lastTrigger && (dialog.open || restoring);
+    if (!on && (held || t.wrap.contains(document.activeElement))) return;
     t.wrap.dataset.zoom = state;
     t.img.dataset.zoom = state;
     if (on) {
@@ -192,9 +195,6 @@ export function init(): void {
   });
   // Esc fires native `cancel`; restore focus to the trigger.
   dialog.addEventListener('cancel', () => lastTrigger?.focus());
-  dialog.addEventListener('close', () => {
-    if (!dialog.open) lastTrigger = null;
-  });
 
   // Explicit focus trap (§8.4 / §10.1). A native <dialog> with a single
   // focusable child does not reliably trap Tab in Chromium — focus can escape to
