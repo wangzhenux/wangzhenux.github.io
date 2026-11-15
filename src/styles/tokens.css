@@ -206,6 +206,7 @@
   --fs-label: 11px;  /* mono labels and captions */
   --fs-micro: 10px;  /* mono eyebrows, tags */
   /* Text inside drawn figures and product mock-ups (scaled-down UI) */
+  --fs-fig-lg: 10px; /* the inline Portal timeline, in its drawing's units */
   --fs-fig: 9px;
   --fs-fig-sm: 8px;
   --fs-fig-xs: 7px;

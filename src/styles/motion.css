@@ -1,0 +1,41 @@
+/* Case motion: cases with `caseMotion: true` in their front matter (Portal
+   first). Every rule is scoped to main[data-motion='on'], and the hidden states
+   only apply once the motion island adds html.motion-armed, which it never does
+   under prefers-reduced-motion. The element in the prefix also lifts each rule
+   one step over a component's own scoped rule.
+
+   The timeline drawing, the count-ups and the funnel bars keep their motion in
+   their own components; the walkthrough's screen swap lives in Walkthrough. */
+
+/* Line-mask reveal: each line of a Part title slides up out of its own mask,
+   under 400 ms, once (the island splits the lines and adds .is-in). */
+html.motion-armed main[data-motion='on'] .part-title .lm {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+html.motion-armed main[data-motion='on'] .part-title .lm-in {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.38s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+html.motion-armed main[data-motion='on'] .part-title.is-in .lm-in {
+  transform: none;
+}
+
+/* Screens that open bigger lift a little under the pointer. */
+main[data-motion='on'] [data-zoomable][data-zoom='on'] img {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+main[data-motion='on'] [data-zoomable][data-zoom='on']:hover img {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+/* Walkthrough screens keep their hairline edge while lifted. */
+main[data-motion='on'] .wt-fig[data-zoom='on']:hover img {
+  box-shadow: 0 0 0 1px var(--rule), var(--shadow-hover);
+}
+@media (prefers-reduced-motion: reduce) {
+  main[data-motion='on'] [data-zoomable][data-zoom='on']:hover img { transform: none; }
+}

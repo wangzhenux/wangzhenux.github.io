@@ -11,10 +11,16 @@ interface Row { num: string; value: number; label: string; note?: string; accent
 interface Props { lead: Lead; caption: string; rows: Row[]; }
 const { lead, caption, rows } = Astro.props;
 const max = Math.max(...rows.map((r) => r.value));
+// A note that opens with a number ("48.7% of leads") keeps that number in its
+// own span, so the reading layout can count it up with the rest.
+const splitNote = (n: string) => {
+  const m = n.match(/^(\d[\d.,]*%?)(.*)$/);
+  return m ? { num: m[1], rest: m[2] } : { num: '', rest: n };
+};
 ---
 <div class="fb">
   <div class="fb-lead">
-    <span class="fb-lead-num">{lead.num}</span>
+    <span class="fb-lead-num" data-count={lead.num}>{lead.num}</span>
     <span class="fb-lead-label">{lead.label}</span>
     {lead.note && <span class="fb-lead-note">{lead.note}</span>}
   </div>
@@ -24,9 +30,11 @@ const max = Math.max(...rows.map((r) => r.value));
       {rows.map((r) => (
         <li class:list={['fb-row', { 'fb-row--accent': r.accent }]}>
           <p class="fb-line">
-            <span class="fb-num">{r.num}</span>
+            <span class="fb-num" data-count={r.num}>{r.num}</span>
             <span class="fb-label">{r.label}</span>
-            {r.note && <span class="fb-note"><span class="fb-sep" aria-hidden="true">· </span>{r.note}</span>}
+            {r.note && (
+              <span class="fb-note"><span class="fb-sep" aria-hidden="true">· </span>{splitNote(r.note).num && <span data-count={splitNote(r.note).num}>{splitNote(r.note).num}</span>}{splitNote(r.note).rest}</span>
+            )}
           </p>
           <span class="fb-bar" aria-hidden="true" style={`--w: ${((r.value / max) * 100).toFixed(2)}%`}></span>
         </li>
@@ -112,6 +120,13 @@ const max = Math.max(...rows.map((r) => r.value));
     border-radius: 999px;
     background: var(--ink-primary);
   }
+  /* Reading layout motion: the bars grow from the shared left edge, in order,
+     once the funnel scrolls into view (motion island adds .is-in). */
+  .fb-bar { transform-origin: left center; transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .fb-row:nth-child(2) .fb-bar { transition-delay: 0.12s; }
+  .fb-row:nth-child(3) .fb-bar { transition-delay: 0.24s; }
+  :global(html.motion-armed) .fb:not(.is-in) .fb-bar { transform: scaleX(0); }
+  @media (prefers-reduced-motion: reduce) { .fb-bar { transition: none; } }
   .fb-row--accent .fb-num { color: var(--accent); }
   .fb-row--accent .fb-bar { background: var(--accent); }
   @media (max-width: 767px) {

@@ -17,6 +17,7 @@ heroWidth: 5880
 heroHeight: 3692
 order: 1
 featured: true
+caseMotion: true
 card:
   lead: "AI-native leasing — generate leads, convert them, measure the funnel."
   tags: ["Product design", "AI-native"]
@@ -71,6 +72,8 @@ import StoryBlocks from '../../components/showcase/StoryBlocks.astro';
 import BrokeCarousel from '../../components/showcase/BrokeCarousel.astro';
 import ProcessStrip from '../../components/showcase/ProcessStrip.astro';
 import LadderFigure from '../../components/showcase/LadderFigure.astro';
+import Walkthrough from '../../components/showcase/Walkthrough.astro';
+import PlatformTimeline from '../../components/showcase/PlatformTimeline.astro';
 
 {/*
   ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
@@ -183,7 +186,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
   ═══════════════════════════════════════════════════════════════════════
 */}
 
-<section id="ctx" data-reveal>
+<section id="ctx">
   <PartHeader kicker="Context" title="What UnitPulse is" noRule />
   <BodyText>
     An AI-native leasing platform for property owners and their teams. It
@@ -200,7 +203,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
       column. */}
   <PortalBento />
 </section>
-<section id="p1" data-reveal>
+<section id="p1">
   <PartHeader num="01" title="Who it serves" />
   {/* Avatars are AI-generated synthetic headshots (fictional persona stand-ins). */}
   <PersonaGrid
@@ -231,7 +234,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
     ]}
   />
 </section>
-<section id="p5" data-reveal>
+<section id="p5">
   <PartHeader num="02" title="3 products, one platform" />
   <BodyText>
     UnitPulse reached those 3 people through 3 products: **Marketing to generate
@@ -246,14 +249,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
   </BodyText>
 
   {/* EXAMPLE VISUAL — token-built timeline; replace with final Figma export */}
-  <ImageShowcase variant="plain">
-    <ShowcaseImage
-      src="/cases/unitpulse-platform/timeline.svg"
-      alt="Timeline: kickoff from zero in February 2026, first customer on the marketing product in March, three products live by spring, one platform by summer, and Voice AI joining the same platform as the fourth product in August"
-      width={1600}
-      height={457}
-    />
-  </ImageShowcase>
+  <PlatformTimeline />
 
   <BodyText>
     We merged in phases while the old apps kept running, and Voice AI later
@@ -302,7 +298,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
     ]}
   />
 </section>
-<section id="p2" data-reveal>
+<section id="p2">
   <PartHeader num="03" title="Marketing: generate leads" />
   <BodyText>
     Marketing was our first product and our first paying customer. It started
@@ -335,14 +331,15 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
   />
 
   <SectionH small>How a post gets made today</SectionH>
-  <ShowcaseCarousel
+  <Walkthrough
+    id="mk-steps"
     label="Marketing today, in 5 steps"
-    slides={[
-      { eyebrow: "01 · AI", title: "Learn the property", body: "From the website or a Portal property and a confirmed address, AI writes a brand guide and a local market profile.", image: "/cases/unitpulse-platform/marketing/learn.jpg", imageAlt: "The setup board reading the property's site beside a brand guide with voice, do's and don'ts, colors and fonts", width: 2400, height: 1500 },
-      { eyebrow: "02", title: "Connect channels", body: "Google Business, Facebook, Instagram, TikTok and Reddit, with what's live, what needs attention and 30-day reach.", image: "/cases/unitpulse-platform/marketing/channels.jpg", imageAlt: "The Channels list grouped into needs attention, healthy and connected, and get connected", width: 2400, height: 1500 },
-      { eyebrow: "03 · AI", title: "Plan each channel", body: "For each channel, AI scouts where and what to post. A rhythm check turns gaps into suggested drafts.", image: "/cases/unitpulse-platform/marketing/plan.jpg", imageAlt: "Suggested venues and topics for each channel, the do-these-first list from the rhythm check, and a draft waiting for review", width: 2400, height: 1500 },
-      { eyebrow: "04 · AI", title: "Draft with photos", body: "Pick a channel, add photos, set the tone and length. The copy matches the photos, and a fact check flags what the data doesn't back.", image: "/cases/unitpulse-platform/marketing/draft.jpg", imageAlt: "The composer with channel chips, attached photos, tone and length chips, an AI draft, a preview and a fact-check flag", width: 2400, height: 1500 },
-      { eyebrow: "05", title: "Approve and publish", body: "Every draft waits for a person: edit, reject or approve. Approving publishes now.", image: "/cases/unitpulse-platform/marketing/approve.jpg", imageAlt: "A draft in the work queue with Reject, Edit and Approve, and the confirm dialog before it publishes", width: 2400, height: 1500 },
+    steps={[
+      { eyebrow: "AI", title: "Learn the property", body: "From the website or a Portal property and a confirmed address, AI writes a brand guide and a local market profile.", image: "/cases/unitpulse-platform/marketing/learn.jpg", imageAlt: "The setup board reading the property's site beside a brand guide with voice, do's and don'ts, colors and fonts", width: 2400, height: 1500 },
+      { title: "Connect channels", body: "Google Business, Facebook, Instagram, TikTok and Reddit, with what's live, what needs attention and 30-day reach.", image: "/cases/unitpulse-platform/marketing/channels.jpg", imageAlt: "The Channels list grouped into needs attention, healthy and connected, and get connected", width: 2400, height: 1500 },
+      { eyebrow: "AI", title: "Plan each channel", body: "For each channel, AI scouts where and what to post. A rhythm check turns gaps into suggested drafts.", image: "/cases/unitpulse-platform/marketing/plan.jpg", imageAlt: "Suggested venues and topics for each channel, the do-these-first list from the rhythm check, and a draft waiting for review", width: 2400, height: 1500 },
+      { eyebrow: "AI", title: "Draft with photos", body: "Pick a channel, add photos, set the tone and length. The copy matches the photos, and a fact check flags what the data doesn't back.", image: "/cases/unitpulse-platform/marketing/draft.jpg", imageAlt: "The composer with channel chips, attached photos, tone and length chips, an AI draft, a preview and a fact-check flag", width: 2400, height: 1500 },
+      { title: "Approve and publish", body: "Every draft waits for a person: edit, reject or approve. Approving publishes now.", image: "/cases/unitpulse-platform/marketing/approve.jpg", imageAlt: "A draft in the work queue with Reject, Edit and Approve, and the confirm dialog before it publishes", width: 2400, height: 1500 },
     ]}
   />
 
@@ -359,7 +356,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
     ]}
   />
 </section>
-<section id="p3" data-reveal>
+<section id="p3">
   <PartHeader num="04" title="Leasing: convert leads" />
   <BodyText>
     UP Leasing turns those leads into signed leases. The AI answers
@@ -411,7 +408,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
   />
 
 </section>
-<section id="p4" data-reveal>
+<section id="p4">
   <PartHeader num="05" title="Insight: measure the funnel" />
   <BodyText>
     UP Insight closes the loop for owners who aren't analysts: the full funnel,
@@ -434,9 +431,10 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
       tasks and afterhours are coded mocks from the real panel markup
       (scratchpad mocks/insight-panels/); numbers match the rest of the week.
       Slide copy describes each panel and never quotes its sample numbers. */}
-  <ShowcaseCarousel
+  <Walkthrough
+    id="in-steps"
     label="The For You page, panel by panel"
-    slides={[
+    steps={[
       { eyebrow: "Daily brief", title: "The biggest leak, first thing", body: "Each morning the brief names the stage that slipped most this week, with the numbers behind it and where to look.", image: "/cases/unitpulse-platform/insight/leak.jpg", imageAlt: "The morning brief calling out the biggest leak this week and where to look, with action-first bullets", width: 2400, height: 1033 },
       { eyebrow: "Funnel", title: "See where renters leave", body: "The customer journey highlights every drop-off, and the stage panel lists why leads left.", image: "/cases/unitpulse-platform/insight/dropoffs.jpg", imageAlt: "The customer journey with drop-offs highlighted and a stage panel showing dropout reasons", width: 2400, height: 1433 },
       { eyebrow: "Inventory", title: "Where the demand has to land", body: "Empty units by floor plan, most vacancies first, each with its rent range, so the team sees where pricing and marketing should go first.", image: "/cases/unitpulse-platform/insight/inventory.jpg", imageAlt: "Vacancy by unit type for Maple Court: 2B2B with 7 of 64 vacant at $3,150 to $3,350, then 1B1B, 3B2B and Studio with 2 vacant each, each row with an occupancy bar", width: 2400, height: 1500 },
@@ -446,7 +444,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
     ]}
   />
 </section>
-<section id="vc" data-reveal>
+<section id="vc">
   <PartHeader num="06" title="Voice AI: answer every call" />
   <BodyText>
     When an agent is on a tour, the phone still rings. I designed the setup
@@ -525,7 +523,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
     />
   </MoreDetail>
 </section>
-<section id="cp" data-reveal>
+<section id="cp">
   <PartHeader num="07" title="Copilot: a command layer in each product" />
   {/* Today = verified in web-unitpulse-portal (2026-10-09): Insight AidenCopilot
       returns profile / KPI / chart / list answers and can open views; Marketing's
@@ -556,7 +554,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
     </ul>
   </ShowcaseVideo>
 </section>
-<section id="ds" data-reveal>
+<section id="ds">
   <PartHeader num="08" title="The design system" />
   <BodyText>
     The 3 products were built fast, with AI writing Tailwind before AI was good
@@ -670,7 +668,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
     notes={["The first version: olive on cream, Inter, square uppercase chips and mono trend pills.", "Today: emerald on neutral, Newsreader for titles and numbers, Manrope for the UI, pill badges, flat cards on hairline borders."]}
   />
 </section>
-<section id="p6" data-reveal>
+<section id="p6">
   <PartHeader kicker="One more thing" title="Leasing on the go" />
   <BodyText>
     Leasing happens on foot, so we built the agents' app **from scratch in 2
@@ -744,7 +742,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
     ]}
   />
 </section>
-<section id="p7" data-reveal>
+<section id="p7">
   <PartHeader num="09" title="What it's done so far" />
   {/* Zhen 2026-10-22: 50+ properties on the new platform (Oct 2026; corrected from 100+).
       7 partner accounts (Aug 2026 canonical). Pendo, May 2026: 79 accounts on
@@ -781,7 +779,7 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
       inquiry-to-tour conversations handled by AI leasing at the cohort property"
       (Zhen: one cohort property; OK to publish, q-03). Thresholds were [TARGET]. */}
 </section>
-<section id="p8" data-reveal>
+<section id="p8">
   <PartHeader num="10" title="Reflection" />
   <Reflection>
     <ReflectionCard label="On what I got wrong" heading="Spec first, then let AI build" art="spec">

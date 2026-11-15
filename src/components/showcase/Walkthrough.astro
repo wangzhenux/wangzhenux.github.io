@@ -1,0 +1,170 @@
+---
+/**
+ * A walkthrough: the steps stay put on the left while the screen on the right
+ * changes as the reader scrolls. On wide windows the motion island pins the
+ * pair (list and screen) and swaps the screen every --wt-step of scroll, so a
+ * 5-step flow takes about one screen of reading instead of five. Each step's
+ * title also jumps to its screen. On phones and narrow windows the steps stack,
+ * each step's text right above its screen.
+ *
+ * Without JS every step and every screen shows, stacked beside the sticky list.
+ * Under reduced motion the screens still follow the scroll, without the
+ * crossfade. Screens are zoomable (lightbox island). Token-only CSS.
+ *
+ *   <Walkthrough id="mk-steps" label="Marketing today, in 5 steps"
+ *     steps={[{ eyebrow: 'AI', title: '…', body: '…', image: '/…', imageAlt: '…', width: 2400, height: 1500 }]} />
+ */
+interface Step {
+  eyebrow?: string;
+  title: string;
+  body: string;
+  image: string;
+  imageAlt: string;
+  width: number;
+  height: number;
+}
+interface Props {
+  id: string;
+  label: string;
+  steps: Step[];
+}
+const { id, label, steps } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<div class="wt" id={id} data-wt aria-label={label} role="group" style={`--wt-n: ${steps.length}`}>
+  <div class="wt-stage">
+    <ol class="wt-steps">
+      {steps.map((s, i) => (
+        <li class:list={['wt-step', { 'is-active': i === 0 }]} data-i={i} style={`order: ${i * 2}`}>
+          <p class="wt-k">
+            <span class="wt-num">{pad(i + 1)}</span>
+            {s.eyebrow && <span class="wt-eyebrow">{s.eyebrow}</span>}
+          </p>
+          <h4 class="wt-title"><a class="wt-link" href={`#${id}-${i + 1}`}>{s.title}</a></h4>
+          <div class="wt-body"><p>{s.body}</p></div>
+        </li>
+      ))}
+    </ol>
+    <div class="wt-screens">
+      {steps.map((s, i) => (
+        <figure class:list={['wt-fig', { 'is-active': i === 0 }]} id={`${id}-${i + 1}`} data-i={i} data-zoomable style={`order: ${i * 2 + 1}`}>
+          <img src={s.image} alt={s.imageAlt} width={s.width} height={s.height} loading="lazy" decoding="async" />
+        </figure>
+      ))}
+    </div>
+  </div>
+</div>
+<style>
+  .wt {
+    --wt-step: 220px;
+    margin: var(--space-7) 0 var(--space-9);
+  }
+  .wt-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+    gap: var(--space-9);
+    align-items: start;
+  }
+  .wt-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: sticky;
+    top: var(--space-13);
+    display: grid;
+    gap: var(--space-1);
+  }
+  .wt-step {
+    padding: var(--space-3) 0 var(--space-3) var(--space-5);
+    border-left: 2px solid var(--rule);
+    transition: border-color 0.3s ease;
+  }
+  .wt-k {
+    margin: 0 0 var(--space-1);
+    display: flex;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .wt-eyebrow { color: var(--accent-ink); }
+  .wt-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--fs-h6);
+    font-weight: 500;
+    line-height: var(--lh-title);
+    color: var(--ink-primary);
+    transition: color 0.3s ease;
+  }
+  .wt-link { color: inherit; text-decoration: none; }
+  .wt-link:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .wt-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease;
+  }
+  .wt-body p {
+    margin: 0;
+    padding-top: var(--space-2);
+    overflow: hidden;
+    min-height: 0;
+    font-size: var(--fs-card);
+    line-height: var(--lh-card);
+    color: var(--ink-secondary);
+  }
+  .wt-screens { display: grid; gap: var(--space-9); }
+  .wt-fig { margin: 0; scroll-margin-top: var(--space-13); }
+  .wt-fig img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 0 0 1px var(--rule);
+  }
+
+  /* Armed by the motion island: only the active step is open and inked. */
+  .wt.is-armed .wt-step:not(.is-active) .wt-title { color: var(--ink-tertiary); }
+  .wt.is-armed .wt-step:not(.is-active) .wt-body { grid-template-rows: 0fr; opacity: 0; }
+  .wt.is-armed .wt-step.is-active { border-left-color: var(--accent); }
+
+  /* Staged (wide windows, armed): the pair is pinned mid-window and the screens
+     share one spot, so scrolling swaps them in place. The block is as tall as
+     the stage plus one --wt-step of scroll per extra step. */
+  @media (min-width: 960px) {
+    .wt.is-staged { height: calc(var(--wt-stage-h, 480px) + (var(--wt-n) - 1) * var(--wt-step)); }
+    .wt.is-staged .wt-stage {
+      position: sticky;
+      top: max(var(--space-13), calc(50vh - var(--wt-stage-h, 480px) / 2));
+      align-items: center;
+    }
+    .wt.is-staged .wt-steps { position: static; }
+    .wt.is-staged .wt-screens { gap: 0; }
+    .wt.is-staged .wt-fig {
+      grid-area: 1 / 1;
+      align-self: center;
+      opacity: 0;
+      transform: translateY(var(--space-2));
+      transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+      pointer-events: none;
+    }
+    .wt.is-staged .wt-fig.is-active { opacity: 1; transform: none; pointer-events: auto; }
+  }
+
+  /* Narrow: each step's text sits right above its screen. The two lists dissolve
+     into one column and the inline `order` interleaves them. */
+  @media (max-width: 959px) {
+    .wt-stage { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+    .wt-steps, .wt-screens { display: contents; }
+    .wt-step { padding: 0; border: 0; margin-top: var(--space-7); }
+    .wt-step:first-child { margin-top: 0; }
+    .wt-fig { margin-top: var(--space-4); }
+    .wt.is-armed .wt-step:not(.is-active) .wt-title { color: var(--ink-primary); }
+    .wt.is-armed .wt-step:not(.is-active) .wt-body { grid-template-rows: 1fr; opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wt-step, .wt-title, .wt-body, .wt-fig { transition: none; }
+  }
+</style>

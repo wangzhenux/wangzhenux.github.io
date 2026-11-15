@@ -47,8 +47,13 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
   await expect(page.locator('.dss')).toHaveAttribute('data-mode', 'dark');
   await page.locator('.dss-btn[data-set="light"]').click();
 
-  // The Feb→summer 2026 timeline (the one bespoke artifact) is present.
-  await expect(page.locator('img[src*="timeline.svg"]')).toBeVisible();
+  // The Feb→summer 2026 timeline (the one bespoke artifact) is drawn inline,
+  // so it can draw itself on scroll.
+  await expect(page.locator('.tl svg[role="img"]')).toBeVisible();
+
+  // Walkthroughs: every step and screen is in the page (Marketing 5, Insight 6).
+  await expect(page.locator('#mk-steps .wt-fig')).toHaveCount(5);
+  await expect(page.locator('#in-steps .wt-fig')).toHaveCount(6);
 
   // The hidden deep-dive cases must NOT be linked from this page.
   await expect(page.locator('a[href="/work/up-insight"]')).toHaveCount(0);

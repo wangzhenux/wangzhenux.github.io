@@ -78,9 +78,9 @@ test('zoom is offered only when it shows the image bigger', async ({ page }) => 
   await page.setViewportSize({ width: 1920, height: 1080 });
   await expect(trigger).toHaveAttribute('data-zoom', 'on');
   await expect(trigger).toHaveAttribute('role', 'button');
-  // So does the timeline diagram above it.
-  const timeline = page.locator('[data-zoom]', { has: page.locator('img[src$="timeline.svg"]') });
-  await expect(timeline).toHaveAttribute('data-zoom', 'on');
+  // So does a walkthrough screen, which the page shows at about 630 px.
+  const step = page.locator('#mk-steps [data-zoom]').first();
+  await expect(step).toHaveAttribute('data-zoom', 'on');
   await img.click();
   await expect(dialog).toBeVisible();
 
@@ -98,10 +98,8 @@ test('zoom is offered only when it shows the image bigger', async ({ page }) => 
   expect(colors.zoomed).toBe(colors.band);
 
   // Shrinking the window while the lightbox is open keeps the trigger a button,
-  // so Esc still returns focus to it. The timeline, which the lightbox was not
-  // opened from, turns back into a plain image at once.
+  // so Esc still returns focus to it.
   await page.setViewportSize({ width: 1440, height: 900 });
-  await expect(timeline).toHaveAttribute('data-zoom', 'off');
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await expect(trigger).toBeFocused();

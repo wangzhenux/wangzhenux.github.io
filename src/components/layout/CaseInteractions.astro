@@ -10,12 +10,14 @@
   import { init as initLightbox } from '../../islands/lightbox';
   import { init as initReveal } from '../../islands/reveal';
   import { init as initInview } from '../../islands/inview';
+  import { init as initMotion } from '../../islands/motion';
 
   const run = () => {
     initToc();
     initLightbox();
     initReveal();
     initInview();
+    initMotion(); // cases with caseMotion only (main[data-motion="on"])
   };
 
   run();

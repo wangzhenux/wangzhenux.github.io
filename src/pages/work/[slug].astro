@@ -71,7 +71,7 @@ const mainStyle = data.cover.gradient
 ---
 <BaseLayout title={`${data.title} — Zhen Wang`} description={data.deck} ogType="article">
   <Nav currentPath={`/work/${data.slug}`} />
-  <main id="main" tabindex="-1" style={mainStyle}>
+  <main id="main" tabindex="-1" style={mainStyle} data-motion={data.caseMotion ? 'on' : undefined}>
     <ProgressBar sections={data.sections} />
     <BackLink href="/" />
     <Hero
