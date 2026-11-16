@@ -2,9 +2,8 @@
  * Case motion island (cases with `caseMotion: true`, Portal first).
  *
  * Small and once: Part titles slide up out of a line mask and the content
- * under them comes into focus as it scrolls into view (from nothing, through a
- * soft blur, to sharp), numbers count up, the timeline draws itself and the
- * funnel bars grow.
+ * under them fades up as it scrolls into view, numbers count up, the timeline
+ * draws itself and the funnel bars grow.
  * Walkthroughs keep their step list in place and swap the screen as the reader
  * scrolls (that one is state, not motion, so it runs under reduced motion too,
  * without the crossfade).
@@ -194,7 +193,7 @@ function initWalkthrough(root: HTMLElement) {
   });
 }
 
-/* ── Content: each block comes into focus as it scrolls into view ──────── */
+/* ── Content: each block fades up as it scrolls into view ──────────────── */
 // Direct children of each Part, except its header (the title has its own line
 // mask) and blocks that already bring themselves in (the in-view island's
 // storytelling components, the bento, the timeline).
@@ -220,10 +219,9 @@ function revealBlocks(main: HTMLElement, below: (el: Element) => boolean) {
       arriving.forEach((el, i) => {
         obs.unobserve(el);
         el.classList.add('is-in');
-        // From nothing, through a soft blur, to sharp: no movement.
         el.animate(
-          [{ opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)' }],
-          { duration: 750, delay: 80 + Math.min(i, 4) * 70, easing: 'cubic-bezier(0.33, 0, 0.2, 1)', fill: 'backwards' }
+          [{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 650, delay: 80 + Math.min(i, 4) * 70, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)', fill: 'backwards' }
         );
       });
     },
@@ -252,7 +250,7 @@ export function init(): void {
   heads.forEach(maskHeading);
   once(heads, revealHeading);
 
-  // The content under them comes into focus as it arrives.
+  // The content under them fades up as it arrives.
   revealBlocks(main, below);
 
   // Numbers.
