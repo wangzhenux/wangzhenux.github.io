@@ -109,36 +109,62 @@ function initWalkthrough(root: HTMLElement) {
   const cardPx = () => steps[1].getBoundingClientRect().left - steps[0].getBoundingClientRect().left;
 
   let raf = 0;
+  // The swipe row's width when last read, 0 while the walkthrough is pinned.
+  let rowW = 0;
   const update = () => {
     raf = 0;
     if (wide.matches) {
+      rowW = 0;
       // How far the block has scrolled past the point where the stage pins.
       const past = stickyTop() - root.getBoundingClientRect().top;
       set(Math.max(0, Math.min(steps.length - 1, Math.round(past / stepPx()))));
     } else {
-      // Swipe row: the card nearest the start of the row.
+      // Swipe row: the card nearest the start of the row. If the row itself
+      // changed width (a rotation, a narrower window), stay on the same card:
+      // WebKit pushes a far-along row to its end before any resize event.
       const card = cardPx();
+      const was = rowW;
+      rowW = stage.clientWidth;
+      if (was && was !== rowW) {
+        if (card > 0) stage.scrollLeft = current * card;
+        return;
+      }
       if (card > 0) set(Math.max(0, Math.min(steps.length - 1, Math.round(stage.scrollLeft / card))));
     }
   };
   const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+  const onResize = () => { measure(); onScroll(); };
   measure();
   update();
   // Measure again once the closed steps have folded (their 0.35 s transition),
   // or the stage keeps the height of the fully open list.
-  window.setTimeout(() => { measure(); onScroll(); }, 450);
-  addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', () => { measure(); onScroll(); }, { passive: true });
+  window.setTimeout(onResize, 450);
+  // ClientRouter keeps the window across page swaps: these leave with their page.
+  const ac = new AbortController();
+  document.addEventListener('astro:before-swap', () => ac.abort(), { once: true });
+  addEventListener('scroll', onScroll, { passive: true, signal: ac.signal });
+  addEventListener('resize', onResize, { passive: true, signal: ac.signal });
+  // WebKit can still read the old width inside resize; the query's own change
+  // event has the new one.
+  wide.addEventListener('change', onResize, { signal: ac.signal });
   stage.addEventListener('scroll', onScroll, { passive: true });
   // Late images change the stage's height.
   figs.forEach((f) => f.querySelector('img')?.addEventListener('load', measure, { once: true }));
 
-  // A dot brings its card to the start of the row. So does Tab onto a title:
-  // the browser leaves a card that only peeks in where it is. The frame's wait
-  // lets any scroll of the browser's own go first.
+  // A dot brings its card to the start of the row. So do a tap on a title and
+  // Tab onto one: the browser leaves a card that only peeks in where it is (and
+  // Safari doesn't focus a tapped link). The frame's wait lets any scroll of
+  // the browser's own go first.
   const goTo = (i: number) => stage.scrollTo({ left: i * cardPx(), behavior: reduced() ? 'auto' : 'smooth' });
   dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+  // A title that gets focus back with the window (another tab or app, then
+  // back) leaves the row where the reader put it: its focusout ran while the
+  // page had no focus, so `followed` still holds it.
+  let followed: EventTarget | null = null;
+  stage.addEventListener('focusout', () => { if (document.hasFocus()) followed = null; });
   stage.addEventListener('focusin', (ev) => {
+    if (ev.target === followed) return;
+    followed = ev.target;
     if (wide.matches) return;
     const i = steps.findIndex((s) => s.contains(ev.target as Node));
     if (i >= 0) requestAnimationFrame(() => goTo(i));
@@ -146,8 +172,10 @@ function initWalkthrough(root: HTMLElement) {
 
   root.querySelectorAll<HTMLAnchorElement>('.wt-link').forEach((a, i) => {
     a.addEventListener('click', (ev) => {
-      if (!wide.matches) return; // swipe row: the plain anchor jump is right
       ev.preventDefault();
+      // Swipe row: bring the card in, as its dot does, and keep the page still.
+      // A jump would put the card's screen at the top, past its title.
+      if (!wide.matches) { goTo(i); return; }
       const top = root.getBoundingClientRect().top + window.scrollY - stickyTop() + i * stepPx() + 1;
       window.scrollTo({ top, behavior: reduced() ? 'auto' : 'smooth' });
     });

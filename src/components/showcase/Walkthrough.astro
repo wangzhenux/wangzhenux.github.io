@@ -6,7 +6,8 @@
  * 5-step flow takes about one screen of reading instead of five. Each step's
  * title also jumps to its screen. On phones and narrow windows the steps become
  * a swipe row: one card per step, its text above its screen, the next card
- * peeking in, and a dot per step under the row that follows the swipe.
+ * peeking in, and a dot per step under the row that follows the swipe. There a
+ * title or its dot brings its card in, and the page stays put.
  *
  * Without JS every step and every screen shows, stacked beside the sticky list
  * (on narrow windows the row still swipes; the dots wait for the island).
@@ -195,6 +196,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
     inset: calc(-1 * var(--space-2)) calc(-1 * var(--space-1));
   }
   .wt-dot[aria-current="true"] { width: 30px; background: var(--accent); }
+  /* Forced colors (Windows contrast themes) paint the dots' fill as the page; a
+     border keeps them, and the current pill, in view. */
+  @media (forced-colors: active) {
+    .wt-dot { border: 1px solid; }
+  }
 
   /* Narrow: a swipe row, one card per step. The two lists dissolve into one
      grid where a step and its screen share a column (the inline --col): text in
@@ -202,8 +208,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
      screen starts on the same line. A card is 86% of the row, so the next one
      peeks in. The row reaches 4px into the page margin on each side, padded
      back in, so the scroller doesn't clip a screen's hairline edge or a title's
-     focus ring. */
-  @media (max-width: 959px) {
+     focus ring. The 14% end padding, the peek, keeps the next card outside the
+     snap area, so Tab onto its title brings that card in even before the motion
+     island runs. The query is the exact opposite of the island's wide one, so a
+     width such as 959.2px (a 1199px window at 125%) can't fall between them. */
+  @media not all and (min-width: 960px) {
     .wt-stage {
       grid-template-columns: none;
       grid-template-rows: auto auto;
@@ -212,7 +221,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       gap: var(--space-4) var(--space-5);
       margin-inline: calc(-1 * var(--space-1));
       padding: 0 var(--space-1) var(--space-1);
-      scroll-padding-inline: var(--space-1);
+      scroll-padding-inline: var(--space-1) 14%;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       overscroll-behavior-x: contain;

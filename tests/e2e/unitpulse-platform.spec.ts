@@ -105,6 +105,20 @@ test('phone walkthrough: the steps swipe sideways one card at a time, and the do
   await expect.poll(() => row.evaluate((el) => el.scrollLeft)).toBe(0);
   await expect(dots.first()).toHaveAttribute('aria-current', 'true');
 
+  // A title brings its card in and the page stays put, by tap or by Enter, and
+  // a title reached with the keyboard keeps its focus.
+  const y0 = await page.evaluate(() => window.scrollY);
+  const t2 = (await wt.locator('.wt-link').nth(1).boundingBox())!;
+  await page.mouse.click(box.x + box.width - 8, t2.y + t2.height / 2);
+  await expect(dots.nth(1)).toHaveAttribute('aria-current', 'true');
+  expect(await page.evaluate(() => window.scrollY)).toBe(y0);
+  const t3 = wt.locator('.wt-link').nth(2);
+  await t3.focus();
+  await page.keyboard.press('Enter');
+  await expect(dots.nth(2)).toHaveAttribute('aria-current', 'true');
+  await expect(t3).toBeFocused();
+  expect(await page.evaluate(() => window.scrollY)).toBe(y0);
+
   // Wide windows keep the pinned list: no swipe row and no dots.
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(dots.first()).toBeHidden();

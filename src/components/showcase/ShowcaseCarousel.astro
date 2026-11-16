@@ -408,6 +408,11 @@ const count = slides.length;
     background: var(--accent);
     border-radius: 999px;
   }
+  /* Forced colors (Windows contrast themes) paint the dots' fill as the page; a
+     border keeps them, and the current pill, in view. */
+  @media (forced-colors: active) {
+    .scar-dot { border: 1px solid; }
+  }
   .scar[data-playing="true"] .scar-dot[aria-current="true"]::after {
     animation: scar-fill var(--scar-dur, 5000ms) linear forwards;
   }
