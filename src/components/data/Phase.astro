@@ -35,7 +35,7 @@ const { num, label, title, meta } = Astro.props;
   .phase-num {
     font-family: var(--font-display);
     font-size: var(--fs-num-lg);
-    font-weight: 500;
+    font-weight: var(--fw-display);
     color: var(--accent);
     line-height: 0.85;
     letter-spacing: -0.04em;
@@ -52,7 +52,7 @@ const { num, label, title, meta } = Astro.props;
     font-family: var(--font-display);
     font-size: var(--fs-h5);
     margin: 0 0 var(--space-2);
-    font-weight: 500;
+    font-weight: var(--fw-title);
     line-height: var(--lh-title);
   }
   .phase-text {

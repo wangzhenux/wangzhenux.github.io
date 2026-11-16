@@ -40,7 +40,7 @@ const { items, heading = 'Selected work' } = Astro.props;
     font-size: var(--fs-h4);
     letter-spacing: -0.01em;
     margin: 0 0 var(--space-6);
-    font-weight: 500;
+    font-weight: var(--fw-title);
   }
   .strip-list {
     list-style: none;
@@ -59,6 +59,7 @@ const { items, heading = 'Selected work' } = Astro.props;
   .strip-label {
     font-family: var(--font-display);
     font-size: var(--fs-card);
+    font-weight: var(--fw-title);
     color: var(--ink-primary);
     display: flex;
     align-items: baseline;

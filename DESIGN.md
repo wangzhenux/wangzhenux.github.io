@@ -24,9 +24,28 @@ Functional color always pairs with text/icon — never color alone. Foreground/b
 pairs meet WCAG AA (4.5:1 text).
 
 ### Typography
-- `--font-display` — serif, for titles/headings (weight 500).
-- `--font-body` — grotesque, for body (16px base, line-height 1.5–1.6).
-- `--font-mono` — for eyebrows, labels, meta, tags, numbers (uppercase, letter-spaced).
+- **One typeface: Rethink Sans** for display and body (`--font-display`, `--font-body`).
+  It is served from the site, with no font service: `src/styles/fonts.css` declares the
+  files in `public/fonts/rethink-sans/` (variable weight 400 to 800, upright and italic),
+  and `BaseLayout` preloads the upright one. Body: 16px base, line-height 1.5 to 1.6.
+- `--font-mono`: small labels only (eyebrows, labels, meta, tags; uppercase, letter-spaced).
+- **Display-face weight comes from a token, by role.** Never put a raw 500/600/700 on a title.
+
+  | Token | Value | Role |
+  |---|---|---|
+  | `--fw-display` | 700 | titles that lead a page or a Part: case and page titles, `PartHeader`, `SectionH` statements, big numbers |
+  | `--fw-title` | 600 | titles inside a block: sub-section headings (`SectionH small`, home and About section titles), card, slide, tile and step titles, company and persona names, the name in the nav and footer |
+
+  `global.css` gives `h1`/`h2` `--fw-display` and `h3`/`h4` `--fw-title`; components still
+  set the token for their role, so a title's weight never depends on its tag. Decks and
+  quotes in the display face stay at the reading weight (400).
+- `--deck-style` (`normal`) is the font-style of those decks and quotes: hero deck,
+  `SectionDeck`, `Pullquote`, the Next case deck.
+- **The editorial serif look is one switch:** the comment above the type families in
+  `tokens.css` lists the values to put back (the serif and Inter stacks, both weights at
+  500, `--deck-style: italic`, the earlier `--ink-secondary`) and says to drop the font
+  preload. The company wordmarks on the case cards and competitor rows stay a fixed 600 in
+  both looks.
 - **Every font-size reads a `--fs-*` token** (the token lint fails on raw px, rem or
   clamp()). Change a tier in `tokens.css` and every component follows.
 
@@ -39,7 +58,7 @@ pairs meet WCAG AA (4.5:1 text).
 | Sub-section | `--fs-h4` | 24 | `SectionH small`, home/About section titles, hero tile titles |
 | Large card title | `--fs-h5` | 22 | hero tiles, slides, phases |
 | Card title | `--fs-h6` | 20 | every card that heads `--fs-card` text |
-| Deck | `--fs-deck` | 20 | serif italic sub-lines (hero deck, `SectionDeck`) |
+| Deck | `--fs-deck` | 20 | sub-lines (hero deck, `SectionDeck`): reading weight, `--deck-style` |
 | Body | `--fs-body` | 18 (16 on phones) | prose; `Lede` uses it too (`--fs-lead`) |
 | Card | `--fs-card` | 16 | card, slide and story text |
 | Small / note / meta | `--fs-small` `--fs-note` `--fs-meta` | 14 / 13 / 12 | secondary lines, chips, stat sub-lines |
@@ -52,7 +71,7 @@ line heights come from `--lh-tight` / `--lh-heading` / `--lh-title` / `--lh-body
 
 **Hierarchy rule:** each step is at least 1.25× the one below it: section 30 over sub-section
 24 over body 18, and card title 20 over card text 16. Column headers inside a card group
-(`DualCol`) are mono labels, not another serif tier. A `Lede` reads exactly like the body that follows
+(`DualCol`) are mono labels, not another display tier. A `Lede` reads exactly like the body that follows
 it. Paragraphs use `text-wrap: pretty`, so none ends on a single word.
 
 ### Spacing

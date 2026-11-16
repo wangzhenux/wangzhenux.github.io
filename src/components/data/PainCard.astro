@@ -9,7 +9,7 @@ const { num, title } = Astro.props;
 </div>
 <style>
   /* ported from case-study-twilio.html .pain-card, tokenized.
-     No chrome — large display-serif accent .num + h4 title + body. */
+     No chrome: large display-face accent .num + h3 title + body. */
   .pain-card {
     padding: 0;
     background: transparent;
@@ -20,7 +20,7 @@ const { num, title } = Astro.props;
     font-family: var(--font-display);
     font-size: var(--fs-num-sm);
     color: var(--accent);
-    font-weight: 500;
+    font-weight: var(--fw-display);
     letter-spacing: -0.02em;
     line-height: var(--lh-tight);
     margin-bottom: var(--space-3);
@@ -29,7 +29,7 @@ const { num, title } = Astro.props;
     font-family: var(--font-display);
     font-size: var(--fs-h6);
     margin: 0 0 var(--space-2);
-    font-weight: 500;
+    font-weight: var(--fw-title);
     color: var(--ink-primary);
   }
   /* div, not p: MDX wraps the slot in its own <p>, which can't nest in a <p>. */

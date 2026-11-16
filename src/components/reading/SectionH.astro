@@ -17,7 +17,7 @@ const { small = false, wide = false } = Astro.props;
     letter-spacing: -0.018em;
     color: var(--ink-primary);
     margin: var(--space-12) 0 var(--space-6);
-    font-weight: 500;
+    font-weight: var(--fw-display);
     max-width: 22ch;
   }
   .section-h::before {
@@ -30,6 +30,7 @@ const { small = false, wide = false } = Astro.props;
   }
   .section-h--small {
     font-size: var(--fs-h4);
+    font-weight: var(--fw-title);
     margin: var(--space-9) 0 var(--space-4);
     /* Small section headers span the full content column (not the 22ch measure). */
     max-width: none;

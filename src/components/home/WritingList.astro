@@ -33,7 +33,7 @@ const posts = writings.slice(0, limit);
 </section>
 <style>
   /* ported from homepage.html .writing, tokenized. Curated three-up list with a
-     square hero thumbnail, serif headline, and a condensed excerpt. */
+     square hero thumbnail, display-face headline, and a condensed excerpt. */
   .writing {
     padding-block: var(--space-11);
   }
@@ -48,7 +48,7 @@ const posts = writings.slice(0, limit);
     font-size: var(--fs-h4);
     letter-spacing: -0.01em;
     margin: 0;
-    font-weight: 500;
+    font-weight: var(--fw-title);
   }
   .writing-more {
     display: inline-flex;
@@ -94,7 +94,7 @@ const posts = writings.slice(0, limit);
     line-height: var(--lh-title);
     letter-spacing: -0.01em;
     color: var(--ink-primary);
-    font-weight: 500;
+    font-weight: var(--fw-title);
     transition: color 0.2s ease;
   }
   .writing-row:hover .writing-headline,

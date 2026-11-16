@@ -15,7 +15,7 @@
 
   /* === Ink === */
   --ink-primary: #1A1410;
-  --ink-secondary: #1A1410E5;
+  --ink-secondary: #1A1410C7;   /* body text, a touch softer than headings (was E5) */
   --ink-tertiary: #1A1410B8;   /* AA-corrected (was 88) */
   --ink-quaternary: #1A1410B0; /* decorative only */
   --ink-on-dark: #FAF5E8;
@@ -181,7 +181,7 @@
      sub-section 24 over body 18; card title 20 over card text 16. On phones
      the Part title floor (30) stays 1.25× over the sub-section heading.
 
-     Headings (display serif) */
+     Headings (display face) */
   --fs-display: clamp(72px, 16vw, 140px); /* one big outcome number */
   --fs-h1: clamp(32px, 6vw, 56px);        /* case title */
   --fs-h1-page: clamp(32px, 5vw, 46px);   /* home and About titles */
@@ -195,7 +195,7 @@
   --fs-num-sm: 28px;
   --fs-num-lg: 56px;
   /* Text (body sans) */
-  --fs-deck: 20px;   /* serif italic sub-lines: hero deck, SectionDeck */
+  --fs-deck: 20px;   /* display-face sub-lines: hero deck, SectionDeck */
   --fs-body: 18px;   /* reading prose; 16 on phones */
   --fs-lead: var(--fs-body); /* Lede reads as body (same face and size) */
   --fs-base: 16px;   /* document default */
@@ -218,10 +218,28 @@
   --lh-card: 1.55;    /* card and slide text */
   --lh-small: 1.5;    /* small and meta text */
 
-  /* === Type families === */
-  --font-display: 'Iowan Old Style', 'Charter', 'GT Sectra', Georgia, serif;
-  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* === Type families ===
+     One typeface for display and body: Rethink Sans (served from the site, see
+     fonts.css), the deck's face. Mono stays for small labels only.
+     The editorial serif look before it is one switch away, all here:
+       --font-display: 'Iowan Old Style', 'Charter', 'GT Sectra', Georgia, serif;
+       --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+       --fw-display: 500; --fw-title: 500; --deck-style: italic;
+       --ink-secondary: #1A1410E5;
+     and drop the font preload in BaseLayout. Company wordmarks stay at 600 in both looks. */
+  --font-display: 'Rethink Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Rethink Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', 'Geist Mono', monospace;
+
+  /* === Type weights and styles (display face) ===
+     --fw-display: titles that lead a page or part (case and page titles, Part
+       titles, section statements, big numbers).
+     --fw-title: titles inside a block (sub-section headings, card and slide
+       titles, the name in the nav).
+     --deck-style: the sub-lines and quotes that were set in serif italic. */
+  --fw-display: 700;
+  --fw-title: 600;
+  --deck-style: normal;
 }
 
 /* === Responsive token overrides (§9) ===
