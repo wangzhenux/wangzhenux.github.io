@@ -41,6 +41,12 @@
   --rule: #1A141018;
   --rule-soft: #1A14100E;
 
+  /* === Scrollbars ===
+     A thin thumb in the page's warm ink on the page itself (no track color),
+     darker under the pointer. */
+  --scrollbar-thumb: #1A141040;
+  --scrollbar-thumb-hover: #1A14106B;
+
   /* === Cover overlays (design literals) ===
      Sheen = warm-white highlight wash over the per-case gradient cover;
      scrim = dark gradient behind cover text for legibility. Extracted from

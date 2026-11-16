@@ -38,6 +38,25 @@ img { max-width: 100%; display: block; }
   .highlight { background-size: 100% 88%; transition: none; }
 }
 
+/* Scrollbars: thin, a warm-ink thumb on the page color, everywhere (the page
+   and every inner scroller, like the agent map on a phone). Chromium and
+   Firefox read the standard properties; Safari, which lacks scrollbar-color,
+   reads the ::-webkit-scrollbar rules (Chromium ignores those once the standard
+   ones are set). */
+@supports (scrollbar-color: auto) {
+  html { scrollbar-color: var(--scrollbar-thumb) transparent; }
+  * { scrollbar-width: thin; }
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background-color: var(--scrollbar-thumb-hover); }
+
 /* Section jumps leave room for the top navigation returning on upward scroll. */
 .body section[id] { scroll-margin-top: var(--space-13); }
 
