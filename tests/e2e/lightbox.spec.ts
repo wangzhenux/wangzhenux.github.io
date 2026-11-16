@@ -78,9 +78,9 @@ test('zoom is offered only when it shows the image bigger', async ({ page }) => 
   await page.setViewportSize({ width: 1920, height: 1080 });
   await expect(trigger).toHaveAttribute('data-zoom', 'on');
   await expect(trigger).toHaveAttribute('role', 'button');
-  // So does the timeline diagram above it.
-  const timeline = page.locator('[data-zoom]', { has: page.locator('img[src$="timeline.svg"]') });
-  await expect(timeline).toHaveAttribute('data-zoom', 'on');
+  // So does a walkthrough screen, which the page shows at about 630 px.
+  const step = page.locator('#mk-steps [data-zoom]').first();
+  await expect(step).toHaveAttribute('data-zoom', 'on');
   await img.click();
   await expect(dialog).toBeVisible();
 
@@ -98,10 +98,8 @@ test('zoom is offered only when it shows the image bigger', async ({ page }) => 
   expect(colors.zoomed).toBe(colors.band);
 
   // Shrinking the window while the lightbox is open keeps the trigger a button,
-  // so Esc still returns focus to it. The timeline, which the lightbox was not
-  // opened from, turns back into a plain image at once.
+  // so Esc still returns focus to it.
   await page.setViewportSize({ width: 1440, height: 900 });
-  await expect(timeline).toHaveAttribute('data-zoom', 'off');
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await expect(trigger).toBeFocused();
@@ -113,4 +111,36 @@ test('zoom is offered only when it shows the image bigger', async ({ page }) => 
   expect(await trigger.getAttribute('data-zoom')).toBe('off');
   await expect(trigger).not.toHaveAttribute('role', 'button');
   await expect(trigger).not.toBeFocused();
+});
+
+test('a resize while the lightbox is open switches every other image at once', async ({ page }) => {
+  // Only the image the lightbox was opened from keeps its zoom button while the
+  // dialog is open (focus returns to it); every other image follows the new
+  // window size right away. Twilio's phase screens open bigger at 1920 x 1080
+  // and too little at 1440 x 900, so they flip on that resize.
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto('/work/twilio/');
+  const opened = page.locator('[data-zoom]', { has: page.locator('img[src$="phase_1.png"]') });
+  const other = page.locator('[data-zoom]', { has: page.locator('img[src$="phase_2.png"]') });
+  const dialog = page.locator('dialog.lightbox');
+  await expect(opened).toHaveAttribute('data-zoom', 'on');
+  await expect(other).toHaveAttribute('data-zoom', 'on');
+
+  await opened.locator('img').click();
+  await expect(dialog).toBeVisible();
+  await page.setViewportSize({ width: 1440, height: 900 });
+
+  // While the dialog is still open: the other image is plain already, and the
+  // one it was opened from stays a button.
+  await expect(other).toHaveAttribute('data-zoom', 'off');
+  await expect(opened).toHaveAttribute('data-zoom', 'on');
+  await expect(dialog).toBeVisible();
+
+  // Esc returns focus to it; once focus moves on, it turns plain too. Read it
+  // once: a late image load could also turn it off while a retrying check waits.
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(opened).toBeFocused();
+  await page.keyboard.press('Tab');
+  expect(await opened.getAttribute('data-zoom')).toBe('off');
 });

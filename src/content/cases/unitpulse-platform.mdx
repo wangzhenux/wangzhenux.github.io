@@ -17,6 +17,7 @@ heroWidth: 5880
 heroHeight: 3692
 order: 1
 featured: true
+caseMotion: true
 card:
   lead: "AI-native leasing — generate leads, convert them, measure the funnel."
   tags: ["Product design", "AI-native"]
@@ -71,6 +72,8 @@ import StoryBlocks from '../../components/showcase/StoryBlocks.astro';
 import BrokeCarousel from '../../components/showcase/BrokeCarousel.astro';
 import ProcessStrip from '../../components/showcase/ProcessStrip.astro';
 import LadderFigure from '../../components/showcase/LadderFigure.astro';
+import Walkthrough from '../../components/showcase/Walkthrough.astro';
+import PlatformTimeline from '../../components/showcase/PlatformTimeline.astro';
 
 {/*
   ══════════ INTERNAL — VERIFY BEFORE PUBLISH (never rendered) ══════════
@@ -153,7 +156,8 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
     insight/leak.jpg; tenant-admin view; the new Marketing nav, which sits
     behind a feature flag ‹C-mkt-nav›). Sources: scratchpad mocks/desktop/.
   - Token-built diagrams, final as they are (schematics, no Figma export
-    needed): timeline.svg. portal-merge.svg is not used on the page.
+    needed): the timeline, now drawn in the page by PlatformTimeline, so
+    timeline.svg is no longer used. portal-merge.svg is not used on the page.
   - DESIGN-SYSTEM SPECIMENS: ds/system/*.png (light + -dark pairs) for the
     DSShowcase switch, captured from the Portal's own component library;
     ds/foryou-before.jpg / foryou-after.jpg for the before/after slider. ‹C-ds›
@@ -162,7 +166,8 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
     leasing agent, not real people. bento/personas/*.jpg.
   - Context <PortalBento>: real screens (ds/foryou-after, mobile/phone-details,
     marketing/draft, bento/chat|kanban|funnel 3x renders from scratchpad
-    mocks/bento3/flat) in frames on emerald and mint tiles. mobile/phone-recording.jpg was PULLED 2026-10-08 (real
+    mocks/bento3/flat) in frames on tiles in the site's card color (was
+    emerald and mint until 2026-11-15). mobile/phone-recording.jpg was PULLED 2026-10-08 (real
     customer data).
   - PRODUCT VIDEOS: marketing.mp4, leasing.mp4 and insight.mp4 (and copilot.mp4) are coded
     mocks in the CURRENT vNext system (2026-10-09), 1920×1080 H.264, local
@@ -194,9 +199,9 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
         the platform part moved up to Part 02 (the solution), before the
         product chapters; the agents' app closes the case as a coda. */}
   </BodyText>
-  {/* Bento (2026-10-10): real screens in consistent frames cropped by flat
-      emerald and mint tiles, with a few floating objects, inside the text
-      column. */}
+  {/* Bento (2026-10-10): real screens in consistent frames cropped by tiles in
+      the site's card color (emerald and mint until 2026-11-15), with a few
+      floating objects, inside the text column. */}
   <PortalBento />
 </section>
 <section id="p1" data-reveal>
@@ -244,15 +249,10 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
         "What kept the merge safe" card grid was cut. */}
   </BodyText>
 
-  {/* Token-built timeline diagram, final: a schematic, no Figma export needed */}
-  <ImageShowcase variant="plain">
-    <ShowcaseImage
-      src="/cases/unitpulse-platform/timeline.svg"
-      alt="Timeline: kickoff from zero in February 2026, first customer on the marketing product in March, three products live by spring, one platform by summer, and Voice AI joining the same platform as the fourth product in August"
-      width={1600}
-      height={457}
-    />
-  </ImageShowcase>
+  {/* Token-built timeline diagram, final: a schematic, no Figma export needed.
+      Now drawn in the page (PlatformTimeline: same drawing, panel and words)
+      so it can draw itself on scroll; timeline.svg is no longer used. */}
+  <PlatformTimeline />
 
   <BodyText>
     We merged in phases while the old apps kept running, and Voice AI later
@@ -334,14 +334,15 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
   />
 
   <SectionH small>How a post gets made today</SectionH>
-  <ShowcaseCarousel
+  <Walkthrough
+    id="mk-steps"
     label="Marketing today, in 5 steps"
-    slides={[
-      { eyebrow: "01 · AI", title: "Learn the property", body: "From the website or a Portal property and a confirmed address, AI writes a brand guide and a local market profile.", image: "/cases/unitpulse-platform/marketing/learn.jpg", imageAlt: "The setup board reading the property's site beside a brand guide with voice, do's and don'ts, colors and fonts", width: 2400, height: 1500 },
-      { eyebrow: "02", title: "Connect channels", body: "Google Business, Facebook, Instagram, TikTok and Reddit, with what's live, what needs attention and 30-day reach.", image: "/cases/unitpulse-platform/marketing/channels.jpg", imageAlt: "The Channels list grouped into needs attention, healthy and connected, and get connected", width: 2400, height: 1500 },
-      { eyebrow: "03 · AI", title: "Plan each channel", body: "For each channel, AI scouts where and what to post. A rhythm check turns gaps into suggested drafts.", image: "/cases/unitpulse-platform/marketing/plan.jpg", imageAlt: "Suggested venues and topics for each channel, the do-these-first list from the rhythm check, and a draft waiting for review", width: 2400, height: 1500 },
-      { eyebrow: "04 · AI", title: "Draft with photos", body: "Pick a channel, add photos, set the tone and length. The copy matches the photos, and a fact check flags what the data doesn't back.", image: "/cases/unitpulse-platform/marketing/draft.jpg", imageAlt: "The composer with channel chips, attached photos, tone and length chips, an AI draft, a preview and a fact-check flag", width: 2400, height: 1500 },
-      { eyebrow: "05", title: "Approve and publish", body: "Every draft waits for a person: edit, reject or approve. Approving publishes now.", image: "/cases/unitpulse-platform/marketing/approve.jpg", imageAlt: "A draft in the work queue with Reject, Edit and Approve, and the confirm dialog before it publishes", width: 2400, height: 1500 },
+    steps={[
+      { eyebrow: "AI", title: "Learn the property", body: "From the website or a Portal property and a confirmed address, AI writes a brand guide and a local market profile.", image: "/cases/unitpulse-platform/marketing/learn.jpg", imageAlt: "The setup board reading the property's site beside a brand guide with voice, do's and don'ts, colors and fonts", width: 2400, height: 1500 },
+      { title: "Connect channels", body: "Google Business, Facebook, Instagram, TikTok and Reddit, with what's live, what needs attention and 30-day reach.", image: "/cases/unitpulse-platform/marketing/channels.jpg", imageAlt: "The Channels list grouped into needs attention, healthy and connected, and get connected", width: 2400, height: 1500 },
+      { eyebrow: "AI", title: "Plan each channel", body: "For each channel, AI scouts where and what to post. A rhythm check turns gaps into suggested drafts.", image: "/cases/unitpulse-platform/marketing/plan.jpg", imageAlt: "Suggested venues and topics for each channel, the do-these-first list from the rhythm check, and a draft waiting for review", width: 2400, height: 1500 },
+      { eyebrow: "AI", title: "Draft with photos", body: "Pick a channel, add photos, set the tone and length. The copy matches the photos, and a fact check flags what the data doesn't back.", image: "/cases/unitpulse-platform/marketing/draft.jpg", imageAlt: "The composer with channel chips, attached photos, tone and length chips, an AI draft, a preview and a fact-check flag", width: 2400, height: 1500 },
+      { title: "Approve and publish", body: "Every draft waits for a person: edit, reject or approve. Approving publishes now.", image: "/cases/unitpulse-platform/marketing/approve.jpg", imageAlt: "A draft in the work queue with Reject, Edit and Approve, and the confirm dialog before it publishes", width: 2400, height: 1500 },
     ]}
   />
 
@@ -433,9 +434,10 @@ import LadderFigure from '../../components/showcase/LadderFigure.astro';
       tasks and afterhours are coded mocks from the real panel markup
       (scratchpad mocks/insight-panels/); numbers match the rest of the week.
       Slide copy describes each panel and never quotes its sample numbers. */}
-  <ShowcaseCarousel
+  <Walkthrough
+    id="in-steps"
     label="The For You page, panel by panel"
-    slides={[
+    steps={[
       { eyebrow: "Daily brief", title: "The biggest leak, first thing", body: "Each morning the brief names the stage that slipped most this week, with the numbers behind it and where to look.", image: "/cases/unitpulse-platform/insight/leak.jpg", imageAlt: "The morning brief calling out the biggest leak this week and where to look, with action-first bullets", width: 2400, height: 1033 },
       { eyebrow: "Funnel", title: "See where renters leave", body: "The customer journey highlights every drop-off, and the stage panel lists why leads left.", image: "/cases/unitpulse-platform/insight/dropoffs.jpg", imageAlt: "The customer journey with drop-offs highlighted and a stage panel showing dropout reasons", width: 2400, height: 1433 },
       { eyebrow: "Inventory", title: "Where the demand has to land", body: "Empty units by floor plan, most vacancies first, each with its rent range, so the team sees where pricing and marketing should go first.", image: "/cases/unitpulse-platform/insight/inventory.jpg", imageAlt: "Vacancy by unit type for Maple Court: 2B2B with 7 of 64 vacant at $3,150 to $3,350, then 1B1B, 3B2B and Studio with 2 vacant each, each row with an occupancy bar", width: 2400, height: 1500 },

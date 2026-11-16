@@ -47,8 +47,13 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
   await expect(page.locator('.dss')).toHaveAttribute('data-mode', 'dark');
   await page.locator('.dss-btn[data-set="light"]').click();
 
-  // The Feb→summer 2026 timeline (the one bespoke artifact) is present.
-  await expect(page.locator('img[src*="timeline.svg"]')).toBeVisible();
+  // The Feb→summer 2026 timeline (the one bespoke artifact) is drawn inline,
+  // so it can draw itself on scroll.
+  await expect(page.locator('.tl svg[role="img"]')).toBeVisible();
+
+  // Walkthroughs: every step and screen is in the page (Marketing 5, Insight 6).
+  await expect(page.locator('#mk-steps .wt-fig')).toHaveCount(5);
+  await expect(page.locator('#in-steps .wt-fig')).toHaveCount(6);
 
   // The hidden deep-dive cases must NOT be linked from this page.
   await expect(page.locator('a[href="/work/up-insight"]')).toHaveCount(0);
@@ -56,4 +61,66 @@ test('unitpulse-platform flagship: product-led funnel structure renders, no axe 
 
   const r = await new AxeBuilder({ page }).analyze();
   expect(r.violations, JSON.stringify(r.violations.map((v) => v.id))).toEqual([]);
+});
+
+test('phone walkthrough: the steps swipe sideways one card at a time, and the dots follow', async ({ page }) => {
+  // Reduced motion: a dot moves the row at once instead of gliding.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/work/unitpulse-platform');
+
+  const wt = page.locator('#mk-steps');
+  const row = wt.locator('.wt-stage');
+  const cards = wt.locator('.wt-step');
+  const dots = wt.locator('.wt-dot');
+  await wt.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+
+  // The 5 steps sit in one row that scrolls sideways, with a dot per step.
+  expect(await row.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(true);
+  await expect(dots).toHaveCount(5);
+  await expect(dots.first()).toBeVisible();
+  await expect(dots.first()).toHaveAttribute('aria-label', 'Step 1 of 5');
+  await expect(dots.first()).toHaveAttribute('aria-current', 'true');
+
+  // One card at a time: the first fits in the row, the next only peeks in.
+  const box = (await row.boundingBox())!;
+  const first = (await cards.nth(0).boundingBox())!;
+  const second = (await cards.nth(1).boundingBox())!;
+  expect(first.x + first.width).toBeLessThanOrEqual(box.x + box.width);
+  const peek = box.x + box.width - second.x;
+  expect(peek).toBeGreaterThan(0);
+  expect(peek).toBeLessThan(second.width / 4);
+
+  // Scrolling the row to the third card moves the dots there.
+  await row.evaluate((el) => {
+    const s = el.querySelectorAll('.wt-step');
+    el.scrollTo({ left: s[2].getBoundingClientRect().left - s[0].getBoundingClientRect().left, behavior: 'instant' });
+  });
+  await expect(dots.nth(2)).toHaveAttribute('aria-current', 'true');
+  await expect(dots.first()).toHaveAttribute('aria-current', 'false');
+  await expect(cards.nth(2)).toHaveClass(/is-active/);
+
+  // Tapping a dot brings its card back to the start of the row.
+  await dots.first().click();
+  await expect.poll(() => row.evaluate((el) => el.scrollLeft)).toBe(0);
+  await expect(dots.first()).toHaveAttribute('aria-current', 'true');
+
+  // A title brings its card in and the page stays put, by tap or by Enter, and
+  // a title reached with the keyboard keeps its focus.
+  const y0 = await page.evaluate(() => window.scrollY);
+  const t2 = (await wt.locator('.wt-link').nth(1).boundingBox())!;
+  await page.mouse.click(box.x + box.width - 8, t2.y + t2.height / 2);
+  await expect(dots.nth(1)).toHaveAttribute('aria-current', 'true');
+  expect(await page.evaluate(() => window.scrollY)).toBe(y0);
+  const t3 = wt.locator('.wt-link').nth(2);
+  await t3.focus();
+  await page.keyboard.press('Enter');
+  await expect(dots.nth(2)).toHaveAttribute('aria-current', 'true');
+  await expect(t3).toBeFocused();
+  expect(await page.evaluate(() => window.scrollY)).toBe(y0);
+
+  // Wide windows keep the pinned list: no swipe row and no dots.
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(dots.first()).toBeHidden();
+  expect(await row.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(false);
 });

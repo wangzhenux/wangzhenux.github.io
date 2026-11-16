@@ -1,0 +1,100 @@
+---
+/**
+ * Portal's 2026 timeline, drawn inline: the same drawing, panel and words as
+ * timeline.svg, so it can draw itself. The line runs left to right and each
+ * milestone settles in as the line reaches it (motion island, once). Static and
+ * complete without JS or under reduced motion. Colors read the site tokens.
+ * Token-only CSS.
+ */
+interface Props { label?: string }
+const {
+  label = 'Timeline: kickoff from zero in February 2026, first customer on the marketing product in March, three products live by spring, one platform by summer, and Voice AI joining the same platform as the fourth product in August',
+} = Astro.props;
+---
+<figure class="tl" data-tl>
+  <svg class="tl-svg" viewBox="0 0 560 160" role="img" aria-label={label}>
+    <path class="tl-line tl-ink" pathLength="1" d="M24 118 H296" />
+    <path class="tl-line tl-acc" pathLength="1" d="M296 118 H528" />
+    <path class="tl-arrow" d="M528 114 l9 4 l-9 4 z" />
+
+    <g class="tl-ms" style="--d: 0">
+      <circle class="tl-dot" cx="64" cy="118" r="3.5" />
+      <rect class="tl-tile tl-tile--dash" x="46" y="52" width="36" height="26" rx="4" />
+      <text class="tl-t" x="64" y="96">Kickoff, from zero</text>
+      <text class="tl-d" x="64" y="138">Feb 2026</text>
+    </g>
+    <g class="tl-ms" style="--d: 1">
+      <circle class="tl-dot" cx="180" cy="118" r="3.5" />
+      <rect class="tl-tile" x="162" y="52" width="36" height="26" rx="4" />
+      <path class="tl-check" d="M173 65 l5 5 l9 -10" />
+      <text class="tl-t" x="180" y="96">First customer</text>
+      <text class="tl-d" x="180" y="138">Mar 2026</text>
+    </g>
+    <g class="tl-ms" style="--d: 2">
+      <circle class="tl-dot" cx="296" cy="118" r="3.5" />
+      <rect class="tl-tile" x="266" y="54" width="16" height="22" rx="3" />
+      <rect class="tl-tile" x="288" y="54" width="16" height="22" rx="3" />
+      <rect class="tl-tile" x="310" y="54" width="16" height="22" rx="3" />
+      <text class="tl-t" x="296" y="96">3 products live</text>
+      <text class="tl-d" x="296" y="138">Spring 2026</text>
+    </g>
+    <g class="tl-ms" style="--d: 3">
+      <circle class="tl-dot tl-dot--acc" cx="400" cy="118" r="4" />
+      <rect class="tl-tile tl-tile--acc" x="376" y="48" width="48" height="32" rx="5" />
+      <path class="tl-bar" d="M388 56 V72 M400 56 V72 M412 56 V72" />
+      <text class="tl-t tl-t--acc" x="400" y="98">One platform</text>
+      <text class="tl-d" x="400" y="138">Summer 2026</text>
+    </g>
+    <g class="tl-ms" style="--d: 4">
+      <circle class="tl-dot tl-dot--acc" cx="496" cy="118" r="4" />
+      <rect class="tl-tile tl-tile--acc" x="470" y="48" width="52" height="32" rx="5" />
+      <path class="tl-bar" d="M480 56 V72 M490 56 V72 M500 56 V72" />
+      <path class="tl-bar tl-bar--acc" d="M511 56 V72" />
+      <text class="tl-t" x="496" y="98">Voice AI joins</text>
+      <text class="tl-d" x="496" y="138">Aug 2026</text>
+    </g>
+  </svg>
+</figure>
+<style>
+  /* Same place, panel and size as the timeline image it replaces: the full
+     content width, on the light band color, with large-card corners. */
+  .tl {
+    margin: var(--space-7) 0;
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    overflow: hidden;
+  }
+  .tl-svg { display: block; width: 100%; height: auto; }
+  .tl-line { fill: none; stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .tl-ink { stroke: var(--ink-primary); }
+  .tl-acc { stroke: var(--accent); }
+  .tl-arrow { fill: var(--accent); }
+  .tl-dot { fill: var(--ink-primary); }
+  .tl-dot--acc { fill: var(--accent); }
+  .tl-tile { fill: var(--bg-primary); stroke: var(--ink-primary); stroke-width: 2; }
+  .tl-tile--dash { stroke-dasharray: 4 3; }
+  .tl-tile--acc { stroke: var(--accent); stroke-width: 2.2; }
+  .tl-check { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .tl-bar { fill: none; stroke: var(--ink-tertiary); stroke-width: 2; stroke-linecap: round; }
+  .tl-bar--acc { stroke: var(--accent); stroke-width: 2.4; }
+  .tl-t, .tl-d { font-family: var(--font-body); font-size: var(--fs-fig-lg); text-anchor: middle; }
+  .tl-t { fill: var(--ink-primary); }
+  .tl-t--acc { fill: var(--accent); font-weight: 600; }
+  .tl-d { fill: var(--ink-tertiary); }
+
+  /* Motion: armed by the motion island; .is-in lands once, in view. */
+  .tl-ink { transition: stroke-dashoffset 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+  .tl-acc { transition: stroke-dashoffset 0.55s cubic-bezier(0.4, 0, 0.2, 1) 0.7s; }
+  .tl-arrow { transition: opacity 0.2s ease 1.2s; }
+  .tl-ms {
+    transform-box: fill-box;
+    transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1.2);
+    transition-delay: calc(0.1s + var(--d) * 0.24s);
+  }
+  :global(html.motion-armed) .tl:not(.is-in) .tl-line { stroke-dashoffset: 1; }
+  :global(html.motion-armed) .tl:not(.is-in) .tl-arrow { opacity: 0; }
+  :global(html.motion-armed) .tl:not(.is-in) .tl-ms { opacity: 0; transform: translateY(6px); }
+  @media (prefers-reduced-motion: reduce) {
+    .tl-line, .tl-arrow, .tl-ms { transition: none; }
+  }
+</style>

@@ -46,6 +46,12 @@ export const caseSchema = z.object({
   // while keeping its MDX on disk for future restoration; defaults to false
   hidden: z.boolean().default(false),
 
+  // Opt a case into case motion (src/islands/motion.ts and src/styles/motion.css):
+  // line-mask Part titles, count-ups, the drawn timeline, the hover lift on
+  // zoomable screens, and walkthroughs that swap their screen in place.
+  // Approved for Portal first; other cases stay still until they opt in.
+  caseMotion: z.boolean().default(false),
+
   // === OPTIONAL — include only the fields the case actually has ===
   company: z.string().optional(),
   companyNote: z.string().optional(),
