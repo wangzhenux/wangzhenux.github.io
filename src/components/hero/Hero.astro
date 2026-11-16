@@ -52,12 +52,12 @@ const { eyebrow, title, deck, companyNote, cover, metaFields } = Astro.props;
     line-height: var(--lh-tight);
     letter-spacing: -0.025em;
     margin: 0 auto var(--space-5);
-    font-weight: 500;
+    font-weight: var(--fw-display);
     max-width: 24ch;
   }
   .hero-deck {
     font-family: var(--font-display);
-    font-style: italic;
+    font-style: var(--deck-style);
     font-size: var(--fs-deck);
     line-height: 1.4;
     color: var(--ink-secondary);

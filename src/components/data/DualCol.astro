@@ -10,7 +10,7 @@ const { heading } = Astro.props;
   /* ported from case-study-twilio.html .dual-col + .dual-item, tokenized.
      Underlined h4 header above hairline-separated rows. The .dual-item rows
      are slotted markup, so styled via :global. */
-  /* Column label, not a heading tier: the serif ladder above (section,
+  /* Column label, not a heading tier: the heading ladder above (section,
      sub-section) and the item titles below already carry the hierarchy. */
   .dual-col h4 {
     font-family: var(--font-mono);
@@ -32,7 +32,7 @@ const { heading } = Astro.props;
     font-family: var(--font-display);
     font-size: var(--fs-h6);
     line-height: var(--lh-title);
-    font-weight: 500;
+    font-weight: var(--fw-title);
     margin-bottom: var(--space-1);
   }
   .dual-col :global(.dual-item .det) {

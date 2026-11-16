@@ -9,7 +9,7 @@ const { label, heading, quote } = Astro.props;
 </div>
 <style>
   /* ported from case-study-twilio.html .quote-card, tokenized.
-     Mono accent label + display-serif h4 + display-serif quote with curly
+     Mono accent label + display-face h4 + display-face quote with curly
      quotation marks (upright, no italic — matches the design system).
      The quote is a prop (not a slot) so the text renders directly inside .q;
      a Markdown slot would wrap the text in its own <p>, which is illegal
@@ -32,7 +32,7 @@ const { label, heading, quote } = Astro.props;
     font-family: var(--font-display);
     font-size: var(--fs-h6);
     margin: 0 0 var(--space-3);
-    font-weight: 500;
+    font-weight: var(--fw-title);
     color: var(--ink-primary);
     line-height: var(--lh-title);
   }

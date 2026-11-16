@@ -312,7 +312,7 @@ const data = JSON.stringify(nodes);
   :global(.am-pop-ic) { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; color: var(--am-panel); }
   :global(.am-pop-ic svg) { width: 18px; height: 18px; }
   :global(.am-pop-k) { display: block; font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
-  :global(.am-pop h4) { margin: 0; font-family: var(--font-display); font-size: var(--fs-h6); font-weight: 500; line-height: var(--lh-title); color: var(--ink-primary); }
+  :global(.am-pop h4) { margin: 0; font-family: var(--font-display); font-size: var(--fs-h6); font-weight: var(--fw-title); line-height: var(--lh-title); color: var(--ink-primary); }
   :global(.am-pop p) { margin: 0 0 var(--space-1); font-size: var(--fs-small); line-height: var(--lh-small); color: var(--ink-secondary); }
   :global(.am-pop dl) { margin: 0; display: grid; gap: 2px; font-size: var(--fs-note); line-height: var(--lh-small); }
   :global(.am-pop dt) { margin-top: var(--space-2); font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }
@@ -354,7 +354,7 @@ const data = JSON.stringify(nodes);
     margin: var(--space-8) 0 var(--space-1);
     font-family: var(--font-display);
     font-size: var(--fs-h4);
-    font-weight: 500;
+    font-weight: var(--fw-title);
     line-height: var(--lh-heading);
     letter-spacing: -0.018em;
     color: var(--ink-primary);
@@ -393,8 +393,8 @@ const data = JSON.stringify(nodes);
     .am-rule { padding: var(--space-4) var(--space-5); }
     .am-rule + .am-rule { border-left: 0; border-top: 1px solid var(--rule-soft); }
   }
-  /* Card-title tier, the same serif as every other card title. */
-  .am-rule-name { margin: 0; font-family: var(--font-display); font-size: var(--fs-h6); font-weight: 500; line-height: var(--lh-title); text-wrap: balance; color: var(--ink-primary); }
+  /* Card-title tier, the same display face as every other card title. */
+  .am-rule-name { margin: 0; font-family: var(--font-display); font-size: var(--fs-h6); font-weight: var(--fw-title); line-height: var(--lh-title); text-wrap: balance; color: var(--ink-primary); }
   .am-rule-text { margin: 0; font-size: var(--fs-small); line-height: var(--lh-small); color: var(--ink-secondary); text-wrap: pretty; }
 
   /* Motion: the lines draw in product by product, then the stations land. */

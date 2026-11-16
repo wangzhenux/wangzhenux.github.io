@@ -94,7 +94,7 @@ const poster = '/video/one-line-poster.jpg';
     line-height: var(--lh-heading);
     letter-spacing: -0.022em;
     margin: 0 0 var(--space-6);
-    font-weight: 500;
+    font-weight: var(--fw-display);
     color: var(--ink-primary);
   }
   .home-hero-facts {
@@ -191,7 +191,7 @@ const poster = '/video/one-line-poster.jpg';
   .theater-panel { width: min(100%, 1600px, calc((100svh - 180px) * 16 / 9)); transform-origin: top left; }
   .theater-heading, .theater-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
   .theater-heading { margin-bottom: var(--space-4); }
-  .theater-heading h2 { font: var(--fs-card) var(--font-display); }
+  .theater-heading h2 { font: var(--fs-card) var(--font-display); font-weight: var(--fw-title); }
   .theater-heading h2 span { font: var(--fs-micro) var(--font-mono); letter-spacing: 0.05em; margin-left: var(--space-3); opacity: 0.65; }
   .theater-close { display: inline-flex; align-items: center; gap: var(--space-3); min-height: 44px; padding: 0; border: none; color: inherit; background: transparent; cursor: pointer; }
   .theater-close span { font: var(--fs-micro) var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; }
@@ -203,7 +203,7 @@ const poster = '/video/one-line-poster.jpg';
   .film-status { margin: 0; }
   .film-ended { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-5); background: var(--cover-scrim-strong); }
   .film-ended[hidden] { display: none; }
-  .film-ended p { font: var(--fs-h2) var(--font-display); margin: 0; }
+  .film-ended p { font: var(--fs-h2) var(--font-display); font-weight: var(--fw-display); margin: 0; }
   .film-ended button { display: inline-flex; align-items: center; gap: var(--space-3); border: none; background: var(--accent); color: var(--ink-on-dark); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-5); cursor: pointer; min-height: 44px; }
   .film-ended [data-film-replay] { background: transparent; padding: 0; }
   @media (max-width: 767px) {

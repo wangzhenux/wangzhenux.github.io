@@ -60,7 +60,7 @@ const { num, title, kicker = 'Part', noRule = false } = Astro.props;
     letter-spacing: -0.02em;
     color: var(--ink-primary);
     margin: 0;
-    font-weight: 500;
+    font-weight: var(--fw-display);
     /* No width cap: the title fills the content column, so short phrases stay
        on one line. Long titles still wrap naturally at the column edge. */
     text-wrap: balance;

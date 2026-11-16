@@ -74,6 +74,9 @@ const ogImageUrl = ogImage
     <meta name="twitter:description" content={description} />
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
 
+    {/* The site's typeface (fonts.css): load the upright face early, so the
+        first paint is already set in it rather than swapping in later. */}
+    <link rel="preload" href="/fonts/rethink-sans/RethinkSans-Variable.ttf" as="font" type="font/ttf" crossorigin />
     <ClientRouter />
     {/* Measure the vertical scrollbar width into --sbw so full-bleed bands span the
         content area exactly (no scrollbar overflow). Recomputed on nav + resize. */}

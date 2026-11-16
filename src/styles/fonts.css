@@ -1,0 +1,20 @@
+/* Rethink Sans, served from the site (no third-party font requests).
+   Copyright 2022 The Rethink Sans Project Authors
+   (https://github.com/hans-thiessen/Rethink-Sans). Licensed under the SIL Open
+   Font License 1.1 (https://scripts.sil.org/OFL); the files are unmodified and
+   carry the notice and license in their own name tables. Variable weight axis,
+   400 to 800. */
+@font-face {
+  font-family: 'Rethink Sans';
+  src: url('/fonts/rethink-sans/RethinkSans-Variable.ttf') format('truetype');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Rethink Sans';
+  src: url('/fonts/rethink-sans/RethinkSans-Italic-Variable.ttf') format('truetype');
+  font-weight: 400 800;
+  font-style: italic;
+  font-display: swap;
+}
