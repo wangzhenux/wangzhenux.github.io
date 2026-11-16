@@ -83,6 +83,7 @@ function initWalkthrough(root: HTMLElement) {
   const stage = root.querySelector<HTMLElement>('.wt-stage');
   const steps = Array.from(root.querySelectorAll<HTMLElement>('.wt-step'));
   const figs = Array.from(root.querySelectorAll<HTMLElement>('.wt-fig'));
+  const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('.wt-dot'));
   if (!stage || steps.length < 2) return;
   const wide = window.matchMedia('(min-width: 960px)');
   let current = 0;
@@ -91,6 +92,7 @@ function initWalkthrough(root: HTMLElement) {
     current = i;
     steps.forEach((s, k) => s.classList.toggle('is-active', k === i));
     figs.forEach((f, k) => f.classList.toggle('is-active', k === i));
+    dots.forEach((d, k) => d.setAttribute('aria-current', k === i ? 'true' : 'false'));
   };
   root.classList.add('is-armed');
 
@@ -103,6 +105,8 @@ function initWalkthrough(root: HTMLElement) {
   };
   const stepPx = () => parseFloat(getComputedStyle(root).getPropertyValue('--wt-step')) || 240;
   const stickyTop = () => parseFloat(getComputedStyle(stage).top) || 0;
+  // Narrow: the distance from one card of the swipe row to the next.
+  const cardPx = () => steps[1].getBoundingClientRect().left - steps[0].getBoundingClientRect().left;
 
   let raf = 0;
   const update = () => {
@@ -112,11 +116,9 @@ function initWalkthrough(root: HTMLElement) {
       const past = stickyTop() - root.getBoundingClientRect().top;
       set(Math.max(0, Math.min(steps.length - 1, Math.round(past / stepPx()))));
     } else {
-      // Stacked: the step whose screen crosses the middle of the window.
-      const mid = window.innerHeight / 2;
-      let best = 0;
-      figs.forEach((f, k) => { if (f.getBoundingClientRect().top < mid) best = k; });
-      set(best);
+      // Swipe row: the card nearest the start of the row.
+      const card = cardPx();
+      if (card > 0) set(Math.max(0, Math.min(steps.length - 1, Math.round(stage.scrollLeft / card))));
     }
   };
   const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
@@ -127,12 +129,24 @@ function initWalkthrough(root: HTMLElement) {
   window.setTimeout(() => { measure(); onScroll(); }, 450);
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', () => { measure(); onScroll(); }, { passive: true });
+  stage.addEventListener('scroll', onScroll, { passive: true });
   // Late images change the stage's height.
   figs.forEach((f) => f.querySelector('img')?.addEventListener('load', measure, { once: true }));
 
+  // A dot brings its card to the start of the row. So does Tab onto a title:
+  // the browser leaves a card that only peeks in where it is. The frame's wait
+  // lets any scroll of the browser's own go first.
+  const goTo = (i: number) => stage.scrollTo({ left: i * cardPx(), behavior: reduced() ? 'auto' : 'smooth' });
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+  stage.addEventListener('focusin', (ev) => {
+    if (wide.matches) return;
+    const i = steps.findIndex((s) => s.contains(ev.target as Node));
+    if (i >= 0) requestAnimationFrame(() => goTo(i));
+  });
+
   root.querySelectorAll<HTMLAnchorElement>('.wt-link').forEach((a, i) => {
     a.addEventListener('click', (ev) => {
-      if (!wide.matches) return; // stacked: the plain anchor jump is right
+      if (!wide.matches) return; // swipe row: the plain anchor jump is right
       ev.preventDefault();
       const top = root.getBoundingClientRect().top + window.scrollY - stickyTop() + i * stepPx() + 1;
       window.scrollTo({ top, behavior: reduced() ? 'auto' : 'smooth' });

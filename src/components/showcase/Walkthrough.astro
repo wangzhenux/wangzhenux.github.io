@@ -4,12 +4,15 @@
  * changes as the reader scrolls. On wide windows the motion island pins the
  * pair (list and screen) and swaps the screen every --wt-step of scroll, so a
  * 5-step flow takes about one screen of reading instead of five. Each step's
- * title also jumps to its screen. On phones and narrow windows the steps stack,
- * each step's text right above its screen.
+ * title also jumps to its screen. On phones and narrow windows the steps become
+ * a swipe row: one card per step, its text above its screen, the next card
+ * peeking in, and a dot per step under the row that follows the swipe.
  *
- * Without JS every step and every screen shows, stacked beside the sticky list.
+ * Without JS every step and every screen shows, stacked beside the sticky list
+ * (on narrow windows the row still swipes; the dots wait for the island).
  * Under reduced motion the screens still follow the scroll, without the
- * crossfade. Screens are zoomable (lightbox island). Token-only CSS.
+ * crossfade, and a dot jumps to its card without the glide. Screens are
+ * zoomable (lightbox island). Token-only CSS.
  *
  *   <Walkthrough id="mk-steps" label="Marketing today, in 5 steps"
  *     steps={[{ eyebrow: 'AI', title: '…', body: '…', image: '/…', imageAlt: '…', width: 2400, height: 1500 }]} />
@@ -35,7 +38,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   <div class="wt-stage">
     <ol class="wt-steps">
       {steps.map((s, i) => (
-        <li class:list={['wt-step', { 'is-active': i === 0 }]} data-i={i} style={`order: ${i * 2}`}>
+        <li class:list={['wt-step', { 'is-active': i === 0 }]} data-i={i} style={`--col: ${i + 1}`}>
           <p class="wt-k">
             <span class="wt-num">{pad(i + 1)}</span>
             {s.eyebrow && <span class="wt-eyebrow">{s.eyebrow}</span>}
@@ -47,12 +50,19 @@ const pad = (n: number) => String(n).padStart(2, '0');
     </ol>
     <div class="wt-screens">
       {steps.map((s, i) => (
-        <figure class:list={['wt-fig', { 'is-active': i === 0 }]} id={`${id}-${i + 1}`} data-i={i} data-zoomable style={`order: ${i * 2 + 1}`}>
+        <figure class:list={['wt-fig', { 'is-active': i === 0 }]} id={`${id}-${i + 1}`} data-i={i} data-zoomable style={`--col: ${i + 1}`}>
           <img src={s.image} alt={s.imageAlt} width={s.width} height={s.height} loading="lazy" decoding="async" />
         </figure>
       ))}
     </div>
   </div>
+  <ol class="wt-dots">
+    {steps.map((_, i) => (
+      <li>
+        <button class="wt-dot" type="button" aria-label={`Step ${i + 1} of ${steps.length}`} aria-current={i === 0 ? 'true' : 'false'}></button>
+      </li>
+    ))}
+  </ol>
 </div>
 <style>
   .wt {
@@ -155,18 +165,68 @@ const pad = (n: number) => String(n).padStart(2, '0');
     .wt.is-staged .wt-fig.is-active { opacity: 1; transform: none; pointer-events: auto; }
   }
 
-  /* Narrow: each step's text sits right above its screen. The two lists dissolve
-     into one column and the inline `order` interleaves them. */
+  /* Dots under the swipe row, one per card, in the look of the site's other
+     carousel dots; the current card's dot is a filled pill. Hidden on wide
+     windows, and until the motion island arms the walkthrough. Each dot's tap
+     area reaches past the 8px dot. */
+  .wt-dots {
+    display: none;
+    list-style: none;
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    justify-content: center;
+    gap: var(--space-2);
+  }
+  .wt-dots li { display: flex; }
+  .wt-dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: var(--rule);
+    cursor: pointer;
+    transition: width 0.3s ease, background 0.3s ease;
+  }
+  .wt-dot::before {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--space-2)) calc(-1 * var(--space-1));
+  }
+  .wt-dot[aria-current="true"] { width: 30px; background: var(--accent); }
+
+  /* Narrow: a swipe row, one card per step. The two lists dissolve into one
+     grid where a step and its screen share a column (the inline --col): text in
+     row 1, screen in row 2, so row 1 is as tall as the longest text and every
+     screen starts on the same line. A card is 86% of the row, so the next one
+     peeks in. The row reaches 4px into the page margin on each side, padded
+     back in, so the scroller doesn't clip a screen's hairline edge or a title's
+     focus ring. */
   @media (max-width: 959px) {
-    .wt-stage { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+    .wt-stage {
+      grid-template-columns: none;
+      grid-template-rows: auto auto;
+      grid-auto-flow: column;
+      grid-auto-columns: 86%;
+      gap: var(--space-4) var(--space-5);
+      margin-inline: calc(-1 * var(--space-1));
+      padding: 0 var(--space-1) var(--space-1);
+      scroll-padding-inline: var(--space-1);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+    }
+    .wt-stage::-webkit-scrollbar { display: none; }
     .wt-steps, .wt-screens { display: contents; }
-    .wt-step { padding: 0; border: 0; margin-top: var(--space-7); }
-    .wt-step:first-child { margin-top: 0; }
-    .wt-fig { margin-top: var(--space-4); }
+    .wt-step { grid-column: var(--col); grid-row: 1; padding: 0; border: 0; scroll-snap-align: start; }
+    .wt-fig { grid-column: var(--col); grid-row: 2; }
     .wt.is-armed .wt-step:not(.is-active) .wt-title { color: var(--ink-primary); }
     .wt.is-armed .wt-step:not(.is-active) .wt-body { grid-template-rows: 1fr; opacity: 1; }
+    .wt.is-armed .wt-dots { display: flex; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .wt-step, .wt-title, .wt-body, .wt-fig { transition: none; }
+    .wt-step, .wt-title, .wt-body, .wt-fig, .wt-dot { transition: none; }
   }
 </style>
