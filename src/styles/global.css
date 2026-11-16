@@ -82,7 +82,8 @@ dialog.lightbox::backdrop {
 }
 .lightbox-close {
   /* Fixed to the viewport corner (the dialog is in the top layer, so fixed
-     resolves against the viewport) so the control never overlaps the image. */
+     resolves against the viewport), clear of the image in most windows. On a
+     short or narrow window a tall image can still run under it. */
   position: fixed;
   top: var(--space-5);
   right: var(--space-5);
