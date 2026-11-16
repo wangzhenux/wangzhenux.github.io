@@ -1,12 +1,14 @@
 /**
  * Case motion island (cases with `caseMotion: true`, Portal first).
  *
- * Small and once: Part titles slide up out of a line mask and the content
- * under them fades up as it scrolls into view, numbers count up, the timeline
- * draws itself and the funnel bars grow.
- * Walkthroughs keep their step list in place and swap the screen as the reader
- * scrolls (that one is state, not motion, so it runs under reduced motion too,
- * without the crossfade).
+ * Small and once: numbers count up, the timeline draws itself and the funnel
+ * bars grow as each scrolls into view. Walkthroughs keep their step list in
+ * place and swap the screen as the reader scrolls (that one is state, not
+ * motion, so it runs under reduced motion too, without the crossfade).
+ *
+ * How sections come into view is not this island's job: that stays the site's
+ * shared reveal (reveal.ts, [data-reveal]) until a new shared style replaces it
+ * on every page at once.
  *
  * Degradation-safe like reveal.ts: everything is complete in the markup. Only
  * when motion is allowed does this add `motion-armed` to <html>, which arms the
@@ -28,61 +30,6 @@ function once(els: Element[], fn: (el: HTMLElement) => void, rootMargin = '0px 0
     { rootMargin, threshold: 0 }
   );
   els.forEach((el) => io.observe(el));
-}
-
-/* ── Line-mask headings ─────────────────────────────────────────────────── */
-function maskHeading(h: HTMLElement) {
-  const text = h.textContent ?? '';
-  const words = text.trim().split(/\s+/);
-  // Lay the words out as they wrap now, then group them by line.
-  h.textContent = '';
-  const spans = words.map((w, i) => {
-    const s = document.createElement('span');
-    s.textContent = w;
-    s.style.display = 'inline-block';
-    h.append(s);
-    if (i < words.length - 1) h.append(' ');
-    return s;
-  });
-  const lines: string[][] = [];
-  let top = Number.NaN;
-  for (const s of spans) {
-    if (!(Math.abs(s.offsetTop - top) <= 2)) {
-      lines.push([]);
-      top = s.offsetTop;
-    }
-    lines[lines.length - 1].push(s.textContent ?? '');
-  }
-  h.textContent = '';
-  lines.forEach((ws, i) => {
-    const outer = document.createElement('span');
-    outer.className = 'lm';
-    const inner = document.createElement('span');
-    inner.className = 'lm-in';
-    inner.style.transitionDelay = `${i * 70}ms`;
-    inner.textContent = ws.join(' ') + (i < lines.length - 1 ? ' ' : '');
-    outer.append(inner);
-    h.append(outer);
-  });
-  h.dataset.lm = text;
-  // The eyebrow above it waits with it, so the pair arrives together.
-  h.previousElementSibling?.classList.add('lm-wait');
-}
-function revealHeading(h: HTMLElement) {
-  h.classList.add('is-in');
-  const eb = h.previousElementSibling as HTMLElement | null;
-  if (eb?.classList.contains('lm-wait')) {
-    eb.classList.remove('lm-wait');
-    eb.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, easing: 'ease-out', fill: 'backwards' });
-  }
-  // Put the plain text back once the lines have landed, so wrapping and
-  // copy-paste behave exactly as before.
-  window.setTimeout(() => {
-    if (h.dataset.lm != null) {
-      h.textContent = h.dataset.lm;
-      delete h.dataset.lm;
-    }
-  }, 900);
 }
 
 /* ── Count-ups ──────────────────────────────────────────────────────────── */
@@ -193,43 +140,6 @@ function initWalkthrough(root: HTMLElement) {
   });
 }
 
-/* ── Content: each block fades up as it scrolls into view ──────────────── */
-// Direct children of each Part, except its header (the title has its own line
-// mask) and blocks that already bring themselves in (the in-view island's
-// storytelling components, the bento, the timeline).
-function revealBlocks(main: HTMLElement, below: (el: Element) => boolean) {
-  const skip = '[data-inview], [data-tl]';
-  const blocks = Array.from(main.querySelectorAll<HTMLElement>('.body section[id] > *')).filter(
-    (el) =>
-      !el.matches('.part, script, style, template') &&
-      !el.matches(skip) &&
-      !el.querySelector(skip) &&
-      below(el)
-  );
-  if (!blocks.length) return;
-  blocks.forEach((el) => el.classList.add('rv'));
-  const io = new IntersectionObserver(
-    (entries, obs) => {
-      // Blocks arriving together go top to bottom, a beat apart, just after
-      // the title above them.
-      const arriving = entries
-        .filter((e) => e.isIntersecting)
-        .map((e) => e.target as HTMLElement)
-        .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
-      arriving.forEach((el, i) => {
-        obs.unobserve(el);
-        el.classList.add('is-in');
-        el.animate(
-          [{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }],
-          { duration: 650, delay: 80 + Math.min(i, 4) * 70, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)', fill: 'backwards' }
-        );
-      });
-    },
-    { rootMargin: '0px 0px -8% 0px', threshold: 0 }
-  );
-  blocks.forEach((el) => io.observe(el));
-}
-
 export function init(): void {
   const main = document.querySelector<HTMLElement>('main[data-motion="on"]');
   if (!main || main.dataset.motionInit) return;
@@ -244,14 +154,6 @@ export function init(): void {
 
   const vh = window.innerHeight;
   const below = (el: Element) => el.getBoundingClientRect().top > vh * 0.88;
-
-  // Headings: mask the ones still below the fold; the rest stay as they are.
-  const heads = Array.from(main.querySelectorAll<HTMLElement>('.part-title')).filter(below);
-  heads.forEach(maskHeading);
-  once(heads, revealHeading);
-
-  // The content under them fades up as it arrives.
-  revealBlocks(main, below);
 
   // Numbers.
   const counts = Array.from(main.querySelectorAll<HTMLElement>('[data-count]')).filter(below);
