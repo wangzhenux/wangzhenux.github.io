@@ -155,7 +155,9 @@ import PlatformTimeline from '../../components/showcase/PlatformTimeline.astro';
     labels from SidebarNavigation.tsx, Daily Brief data matching
     insight/leak.jpg; tenant-admin view; the new Marketing nav, which sits
     behind a feature flag ‹C-mkt-nav›). Sources: scratchpad mocks/desktop/.
-  - Token-built EXAMPLE diagrams: timeline.svg, portal-merge.svg.
+  - Token-built diagrams, final as they are (schematics, no Figma export
+    needed): the timeline, now drawn in the page by PlatformTimeline, so
+    timeline.svg is no longer used. portal-merge.svg is not used on the page.
   - DESIGN-SYSTEM SPECIMENS: ds/system/*.png (light + -dark pairs) for the
     DSShowcase switch, captured from the Portal's own component library;
     ds/foryou-before.jpg / foryou-after.jpg for the before/after slider. ‹C-ds›
@@ -180,9 +182,7 @@ import PlatformTimeline from '../../components/showcase/PlatformTimeline.astro';
   - MOBILE: 8 phone screens, rebuilt 2026-10-09 as coded mocks in the app's
     CURRENT vNext tokens (app-up-leasing theme/*.ts, real screen layouts and
     labels, fictional data), 1206×2622. Sources: scratchpad mocks/mobile/.
-  - ScreenshotPlaceholder slots awaiting Figma exports: marketing post,
-    Google Business Profile, two-renters split answer (the money shot),
-    mobile tour-recording, mobile prospect chat; sankey.svg likewise.
+  - No ScreenshotPlaceholder renders on this page (checked 2026-11-14).
   ═══════════════════════════════════════════════════════════════════════
 */}
 
@@ -248,7 +248,9 @@ import PlatformTimeline from '../../components/showcase/PlatformTimeline.astro';
         "What kept the merge safe" card grid was cut. */}
   </BodyText>
 
-  {/* EXAMPLE VISUAL — token-built timeline; replace with final Figma export */}
+  {/* Token-built timeline diagram, final: a schematic, no Figma export needed.
+      Now drawn in the page (PlatformTimeline: same drawing, panel and words)
+      so it can draw itself on scroll; timeline.svg is no longer used. */}
   <PlatformTimeline />
 
   <BodyText>
