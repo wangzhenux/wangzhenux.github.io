@@ -4,8 +4,10 @@
    under prefers-reduced-motion. The element in the prefix also lifts each rule
    one step over a component's own scoped rule.
 
-   The timeline drawing, the count-ups and the funnel bars keep their motion in
-   their own components; the walkthrough's screen swap lives in Walkthrough. */
+   The content fade is played by the island (Web Animations), so no component's
+   own transition is touched. The timeline drawing, the count-ups and the funnel
+   bars keep their motion in their own components; the walkthrough's screen swap
+   lives in Walkthrough. */
 
 /* Line-mask reveal: each line of a Part title slides up out of its own mask,
    under 400 ms, once (the island splits the lines and adds .is-in). */
@@ -22,6 +24,18 @@ html.motion-armed main[data-motion='on'] .part-title .lm-in {
 }
 html.motion-armed main[data-motion='on'] .part-title.is-in .lm-in {
   transform: none;
+}
+
+/* The eyebrow over a masked title waits for it (the island fades it in). */
+html.motion-armed main[data-motion='on'] .part-eyebrow.lm-wait {
+  opacity: 0;
+}
+
+/* Content blocks wait below the fold, then fade up 16 px as they scroll into
+   view (the island adds .is-in and plays the fade, once). */
+html.motion-armed main[data-motion='on'] .rv:not(.is-in) {
+  opacity: 0;
+  transform: translateY(var(--space-4));
 }
 
 /* Screens that open bigger lift a little under the pointer. */
